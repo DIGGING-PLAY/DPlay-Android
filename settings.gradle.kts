@@ -21,4 +21,10 @@ dependencyResolutionManagement {
 
 rootProject.name = "DPlay"
 include(":app")
- 
+include(":feature")
+include(":core")
+include(":core:domain")
+include(":core:data")
+include(":core:designsystem")
+include(":core:common")
+include(":core:network")
