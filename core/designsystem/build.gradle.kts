@@ -1,11 +1,12 @@
 plugins {
-    alias(libs.plugins.android.application)
+    id("com.android.library")
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+
 }
 
 android {
-    namespace = "com.example.main"
+    namespace = "com.example.designsystem"
     compileSdk = 36
 
     defaultConfig {
