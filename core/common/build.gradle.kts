@@ -1,13 +1,8 @@
 plugins {
-    id("java-library")
-    kotlin("jvm") // Corrected line
+    alias(libs.plugins.dplay.android.library)
+    alias(libs.plugins.dplay.android.compose)
 }
-java {
-    sourceCompatibility = JavaVersion.VERSION_11
-    targetCompatibility = JavaVersion.VERSION_11
-}
-kotlin {
-    compilerOptions {
-        jvmTarget = org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_11
-    }
+
+android {
+    namespace = "com.dplay.common"
 }
