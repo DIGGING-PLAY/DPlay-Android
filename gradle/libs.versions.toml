@@ -191,3 +191,4 @@ dplay-feature = { id = "dplay.feature" }
 dplay-data = { id = "dplay.data" }
 dplay-domain = { id = "dplay.domain" }
 dplay-hilt = { id = "dplay.hilt" }
+dplay-test = { id = "dplay.test"}

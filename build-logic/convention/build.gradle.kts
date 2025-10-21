@@ -50,5 +50,10 @@ gradlePlugin {
             id = "dplay.hilt"
             implementationClass = "com.example.convention.plugin.HiltConventionPlugin"
         }
+
+        register("test") {
+            id = "dplay.test"
+            implementationClass = "com.example.convention.plugin.TestPlugin"
+        }
     }
 }

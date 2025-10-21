@@ -14,7 +14,11 @@ import org.gradle.kotlin.dsl.dependencies
 class AndroidApplicationConventionPlugin: Plugin<Project> {
     override fun apply(target: Project) {
         target.run {
-            pluginManager.apply("com.android.application")
+            pluginManager
+                .apply{
+                    apply("com.android.application")
+                    apply("org.jlleitschuh.gradle.ktlint")
+                }
 
             extensions.configure<ApplicationExtension> {
                 configureKotlinAndroid(this)
