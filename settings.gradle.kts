@@ -1,4 +1,5 @@
 pluginManagement {
+    includeBuild("build-logic")
     repositories {
         google {
             content {
@@ -28,3 +29,4 @@ include(":core:data")
 include(":core:designsystem")
 include(":core:common")
 include(":core:network")
+include(":feature:main")
