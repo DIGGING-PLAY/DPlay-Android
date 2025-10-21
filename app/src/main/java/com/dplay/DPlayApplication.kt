@@ -5,7 +5,7 @@ import dagger.hilt.android.HiltAndroidApp
 
 @HiltAndroidApp
 class DPlayApplication : Application() {
-    override fun onCreate(){
+    override fun onCreate() {
         super.onCreate()
     }
 }

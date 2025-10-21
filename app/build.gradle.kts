@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.dplay.android.application)
     alias(libs.plugins.dplay.hilt)
+    alias(libs.plugins.dplay.test)
 }
 
 android {
@@ -15,4 +16,5 @@ android {
 
 dependencies {
     implementation(projects.feature.main)
+    testImplementation(kotlin("test"))
 }
