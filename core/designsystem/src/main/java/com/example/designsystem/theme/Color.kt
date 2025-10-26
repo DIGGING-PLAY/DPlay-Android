@@ -21,6 +21,9 @@ val Dplay_black = Color(0xFF14181B)
 
 // Symentic
 val Alert_red = Color(0xFFFC4649)
+val Info_blue = Color(0xFF2C8BFF)
+val Kakao_yellow = Color(0xFFFEE500)
+
 
 // Transparent
 val Dplay_pink_trans = Color(0xCCFF8FBA)
@@ -43,6 +46,9 @@ data class DPlayColors(
     val dplayBlack: Color,
 
     val alertRed: Color,
+    val infoBlue: Color,
+    val kakaoYellow: Color,
+
 
     val dplayPinkTrans: Color,
     val dim40: Color,
@@ -64,6 +70,9 @@ val defaultDPlayColors = DPlayColors(
     dplayBlack = Dplay_black,
 
     alertRed = Alert_red,
+    infoBlue = Info_blue,
+    kakaoYellow = Kakao_yellow,
+
 
     dplayPinkTrans = Dplay_pink_trans,
     dim40 = Dim_40,
