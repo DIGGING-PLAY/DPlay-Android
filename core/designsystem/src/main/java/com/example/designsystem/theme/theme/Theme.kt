@@ -1,4 +1,4 @@
-package com.example.designsystem.theme
+package com.example.designsystem.theme.theme
 
 import android.app.Activity
 import androidx.compose.material3.MaterialTheme
