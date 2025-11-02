@@ -6,8 +6,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.runtime.SideEffect
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
 
@@ -38,7 +36,6 @@ fun ProvideDPlayColorsAndTypography(
 
 @Composable
 fun DPlayTheme(
-    backgroundColor: Color = defaultDPlayColors.dplayWhite,
     content: @Composable () -> Unit
 ) {
     ProvideDPlayColorsAndTypography(
@@ -49,7 +46,6 @@ fun DPlayTheme(
         if (!view.isInEditMode) {
             SideEffect {
                 (view.context as Activity).window.run {
-                    statusBarColor = backgroundColor.toArgb()
                     WindowCompat.getInsetsController(this, view).isAppearanceLightStatusBars = true
                 }
             }
