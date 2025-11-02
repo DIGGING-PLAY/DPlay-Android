@@ -6,8 +6,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.runtime.SideEffect
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
 
@@ -17,39 +15,37 @@ object DPlayTheme {
         @ReadOnlyComposable
         get() = LocalDPlayColors.current
 
-//    val typography: DPlayTypography
-//        @Composable
-//        @ReadOnlyComposable
-//        get() = LocalDPlayTypography.current
+    val typography: DPlayTypography
+        @Composable
+        @ReadOnlyComposable
+        get() = LocalDPlayTypography.current
 }
 
 @Composable
 fun ProvideDPlayColorsAndTypography(
     colors: DPlayColors,
-//    typography: DPlayTypography,
+    typography: DPlayTypography,
     content: @Composable () -> Unit
 ) {
     CompositionLocalProvider(
         LocalDPlayColors provides colors,
-//        LocalDPlayTypography provides typography,
+        LocalDPlayTypography provides typography,
         content = content
     )
 }
 
 @Composable
 fun DPlayTheme(
-    backgroundColor: Color = defaultDPlayColors.dplayWhite,
     content: @Composable () -> Unit
 ) {
     ProvideDPlayColorsAndTypography(
         colors = defaultDPlayColors,
-//        typography = defaultDPlayTypography
+        typography = defaultDPlayTypography
     ) {
         val view = LocalView.current
         if (!view.isInEditMode) {
             SideEffect {
                 (view.context as Activity).window.run {
-                    statusBarColor = backgroundColor.toArgb()
                     WindowCompat.getInsetsController(this, view).isAppearanceLightStatusBars = true
                 }
             }
