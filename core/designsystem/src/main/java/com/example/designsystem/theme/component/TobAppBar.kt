@@ -29,12 +29,19 @@ fun DplayTopAppBar(
     onLeftClick: (() -> Unit)? = null,
     onRightClick: (() -> Unit)? = null,
 ) {
-
     val iconPaddingModifier = Modifier.padding(12.dp)
 
     CenterAlignedTopAppBar(
         modifier = modifier,
-        title = { title?.let { Text(text = it) } },
+        title = {
+            title?.let {
+                Text(
+                    text = it,
+                    style = DPlayTheme.typography.titleBold18,
+                    color = DPlayTheme.colors.dplayBlack
+                )
+            }
+        },
         navigationIcon = {
             leftIconRes?.let {
                 if (onLeftClick != null)
@@ -73,7 +80,10 @@ fun DplayLogoTopAppBar(
     CenterAlignedTopAppBar(
         modifier = modifier,
         navigationIcon = {
-            DplayBaseIcon(modifier = iconPaddingModifier.padding(start = 4.dp), iconRes = R.drawable.ic_wordmark_pink)
+            DplayBaseIcon(
+                modifier = iconPaddingModifier.padding(start = 4.dp),
+                iconRes = R.drawable.ic_wordmark_pink
+            )
 
         },
         actions = {
@@ -184,7 +194,11 @@ fun DplayTitleButtonTopAppBar(
         modifier = modifier,
         title = {
             Row(modifier = clickableModifier, verticalAlignment = Alignment.CenterVertically) {
-                Text(text = title)
+                Text(
+                    text = title,
+                    style = DPlayTheme.typography.titleBold18,
+                    color = DPlayTheme.colors.dplayBlack
+                )
                 Spacer(modifier = Modifier.width(4.dp))
                 DplayBaseIcon(iconRes = buttonIconRes)
             }
