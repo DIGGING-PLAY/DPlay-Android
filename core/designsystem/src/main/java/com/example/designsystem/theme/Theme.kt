@@ -1,11 +1,22 @@
 package com.example.designsystem.theme
 
+import android.app.Activity
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.ReadOnlyComposable
+import androidx.compose.runtime.SideEffect
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.platform.LocalView
+import androidx.core.view.WindowCompat
 
 object DPlayTheme {
+    val colors: DPlayColors
+        @Composable
+        @ReadOnlyComposable
+        get() = LocalDPlayColors.current
+
     val typography: DPlayTypography
         @Composable
         @ReadOnlyComposable
@@ -13,12 +24,37 @@ object DPlayTheme {
 }
 
 @Composable
-fun DPlayTheme(
+fun ProvideDPlayColorsAndTypography(
+    colors: DPlayColors,
+    typography: DPlayTypography,
     content: @Composable () -> Unit
 ) {
     CompositionLocalProvider(
-        LocalDPlayTypography provides DefaultDPlayTypography
+        LocalDPlayColors provides colors,
+        LocalDPlayTypography provides typography,
+        content = content
+    )
+}
+
+@Composable
+fun DPlayTheme(
+    backgroundColor: Color = defaultDPlayColors.dplayWhite,
+    content: @Composable () -> Unit
+) {
+    ProvideDPlayColorsAndTypography(
+        colors = defaultDPlayColors,
+        typography = defaultDPlayTypography
     ) {
+        val view = LocalView.current
+        if (!view.isInEditMode) {
+            SideEffect {
+                (view.context as Activity).window.run {
+                    statusBarColor = backgroundColor.toArgb()
+                    WindowCompat.getInsetsController(this, view).isAppearanceLightStatusBars = true
+                }
+            }
+        }
+
         MaterialTheme(
             content = content
         )

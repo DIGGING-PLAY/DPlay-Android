@@ -32,7 +32,7 @@ data class DPlayTypography(
     val capMed12: TextStyle
 )
 
-val DefaultDPlayTypography = DPlayTypography(
+val defaultDPlayTypography = DPlayTypography(
     titleBold24 = TextStyle(
         fontFamily = SuitBold,
         fontWeight = FontWeight.Bold,
@@ -98,7 +98,7 @@ val DefaultDPlayTypography = DPlayTypography(
     )
 )
 
-val LocalDPlayTypography = staticCompositionLocalOf { DefaultDPlayTypography }
+val LocalDPlayTypography = staticCompositionLocalOf { defaultDPlayTypography }
 
 @Preview(showBackground = true)
 @Composable
