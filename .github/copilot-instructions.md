@@ -14,14 +14,14 @@ Scope: The following rules apply to all code review comments.
   - Using 'remember' to cache results, but only for values that should survive recompositions (as this could cause a memory leak)
   - Using the 'key' parameter in lazy layouts to avoid unnecessary recompositions
   - Using 'derivedStateOf' for rapidly changing states
-  - Avoiding backwards writes, changing state after it has been in a composable ot prevent recomposition loops
+  - Avoiding backwards writes, changing state after it has been in a composable to prevent recomposition loops
   - Ensuring breaking down UI into smaller composables that do one thing well
-  - Proper state management, hoisting state to parent comptables and using lifecycle-aware coroutine scopes like 'viewModelScope' or 'lifecycleScope' for async operations
+  - Proper state management, hoisting state to parent composables and using lifecycle-aware coroutine scopes like 'viewModelScope' or 'lifecycleScope' for async operations
   - Adhering to Jetpack Compose API guidelines for naming, layering components, and ensuring accessibility
   - Using Baseline Profiles and R8 optimizations
   - Passing a 'Modifier' parameter in composables to allow customization and maintain consistency
   - Not excessively overusing modifiers, resulting in reduced readability and clutter
-  - Unnecessary use of WebView inside of Comparables
+  - Unnecessary use of WebView inside of composables
 - Refactor the Kotlin code below to be more idiomatic, efficient, and readable. Focus on
   using Kotlin's features like extension functions, data classes, sealed classes, and
   coroutines where appropriate. Explain the changes you made and why they improve the
