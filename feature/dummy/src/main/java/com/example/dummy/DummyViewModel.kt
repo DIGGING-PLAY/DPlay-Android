@@ -10,14 +10,14 @@ class DummyViewModel
     DummyContract.DummyState()
 ) {
     override fun handleIntent(intent: DummyContract.DummyIntent) {
-                when (intent) {
+        when (intent) {
             DummyContract.DummyIntent.Initialize -> {}
             is DummyContract.DummyIntent.OnClickNumberButton -> increment(intent.number)
         }
     }
 
-        private fun increment(count: Int) {
-                updateState {
+    private fun increment(count: Int) {
+        updateState {
             copy(count = currentState.count + count)
         }
         setSideEffect(DummyContract.DummySideEffect.ShowSnackBar(count.toString()))

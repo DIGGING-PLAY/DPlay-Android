@@ -27,7 +27,7 @@ fun DummyScreen(
     val state by viewModel.uiState.collectAsStateWithLifecycle()
     val snackbarHostState = remember { SnackbarHostState() }
 
-    LaunchedEffect(true) {
+    LaunchedEffect(Unit) {
         viewModel.handleIntent(DummyContract.DummyIntent.Initialize)
     }
 
