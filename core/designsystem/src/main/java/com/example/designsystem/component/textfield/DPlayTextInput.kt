@@ -170,7 +170,7 @@ fun DPlayTextInput(
 
             if (maxLength != null) {
                 Text(
-                    text = stringResource(R.string.text_input_character_counter, value.length, maxLength),
+                    text = stringResource(R.string.text_field_character_counter, value.length, maxLength),
                     color = DPlayTheme.colors.gray400,
                     style = DPlayTheme.typography.capMed12,
                 )

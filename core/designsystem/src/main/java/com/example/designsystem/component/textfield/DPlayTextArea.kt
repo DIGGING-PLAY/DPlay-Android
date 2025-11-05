@@ -95,7 +95,7 @@ fun DPlayTextArea(
                 Spacer(modifier = Modifier.size(4.dp))
 
                 Text(
-                    text = stringResource(R.string.text_input_character_counter, value.length, maxLength),
+                    text = stringResource(R.string.text_field_character_counter, value.length, maxLength),
                     modifier = Modifier.align(alignment = Alignment.End),
                     color = DPlayTheme.colors.gray400,
                     style = DPlayTheme.typography.capMed12,
@@ -119,7 +119,7 @@ fun DPlayTextAreaPreview() {
             DPlayTextArea(
                 value = text,
                 onValueChange = { text = it },
-                placeholder = "노래에 대한 이야기를 자유롭게 작성해주세요",
+                placeholder = stringResource(id = R.string.placeholder_comment),
             )
         }
     }

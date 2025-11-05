@@ -1,7 +1,7 @@
 <resources>
-    <!-- DPlayTextInput -->
+    <!-- DPlayTextField -->
     <string name="text_input_clear_description">텍스트 지우기</string>
-    <string name="text_input_character_counter">%d/%d</string>
+    <string name="text_field_character_counter">%d/%d</string>
 
     <string name="nickname_error_not_enough_length">%d자 이상 입력해주세요</string>
     <string name="nickname_error_invalid_format">특수문자, 띄어쓰기는 사용 불가능해요</string>
@@ -11,4 +11,5 @@
 
     <string name="placeholder_nickname">닉네임을 입력해주세요</string>
     <string name="placeholder_music_search">노래 제목이나 아티스트명을 검색해주세요</string>
+    <string name="placeholder_comment">노래에 대한 이야기를 자유롭게 작성해주세요</string>
 </resources>
