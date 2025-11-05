@@ -144,36 +144,51 @@ fun DPlayTextInput(
 
         Spacer(modifier = Modifier.size(4.dp))
 
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically
-                ) {
-            when (inputState) {
-                is InputState.Error -> {
-                    Text(
-                        text = inputState.getMessage(),
-                        color = DPlayTheme.colors.alertRed,
-                        style = DPlayTheme.typography.capMed12,
-                    )
-                }
-                is InputState.Success -> {
-                    Text(
-                        text = inputState.getMessage(),
-                        color = DPlayTheme.colors.infoBlue,
-                        style = DPlayTheme.typography.capMed12,
-                    )
-                }
-                is InputState.Default -> Unit
-            }
+        GuidelineRow(
+            inputState = inputState,
+            maxLength = maxLength,
+            value = value
+        )
+    }
+}
 
-            Spacer(modifier = Modifier.weight(1f))
-
-            if (maxLength != null) {
-                CharacterCounter(
-                    currentLength = value.length,
-                    maxLength = maxLength,
+@Composable
+private fun GuidelineRow(
+    inputState: InputState,
+    maxLength: Int?,
+    value: String
+) {
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        when (inputState) {
+            is InputState.Error -> {
+                Text(
+                    text = inputState.getMessage(),
+                    color = DPlayTheme.colors.alertRed,
+                    style = DPlayTheme.typography.capMed12,
                 )
             }
+
+            is InputState.Success -> {
+                Text(
+                    text = inputState.getMessage(),
+                    color = DPlayTheme.colors.infoBlue,
+                    style = DPlayTheme.typography.capMed12,
+                )
+            }
+
+            is InputState.Default -> Unit
+        }
+
+        Spacer(modifier = Modifier.weight(1f))
+
+        if (maxLength != null) {
+            CharacterCounter(
+                currentLength = value.length,
+                maxLength = maxLength,
+            )
         }
     }
 }
