@@ -144,11 +144,13 @@ fun DPlayTextInput(
 
         Spacer(modifier = Modifier.size(4.dp))
 
-        GuidelineRow(
-            inputState = inputState,
-            maxLength = maxLength,
-            value = value
-        )
+        if (inputState !is InputState.Default || maxLength != null){
+            GuidelineRow(
+                inputState = inputState,
+                maxLength = maxLength,
+                value = value
+            )
+        }
     }
 }
 
