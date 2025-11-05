@@ -3,7 +3,7 @@ package com.example.designsystem.component.textfield
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
@@ -32,6 +32,8 @@ import androidx.compose.ui.unit.dp
 import com.dplay.designsystem.R
 import com.example.designsystem.component.textfield.constant.TextFieldConstant
 import com.example.designsystem.theme.DPlayTheme
+
+private const val TEXT_AREA_ASPECT_RATIO = 343f / 180f
 
 @Composable
 fun DPlayTextArea(
@@ -75,7 +77,7 @@ fun DPlayTextArea(
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .aspectRatio(343f/180f)
+                    .aspectRatio(TEXT_AREA_ASPECT_RATIO)
                 ,
             ) {
                 Box(
@@ -94,11 +96,10 @@ fun DPlayTextArea(
 
                 Spacer(modifier = Modifier.size(4.dp))
 
-                Text(
-                    text = stringResource(R.string.text_field_character_counter, value.length, maxLength),
-                    modifier = Modifier.align(alignment = Alignment.End),
-                    color = DPlayTheme.colors.gray400,
-                    style = DPlayTheme.typography.capMed12,
+                CharacterCounter(
+                    currentLength = value.length,
+                    maxLength = maxLength,
+                    modifier = Modifier.align(alignment = Alignment.End)
                 )
             }
         }

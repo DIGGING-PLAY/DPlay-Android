@@ -169,10 +169,9 @@ fun DPlayTextInput(
             Spacer(modifier = Modifier.weight(1f))
 
             if (maxLength != null) {
-                Text(
-                    text = stringResource(R.string.text_field_character_counter, value.length, maxLength),
-                    color = DPlayTheme.colors.gray400,
-                    style = DPlayTheme.typography.capMed12,
+                CharacterCounter(
+                    currentLength = value.length,
+                    maxLength = maxLength,
                 )
             }
         }
