@@ -1,0 +1,14 @@
+<resources>
+    <!-- DPlayTextInput -->
+    <string name="text_input_clear_description">텍스트 지우기</string>
+    <string name="text_input_character_counter">%d/%d</string>
+
+    <string name="nickname_error_not_enough_length">%d자 이상 입력해주세요</string>
+    <string name="nickname_error_invalid_format">특수문자, 띄어쓰기는 사용 불가능해요</string>
+    <string name="nickname_error_already_exists">이미 사용 중인 값입니다</string>
+    <string name="nickname_error_forbidden_word">비속어, 금칙어가 포함되어 있습니다</string>
+    <string name="nickname_success_message">사용 가능한 닉네임이에요</string>
+
+    <string name="placeholder_nickname">닉네임을 입력해주세요</string>
+    <string name="placeholder_music_search">노래 제목이나 아티스트명을 검색해주세요</string>
+</resources>
