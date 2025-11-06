@@ -85,7 +85,8 @@ fun DPlayLikeButtonPreview(){
 
                 DPlayLikeButton(
                     modifier = Modifier.weight(1f),
-                    isLiked = true
+                    isLiked = true,
+                    likeCount = 1,
                 )
             }
         }
