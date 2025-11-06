@@ -2,4 +2,6 @@
 <resources>
     <string name="button_filled_bookmark_icon_description">북마크됨</string>
     <string name="button_unfilled_bookmark_icon_description">북마크 안됨</string>
+    <string name="button_streaming_label">재생하기</string>
+    <string name="button_streaming_icon_description">음악 재생</string>
 </resources>
