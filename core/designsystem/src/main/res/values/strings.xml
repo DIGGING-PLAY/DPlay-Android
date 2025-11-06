@@ -6,4 +6,6 @@
     <string name="button_streaming_icon_description">음악 재생</string>
     <string name="like_button_filled_heart_description">좋아요 눌러짐</string>
     <string name="like_button_unfilled_heart_description">좋아요 안눌림</string>
+    <string name="guideline_button_icon_description">가이드 열기</string>
+    <string name="guideline_button_label">커뮤니티 가이드</string>
 </resources>
