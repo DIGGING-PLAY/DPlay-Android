@@ -16,4 +16,5 @@
     <string name="modify_button_label">수정하기</string>
     <string name="report_button_label">신고하기</string>
     <string name="apply_button_label">적용하기</string>
+    <string name="kakao_login_button_label">카카오로 계속하기</string>
 </resources>
