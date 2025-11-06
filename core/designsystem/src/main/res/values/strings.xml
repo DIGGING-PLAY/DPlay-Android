@@ -4,4 +4,6 @@
     <string name="button_unfilled_bookmark_icon_description">북마크 안됨</string>
     <string name="button_streaming_label">재생하기</string>
     <string name="button_streaming_icon_description">음악 재생</string>
+    <string name="like_button_filled_heart_description">좋아요 눌러짐</string>
+    <string name="like_button_unfilled_heart_description">좋아요 안눌림</string>
 </resources>
