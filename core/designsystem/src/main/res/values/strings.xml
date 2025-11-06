@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 칩 문자열 -->
+    <string name="chip_editor">EDITOR</string>
+    <string name="chip_new">NEW</string>
+    <string name="chip_best">BEST</string>
+</resources>
