@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -33,19 +34,13 @@ fun DPlayBookmarkButton(
         if (isMarked) R.string.button_filled_bookmark_icon_description else R.string.button_unfilled_bookmark_icon_description
     )
 
-    Box(
-        modifier = modifier
-            .size(44.dp)
-            .noRippleClickable(
-                onClick = onClick,
-                role = Role.Button
-            )
-            .background(
-                color = DPlayTheme.colors.gray600,
-                shape = RoundedCornerShape(16.dp)
-            ),
-        contentAlignment = Alignment.Center
-    ){
+    DPlayButtonSlot(
+        modifier = modifier,
+        onClick = onClick,
+        paddingValues = PaddingValues(10.dp),
+        containerColor = DPlayTheme.colors.gray600,
+        borderColor = DPlayTheme.colors.gray600
+    ) {
         Icon(
             imageVector = ImageVector.vectorResource(iconRes),
             contentDescription = iconContentDescription,
