@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -44,12 +45,11 @@ fun DPlayButtonSlot(
                     enabled = enabled,
                     onClick = onClick,
                     role = Role.Button
-                ).padding(paddingValues)
+                ).padding(paddingValues),
+        contentAlignment = Alignment.Center
     ){
         Row(
-            modifier = Modifier.fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.Center,
+            modifier = Modifier.wrapContentSize(),
         ) {
             content()
         }

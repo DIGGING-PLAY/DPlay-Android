@@ -26,8 +26,8 @@ import com.example.designsystem.theme.DPlayTheme
 
 @Composable
 fun DPlayLikeButton(
-    likeCount: Int = 0,
     modifier: Modifier = Modifier,
+    likeCount: Int = 0,
     isLiked: Boolean = false,
     onClick: () -> Unit = {}
 ){
