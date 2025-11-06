@@ -9,4 +9,9 @@
     <string name="guideline_button_icon_description">가이드 열기</string>
     <string name="guideline_button_label">커뮤니티 가이드</string>
     <string name="recommend_music_button_label">곡 추천하러가기</string>
+    <string name="next_button_label">다음으로</string>
+    <string name="enroll_button_label">가입하기</string>
+    <string name="start_button_label">시작하기</string>
+    <string name="confirm_button_label">확인</string>
+    <string name="modify_button_label">수정하기</string>
 </resources>
