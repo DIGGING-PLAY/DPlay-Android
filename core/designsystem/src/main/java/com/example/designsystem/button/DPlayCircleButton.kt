@@ -18,6 +18,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.dplay.designsystem.R
 import com.example.designsystem.button.type.CircleButtonType
 import com.example.designsystem.theme.DPlayTheme
 import com.example.designsystem.util.noRippleClickable
@@ -57,16 +58,29 @@ fun DPlayCircleButtonPreview(){
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ){
             DPlayCircleButton(
-                circleButtonType = CircleButtonType.SmallPlus()
+                circleButtonType = CircleButtonType.SmallPlus(
+                    R.string.add_profile_image_button_icon_description
+                )
             )
             DPlayCircleButton(
-                circleButtonType = CircleButtonType.SmallClose()
+                circleButtonType = CircleButtonType.SmallClose(
+                    R.string.clear_text_button_icon_description
+                )
             )
             DPlayCircleButton(
-                circleButtonType = CircleButtonType.SmallEdit()
+                circleButtonType = CircleButtonType.SmallClose(
+                    R.string.close_modal_button_icon_description
+                )
             )
             DPlayCircleButton(
-                circleButtonType = CircleButtonType.LargePlus()
+                circleButtonType = CircleButtonType.SmallEdit(
+                    R.string.edit_profile_image_button_icon_description
+                )
+            )
+            DPlayCircleButton(
+                circleButtonType = CircleButtonType.LargePlus(
+                    R.string.navigate_to_search_button_icon_description
+                )
             )
         }
     }
