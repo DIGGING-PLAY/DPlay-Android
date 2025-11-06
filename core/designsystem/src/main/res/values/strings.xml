@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="button_filled_bookmark_icon_description">북마크됨</string>
+    <string name="button_unfilled_bookmark_icon_description">북마크 안됨</string>
+</resources>
