@@ -19,6 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -70,21 +71,22 @@ fun DPlaySnackbar(
 @Preview(showBackground = true)
 @Composable
 fun DPlaySnackbarPreview(){
-
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp)
-    ){
-        DPlaySnackbar(
-            iconRes = R.drawable.ic_check_circle_pink_24,
-            description = "보관함에 추가했어요"
-        ){
-            Text(
-                text = "보러가기",
-                color = DPlayTheme.colors.dplayPink,
-                style = DPlayTheme.typography.bodyBold14
-            )
+    DPlayTheme {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(16.dp)
+        ) {
+            DPlaySnackbar(
+                iconRes = R.drawable.ic_check_circle_pink_24,
+                description = stringResource(R.string.add_success_snackbar_description)
+            ) {
+                Text(
+                    text = stringResource(R.string.add_success_snackbar_action_label),
+                    color = DPlayTheme.colors.dplayPink,
+                    style = DPlayTheme.typography.bodyBold14
+                )
+            }
         }
     }
 }
