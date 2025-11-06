@@ -26,12 +26,14 @@ import com.example.designsystem.theme.DPlayTheme
 @Composable
 fun DPlayStreamingButton(
     modifier: Modifier = Modifier,
-    enabled: Boolean = true
+    enabled: Boolean = true,
+    onClick: () -> Unit = {}
 ){
     val containerColor = if(enabled) DPlayTheme.colors.dplayPink else DPlayTheme.colors.dplayPink300
     DPlayButtonSlot(
         modifier = modifier,
         enabled = enabled,
+        onClick = onClick,
         paddingValues = PaddingValues(vertical = 8.dp),
         containerColor = containerColor,
         borderColor = containerColor,
