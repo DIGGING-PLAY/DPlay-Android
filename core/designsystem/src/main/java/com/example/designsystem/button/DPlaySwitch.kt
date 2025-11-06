@@ -36,7 +36,7 @@ import com.example.designsystem.util.noRippleClickable
 @Composable
 fun DPlaySwitch(
     modifier: Modifier = Modifier,
-        isChecked: Boolean,
+    isChecked: Boolean,
     sizes: SwitchSizes = DPlaySwitchDefaults.sizes(),
     colors: SwitchColors = DPlaySwitchDefaults.colors(),
     onClick: () -> Unit = {}
