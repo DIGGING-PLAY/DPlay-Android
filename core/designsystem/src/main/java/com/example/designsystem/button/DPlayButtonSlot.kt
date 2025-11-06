@@ -21,12 +21,12 @@ import com.example.designsystem.util.noRippleClickable
 
 @Composable
 fun DPlayButtonSlot(
-    modifier: Modifier = Modifier,
-    enabled: Boolean = true,
-    onClick: () -> Unit = {},
     paddingValues: PaddingValues,
     containerColor: Color,
     borderColor: Color,
+    modifier: Modifier = Modifier,
+    enabled: Boolean = true,
+    onClick: () -> Unit = {},
     content: @Composable () -> Unit,
 ){
     Box(
