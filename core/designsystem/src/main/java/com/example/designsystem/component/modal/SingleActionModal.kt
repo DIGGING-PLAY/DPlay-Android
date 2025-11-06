@@ -50,7 +50,6 @@ fun SingleActionModal(
                 shape = RoundedCornerShape(16.dp)
             )
     ){
-
         Column(
             horizontalAlignment = Alignment.CenterHorizontally
         ){
