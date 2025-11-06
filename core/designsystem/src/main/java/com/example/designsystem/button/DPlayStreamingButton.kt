@@ -43,7 +43,7 @@ fun DPlayStreamingButton(
             ){
                 Icon(
                     imageVector = ImageVector.vectorResource(R.drawable.ic_stream_white_32),
-                    contentDescription = stringResource(R.string.button_streaming_icon_description),
+                    contentDescription = stringResource(R.string.streaming_button_icon_description),
                     tint = DPlayTheme.colors.dplayWhite
                 )
 
@@ -52,7 +52,7 @@ fun DPlayStreamingButton(
                 )
 
                 Text(
-                    text = stringResource(R.string.button_streaming_label),
+                    text = stringResource(R.string.streaming_button_label),
                     style = DPlayTheme.typography.bodySemi14,
                     color = DPlayTheme.colors.dplayWhite
                 )

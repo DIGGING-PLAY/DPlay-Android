@@ -31,7 +31,7 @@ fun DPlayBookmarkButton(
 ){
     val iconRes = if (isMarked) R.drawable.ic_bookmark_filled_24 else R.drawable.ic_bookmark_unfilled_24
     val iconContentDescription = stringResource(
-        if (isMarked) R.string.button_filled_bookmark_icon_description else R.string.button_unfilled_bookmark_icon_description
+        if (isMarked) R.string.bookmark_button_filled_bookmark_icon_description else R.string.bookmark_button_unfilled_bookmark_icon_description
     )
 
     DPlayButtonSlot(

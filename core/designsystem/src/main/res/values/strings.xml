@@ -1,12 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="button_filled_bookmark_icon_description">북마크됨</string>
-    <string name="button_unfilled_bookmark_icon_description">북마크 안됨</string>
-    <string name="button_streaming_label">재생하기</string>
-    <string name="button_streaming_icon_description">음악 재생</string>
-    <string name="like_button_filled_heart_description">좋아요 눌러짐</string>
-    <string name="like_button_unfilled_heart_description">좋아요 안눌림</string>
-    <string name="guideline_button_icon_description">가이드 열기</string>
+    <!-- 버튼 관련 문자열(label) -->
+    <string name="streaming_button_label">재생하기</string>
     <string name="guideline_button_label">커뮤니티 가이드</string>
     <string name="recommend_music_button_label">곡 추천하러가기</string>
     <string name="next_button_label">다음으로</string>
@@ -17,4 +12,14 @@
     <string name="report_button_label">신고하기</string>
     <string name="apply_button_label">적용하기</string>
     <string name="kakao_login_button_label">카카오로 계속하기</string>
+    <!-- 버튼 관련 문자열(description) -->
+    <string name="bookmark_button_filled_bookmark_icon_description">북마크됨</string>
+    <string name="bookmark_button_unfilled_bookmark_icon_description">북마크 안됨</string>
+    <string name="streaming_button_icon_description">음악 재생</string>
+    <string name="like_button_filled_heart_description">좋아요 눌러짐</string>
+    <string name="like_button_unfilled_heart_description">좋아요 안눌림</string>
+    <string name="guideline_button_icon_description">가이드 열기</string>
+    <string name="circle_close_button_icon_default_description">닫기</string>
+    <string name="circle_edit_button_icon_default_description">수정\n</string>
+    <string name="circle_plus_button_icon_default_description">추가</string>
 </resources>
