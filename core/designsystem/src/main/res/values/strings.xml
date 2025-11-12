@@ -14,4 +14,5 @@
     <string name="recommend_prompt_modal_main_text">더 많은 추천을 만나고 싶나요?</string>
     <string name="recommend_prompt_modal_sub_text">오늘의 추천곡을 작성하면 볼 수 있어요!</string>
     <string name="recommend_prompt_modal_button_label">곡 추천하러가기</string>
+    <string name="graphic_modal_close_icon_description">모달창 닫기</string>
 </resources>

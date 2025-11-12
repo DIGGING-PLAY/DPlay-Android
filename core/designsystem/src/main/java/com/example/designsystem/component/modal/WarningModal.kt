@@ -42,6 +42,7 @@ import androidx.compose.ui.unit.dp
 import com.dplay.designsystem.R
 import com.example.designsystem.component.button.ModalButton
 import com.example.designsystem.theme.DPlayTheme
+import com.example.designsystem.util.icon.DplayBaseIcon
 import com.example.designsystem.util.noRippleClickable
 
 @Composable
@@ -101,10 +102,8 @@ private fun ModalContent(
             .padding(top = 16.dp, bottom = 20.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Icon(
-            imageVector = ImageVector.vectorResource(R.drawable.ic_warning_40),
-            contentDescription = null,
-            tint = Color.Unspecified
+        DplayBaseIcon(
+            iconRes = R.drawable.ic_warning_40,
         )
 
         Spacer(modifier = Modifier.height(12.dp))
