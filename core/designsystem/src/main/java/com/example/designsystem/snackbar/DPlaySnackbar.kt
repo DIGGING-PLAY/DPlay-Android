@@ -33,38 +33,36 @@ fun DPlaySnackbar(
     modifier: Modifier = Modifier,
     content: (@Composable () -> Unit)? = null
 ){
-    Box(
+    Row(
         modifier = modifier
+            .fillMaxWidth()
             .clip(
-                shape = RoundedCornerShape(16.dp)
+                shape = RoundedCornerShape(8.dp)
             )
             .background(
                 color = DPlayTheme.colors.gray500,
             )
             .padding(horizontal = 12.dp, vertical = 16.dp)
+        ,
+        verticalAlignment = Alignment.CenterVertically
     ){
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically
-        ){
-            Icon(
-                imageVector = ImageVector.vectorResource(iconRes),
-                contentDescription = null,
-                tint = Color.Unspecified
-            )
+        Icon(
+            imageVector = ImageVector.vectorResource(iconRes),
+            contentDescription = null,
+            tint = Color.Unspecified
+        )
 
-            Spacer(modifier = Modifier.width(12.dp))
+        Spacer(modifier = Modifier.width(12.dp))
 
-            Text(
-                text = description,
-                color = DPlayTheme.colors.dplayWhite,
-                style = DPlayTheme.typography.bodyMed14
-            )
+        Text(
+            text = description,
+            color = DPlayTheme.colors.dplayWhite,
+            style = DPlayTheme.typography.bodyMed14
+        )
 
-            Spacer(modifier = Modifier.weight(1f))
+        Spacer(modifier = Modifier.weight(1f))
 
-            content?.invoke()
-        }
+        content?.invoke()
     }
 }
 
