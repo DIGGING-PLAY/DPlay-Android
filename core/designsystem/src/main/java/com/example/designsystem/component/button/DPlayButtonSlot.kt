@@ -46,10 +46,6 @@ fun DPlayButtonSlot(
                 ).padding(paddingValues),
         contentAlignment = Alignment.Center
     ){
-        Row(
-            modifier = Modifier.wrapContentSize(),
-        ) {
-            content()
-        }
+        content()
     }
 }
