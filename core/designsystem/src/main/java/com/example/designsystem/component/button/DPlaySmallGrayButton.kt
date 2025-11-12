@@ -17,9 +17,9 @@ import com.example.designsystem.theme.DPlayTheme
 
 @Composable
 fun DPlaySmallGrayButton(
+    onClick: () -> Unit,
     modifier : Modifier = Modifier,
-    label: String = "Button",
-    onClick: () -> Unit = {}
+    label: String = ""
 ){
     DPlayButtonSlot(
         modifier = modifier,
@@ -48,6 +48,7 @@ fun DPlaySmallGrayButtonPreview(){
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             DPlaySmallGrayButton(
+                onClick = {},
                 label = stringResource(R.string.recommend_music_button_label)
             )
         }
