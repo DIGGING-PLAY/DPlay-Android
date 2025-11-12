@@ -24,7 +24,7 @@ data class SwitchColors(
     val thumb: Color
 )
 
-object DPlaySwitchDefaults {
+object DPlayToggleDefaults {
     @Composable
     fun colors(
         checkedContainer: Color = DPlayTheme.colors.dplayPink,

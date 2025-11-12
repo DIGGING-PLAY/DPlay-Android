@@ -27,7 +27,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
-import com.example.designsystem.component.button.constant.DPlaySwitchDefaults
+import com.example.designsystem.component.button.constant.DPlayToggleDefaults
 import com.example.designsystem.component.button.constant.SwitchColors
 import com.example.designsystem.component.button.constant.SwitchSizes
 import com.example.designsystem.theme.DPlayTheme
@@ -38,8 +38,8 @@ fun DPlayToggle(
     onClick: () -> Unit,
     isChecked: Boolean,
     modifier: Modifier = Modifier,
-    sizes: SwitchSizes = DPlaySwitchDefaults.sizes(),
-    colors: SwitchColors = DPlaySwitchDefaults.colors()
+    sizes: SwitchSizes = DPlayToggleDefaults.sizes(),
+    colors: SwitchColors = DPlayToggleDefaults.colors()
 ){
     val transition = updateTransition(isChecked)
 
