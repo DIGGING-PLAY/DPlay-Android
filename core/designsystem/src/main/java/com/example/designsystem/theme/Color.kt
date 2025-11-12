@@ -1,4 +1,4 @@
-package com.example.designsystem.theme.theme
+package com.example.designsystem.theme
 
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.staticCompositionLocalOf
