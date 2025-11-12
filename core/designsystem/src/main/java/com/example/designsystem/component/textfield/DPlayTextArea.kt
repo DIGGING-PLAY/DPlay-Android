@@ -95,7 +95,7 @@ fun DPlayTextArea(
 
                 Spacer(modifier = Modifier.size(4.dp))
 
-                CharacterCounter(
+                CharacterCounterText(
                     currentLength = value.length,
                     maxLength = maxLength,
                     modifier = Modifier.align(alignment = Alignment.End)

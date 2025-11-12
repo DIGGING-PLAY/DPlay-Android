@@ -42,7 +42,6 @@ import com.example.designsystem.component.textfield.constant.TextFieldConstant
 import com.example.designsystem.component.textfield.type.InputState
 import com.example.designsystem.component.textfield.type.NicknameInputState
 import com.example.designsystem.theme.DPlayTheme
-import com.example.designsystem.theme.defaultDPlayColors
 
 @Composable
 fun DPlayTextInput(
@@ -56,21 +55,20 @@ fun DPlayTextInput(
     onFocusChange: (Boolean) -> Unit = {},
 ) {
     val focusManager = LocalFocusManager.current
-    val borderModifier = remember(inputState) {
+    val borderModifier =
         when (inputState) {
             is InputState.Error -> Modifier.border(
                 width = 1.dp,
-                color = defaultDPlayColors.alertRed,
+                color = DPlayTheme.colors.alertRed,
                 shape = RoundedCornerShape(16.dp)
             )
             is InputState.Success -> Modifier.border(
                 width = 1.dp,
-                color = defaultDPlayColors.infoBlue,
+                color = DPlayTheme.colors.infoBlue,
                 shape = RoundedCornerShape(16.dp)
             )
-            else -> Modifier
+            is InputState.Default -> Modifier
         }
-    }
 
     Column(modifier = modifier) {
         BasicTextField(
@@ -187,7 +185,7 @@ private fun GuidelineRow(
         Spacer(modifier = Modifier.weight(1f))
 
         if (maxLength != null) {
-            CharacterCounter(
+            CharacterCounterText(
                 currentLength = value.length,
                 maxLength = maxLength,
             )

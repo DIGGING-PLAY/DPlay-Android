@@ -8,7 +8,7 @@ import com.dplay.designsystem.R
 import com.example.designsystem.theme.DPlayTheme
 
 @Composable
-fun CharacterCounter(
+fun CharacterCounterText(
     currentLength: Int,
     maxLength: Int,
     modifier: Modifier = Modifier

@@ -1,4 +1,4 @@
-package com.example.designsystem.theme.theme
+package com.example.designsystem.theme
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material3.Text
