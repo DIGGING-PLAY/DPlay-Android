@@ -22,12 +22,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.dplay.designsystem.R
 import com.example.designsystem.theme.DPlayTheme
+import com.example.designsystem.util.icon.DplayBaseIcon
 
 @Composable
 fun DPlayStreamingButton(
-    modifier: Modifier = Modifier,
-    enabled: Boolean = true,
-    onClick: () -> Unit = {}
+    onClick: () -> Unit,
+    enabled: Boolean,
+    modifier: Modifier = Modifier
 ){
     val containerColor = if(enabled) DPlayTheme.colors.dplayPink else DPlayTheme.colors.dplayPink300
     DPlayButtonSlot(
@@ -41,10 +42,9 @@ fun DPlayStreamingButton(
             Row(
                 verticalAlignment = Alignment.CenterVertically
             ){
-                Icon(
-                    imageVector = ImageVector.vectorResource(R.drawable.ic_stream_white_32),
+                DplayBaseIcon(
+                    iconRes = R.drawable.ic_stream_white_32,
                     contentDescription = stringResource(R.string.streaming_button_icon_description),
-                    tint = DPlayTheme.colors.dplayWhite
                 )
 
                 Spacer(
@@ -74,14 +74,17 @@ fun DPlayStreamingButtonPreview(){
         ){
             Row(modifier = Modifier.fillMaxWidth()){
                 DPlayStreamingButton(
+                    onClick = {},
+                    enabled = true,
                     modifier = Modifier.weight(1f)
                 )
 
                 Spacer(modifier = Modifier.size(8.dp))
 
                 DPlayStreamingButton(
-                    modifier = Modifier.weight(1f),
-                    enabled = false
+                    onClick = {},
+                    enabled = false,
+                    modifier = Modifier.weight(1f)
                 )
             }
         }
