@@ -14,6 +14,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -24,13 +25,14 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.designsystem.chip.type.DPlayChipType
 import com.example.designsystem.theme.DPlayTheme
+import com.example.designsystem.util.icon.DplayBaseIcon
 
 @Composable
 fun DPlayChip(
     type: DPlayChipType,
     modifier: Modifier = Modifier,
 ){
-    Box(
+    Row(
         modifier = modifier
             .clip(
                 shape = RoundedCornerShape(16.dp)
@@ -42,23 +44,19 @@ fun DPlayChip(
             )
             .background(DPlayTheme.colors.dplayWhite)
             .padding(horizontal = 12.dp,vertical = 6.dp),
-
+        verticalAlignment = Alignment.CenterVertically
     ){
-        Row(){
-            Icon(
-                imageVector = ImageVector.vectorResource(type.iconRes),
-                contentDescription = null,
-                tint = Color.Unspecified
-            )
+        DplayBaseIcon(
+            iconRes = type.iconRes,
+        )
 
-            Spacer(modifier = Modifier.width(4.dp))
+        Spacer(modifier = Modifier.width(4.dp))
 
-            Text(
-                text = stringResource(type.stringRes),
-                style = DPlayTheme.typography.bodySemi14,
-                color = DPlayTheme.colors.dplayPink
-            )
-        }
+        Text(
+            text = stringResource(type.stringRes),
+            style = DPlayTheme.typography.bodySemi14,
+            color = DPlayTheme.colors.dplayPink
+        )
     }
 }
 
