@@ -1,11 +1,13 @@
 package com.example.designsystem.component.button.type
 
+import androidx.compose.runtime.Immutable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.dplay.designsystem.R
 import com.example.designsystem.theme.defaultDPlayColors
 
+@Immutable
 sealed class CircleButtonType {
     abstract val containerSize: Dp
     abstract val backgroundColor: Color
@@ -15,7 +17,7 @@ sealed class CircleButtonType {
     abstract val contentDescription: Int
 
     data class SmallClose(
-        override var contentDescription: Int = R.string.circle_close_button_icon_default_description
+        override val contentDescription: Int = R.string.circle_close_button_icon_default_description
     ) : CircleButtonType() {
         override val containerSize = 20.dp
         override val backgroundColor = defaultDPlayColors.gray200
