@@ -10,26 +10,23 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.dplay.designsystem.R
 import com.example.designsystem.theme.DPlayTheme
+import com.example.designsystem.util.icon.DplayBaseIcon
 
 @Composable
 fun DPlayLikeButton(
+    isLiked: Boolean,
+    likeCount: Int,
+    onClick: () -> Unit,
     modifier: Modifier = Modifier,
-    likeCount: Int = 0,
-    isLiked: Boolean = false,
-    onClick: () -> Unit = {}
 ){
     val containerColor = if(isLiked) DPlayTheme.colors.dplayPink100 else DPlayTheme.colors.dplayWhite
     val iconRes = if(isLiked) R.drawable.ic_heart_pink_filled_24 else R.drawable.ic_heart_pink_unfilled_24
@@ -45,10 +42,9 @@ fun DPlayLikeButton(
             Row(
                 verticalAlignment = Alignment.CenterVertically
             ){
-                Icon(
-                    imageVector = ImageVector.vectorResource(iconRes),
+                DplayBaseIcon(
+                    iconRes = iconRes,
                     contentDescription = stringResource(stringRes),
-                    tint = Color.Unspecified
                 )
 
                 Spacer(
@@ -78,15 +74,19 @@ fun DPlayLikeButtonPreview(){
         ){
             Row(modifier = Modifier.fillMaxWidth()){
                 DPlayLikeButton(
+                    isLiked = false,
+                    likeCount = 0,
+                    onClick = {},
                     modifier = Modifier.weight(1f)
                 )
 
                 Spacer(modifier = Modifier.size(8.dp))
 
                 DPlayLikeButton(
-                    modifier = Modifier.weight(1f),
                     isLiked = true,
                     likeCount = 1,
+                    onClick = {},
+                    modifier = Modifier.weight(1f),
                 )
             }
         }
