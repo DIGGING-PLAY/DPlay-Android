@@ -35,11 +35,11 @@ import com.example.designsystem.util.noRippleClickable
 
 @Composable
 fun DPlayToggle(
-    modifier: Modifier = Modifier,
+    onClick: () -> Unit,
     isChecked: Boolean,
+    modifier: Modifier = Modifier,
     sizes: SwitchSizes = DPlaySwitchDefaults.sizes(),
-    colors: SwitchColors = DPlaySwitchDefaults.colors(),
-    onClick: () -> Unit = {}
+    colors: SwitchColors = DPlaySwitchDefaults.colors()
 ){
     val transition = updateTransition(isChecked)
 
@@ -104,10 +104,9 @@ fun DefaultPreview() {
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ){
             DPlayToggle(
+                onClick = { isChecked = !isChecked },
                 isChecked = isChecked,
-            ){
-                isChecked = !isChecked
-            }
+            )
         }
     }
 }
