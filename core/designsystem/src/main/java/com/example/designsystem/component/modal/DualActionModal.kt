@@ -169,12 +169,12 @@ fun DualActionModalPreview() {
         ) {
             DualActionModal(
                 mainText = stringResource(R.string.delete_modal_main_text),
-                leftButtonLabel = stringResource(R.string.delete_modal_cancle_button_label),
+                leftButtonLabel = stringResource(R.string.delete_modal_cancel_button_label),
                 rightButtonLabel = stringResource(R.string.delete_modal_delete_button_label)
             )
 
             DualActionModal(
-                mainText = stringResource(R.string.logout_modal_main_Text),
+                mainText = stringResource(R.string.logout_modal_main_text),
                 leftButtonLabel = stringResource(R.string.logout_modal_cancel_button_label),
                 rightButtonLabel = stringResource(R.string.logout_modal_logout_button_label)
             )

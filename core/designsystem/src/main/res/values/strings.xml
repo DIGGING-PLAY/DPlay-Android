@@ -2,9 +2,9 @@
 <resources>
     <!-- 모달 문자열 -->
     <string name="delete_modal_main_text">정말 삭제하시겠어요?</string>
-    <string name="delete_modal_cancle_button_label">취소</string>
+    <string name="delete_modal_cancel_button_label">취소</string>
     <string name="delete_modal_delete_button_label">삭제하기</string>
-    <string name="logout_modal_main_Text">로그아웃하시겠어요?</string>
+    <string name="logout_modal_main_text">로그아웃하시겠어요?</string>
     <string name="logout_modal_cancel_button_label">취소</string>
     <string name="logout_modal_logout_button_label">로그아웃</string>
     <string name="withdraw_modal_main_text">정말 탈퇴하시겠어요?</string>
