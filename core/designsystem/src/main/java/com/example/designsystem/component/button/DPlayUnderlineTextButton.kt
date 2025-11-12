@@ -15,9 +15,9 @@ import com.example.designsystem.util.noRippleClickable
 
 @Composable
 fun DPlayUnderlineTextButton(
+    onClick: () -> Unit,
     text: String,
-    modifier: Modifier = Modifier,
-    onClick: () -> Unit = {}
+    modifier: Modifier = Modifier
 ){
     Text(
         text = text,
@@ -41,9 +41,18 @@ fun TextButtonPreview(){
                 .padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(20.dp)
         ){
-            DPlayUnderlineTextButton(text = "더 알아보기")
-            DPlayUnderlineTextButton(text = "기본 이미지로 변경하기")
-            DPlayUnderlineTextButton(text = "취소 하기")
+            DPlayUnderlineTextButton(
+                onClick = {},
+                text = "더 알아보기"
+            )
+            DPlayUnderlineTextButton(
+                onClick = {},
+                text = "기본 이미지로 변경하기"
+            )
+            DPlayUnderlineTextButton(
+                onClick = {},
+                text = "취소 하기"
+            )
         }
     }
 }
