@@ -18,10 +18,10 @@ import com.example.designsystem.theme.DPlayTheme
 
 @Composable
 fun DPlayLargePinkButton(
+    onClick: () -> Unit,
     modifier : Modifier = Modifier,
-    label: String = "Button",
+    label: String = "",
     enabled: Boolean = true,
-    onClick: () -> Unit = {}
 ){
     val containerColor = if(enabled) DPlayTheme.colors.dplayPink else DPlayTheme.colors.gray200
     val textColor = if(enabled) DPlayTheme.colors.dplayWhite else DPlayTheme.colors.gray400
@@ -54,32 +54,38 @@ fun DPlayLargePinkButtonPreview(){
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             DPlayLargePinkButton(
+                onClick = {},
                 modifier = Modifier.fillMaxWidth(),
                 label = stringResource(R.string.next_button_label)
             )
 
             DPlayLargePinkButton(
+                onClick = {},
                 modifier = Modifier.fillMaxWidth(),
                 label = stringResource(R.string.next_button_label),
                 enabled = false
             )
 
             DPlayLargePinkButton(
+                onClick = {},
                 modifier = Modifier.fillMaxWidth(),
                 label = stringResource(R.string.enroll_button_label),
             )
 
             DPlayLargePinkButton(
+                onClick = {},
                 modifier = Modifier.fillMaxWidth(),
                 label = stringResource(R.string.start_button_label),
             )
 
             DPlayLargePinkButton(
+                onClick = {},
                 modifier = Modifier.fillMaxWidth(),
                 label = stringResource(R.string.confirm_button_label),
             )
 
             DPlayLargePinkButton(
+                onClick = {},
                 modifier = Modifier.fillMaxWidth(),
                 label = stringResource(R.string.modify_button_label),
             )
