@@ -42,7 +42,7 @@ import com.example.designsystem.theme.DPlayTheme
 import com.example.designsystem.util.noRippleClickable
 
 @Composable
-fun DualActionModal(
+fun WarningModal(
     mainText: String,
     leftButtonLabel: String,
     rightButtonLabel: String,
@@ -156,7 +156,7 @@ private fun ActionRow(
 
 @Preview(showBackground = true)
 @Composable
-fun DualActionModalPreview() {
+fun WarningModalPreview() {
     DPlayTheme {
         Column(
             modifier = Modifier
@@ -167,19 +167,19 @@ fun DualActionModalPreview() {
                 .padding(horizontal = 40.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp),
         ) {
-            DualActionModal(
+            WarningModal(
                 mainText = stringResource(R.string.delete_modal_main_text),
                 leftButtonLabel = stringResource(R.string.delete_modal_cancel_button_label),
                 rightButtonLabel = stringResource(R.string.delete_modal_delete_button_label)
             )
 
-            DualActionModal(
+            WarningModal(
                 mainText = stringResource(R.string.logout_modal_main_text),
                 leftButtonLabel = stringResource(R.string.logout_modal_cancel_button_label),
                 rightButtonLabel = stringResource(R.string.logout_modal_logout_button_label)
             )
 
-            DualActionModal(
+            WarningModal(
                 mainText = stringResource(R.string.withdraw_modal_main_text),
                 subText = stringResource(R.string.withdraw_modal_sub_text),
                 leftButtonLabel = stringResource(R.string.withdraw_modal_withdraw_button_label),
@@ -240,7 +240,7 @@ fun ModalInteractionPreview(){
                         .padding(horizontal = 40.dp),
                     contentAlignment = Alignment.Center
                 ) {
-                    DualActionModal(
+                    WarningModal(
                         mainText = stringResource(R.string.withdraw_modal_main_text),
                         subText = stringResource(R.string.withdraw_modal_sub_text),
                         leftButtonLabel = stringResource(R.string.withdraw_modal_withdraw_button_label),
