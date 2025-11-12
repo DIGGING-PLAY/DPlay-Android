@@ -32,13 +32,13 @@ import com.example.designsystem.theme.DPlayTheme
 import com.example.designsystem.util.noRippleClickable
 
 @Composable
-fun SingleActionModal(
+fun GraphicModal(
     mainText: String,
     buttonLabel: String,
+    onCloseIconClick: () -> Unit,
+    onButtonClick: () -> Unit,
     modifier: Modifier = Modifier,
     subText: String? = null,
-    onCloseIconClick: () -> Unit = {},
-    onButtonClick: () -> Unit = {},
 ){
     Box(
         modifier = modifier
@@ -47,7 +47,6 @@ fun SingleActionModal(
             )
             .background(
                 color = DPlayTheme.colors.dplayWhite,
-                shape = RoundedCornerShape(16.dp)
             )
     ){
         Column(
@@ -78,7 +77,7 @@ fun SingleActionModal(
 private fun ModalContent(
     mainText: String,
     subText: String?,
-    onCloseIconClick: () -> Unit = {},
+    onCloseIconClick: () -> Unit,
 ) {
     Column(
         modifier = Modifier
@@ -135,7 +134,7 @@ private fun ModalContent(
 
 @Preview(showBackground = true)
 @Composable
-fun SingleActionModalPreview() {
+fun GraphicModalPreview() {
     DPlayTheme {
         Column(
             modifier = Modifier
@@ -146,10 +145,12 @@ fun SingleActionModalPreview() {
                 .padding(horizontal = 40.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp),
         ) {
-            SingleActionModal(
+            GraphicModal(
                 mainText = stringResource(R.string.recommend_prompt_modal_main_text),
                 subText = stringResource(R.string.recommend_prompt_modal_sub_text),
                 buttonLabel = stringResource(R.string.recommend_prompt_modal_button_label),
+                onCloseIconClick = {},
+                onButtonClick = {}
             )
         }
     }
