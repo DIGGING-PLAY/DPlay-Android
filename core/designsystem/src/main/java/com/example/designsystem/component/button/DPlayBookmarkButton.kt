@@ -6,22 +6,20 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.dplay.designsystem.R
 import com.example.designsystem.theme.DPlayTheme
+import com.example.designsystem.util.icon.DplayBaseIcon
 
 @Composable
 fun DPlayBookmarkButton(
-    modifier: Modifier = Modifier,
-    isMarked: Boolean = false,
-    onClick: () -> Unit = {}
+    isMarked: Boolean,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier
 ){
     val iconRes = if (isMarked) R.drawable.ic_bookmark_filled_24 else R.drawable.ic_bookmark_unfilled_24
     val iconContentDescription = stringResource(
@@ -35,10 +33,9 @@ fun DPlayBookmarkButton(
         containerColor = DPlayTheme.colors.gray600,
         borderColor = DPlayTheme.colors.gray600
     ) {
-        Icon(
-            imageVector = ImageVector.vectorResource(iconRes),
+        DplayBaseIcon(
+            iconRes = iconRes,
             contentDescription = iconContentDescription,
-            tint = DPlayTheme.colors.dplayWhite
         )
     }
 }
@@ -54,8 +51,14 @@ fun DPlayBookmarkButtonPreview(){
                 .padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ){
-            DPlayBookmarkButton()
-            DPlayBookmarkButton(isMarked = true)
+            DPlayBookmarkButton(
+                isMarked = true,
+                onClick = {},
+            )
+            DPlayBookmarkButton(
+                isMarked = false,
+                onClick = {},
+            )
         }
     }
 }
