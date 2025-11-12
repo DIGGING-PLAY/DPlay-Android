@@ -1,4 +1,4 @@
-package com.example.designsystem.button
+package com.example.designsystem.component.button
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -17,20 +17,20 @@ import com.dplay.designsystem.R
 import com.example.designsystem.theme.DPlayTheme
 
 @Composable
-fun DPlayLargeGrayButton(
+fun DPlayLargePinkButton(
     modifier : Modifier = Modifier,
     label: String = "Button",
     enabled: Boolean = true,
     onClick: () -> Unit = {}
 ){
-    val containerColor = if(enabled) DPlayTheme.colors.gray600 else DPlayTheme.colors.gray200
+    val containerColor = if(enabled) DPlayTheme.colors.dplayPink else DPlayTheme.colors.gray200
     val textColor = if(enabled) DPlayTheme.colors.dplayWhite else DPlayTheme.colors.gray400
 
     DPlayButtonSlot(
         modifier = modifier,
         onClick = onClick,
         enabled = enabled,
-        paddingValues = PaddingValues(vertical = 16.dp),
+        paddingValues = PaddingValues(vertical = 20.dp),
         containerColor = containerColor,
         borderColor = containerColor,
     ) {
@@ -44,7 +44,7 @@ fun DPlayLargeGrayButton(
 
 @Preview(showBackground = true)
 @Composable
-fun DPlayLargeGrayButtonPreview(){
+fun DPlayLargePinkButtonPreview(){
     DPlayTheme {
         Column(
             modifier = Modifier
@@ -53,20 +53,35 @@ fun DPlayLargeGrayButtonPreview(){
                 .padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            DPlayLargeGrayButton(
+            DPlayLargePinkButton(
                 modifier = Modifier.fillMaxWidth(),
-                label = stringResource(R.string.report_button_label)
+                label = stringResource(R.string.next_button_label)
             )
 
-            DPlayLargeGrayButton(
+            DPlayLargePinkButton(
                 modifier = Modifier.fillMaxWidth(),
-                label = stringResource(R.string.report_button_label),
+                label = stringResource(R.string.next_button_label),
                 enabled = false
             )
 
-            DPlayLargeGrayButton(
+            DPlayLargePinkButton(
                 modifier = Modifier.fillMaxWidth(),
-                label = stringResource(R.string.apply_button_label)
+                label = stringResource(R.string.enroll_button_label),
+            )
+
+            DPlayLargePinkButton(
+                modifier = Modifier.fillMaxWidth(),
+                label = stringResource(R.string.start_button_label),
+            )
+
+            DPlayLargePinkButton(
+                modifier = Modifier.fillMaxWidth(),
+                label = stringResource(R.string.confirm_button_label),
+            )
+
+            DPlayLargePinkButton(
+                modifier = Modifier.fillMaxWidth(),
+                label = stringResource(R.string.modify_button_label),
             )
         }
     }

@@ -1,4 +1,4 @@
-package com.example.designsystem.button
+package com.example.designsystem.component.button
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -14,7 +14,7 @@ import com.example.designsystem.theme.DPlayTheme
 import com.example.designsystem.util.noRippleClickable
 
 @Composable
-fun DPlayTextButton(
+fun DPlayUnderlineTextButton(
     text: String,
     modifier: Modifier = Modifier,
     onClick: () -> Unit = {}
@@ -41,9 +41,9 @@ fun TextButtonPreview(){
                 .padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(20.dp)
         ){
-            DPlayTextButton(text = "더 알아보기")
-            DPlayTextButton(text = "기본 이미지로 변경하기")
-            DPlayTextButton(text = "취소 하기")
+            DPlayUnderlineTextButton(text = "더 알아보기")
+            DPlayUnderlineTextButton(text = "기본 이미지로 변경하기")
+            DPlayUnderlineTextButton(text = "취소 하기")
         }
     }
 }

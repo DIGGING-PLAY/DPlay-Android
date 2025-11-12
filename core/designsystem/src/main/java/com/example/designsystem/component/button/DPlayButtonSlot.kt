@@ -1,4 +1,4 @@
-package com.example.designsystem.button
+package com.example.designsystem.component.button
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border

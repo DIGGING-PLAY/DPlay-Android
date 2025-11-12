@@ -1,4 +1,4 @@
-package com.example.designsystem.button.constant
+package com.example.designsystem.component.button.constant
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable

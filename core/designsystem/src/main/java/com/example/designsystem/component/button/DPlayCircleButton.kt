@@ -1,4 +1,4 @@
-package com.example.designsystem.button
+package com.example.designsystem.component.button
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -19,7 +19,7 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.dplay.designsystem.R
-import com.example.designsystem.button.type.CircleButtonType
+import com.example.designsystem.component.button.type.CircleButtonType
 import com.example.designsystem.theme.DPlayTheme
 import com.example.designsystem.util.noRippleClickable
 

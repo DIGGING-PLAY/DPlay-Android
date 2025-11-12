@@ -1,4 +1,4 @@
-package com.example.designsystem.button
+package com.example.designsystem.component.button
 
 import androidx.compose.animation.animateColor
 import androidx.compose.animation.core.animateDp
@@ -27,14 +27,14 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
-import com.example.designsystem.button.constant.DPlaySwitchDefaults
-import com.example.designsystem.button.constant.SwitchColors
-import com.example.designsystem.button.constant.SwitchSizes
+import com.example.designsystem.component.button.constant.DPlaySwitchDefaults
+import com.example.designsystem.component.button.constant.SwitchColors
+import com.example.designsystem.component.button.constant.SwitchSizes
 import com.example.designsystem.theme.DPlayTheme
 import com.example.designsystem.util.noRippleClickable
 
 @Composable
-fun DPlaySwitch(
+fun DPlayToggle(
     modifier: Modifier = Modifier,
     isChecked: Boolean,
     sizes: SwitchSizes = DPlaySwitchDefaults.sizes(),
@@ -103,7 +103,7 @@ fun DefaultPreview() {
                 .padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ){
-            DPlaySwitch(
+            DPlayToggle(
                 isChecked = isChecked,
             ){
                 isChecked = !isChecked

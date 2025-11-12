@@ -1,5 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- DPlayTextField -->
+    <string name="text_input_clear_description">텍스트 지우기</string>
+    <string name="text_field_character_counter">%d/%d</string>
+
+    <string name="nickname_error_not_enough_length">%d자 이상 입력해주세요</string>
+    <string name="nickname_error_invalid_format">특수문자, 띄어쓰기는 사용 불가능해요</string>
+    <string name="nickname_error_already_exists">이미 사용 중인 값입니다</string>
+    <string name="nickname_error_forbidden_word">비속어, 금칙어가 포함되어 있습니다</string>
+    <string name="nickname_success_message">사용 가능한 닉네임이에요</string>
+
+    <string name="placeholder_nickname">닉네임을 입력해주세요</string>
+    <string name="placeholder_music_search">노래 제목이나 아티스트명을 검색해주세요</string>
+    <string name="placeholder_comment">노래에 대한 이야기를 자유롭게 작성해주세요</string>
+
     <!-- 버튼 관련 문자열(label) -->
     <string name="streaming_button_label">재생하기</string>
     <string name="guideline_button_label">커뮤니티 가이드</string>
@@ -12,6 +26,7 @@
     <string name="report_button_label">신고하기</string>
     <string name="apply_button_label">적용하기</string>
     <string name="kakao_login_button_label">카카오로 계속하기</string>
+
     <!-- 버튼 관련 문자열(description) -->
     <string name="bookmark_button_filled_bookmark_icon_description">북마크됨</string>
     <string name="bookmark_button_unfilled_bookmark_icon_description">북마크 안됨</string>
@@ -20,7 +35,7 @@
     <string name="like_button_unfilled_heart_description">좋아요 안눌림</string>
     <string name="guideline_button_icon_description">가이드 열기</string>
     <string name="circle_close_button_icon_default_description">닫기</string>
-    <string name="circle_edit_button_icon_default_description">수정\n</string>
+    <string name="circle_edit_button_icon_default_description">수정</string>
     <string name="circle_plus_button_icon_default_description">추가</string>
     <string name="add_profile_image_button_icon_description">프로필 사진 추가</string>
     <string name="clear_text_button_icon_description">텍스트 지우기</string>
