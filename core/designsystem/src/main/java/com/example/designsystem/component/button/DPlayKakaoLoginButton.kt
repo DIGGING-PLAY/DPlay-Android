@@ -23,11 +23,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.dplay.designsystem.R
 import com.example.designsystem.theme.DPlayTheme
+import com.example.designsystem.util.icon.DplayBaseIcon
 
 @Composable
 fun DPlayKakaoLoginButton(
-    modifier : Modifier = Modifier,
-    onClick: () -> Unit = {}
+    onClick: () -> Unit,
+    modifier : Modifier = Modifier
 ){
     DPlayButtonSlot(
         modifier = modifier,
@@ -42,10 +43,8 @@ fun DPlayKakaoLoginButton(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ){
-            Icon(
-                imageVector = ImageVector.vectorResource(id = R.drawable.ic_kakao_24),
-                contentDescription = null,
-                tint = Color.Unspecified
+            DplayBaseIcon(
+                iconRes = R.drawable.ic_kakao_24,
             )
 
             Text(
@@ -71,6 +70,7 @@ fun DPlayKakaoLoginButtonPreview(){
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             DPlayKakaoLoginButton(
+                onClick = {},
                 modifier = Modifier.fillMaxWidth(),
             )
         }
