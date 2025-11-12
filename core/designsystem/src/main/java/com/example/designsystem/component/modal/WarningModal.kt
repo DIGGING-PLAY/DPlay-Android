@@ -29,7 +29,10 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.dropShadow
+import androidx.compose.ui.draw.innerShadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.shadow.Shadow
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
@@ -51,14 +54,22 @@ fun WarningModal(
     onLeftButtonClick: () -> Unit = {},
     onRightButtonClick: () -> Unit = {}
 ){
+    val warningModalShape = RoundedCornerShape(16.dp)
+
     Box(
         modifier = modifier
+            .dropShadow(
+                shape = warningModalShape,
+                shadow = Shadow(
+                    radius = 20.dp,
+                    alpha = 0.15f
+                )
+            )
             .clip(
-                shape = RoundedCornerShape(16.dp)
+                shape = warningModalShape
             )
             .background(
                 color = DPlayTheme.colors.dplayWhite,
-                shape = RoundedCornerShape(16.dp)
             )
     ){
       Column(
@@ -162,7 +173,7 @@ fun WarningModalPreview() {
             modifier = Modifier
                 .fillMaxSize()
                 .background(
-                    color = DPlayTheme.colors.dplayBlack
+                    color = DPlayTheme.colors.dplayWhite
                 )
                 .padding(horizontal = 40.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp),
