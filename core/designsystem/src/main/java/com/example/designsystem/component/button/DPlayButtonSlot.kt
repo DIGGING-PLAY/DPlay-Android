@@ -26,7 +26,7 @@ fun DPlayButtonSlot(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
-    shape: Shape = RoundedCornerShape(16.dp),
+    shape: Shape = RoundedCornerShape(12.dp),
     content: @Composable () -> Unit,
 ){
     Box(

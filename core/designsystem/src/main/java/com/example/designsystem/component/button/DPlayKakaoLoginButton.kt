@@ -37,7 +37,6 @@ fun DPlayKakaoLoginButton(
         paddingValues = PaddingValues(20.dp),
         containerColor = DPlayTheme.colors.kakaoYellow,
         borderColor = DPlayTheme.colors.kakaoYellow,
-        shape = RoundedCornerShape(12.dp)
     ) {
         Row(
             modifier = Modifier

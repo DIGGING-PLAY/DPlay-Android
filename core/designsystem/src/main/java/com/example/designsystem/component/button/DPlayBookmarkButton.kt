@@ -33,7 +33,6 @@ fun DPlayBookmarkButton(
         paddingValues = PaddingValues(10.dp),
         containerColor = DPlayTheme.colors.gray600,
         borderColor = DPlayTheme.colors.gray600,
-        shape = RoundedCornerShape(12.dp)
     ) {
         DplayBaseIcon(
             iconRes = iconRes,
