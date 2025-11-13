@@ -1,4 +1,4 @@
-package com.example.designsystem.theme.icon
+package com.example.designsystem.util.icon
 
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.clickable
@@ -8,7 +8,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
-import com.example.designsystem.theme.util.noRippleClickable
+import com.example.designsystem.util.noRippleClickable
 
 @Composable
 fun DplayBaseIcon(
