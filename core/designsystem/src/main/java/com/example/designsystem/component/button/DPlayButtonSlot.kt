@@ -13,6 +13,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
 import com.example.designsystem.util.noRippleClickable
@@ -22,19 +23,20 @@ fun DPlayButtonSlot(
     paddingValues: PaddingValues,
     containerColor: Color,
     borderColor: Color,
+    onClick: () -> Unit,
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
-    onClick: () -> Unit = {},
+    shape: Shape = RoundedCornerShape(16.dp),
     content: @Composable () -> Unit,
 ){
     Box(
         modifier =
             modifier
-                .clip(RoundedCornerShape(16.dp))
+                .clip(shape = shape)
                 .border(
                     width = 1.dp,
                     color = borderColor,
-                    shape = RoundedCornerShape(16.dp)
+                    shape = shape
                 )
                 .background(
                     color = containerColor
