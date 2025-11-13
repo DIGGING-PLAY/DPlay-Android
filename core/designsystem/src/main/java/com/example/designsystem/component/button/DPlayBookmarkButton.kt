@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -31,7 +32,8 @@ fun DPlayBookmarkButton(
         onClick = onClick,
         paddingValues = PaddingValues(10.dp),
         containerColor = DPlayTheme.colors.gray600,
-        borderColor = DPlayTheme.colors.gray600
+        borderColor = DPlayTheme.colors.gray600,
+        shape = RoundedCornerShape(12.dp)
     ) {
         DplayBaseIcon(
             iconRes = iconRes,
