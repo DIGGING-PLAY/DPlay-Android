@@ -15,6 +15,7 @@ class AndroidComposeConventionPlugin: Plugin<Project> {
             pluginManager.apply {
                 apply("dplay.android.library")
                 apply("org.jetbrains.kotlin.plugin.compose")
+                apply("org.jlleitschuh.gradle.ktlint")
             }
 
             extensions.configure<LibraryExtension> {
