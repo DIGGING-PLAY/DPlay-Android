@@ -57,16 +57,18 @@ fun DPlayTextInput(
     val focusManager = LocalFocusManager.current
     val borderModifier =
         when (inputState) {
-            is InputState.Error -> Modifier.border(
-                width = 1.dp,
-                color = DPlayTheme.colors.alertRed,
-                shape = RoundedCornerShape(16.dp)
-            )
-            is InputState.Success -> Modifier.border(
-                width = 1.dp,
-                color = DPlayTheme.colors.infoBlue,
-                shape = RoundedCornerShape(16.dp)
-            )
+            is InputState.Error ->
+                Modifier.border(
+                    width = 1.dp,
+                    color = DPlayTheme.colors.alertRed,
+                    shape = RoundedCornerShape(16.dp),
+                )
+            is InputState.Success ->
+                Modifier.border(
+                    width = 1.dp,
+                    color = DPlayTheme.colors.infoBlue,
+                    shape = RoundedCornerShape(16.dp),
+                )
             is InputState.Default -> Modifier
         }
 
@@ -76,43 +78,45 @@ fun DPlayTextInput(
             onValueChange = {
                 if (maxLength == null || it.length <= maxLength) onValueChange(it)
             },
-            modifier = Modifier
-                .fillMaxWidth()
-                .onFocusChanged {
-                    onFocusChange(it.isFocused)
-                }
-                .background(
-                    color = DPlayTheme.colors.gray100,
-                    shape = RoundedCornerShape(16.dp)
-                )
-                .then(borderModifier)
-                .padding(vertical = 16.dp, horizontal = 12.dp),
-            keyboardOptions = KeyboardOptions(
-                imeAction = ImeAction.Done
-            ),
-            keyboardActions = KeyboardActions(
-                onDone = {
-                    onEnterClick()
-                    focusManager.clearFocus(force = true)
-                }
-            ),
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .onFocusChanged {
+                        onFocusChange(it.isFocused)
+                    }.background(
+                        color = DPlayTheme.colors.gray100,
+                        shape = RoundedCornerShape(16.dp),
+                    ).then(borderModifier)
+                    .padding(vertical = 16.dp, horizontal = 12.dp),
+            keyboardOptions =
+                KeyboardOptions(
+                    imeAction = ImeAction.Done,
+                ),
+            keyboardActions =
+                KeyboardActions(
+                    onDone = {
+                        onEnterClick()
+                        focusManager.clearFocus(force = true)
+                    },
+                ),
             singleLine = true,
             textStyle = DPlayTheme.typography.bodySemi16.copy(color = DPlayTheme.colors.dplayBlack),
             cursorBrush = SolidColor(value = DPlayTheme.colors.dplayPink),
             decorationBox = { innerTextField ->
                 Row(
                     modifier = Modifier.fillMaxWidth(),
-                    verticalAlignment = Alignment.CenterVertically
+                    verticalAlignment = Alignment.CenterVertically,
                 ) {
                     Box(
-                        modifier = Modifier
-                            .weight(1f)
+                        modifier =
+                            Modifier
+                                .weight(1f),
                     ) {
                         if (value.isEmpty()) {
                             Text(
                                 text = placeholder,
                                 color = DPlayTheme.colors.gray400,
-                                style = DPlayTheme.typography.bodySemi16
+                                style = DPlayTheme.typography.bodySemi16,
                             )
                         }
 
@@ -126,27 +130,27 @@ fun DPlayTextInput(
                             imageVector = ImageVector.vectorResource(R.drawable.ic_close_20),
                             contentDescription = stringResource(R.string.text_input_clear_description),
                             tint = DPlayTheme.colors.gray400,
-                            modifier = Modifier
-                                .background(
-                                    color = DPlayTheme.colors.gray200,
-                                    shape = CircleShape
-                                )
-                                .clickable(
-                                    role = Role.Button,
-                                ) { onValueChange("") }
+                            modifier =
+                                Modifier
+                                    .background(
+                                        color = DPlayTheme.colors.gray200,
+                                        shape = CircleShape,
+                                    ).clickable(
+                                        role = Role.Button,
+                                    ) { onValueChange("") },
                         )
                     }
                 }
-            }
+            },
         )
 
         Spacer(modifier = Modifier.size(4.dp))
 
-        if (inputState !is InputState.Default || maxLength != null){
+        if (inputState !is InputState.Default || maxLength != null) {
             GuidelineRow(
                 inputState = inputState,
                 maxLength = maxLength,
-                value = value
+                value = value,
             )
         }
     }
@@ -156,11 +160,11 @@ fun DPlayTextInput(
 private fun GuidelineRow(
     inputState: InputState,
     maxLength: Int?,
-    value: String
+    value: String,
 ) {
     Row(
         modifier = Modifier.fillMaxWidth(),
-        verticalAlignment = Alignment.CenterVertically
+        verticalAlignment = Alignment.CenterVertically,
     ) {
         when (inputState) {
             is InputState.Error -> {
@@ -201,18 +205,19 @@ fun DPlayTextInputPreview() {
 
     DPlayTheme {
         Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(color = Color.White)
-                .padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
+            modifier =
+                Modifier
+                    .fillMaxSize()
+                    .background(color = Color.White)
+                    .padding(16.dp),
+            verticalArrangement = Arrangement.spacedBy(16.dp),
         ) {
             DPlayTextInput(
                 value = nickname,
                 onValueChange = { nickname = it },
                 onFocusChange = {},
                 placeholder = stringResource(R.string.placeholder_nickname),
-                maxLength = TextFieldConstant.MAX_NICKNAME_LENGTH
+                maxLength = TextFieldConstant.MAX_NICKNAME_LENGTH,
             )
 
             DPlayTextInput(
@@ -221,7 +226,7 @@ fun DPlayTextInputPreview() {
                 onFocusChange = {},
                 inputState = NicknameInputState.Success,
                 placeholder = stringResource(R.string.placeholder_nickname),
-                maxLength = TextFieldConstant.MAX_NICKNAME_LENGTH
+                maxLength = TextFieldConstant.MAX_NICKNAME_LENGTH,
             )
 
             DPlayTextInput(
@@ -230,7 +235,7 @@ fun DPlayTextInputPreview() {
                 onFocusChange = {},
                 inputState = NicknameInputState.Error.AlreadyExists,
                 placeholder = stringResource(R.string.placeholder_nickname),
-                maxLength = TextFieldConstant.MAX_NICKNAME_LENGTH
+                maxLength = TextFieldConstant.MAX_NICKNAME_LENGTH,
             )
 
             DPlayTextInput(
@@ -239,7 +244,7 @@ fun DPlayTextInputPreview() {
                 onFocusChange = {},
                 inputState = NicknameInputState.Error.NotEnoughLength,
                 placeholder = stringResource(R.string.placeholder_nickname),
-                maxLength = TextFieldConstant.MAX_NICKNAME_LENGTH
+                maxLength = TextFieldConstant.MAX_NICKNAME_LENGTH,
             )
 
             DPlayTextInput(
@@ -248,7 +253,7 @@ fun DPlayTextInputPreview() {
                 onFocusChange = {},
                 inputState = NicknameInputState.Error.InvalidFormat,
                 placeholder = stringResource(R.string.placeholder_nickname),
-                maxLength = TextFieldConstant.MAX_NICKNAME_LENGTH
+                maxLength = TextFieldConstant.MAX_NICKNAME_LENGTH,
             )
 
             DPlayTextInput(
@@ -257,7 +262,7 @@ fun DPlayTextInputPreview() {
                 onFocusChange = {},
                 inputState = NicknameInputState.Error.ForbiddenWord,
                 placeholder = stringResource(R.string.placeholder_nickname),
-                maxLength = TextFieldConstant.MAX_NICKNAME_LENGTH
+                maxLength = TextFieldConstant.MAX_NICKNAME_LENGTH,
             )
 
             DPlayTextInput(

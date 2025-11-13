@@ -8,6 +8,6 @@ android {
     namespace = "com.dplay.main"
 }
 
-dependencies{
+dependencies {
     // 모든 feature들을 의존
 }

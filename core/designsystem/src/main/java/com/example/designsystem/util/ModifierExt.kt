@@ -48,50 +48,49 @@ inline fun Modifier.noRippleClickable(
 fun Modifier.roundedBackgroundWithPadding(
     backgroundColor: Color = Color.Unspecified,
     cornerRadius: Dp = 0.dp,
-    padding: PaddingValues = PaddingValues(0.dp)
-): Modifier {
-    return this
+    padding: PaddingValues = PaddingValues(0.dp),
+): Modifier =
+    this
         .background(color = backgroundColor, shape = RoundedCornerShape(cornerRadius))
         .padding(padding)
-}
 
-fun Modifier.addFocusCleaner(focusManager: FocusManager, doOnClear: () -> Unit = {}): Modifier {
-    return this.pointerInput(Unit) {
+fun Modifier.addFocusCleaner(
+    focusManager: FocusManager,
+    doOnClear: () -> Unit = {},
+): Modifier =
+    this.pointerInput(Unit) {
         detectTapGestures(onTap = {
             doOnClear()
             focusManager.clearFocus()
         })
     }
-}
 
 // 추후 추가되는 디자인 값에 맞게 사용
 inline fun Modifier.pressedEffectClickable(
-    crossinline onClick: () -> Unit = {}
-): Modifier = composed {
-    val interactionSource = remember { MutableInteractionSource() }
-    val isPressed by interactionSource.collectIsPressedAsState()
+    crossinline onClick: () -> Unit = {},
+): Modifier =
+    composed {
+        val interactionSource = remember { MutableInteractionSource() }
+        val isPressed by interactionSource.collectIsPressedAsState()
 
-    this
-        .graphicsLayer {
-            alpha = if (isPressed) 0.6f else 1f
-        }
-        .clickable(
-            interactionSource = interactionSource,
-            indication = null
-        ) {
-            onClick()
-        }
-}
+        this
+            .graphicsLayer {
+                alpha = if (isPressed) 0.6f else 1f
+            }.clickable(
+                interactionSource = interactionSource,
+                indication = null,
+            ) {
+                onClick()
+            }
+    }
 
 fun Modifier.advancedImePadding() =
     composed {
         var consumePadding by remember { mutableIntStateOf(0) }
         onGloballyPositioned { coordinates ->
             consumePadding = coordinates.findRootCoordinates().size.height -
-                    (coordinates.positionInWindow().y + coordinates.size.height).toInt()
-        }
-            .consumeWindowInsets(
-                PaddingValues(bottom = with(LocalDensity.current) { consumePadding.toDp() })
-            )
-            .imePadding()
+                (coordinates.positionInWindow().y + coordinates.size.height).toInt()
+        }.consumeWindowInsets(
+            PaddingValues(bottom = with(LocalDensity.current) { consumePadding.toDp() }),
+        ).imePadding()
     }
