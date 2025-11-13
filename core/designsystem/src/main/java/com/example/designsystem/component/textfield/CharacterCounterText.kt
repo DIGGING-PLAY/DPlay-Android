@@ -11,7 +11,7 @@ import com.example.designsystem.theme.DPlayTheme
 fun CharacterCounterText(
     currentLength: Int,
     maxLength: Int,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     Text(
         text = stringResource(R.string.text_field_character_counter, currentLength, maxLength),

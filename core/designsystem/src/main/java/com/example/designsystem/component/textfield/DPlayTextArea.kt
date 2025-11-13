@@ -43,7 +43,7 @@ fun DPlayTextArea(
     maxLength: Int = TextFieldConstant.MAX_COMMENT_LENGTH,
     onEnterClick: () -> Unit = {},
     onFocusChange: (Boolean) -> Unit = {},
-){
+) {
     val focusManager = LocalFocusManager.current
 
     BasicTextField(
@@ -51,42 +51,43 @@ fun DPlayTextArea(
         onValueChange = {
             if (it.length <= maxLength) onValueChange(it)
         },
-        modifier = modifier
-            .fillMaxWidth()
-            .onFocusChanged {
-                onFocusChange(it.isFocused)
-            }
-            .background(
-                color = DPlayTheme.colors.gray100,
-                shape = RoundedCornerShape(16.dp)
-            )
-            .padding(vertical = 16.dp, horizontal = 12.dp),
-        keyboardOptions = KeyboardOptions(
-            imeAction = ImeAction.Done
-        ),
-        keyboardActions = KeyboardActions(
-            onDone = {
-                onEnterClick()
-                focusManager.clearFocus(force = true)
-            }
-        ),
+        modifier =
+            modifier
+                .fillMaxWidth()
+                .onFocusChanged {
+                    onFocusChange(it.isFocused)
+                }.background(
+                    color = DPlayTheme.colors.gray100,
+                    shape = RoundedCornerShape(16.dp),
+                ).padding(vertical = 16.dp, horizontal = 12.dp),
+        keyboardOptions =
+            KeyboardOptions(
+                imeAction = ImeAction.Done,
+            ),
+        keyboardActions =
+            KeyboardActions(
+                onDone = {
+                    onEnterClick()
+                    focusManager.clearFocus(force = true)
+                },
+            ),
         textStyle = DPlayTheme.typography.bodySemi14.copy(color = DPlayTheme.colors.dplayBlack),
         cursorBrush = SolidColor(value = DPlayTheme.colors.dplayPink),
         decorationBox = { innerTextField ->
             Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .aspectRatio(TEXT_AREA_ASPECT_RATIO)
-                ,
+                modifier =
+                    Modifier
+                        .fillMaxWidth()
+                        .aspectRatio(TEXT_AREA_ASPECT_RATIO),
             ) {
                 Box(
-                    modifier = Modifier.weight(1f)
+                    modifier = Modifier.weight(1f),
                 ) {
                     if (value.isEmpty()) {
                         Text(
                             text = placeholder,
                             color = DPlayTheme.colors.gray400,
-                            style = DPlayTheme.typography.bodySemi16
+                            style = DPlayTheme.typography.bodySemi16,
                         )
                     }
 
@@ -98,10 +99,10 @@ fun DPlayTextArea(
                 CharacterCounterText(
                     currentLength = value.length,
                     maxLength = maxLength,
-                    modifier = Modifier.align(alignment = Alignment.End)
+                    modifier = Modifier.align(alignment = Alignment.End),
                 )
             }
-        }
+        },
     )
 }
 
@@ -111,10 +112,11 @@ fun DPlayTextAreaPreview() {
     var text by remember { mutableStateOf("") }
     DPlayTheme {
         Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(DPlayTheme.colors.dplayWhite)
-                .padding(16.dp)
+            modifier =
+                Modifier
+                    .fillMaxSize()
+                    .background(DPlayTheme.colors.dplayWhite)
+                    .padding(16.dp),
         ) {
             DPlayTextArea(
                 value = text,
