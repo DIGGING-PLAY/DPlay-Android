@@ -13,7 +13,7 @@ class AndroidLibraryConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) {
         with(target) {
             pluginManager.apply {
-                apply("dplay.android.library")
+                apply("com.android.library")
                 apply("org.jlleitschuh.gradle.ktlint")
             }
 
