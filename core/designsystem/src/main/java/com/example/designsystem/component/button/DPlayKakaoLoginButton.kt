@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -36,6 +37,7 @@ fun DPlayKakaoLoginButton(
         paddingValues = PaddingValues(20.dp),
         containerColor = DPlayTheme.colors.kakaoYellow,
         borderColor = DPlayTheme.colors.kakaoYellow,
+        shape = RoundedCornerShape(12.dp)
     ) {
         Row(
             modifier = Modifier
