@@ -1,4 +1,4 @@
-package com.example.designsystem.util.icon
+package com.example.designsystem.component
 
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.clickable

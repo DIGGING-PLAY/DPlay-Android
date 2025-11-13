@@ -15,8 +15,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.dplay.designsystem.R
-import com.example.designsystem.util.icon.DplayBaseIcon
-import com.example.designsystem.util.icon.DplayClickableIcon
 import com.example.designsystem.theme.DPlayTheme
 import com.example.designsystem.util.noRippleClickable
 

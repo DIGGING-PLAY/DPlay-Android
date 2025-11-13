@@ -19,13 +19,12 @@ import androidx.compose.ui.unit.dp
 import com.dplay.designsystem.R
 import com.example.designsystem.theme.DPlayTheme
 import com.example.designsystem.theme.defaultDPlayColors
-import com.example.designsystem.util.icon.DplayClickableIcon
 import com.example.designsystem.util.roundedBackgroundWithPadding
 
 @Composable
 fun DplayTooltip(
     onCloseButtonClicked: () -> Unit,
-    onTextButtonClicked:() -> Unit,
+    onTextButtonClicked: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(modifier = modifier) {
@@ -86,7 +85,7 @@ private fun DplayTooltipPreview() {
     DPlayTheme {
         DplayTooltip(
             onCloseButtonClicked = {},
-            onTextButtonClicked={}
+            onTextButtonClicked = {}
         )
     }
 }
