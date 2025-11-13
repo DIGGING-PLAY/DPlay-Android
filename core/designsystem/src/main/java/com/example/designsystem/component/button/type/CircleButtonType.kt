@@ -17,7 +17,7 @@ sealed class CircleButtonType {
     abstract val contentDescription: Int
 
     data class SmallClose(
-        override val contentDescription: Int = R.string.circle_close_button_icon_default_description
+        override val contentDescription: Int = R.string.circle_close_button_icon_default_description,
     ) : CircleButtonType() {
         override val containerSize = 20.dp
         override val backgroundColor = defaultDPlayColors.gray200
@@ -27,7 +27,7 @@ sealed class CircleButtonType {
     }
 
     data class SmallEdit(
-        override val contentDescription: Int = R.string.circle_edit_button_icon_default_description
+        override val contentDescription: Int = R.string.circle_edit_button_icon_default_description,
     ) : CircleButtonType() {
         override val containerSize = 24.dp
         override val backgroundColor = defaultDPlayColors.gray200
@@ -37,7 +37,7 @@ sealed class CircleButtonType {
     }
 
     data class SmallPlus(
-        override val contentDescription: Int = R.string.circle_plus_button_icon_default_description
+        override val contentDescription: Int = R.string.circle_plus_button_icon_default_description,
     ) : CircleButtonType() {
         override val containerSize = 28.dp
         override val backgroundColor = defaultDPlayColors.dplayBlack
@@ -47,7 +47,7 @@ sealed class CircleButtonType {
     }
 
     data class LargePlus(
-        override val contentDescription: Int = R.string.circle_plus_button_icon_default_description
+        override val contentDescription: Int = R.string.circle_plus_button_icon_default_description,
     ) : CircleButtonType() {
         override val containerSize = 56.dp
         override val backgroundColor = defaultDPlayColors.dplayBlack

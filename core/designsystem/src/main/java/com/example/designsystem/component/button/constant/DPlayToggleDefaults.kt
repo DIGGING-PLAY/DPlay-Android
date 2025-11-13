@@ -11,7 +11,7 @@ import com.example.designsystem.theme.DPlayTheme
 data class SwitchSizes(
     val padding: Dp = 2.dp,
     val cornerRadius: Dp = 16.dp,
-    val thumbSize: Dp = 24.dp
+    val thumbSize: Dp = 24.dp,
 ) {
     val containerWidth: Dp get() = (thumbSize + padding) * 2
     val containerHeight: Dp get() = thumbSize + (padding * 2)
@@ -21,7 +21,7 @@ data class SwitchSizes(
 data class SwitchColors(
     val checkedContainer: Color,
     val uncheckedContainer: Color,
-    val thumb: Color
+    val thumb: Color,
 )
 
 object DPlayToggleDefaults {
@@ -29,20 +29,22 @@ object DPlayToggleDefaults {
     fun colors(
         checkedContainer: Color = DPlayTheme.colors.dplayPink,
         uncheckedContainer: Color = DPlayTheme.colors.gray300,
-        thumb: Color = DPlayTheme.colors.dplayWhite
-    ): SwitchColors = SwitchColors(
-        checkedContainer = checkedContainer,
-        uncheckedContainer = uncheckedContainer,
-        thumb = thumb
-    )
+        thumb: Color = DPlayTheme.colors.dplayWhite,
+    ): SwitchColors =
+        SwitchColors(
+            checkedContainer = checkedContainer,
+            uncheckedContainer = uncheckedContainer,
+            thumb = thumb,
+        )
 
     fun sizes(
         padding: Dp = 2.dp,
         cornerRadius: Dp = 16.dp,
-        thumbSize: Dp = 24.dp
-    ): SwitchSizes = SwitchSizes(
-        padding = padding,
-        cornerRadius = cornerRadius,
-        thumbSize = thumbSize
-    )
+        thumbSize: Dp = 24.dp,
+    ): SwitchSizes =
+        SwitchSizes(
+            padding = padding,
+            cornerRadius = cornerRadius,
+            thumbSize = thumbSize,
+        )
 }

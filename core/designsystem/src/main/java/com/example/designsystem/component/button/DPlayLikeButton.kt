@@ -27,10 +27,10 @@ fun DPlayLikeButton(
     likeCount: Int,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
-){
-    val containerColor = if(isLiked) DPlayTheme.colors.dplayPink100 else DPlayTheme.colors.dplayWhite
-    val iconRes = if(isLiked) R.drawable.ic_heart_pink_filled_24 else R.drawable.ic_heart_pink_unfilled_24
-    val stringRes = if(isLiked) R.string.like_button_filled_heart_description else R.string.like_button_unfilled_heart_description
+) {
+    val containerColor = if (isLiked) DPlayTheme.colors.dplayPink100 else DPlayTheme.colors.dplayWhite
+    val iconRes = if (isLiked) R.drawable.ic_heart_pink_filled_24 else R.drawable.ic_heart_pink_unfilled_24
+    val stringRes = if (isLiked) R.string.like_button_filled_heart_description else R.string.like_button_unfilled_heart_description
 
     DPlayButtonSlot(
         modifier = modifier,
@@ -40,44 +40,45 @@ fun DPlayLikeButton(
         borderColor = DPlayTheme.colors.dplayPink,
         content = {
             Row(
-                verticalAlignment = Alignment.CenterVertically
-            ){
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
                 DplayBaseIcon(
                     iconRes = iconRes,
                     contentDescription = stringResource(stringRes),
                 )
 
                 Spacer(
-                    modifier = Modifier.size(8.dp)
+                    modifier = Modifier.size(8.dp),
                 )
 
                 Text(
                     text = likeCount.toString(),
                     style = DPlayTheme.typography.bodySemi14,
-                    color = DPlayTheme.colors.dplayPink
+                    color = DPlayTheme.colors.dplayPink,
                 )
             }
-        }
+        },
     )
 }
 
 @Preview(showBackground = true)
 @Composable
-fun DPlayLikeButtonPreview(){
+fun DPlayLikeButtonPreview() {
     DPlayTheme {
         Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(DPlayTheme.colors.dplayWhite)
-                .padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
-        ){
-            Row(modifier = Modifier.fillMaxWidth()){
+            modifier =
+                Modifier
+                    .fillMaxSize()
+                    .background(DPlayTheme.colors.dplayWhite)
+                    .padding(16.dp),
+            verticalArrangement = Arrangement.spacedBy(16.dp),
+        ) {
+            Row(modifier = Modifier.fillMaxWidth()) {
                 DPlayLikeButton(
                     isLiked = false,
                     likeCount = 0,
                     onClick = {},
-                    modifier = Modifier.weight(1f)
+                    modifier = Modifier.weight(1f),
                 )
 
                 Spacer(modifier = Modifier.size(8.dp))

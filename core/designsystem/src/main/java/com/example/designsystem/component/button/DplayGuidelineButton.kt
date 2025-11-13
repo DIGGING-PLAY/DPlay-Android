@@ -24,8 +24,8 @@ import com.example.designsystem.util.icon.DplayBaseIcon
 @Composable
 fun DPlayGuidelineButton(
     onClick: () -> Unit,
-    modifier: Modifier = Modifier
-){
+    modifier: Modifier = Modifier,
+) {
     DPlayButtonSlot(
         modifier = modifier,
         onClick = onClick,
@@ -35,21 +35,21 @@ fun DPlayGuidelineButton(
         shape = RoundedCornerShape(20.dp),
     ) {
         Row(
-            verticalAlignment = Alignment.CenterVertically
-        ){
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
             DplayBaseIcon(
                 iconRes = R.drawable.ic_info_20,
                 contentDescription = stringResource(R.string.guideline_button_icon_description),
             )
 
             Spacer(
-                modifier = Modifier.size(8.dp)
+                modifier = Modifier.size(8.dp),
             )
 
             Text(
                 text = stringResource(R.string.guideline_button_label),
                 style = DPlayTheme.typography.capMed12,
-                color = DPlayTheme.colors.gray400
+                color = DPlayTheme.colors.gray400,
             )
         }
     }
@@ -57,17 +57,18 @@ fun DPlayGuidelineButton(
 
 @Preview(showBackground = true)
 @Composable
-fun DPlayGuidelineButtonPreview(){
+fun DPlayGuidelineButtonPreview() {
     DPlayTheme {
         Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(DPlayTheme.colors.dplayWhite)
-                .padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
+            modifier =
+                Modifier
+                    .fillMaxSize()
+                    .background(DPlayTheme.colors.dplayWhite)
+                    .padding(16.dp),
+            verticalArrangement = Arrangement.spacedBy(16.dp),
         ) {
             DPlayGuidelineButton(
-                onClick = {}
+                onClick = {},
             )
         }
     }

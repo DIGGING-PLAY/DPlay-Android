@@ -24,18 +24,19 @@ import com.example.designsystem.util.noRippleClickable
 fun DPlayCircleButton(
     circleButtonType: CircleButtonType,
     onClick: () -> Unit,
-    modifier: Modifier = Modifier
-){
+    modifier: Modifier = Modifier,
+) {
     Box(
-        modifier = modifier
-            .size(circleButtonType.containerSize)
-            .noRippleClickable(onClick = onClick)
-            .background(
-                color = circleButtonType.backgroundColor,
-                shape = CircleShape
-            ),
-        contentAlignment = Alignment.Center
-    ){
+        modifier =
+            modifier
+                .size(circleButtonType.containerSize)
+                .noRippleClickable(onClick = onClick)
+                .background(
+                    color = circleButtonType.backgroundColor,
+                    shape = CircleShape,
+                ),
+        contentAlignment = Alignment.Center,
+    ) {
         DplayBaseIcon(
             iconRes = circleButtonType.iconRes,
             contentDescription = stringResource(circleButtonType.contentDescription),
@@ -45,42 +46,48 @@ fun DPlayCircleButton(
 
 @Preview(showBackground = true)
 @Composable
-fun DPlayCircleButtonPreview(){
+fun DPlayCircleButtonPreview() {
     DPlayTheme {
         Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
-        ){
+            modifier =
+                Modifier
+                    .fillMaxSize()
+                    .padding(16.dp),
+            verticalArrangement = Arrangement.spacedBy(16.dp),
+        ) {
             DPlayCircleButton(
-                circleButtonType = CircleButtonType.SmallPlus(
-                    R.string.add_profile_image_button_icon_description
-                ),
-                onClick = {}
-            )
-            DPlayCircleButton(
-                circleButtonType = CircleButtonType.SmallClose(
-                    R.string.clear_text_button_icon_description
-                ),
-                onClick = {}
-            )
-            DPlayCircleButton(
-                circleButtonType = CircleButtonType.SmallClose(
-                    R.string.close_modal_button_icon_description
-                ),
+                circleButtonType =
+                    CircleButtonType.SmallPlus(
+                        R.string.add_profile_image_button_icon_description,
+                    ),
                 onClick = {},
             )
             DPlayCircleButton(
-                circleButtonType = CircleButtonType.SmallEdit(
-                    R.string.edit_profile_image_button_icon_description
-                ),
+                circleButtonType =
+                    CircleButtonType.SmallClose(
+                        R.string.clear_text_button_icon_description,
+                    ),
                 onClick = {},
             )
             DPlayCircleButton(
-                circleButtonType = CircleButtonType.LargePlus(
-                    R.string.navigate_to_search_button_icon_description
-                ),
+                circleButtonType =
+                    CircleButtonType.SmallClose(
+                        R.string.close_modal_button_icon_description,
+                    ),
+                onClick = {},
+            )
+            DPlayCircleButton(
+                circleButtonType =
+                    CircleButtonType.SmallEdit(
+                        R.string.edit_profile_image_button_icon_description,
+                    ),
+                onClick = {},
+            )
+            DPlayCircleButton(
+                circleButtonType =
+                    CircleButtonType.LargePlus(
+                        R.string.navigate_to_search_button_icon_description,
+                    ),
                 onClick = {},
             )
         }

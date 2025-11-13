@@ -19,12 +19,12 @@ import com.example.designsystem.theme.DPlayTheme
 @Composable
 fun DPlayLargeGrayButton(
     onClick: () -> Unit,
-    modifier : Modifier = Modifier,
+    modifier: Modifier = Modifier,
     label: String = "",
     enabled: Boolean = true,
-){
-    val containerColor = if(enabled) DPlayTheme.colors.gray600 else DPlayTheme.colors.gray200
-    val textColor = if(enabled) DPlayTheme.colors.dplayWhite else DPlayTheme.colors.gray400
+) {
+    val containerColor = if (enabled) DPlayTheme.colors.gray600 else DPlayTheme.colors.gray200
+    val textColor = if (enabled) DPlayTheme.colors.dplayWhite else DPlayTheme.colors.gray400
 
     DPlayButtonSlot(
         modifier = modifier,
@@ -37,39 +37,40 @@ fun DPlayLargeGrayButton(
         Text(
             text = label,
             style = DPlayTheme.typography.bodyBold16,
-            color = textColor
+            color = textColor,
         )
     }
 }
 
 @Preview(showBackground = true)
 @Composable
-fun DPlayLargeGrayButtonPreview(){
+fun DPlayLargeGrayButtonPreview() {
     DPlayTheme {
         Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(DPlayTheme.colors.dplayWhite)
-                .padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
+            modifier =
+                Modifier
+                    .fillMaxSize()
+                    .background(DPlayTheme.colors.dplayWhite)
+                    .padding(16.dp),
+            verticalArrangement = Arrangement.spacedBy(16.dp),
         ) {
             DPlayLargeGrayButton(
                 onClick = {},
                 modifier = Modifier.fillMaxWidth(),
-                label = stringResource(R.string.report_button_label)
+                label = stringResource(R.string.report_button_label),
             )
 
             DPlayLargeGrayButton(
                 onClick = {},
                 modifier = Modifier.fillMaxWidth(),
                 label = stringResource(R.string.report_button_label),
-                enabled = false
+                enabled = false,
             )
 
             DPlayLargeGrayButton(
                 onClick = {},
                 modifier = Modifier.fillMaxWidth(),
-                label = stringResource(R.string.apply_button_label)
+                label = stringResource(R.string.apply_button_label),
             )
         }
     }

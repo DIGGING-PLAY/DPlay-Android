@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -20,12 +19,13 @@ import com.example.designsystem.util.icon.DplayBaseIcon
 fun DPlayBookmarkButton(
     isMarked: Boolean,
     onClick: () -> Unit,
-    modifier: Modifier = Modifier
-){
+    modifier: Modifier = Modifier,
+) {
     val iconRes = if (isMarked) R.drawable.ic_bookmark_filled_24 else R.drawable.ic_bookmark_unfilled_24
-    val iconContentDescription = stringResource(
-        if (isMarked) R.string.bookmark_button_filled_bookmark_icon_description else R.string.bookmark_button_unfilled_bookmark_icon_description
-    )
+    val iconContentDescription =
+        stringResource(
+            if (isMarked) R.string.bookmark_button_filled_bookmark_icon_description else R.string.bookmark_button_unfilled_bookmark_icon_description,
+        )
 
     DPlayButtonSlot(
         modifier = modifier,
@@ -43,15 +43,16 @@ fun DPlayBookmarkButton(
 
 @Preview(showBackground = true)
 @Composable
-fun DPlayBookmarkButtonPreview(){
+fun DPlayBookmarkButtonPreview() {
     DPlayTheme {
         Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(DPlayTheme.colors.dplayWhite)
-                .padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
-        ){
+            modifier =
+                Modifier
+                    .fillMaxSize()
+                    .background(DPlayTheme.colors.dplayWhite)
+                    .padding(16.dp),
+            verticalArrangement = Arrangement.spacedBy(16.dp),
+        ) {
             DPlayBookmarkButton(
                 isMarked = true,
                 onClick = {},

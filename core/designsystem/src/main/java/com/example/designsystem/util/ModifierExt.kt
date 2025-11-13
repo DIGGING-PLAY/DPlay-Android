@@ -24,26 +24,27 @@ import androidx.compose.ui.layout.findRootCoordinates
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.layout.positionInWindow
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.semantics.Role
 
 inline fun Modifier.noRippleClickable(
     enabled: Boolean = true,
     onClickLabel: String? = null,
     role: Role? = null,
-    crossinline onClick: () -> Unit = {}
-): Modifier = composed {
-    this.clickable(
-        indication = null,
-        interactionSource = remember { MutableInteractionSource() },
-        enabled = enabled,
-        onClickLabel = onClickLabel,
-        role = role,
-    ) {
-        onClick()
+    crossinline onClick: () -> Unit = {},
+): Modifier =
+    composed {
+        this.clickable(
+            indication = null,
+            interactionSource = remember { MutableInteractionSource() },
+            enabled = enabled,
+            onClickLabel = onClickLabel,
+            role = role,
+        ) {
+            onClick()
+        }
     }
-}
 
 fun Modifier.roundedBackgroundWithPadding(
     backgroundColor: Color = Color.Unspecified,

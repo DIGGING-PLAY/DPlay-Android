@@ -39,8 +39,8 @@ fun DPlayToggle(
     isChecked: Boolean,
     modifier: Modifier = Modifier,
     sizes: SwitchSizes = DPlayToggleDefaults.sizes(),
-    colors: SwitchColors = DPlayToggleDefaults.colors()
-){
+    colors: SwitchColors = DPlayToggleDefaults.colors(),
+) {
     val transition = updateTransition(isChecked)
 
     val thumbOffset by transition.animateDp { isChecked ->
@@ -52,23 +52,22 @@ fun DPlayToggle(
     }
 
     Box(
-        modifier = modifier
-            .width(sizes.containerWidth)
-            .height(sizes.containerHeight)
-            .background(
-                color = containerColor,
-                shape = RoundedCornerShape(sizes.cornerRadius)
-            )
-            .noRippleClickable(
-                onClick = onClick,
-                role = Role.Switch
-            )
-            .padding(sizes.padding)
-    ){
+        modifier =
+            modifier
+                .width(sizes.containerWidth)
+                .height(sizes.containerHeight)
+                .background(
+                    color = containerColor,
+                    shape = RoundedCornerShape(sizes.cornerRadius),
+                ).noRippleClickable(
+                    onClick = onClick,
+                    role = Role.Switch,
+                ).padding(sizes.padding),
+    ) {
         Thumb(
             thumbOffset = thumbOffset,
             thumbSize = sizes.thumbSize,
-            thumbColor = colors.thumb
+            thumbColor = colors.thumb,
         )
     }
 }
@@ -80,13 +79,14 @@ private fun Thumb(
     thumbColor: Color,
 ) {
     Box(
-        modifier = Modifier
-            .size(thumbSize)
-            .offset { IntOffset(x = thumbOffset.roundToPx(), y = 0) }
-            .background(
-                color = thumbColor,
-                shape = CircleShape
-            )
+        modifier =
+            Modifier
+                .size(thumbSize)
+                .offset { IntOffset(x = thumbOffset.roundToPx(), y = 0) }
+                .background(
+                    color = thumbColor,
+                    shape = CircleShape,
+                ),
     )
 }
 
@@ -97,12 +97,13 @@ fun DefaultPreview() {
 
     DPlayTheme {
         Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(DPlayTheme.colors.dplayWhite)
-                .padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
-        ){
+            modifier =
+                Modifier
+                    .fillMaxSize()
+                    .background(DPlayTheme.colors.dplayWhite)
+                    .padding(16.dp),
+            verticalArrangement = Arrangement.spacedBy(16.dp),
+        ) {
             DPlayToggle(
                 onClick = { isChecked = !isChecked },
                 isChecked = isChecked,

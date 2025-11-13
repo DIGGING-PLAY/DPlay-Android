@@ -19,39 +19,40 @@ import com.example.designsystem.theme.DPlayTheme
 @Composable
 fun DPlaySmallGrayButton(
     onClick: () -> Unit,
-    modifier : Modifier = Modifier,
-    label: String = ""
-){
+    modifier: Modifier = Modifier,
+    label: String = "",
+) {
     DPlayButtonSlot(
         modifier = modifier,
         onClick = onClick,
         paddingValues = PaddingValues(horizontal = 24.dp, vertical = 12.dp),
         containerColor = DPlayTheme.colors.gray600,
         borderColor = DPlayTheme.colors.gray600,
-        shape = RoundedCornerShape(8.dp)
+        shape = RoundedCornerShape(8.dp),
     ) {
         Text(
             text = label,
             style = DPlayTheme.typography.bodySemi14,
-            color = DPlayTheme.colors.dplayWhite
+            color = DPlayTheme.colors.dplayWhite,
         )
     }
 }
 
 @Preview(showBackground = true)
 @Composable
-fun DPlaySmallGrayButtonPreview(){
+fun DPlaySmallGrayButtonPreview() {
     DPlayTheme {
         Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(DPlayTheme.colors.dplayWhite)
-                .padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
+            modifier =
+                Modifier
+                    .fillMaxSize()
+                    .background(DPlayTheme.colors.dplayWhite)
+                    .padding(16.dp),
+            verticalArrangement = Arrangement.spacedBy(16.dp),
         ) {
             DPlaySmallGrayButton(
                 onClick = {},
-                label = stringResource(R.string.recommend_music_button_label)
+                label = stringResource(R.string.recommend_music_button_label),
             )
         }
     }
