@@ -1,4 +1,4 @@
-package com.example.designsystem.theme.component
+package com.example.designsystem.component
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -17,10 +17,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.dplay.designsystem.R
-import com.example.designsystem.theme.icon.DplayClickableIcon
-import com.example.designsystem.theme.theme.DPlayTheme
-import com.example.designsystem.theme.theme.defaultDPlayColors
-import com.example.designsystem.theme.util.roundedBackgroundWithPadding
+import com.example.designsystem.theme.DPlayTheme
+import com.example.designsystem.theme.defaultDPlayColors
+import com.example.designsystem.util.icon.DplayClickableIcon
+import com.example.designsystem.util.roundedBackgroundWithPadding
 
 @Composable
 fun DplayTooltip(
