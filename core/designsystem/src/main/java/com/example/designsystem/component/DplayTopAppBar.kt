@@ -16,6 +16,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.dplay.designsystem.R
 import com.example.designsystem.theme.DPlayTheme
+import com.example.designsystem.util.icon.DplayBaseIcon
+import com.example.designsystem.util.icon.DplayClickableIcon
+import com.example.designsystem.theme.DPlayTheme
 import com.example.designsystem.util.noRippleClickable
 
 @Composable
@@ -36,42 +39,43 @@ fun DplayTopAppBar(
                 Text(
                     text = it,
                     style = DPlayTheme.typography.titleBold18,
-                    color = DPlayTheme.colors.dplayBlack
+                    color = DPlayTheme.colors.dplayBlack,
                 )
             }
         },
         navigationIcon = {
             leftIconRes?.let {
-                if (onLeftClick != null)
+                if (onLeftClick != null) {
                     DplayClickableIcon(
                         modifier = iconPaddingModifier,
                         iconRes = it,
-                        onClick = onLeftClick
+                        onClick = onLeftClick,
                     )
-                else
+                } else {
                     DplayBaseIcon(modifier = iconPaddingModifier, iconRes = it)
+                }
             }
         },
         actions = {
             rightIconRes?.let {
-                if (onRightClick != null)
+                if (onRightClick != null) {
                     DplayClickableIcon(
                         modifier = iconPaddingModifier,
                         iconRes = it,
-                        onClick = onRightClick
+                        onClick = onRightClick,
                     )
-                else
+                } else {
                     DplayBaseIcon(modifier = iconPaddingModifier, iconRes = it)
+                }
             }
-        }
+        },
     )
 }
-
 
 @Composable
 fun DplayLogoTopAppBar(
     modifier: Modifier = Modifier,
-    onListClick: (() -> Unit)
+    onListClick: (() -> Unit),
 ) {
     val iconPaddingModifier = Modifier.padding(12.dp)
 
@@ -80,32 +84,30 @@ fun DplayLogoTopAppBar(
         navigationIcon = {
             DplayBaseIcon(
                 modifier = iconPaddingModifier.padding(start = 4.dp),
-                iconRes = R.drawable.ic_wordmark_pink
+                iconRes = R.drawable.ic_wordmark_pink,
             )
-
         },
         actions = {
             DplayClickableIcon(
                 modifier = iconPaddingModifier,
                 iconRes = R.drawable.ic_list_24,
-                onClick = onListClick
+                onClick = onListClick,
             )
         },
-        title = {}
+        title = {},
     )
 }
-
 
 @Composable
 fun DplayLeftIconTopAppBar(
     modifier: Modifier = Modifier,
     @DrawableRes leftIconRes: Int = R.drawable.ic_arrow_left_16,
-    onLeftClick: (() -> Unit)? = null
+    onLeftClick: (() -> Unit)? = null,
 ) {
     DplayTopAppBar(
         modifier = modifier,
         leftIconRes = leftIconRes,
-        onLeftClick = onLeftClick
+        onLeftClick = onLeftClick,
     )
 }
 
@@ -115,14 +117,14 @@ fun DplayDualIconTopAppBar(
     @DrawableRes leftIconRes: Int = R.drawable.ic_arrow_left_16,
     @DrawableRes rightIconRes: Int = R.drawable.ic_more_24,
     onLeftClick: (() -> Unit)? = null,
-    onRightClick: (() -> Unit)? = null
+    onRightClick: (() -> Unit)? = null,
 ) {
     DplayTopAppBar(
         modifier = modifier,
         leftIconRes = leftIconRes,
         rightIconRes = rightIconRes,
         onLeftClick = onLeftClick,
-        onRightClick = onRightClick
+        onRightClick = onRightClick,
     )
 }
 
@@ -131,13 +133,13 @@ fun DplayRightIconTitleTopAppBar(
     modifier: Modifier = Modifier,
     title: String = "",
     @DrawableRes rightIconRes: Int = R.drawable.ic_setting_24,
-    onRightClick: (() -> Unit)? = null
+    onRightClick: (() -> Unit)? = null,
 ) {
     DplayTopAppBar(
         modifier = modifier,
         title = title,
         rightIconRes = rightIconRes,
-        onRightClick = onRightClick
+        onRightClick = onRightClick,
     )
 }
 
@@ -146,13 +148,13 @@ fun DplayLeftIconTitleTopAppBar(
     modifier: Modifier = Modifier,
     title: String = "",
     @DrawableRes leftIconRes: Int = R.drawable.ic_arrow_left_16,
-    onLeftClick: (() -> Unit)? = null
+    onLeftClick: (() -> Unit)? = null,
 ) {
     DplayTopAppBar(
         modifier = modifier,
         title = title,
         leftIconRes = leftIconRes,
-        onLeftClick = onLeftClick
+        onLeftClick = onLeftClick,
     )
 }
 
@@ -163,7 +165,7 @@ fun DplayDualIconTitleTopAppBar(
     @DrawableRes leftIconRes: Int = R.drawable.ic_arrow_left_16,
     @DrawableRes rightIconRes: Int = R.drawable.ic_more_24,
     onLeftClick: (() -> Unit)? = null,
-    onRightClick: (() -> Unit)? = null
+    onRightClick: (() -> Unit)? = null,
 ) {
     DplayTopAppBar(
         modifier = modifier,
@@ -171,7 +173,7 @@ fun DplayDualIconTitleTopAppBar(
         leftIconRes = leftIconRes,
         rightIconRes = rightIconRes,
         onLeftClick = onLeftClick,
-        onRightClick = onRightClick
+        onRightClick = onRightClick,
     )
 }
 
@@ -182,11 +184,12 @@ fun DplayTitleButtonTopAppBar(
     @DrawableRes leftIconRes: Int = R.drawable.ic_arrow_left_16,
     @DrawableRes buttonIconRes: Int = R.drawable.ic_arrow_down,
     onLeftClick: (() -> Unit)? = null,
-    onButtonClick: (() -> Unit)? = null
+    onButtonClick: (() -> Unit)? = null,
 ) {
-    val clickableModifier = Modifier.then(
-        if (onButtonClick != null) Modifier.noRippleClickable(onClick = onButtonClick) else Modifier
-    )
+    val clickableModifier =
+        Modifier.then(
+            if (onButtonClick != null) Modifier.noRippleClickable(onClick = onButtonClick) else Modifier,
+        )
 
     CenterAlignedTopAppBar(
         modifier = modifier,
@@ -195,18 +198,19 @@ fun DplayTitleButtonTopAppBar(
                 Text(
                     text = title,
                     style = DPlayTheme.typography.titleBold18,
-                    color = DPlayTheme.colors.dplayBlack
+                    color = DPlayTheme.colors.dplayBlack,
                 )
                 Spacer(modifier = Modifier.width(4.dp))
                 DplayBaseIcon(iconRes = buttonIconRes)
             }
         },
         navigationIcon = {
-            if (onLeftClick != null)
+            if (onLeftClick != null) {
                 DplayClickableIcon(iconRes = leftIconRes, onClick = onLeftClick)
-            else
+            } else {
                 DplayBaseIcon(iconRes = leftIconRes)
-        }
+            }
+        },
     )
 }
 
