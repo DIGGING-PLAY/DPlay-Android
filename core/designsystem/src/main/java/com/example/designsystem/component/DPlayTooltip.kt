@@ -17,6 +17,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.dplay.designsystem.R
+import com.example.designsystem.component.button.DPlayUnderlineTextButton
 import com.example.designsystem.theme.DPlayTheme
 import com.example.designsystem.theme.defaultDPlayColors
 import com.example.designsystem.util.roundedBackgroundWithPadding
@@ -25,37 +26,38 @@ import com.example.designsystem.util.roundedBackgroundWithPadding
 fun DplayTooltip(
     onCloseButtonClicked: () -> Unit,
     onTextButtonClicked: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     Column(modifier = modifier) {
         Box(
-            modifier = Modifier
-                .padding(start = 54.dp)
-                .size(width = 16.dp, height = 10.dp)
-                .drawBehind {
-                    val width = 16.dp.toPx()
-                    val height = 10.dp.toPx()
-                    val center = size.width / 2f
+            modifier =
+                Modifier
+                    .padding(start = 54.dp)
+                    .size(width = 16.dp, height = 10.dp)
+                    .drawBehind {
+                        val width = 16.dp.toPx()
+                        val height = 10.dp.toPx()
+                        val center = size.width / 2f
 
-                    val path = Path().apply {
-                        moveTo(center - width / 2f, height)
-                        lineTo(center + width / 2f, height)
-                        lineTo(center, 0f)
-                        close()
-                    }
-                    drawPath(path, color = defaultDPlayColors.gray600)
-                }
+                        val path =
+                            Path().apply {
+                                moveTo(center - width / 2f, height)
+                                lineTo(center + width / 2f, height)
+                                lineTo(center, 0f)
+                                close()
+                            }
+                        drawPath(path, color = defaultDPlayColors.gray600)
+                    },
         )
 
-
         Column(
-            modifier = Modifier
-                .roundedBackgroundWithPadding(
-                    backgroundColor = DPlayTheme.colors.gray600,
-                    cornerRadius = 4.dp,
-                    padding = PaddingValues(vertical = 16.dp, horizontal = 12.dp)
-                )
-
+            modifier =
+                Modifier
+                    .roundedBackgroundWithPadding(
+                        backgroundColor = DPlayTheme.colors.gray600,
+                        cornerRadius = 4.dp,
+                        padding = PaddingValues(vertical = 16.dp, horizontal = 12.dp),
+                    ),
         ) {
             Row {
                 Text(
@@ -69,11 +71,9 @@ fun DplayTooltip(
                 )
             }
             Spacer(modifier = Modifier.height(16.dp))
-            // TODO: DplayUnderlineTextButton(onClick = onTextButtonClicked) 머지되면 변경
-            Text(
-                style = DPlayTheme.typography.bodyMed14,
-                color = DPlayTheme.colors.dplayWhite,
-                text = "더 알아보기"
+            DPlayUnderlineTextButton(
+                onClick = onTextButtonClicked,
+                text = "더 알아보기",
             )
         }
     }
@@ -85,7 +85,7 @@ private fun DplayTooltipPreview() {
     DPlayTheme {
         DplayTooltip(
             onCloseButtonClicked = {},
-            onTextButtonClicked = {}
+            onTextButtonClicked = {},
         )
     }
 }

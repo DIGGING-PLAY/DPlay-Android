@@ -42,4 +42,11 @@
     <string name="edit_profile_image_button_icon_description">프로필 사진 수정</string>
     <string name="navigate_to_search_button_icon_description">노래 검색으로 이동</string>
     <string name="close_modal_button_icon_description">모달창 닫기</string>
+
+    <!-- DPlayTooltip -->
+    <string name="tooltip_default_description">존중하는 말과 따뜻한 표현을 사용해주세요.\n욕설, 비방, 혐오 발언은 삼가해주세요.\n저작권 문제로 가사 전체 업로드는 불가해요.</string>
+
+
+    <string name="report_bottom_sheet_title">신고 사유를 선택해주세요</string>
+
 </resources>
