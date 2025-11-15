@@ -61,7 +61,7 @@ fun DplayTooltip(
                 Text(
                     style = DPlayTheme.typography.bodyMed14,
                     color = DPlayTheme.colors.dplayWhite,
-                    text = stringResource(R.string.tooltip_description),
+                    text = stringResource(R.string.tooltip_default_description),
                 )
                 DplayClickableIcon(
                     iconRes = R.drawable.ic_close_24,
