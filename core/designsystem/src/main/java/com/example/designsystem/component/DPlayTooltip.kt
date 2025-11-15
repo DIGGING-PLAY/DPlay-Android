@@ -52,7 +52,7 @@ fun DplayTooltip(
             modifier = Modifier
                 .roundedBackgroundWithPadding(
                     backgroundColor = DPlayTheme.colors.gray600,
-                    cornerRadius = 16.dp,
+                    cornerRadius = 4.dp,
                     padding = PaddingValues(vertical = 16.dp, horizontal = 12.dp)
                 )
 
