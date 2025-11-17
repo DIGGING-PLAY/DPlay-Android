@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- 칩 문자열 -->
+    <string name="chip_editor">EDITOR</string>
+    <string name="chip_new">NEW</string>
+    <string name="chip_best">BEST</string>
     <!-- 스낵바 문자열 -->
     <string name="add_success_snackbar_description">보관함에 추가했어요</string>
     <string name="add_success_snackbar_action_label">보러가기</string>
