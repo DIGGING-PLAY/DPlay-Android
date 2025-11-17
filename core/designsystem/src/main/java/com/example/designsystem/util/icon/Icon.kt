@@ -31,6 +31,7 @@ fun DplayClickableIcon(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
     enablePressedAnimation: Boolean = false,
+    tint: Color = Color.Unspecified,
 ) {
     val clickableModifier =
         if (enablePressedAnimation) {
@@ -41,5 +42,6 @@ fun DplayClickableIcon(
     DplayBaseIcon(
         iconRes = iconRes,
         modifier = clickableModifier,
+        tint = tint,
     )
 }
