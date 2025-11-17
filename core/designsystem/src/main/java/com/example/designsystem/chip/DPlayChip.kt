@@ -24,8 +24,8 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.designsystem.chip.type.DPlayChipType
+import com.example.designsystem.component.DplayBaseIcon
 import com.example.designsystem.theme.DPlayTheme
-import com.example.designsystem.util.icon.DplayBaseIcon
 
 @Composable
 fun DPlayChip(
