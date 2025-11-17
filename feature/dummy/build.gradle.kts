@@ -5,9 +5,9 @@ plugins {
 }
 
 android {
-    namespace = "com.dplay.main"
+    namespace = "com.dplay.dummy"
 }
 
 dependencies {
-    // 모든 feature들을 의존
+    implementation(projects.core.ui)
 }

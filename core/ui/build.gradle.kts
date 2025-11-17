@@ -3,5 +3,5 @@ plugins {
 }
 
 android {
-    namespace = "com.dplay.designsystem"
+    namespace = "com.dplay.ui"
 }

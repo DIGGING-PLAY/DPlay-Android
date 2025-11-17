@@ -3,4 +3,69 @@
     <!-- 스낵바 문자열 -->
     <string name="add_success_snackbar_description">보관함에 추가했어요</string>
     <string name="add_success_snackbar_action_label">보러가기</string>
+    <!-- 모달 문자열 -->
+    <string name="delete_modal_main_text">정말 삭제하시겠어요?</string>
+    <string name="delete_modal_cancel_button_label">취소</string>
+    <string name="delete_modal_delete_button_label">삭제하기</string>
+    <string name="logout_modal_main_text">로그아웃하시겠어요?</string>
+    <string name="logout_modal_cancel_button_label">취소</string>
+    <string name="logout_modal_logout_button_label">로그아웃</string>
+    <string name="withdraw_modal_main_text">정말 탈퇴하시겠어요?</string>
+    <string name="withdraw_modal_sub_text">작성하신 글, 좋아요한 글, 저장한 글 등\n 모든 기록이 삭제되며 복구가 불가능해요.</string>
+    <string name="withdraw_modal_withdraw_button_label">탈퇴하기</string>
+    <string name="withdraw_modal_cancel_button_label">머무르기</string>
+    <string name="recommend_prompt_modal_main_text">더 많은 추천을 만나고 싶나요?</string>
+    <string name="recommend_prompt_modal_sub_text">오늘의 추천곡을 작성하면 볼 수 있어요!</string>
+    <string name="recommend_prompt_modal_button_label">곡 추천하러가기</string>
+    <string name="graphic_modal_close_icon_description">모달창 닫기</string>
+    <!-- DPlayTextField -->
+    <string name="text_input_clear_description">텍스트 지우기</string>
+    <string name="text_field_character_counter">%d/%d</string>
+
+    <string name="nickname_error_not_enough_length">%d자 이상 입력해주세요</string>
+    <string name="nickname_error_invalid_format">특수문자, 띄어쓰기는 사용 불가능해요</string>
+    <string name="nickname_error_already_exists">이미 사용 중인 값입니다</string>
+    <string name="nickname_error_forbidden_word">비속어, 금칙어가 포함되어 있습니다</string>
+    <string name="nickname_success_message">사용 가능한 닉네임이에요</string>
+
+    <string name="placeholder_nickname">닉네임을 입력해주세요</string>
+    <string name="placeholder_music_search">노래 제목이나 아티스트명을 검색해주세요</string>
+    <string name="placeholder_comment">노래에 대한 이야기를 자유롭게 작성해주세요</string>
+
+    <!-- 버튼 관련 문자열(label) -->
+    <string name="streaming_button_label">재생하기</string>
+    <string name="guideline_button_label">커뮤니티 가이드</string>
+    <string name="recommend_music_button_label">곡 추천하러가기</string>
+    <string name="next_button_label">다음으로</string>
+    <string name="enroll_button_label">가입하기</string>
+    <string name="start_button_label">시작하기</string>
+    <string name="confirm_button_label">확인</string>
+    <string name="modify_button_label">수정하기</string>
+    <string name="report_button_label">신고하기</string>
+    <string name="apply_button_label">적용하기</string>
+    <string name="kakao_login_button_label">카카오로 계속하기</string>
+
+    <!-- 버튼 관련 문자열(description) -->
+    <string name="bookmark_button_filled_bookmark_icon_description">북마크됨</string>
+    <string name="bookmark_button_unfilled_bookmark_icon_description">북마크 안됨</string>
+    <string name="streaming_button_icon_description">음악 재생</string>
+    <string name="like_button_filled_heart_description">좋아요 눌러짐</string>
+    <string name="like_button_unfilled_heart_description">좋아요 안눌림</string>
+    <string name="guideline_button_icon_description">가이드 열기</string>
+    <string name="circle_close_button_icon_default_description">닫기</string>
+    <string name="circle_edit_button_icon_default_description">수정</string>
+    <string name="circle_plus_button_icon_default_description">추가</string>
+    <string name="add_profile_image_button_icon_description">프로필 사진 추가</string>
+    <string name="clear_text_button_icon_description">텍스트 지우기</string>
+    <string name="edit_profile_image_button_icon_description">프로필 사진 수정</string>
+    <string name="navigate_to_search_button_icon_description">노래 검색으로 이동</string>
+    <string name="close_modal_button_icon_description">모달창 닫기</string>
+
+    <!-- DPlayTooltip -->
+    <string name="tooltip_default_description">존중하는 말과 따뜻한 표현을 사용해주세요.\n욕설, 비방, 혐오 발언은 삼가해주세요.\n저작권 문제로 가사 전체 업로드는 불가해요.</string>
+
+
+    <string name="report_bottom_sheet_title">신고 사유를 선택해주세요</string>
+    <string name="tooltip_learn_more">더 알아보기</string>
+
 </resources>
