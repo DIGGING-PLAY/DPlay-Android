@@ -73,7 +73,7 @@ fun DplayTooltip(
             Spacer(modifier = Modifier.height(16.dp))
             DPlayUnderlineTextButton(
                 onClick = onTextButtonClicked,
-                text = "더 알아보기",
+                text = stringResource(R.string.tooltip_learn_more),
             )
         }
     }

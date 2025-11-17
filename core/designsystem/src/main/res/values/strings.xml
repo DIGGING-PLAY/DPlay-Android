@@ -48,5 +48,6 @@
 
 
     <string name="report_bottom_sheet_title">신고 사유를 선택해주세요</string>
+    <string name="tooltip_learn_more">더 알아보기</string>
 
 </resources>
