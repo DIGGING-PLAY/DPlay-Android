@@ -1,5 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- 모달 문자열 -->
+    <string name="delete_modal_main_text">정말 삭제하시겠어요?</string>
+    <string name="delete_modal_cancel_button_label">취소</string>
+    <string name="delete_modal_delete_button_label">삭제하기</string>
+    <string name="logout_modal_main_text">로그아웃하시겠어요?</string>
+    <string name="logout_modal_cancel_button_label">취소</string>
+    <string name="logout_modal_logout_button_label">로그아웃</string>
+    <string name="withdraw_modal_main_text">정말 탈퇴하시겠어요?</string>
+    <string name="withdraw_modal_sub_text">작성하신 글, 좋아요한 글, 저장한 글 등\n 모든 기록이 삭제되며 복구가 불가능해요.</string>
+    <string name="withdraw_modal_withdraw_button_label">탈퇴하기</string>
+    <string name="withdraw_modal_cancel_button_label">머무르기</string>
+    <string name="recommend_prompt_modal_main_text">더 많은 추천을 만나고 싶나요?</string>
+    <string name="recommend_prompt_modal_sub_text">오늘의 추천곡을 작성하면 볼 수 있어요!</string>
+    <string name="recommend_prompt_modal_button_label">곡 추천하러가기</string>
+    <string name="graphic_modal_close_icon_description">모달창 닫기</string>
     <!-- DPlayTextField -->
     <string name="text_input_clear_description">텍스트 지우기</string>
     <string name="text_field_character_counter">%d/%d</string>
