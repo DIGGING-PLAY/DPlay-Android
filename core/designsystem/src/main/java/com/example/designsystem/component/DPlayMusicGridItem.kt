@@ -3,8 +3,11 @@ package com.example.designsystem.component
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
@@ -37,7 +40,8 @@ fun DPlayMusicGridItem(
         Box(
             modifier =
                 Modifier
-                    .size(106.dp)
+                    .fillMaxWidth()
+                    .aspectRatio(1f)
                     .clip(CircleShape)
                     .border(
                         width = 2.dp,
@@ -82,10 +86,25 @@ fun DPlayMusicGridItem(
 @Composable
 private fun DPlayMusicGridItemPreview() {
     DPlayTheme {
-        DPlayMusicGridItem(
-            musicImageUrl = "",
-            musicName = "Title",
-            musicArtistName = "artist",
-        )
+        Row(modifier = Modifier.fillMaxWidth()) {
+            DPlayMusicGridItem(
+                musicImageUrl = "",
+                musicName = "Title",
+                musicArtistName = "artist",
+                modifier = Modifier.weight(1f),
+            )
+            DPlayMusicGridItem(
+                musicImageUrl = "",
+                musicName = "Title",
+                musicArtistName = "artist",
+                modifier = Modifier.weight(1f),
+            )
+            DPlayMusicGridItem(
+                musicImageUrl = "",
+                musicName = "Title",
+                musicArtistName = "artist",
+                modifier = Modifier.weight(1f),
+            )
+        }
     }
 }
