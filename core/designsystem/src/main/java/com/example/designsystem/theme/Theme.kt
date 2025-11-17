@@ -25,22 +25,22 @@ object DPlayTheme {
 fun ProvideDPlayColorsAndTypography(
     colors: DPlayColors,
     typography: DPlayTypography,
-    content: @Composable () -> Unit
+    content: @Composable () -> Unit,
 ) {
     CompositionLocalProvider(
         LocalDPlayColors provides colors,
         LocalDPlayTypography provides typography,
-        content = content
+        content = content,
     )
 }
 
 @Composable
 fun DPlayTheme(
-    content: @Composable () -> Unit
+    content: @Composable () -> Unit,
 ) {
     ProvideDPlayColorsAndTypography(
         colors = defaultDPlayColors,
-        typography = defaultDPlayTypography
+        typography = defaultDPlayTypography,
     ) {
         val view = LocalView.current
         if (!view.isInEditMode) {
@@ -52,7 +52,7 @@ fun DPlayTheme(
         }
 
         MaterialTheme(
-            content = content
+            content = content,
         )
     }
 }

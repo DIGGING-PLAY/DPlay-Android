@@ -1,4 +1,4 @@
-package com.example.designsystem.util.icon
+package com.example.designsystem.component
 
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.clickable
@@ -15,13 +15,13 @@ fun DplayBaseIcon(
     @DrawableRes iconRes: Int,
     modifier: Modifier = Modifier,
     contentDescription: String? = null,
-    tint: Color = Color.Unspecified
+    tint: Color = Color.Unspecified,
 ) {
     Icon(
         modifier = modifier,
         imageVector = ImageVector.vectorResource(iconRes),
         contentDescription = contentDescription,
-        tint = tint
+        tint = tint,
     )
 }
 
@@ -30,15 +30,16 @@ fun DplayClickableIcon(
     @DrawableRes iconRes: Int,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
-    enablePressedAnimation:Boolean = false
+    enablePressedAnimation: Boolean = false,
 ) {
-    val clickableModifier = if (enablePressedAnimation) {
-        modifier.clickable(onClick = onClick)
-    } else {
-        modifier.noRippleClickable(onClick = onClick)
-    }
+    val clickableModifier =
+        if (enablePressedAnimation) {
+            modifier.clickable(onClick = onClick)
+        } else {
+            modifier.noRippleClickable(onClick = onClick)
+        }
     DplayBaseIcon(
         iconRes = iconRes,
-        modifier = clickableModifier
+        modifier = clickableModifier,
     )
 }

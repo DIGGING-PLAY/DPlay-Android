@@ -23,17 +23,17 @@ sealed class InputState {
 @Immutable
 sealed class NicknameInputState : InputState() {
     sealed class Error : InputState.Error() {
-        data object NotEnoughLength : Error(){
+        data object NotEnoughLength : Error() {
             @Composable
-            override fun getMessage(): String = stringResource(R.string.nickname_error_not_enough_length,TextFieldConstant.MIN_NICKNAME_LENGTH)
+            override fun getMessage(): String = stringResource(R.string.nickname_error_not_enough_length, TextFieldConstant.MIN_NICKNAME_LENGTH)
         }
 
-        data object InvalidFormat: Error() {
+        data object InvalidFormat : Error() {
             @Composable
             override fun getMessage(): String = stringResource(R.string.nickname_error_invalid_format)
         }
 
-        data object AlreadyExists: Error() {
+        data object AlreadyExists : Error() {
             @Composable
             override fun getMessage(): String = stringResource(R.string.nickname_error_already_exists)
         }
