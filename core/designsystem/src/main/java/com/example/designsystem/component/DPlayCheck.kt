@@ -26,25 +26,25 @@ fun DPlayCheck(
     text: String,
     isChecked: Boolean,
     onClick: () -> Unit,
-    modifier: Modifier = Modifier
-){
+    modifier: Modifier = Modifier,
+) {
     val backgroundColor = if (isChecked) DPlayTheme.colors.gray100 else Color.Transparent
 
     Row(
-        modifier = modifier
-            .background(color = backgroundColor)
-            .noRippleClickable(
-                onClick = onClick
-            )
-            .padding(
-                horizontal = 16.dp,
-                vertical = 12.dp
-            ),
-        verticalAlignment = Alignment.CenterVertically
-    ){
+        modifier =
+            modifier
+                .background(color = backgroundColor)
+                .noRippleClickable(
+                    onClick = onClick,
+                ).padding(
+                    horizontal = 16.dp,
+                    vertical = 12.dp,
+                ),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
         if (isChecked) {
             DplayBaseIcon(
-                iconRes = R.drawable.ic_check_circle_20
+                iconRes = R.drawable.ic_check_circle_20,
             )
         }
 
@@ -53,55 +53,56 @@ fun DPlayCheck(
         Text(
             text = text,
             style = DPlayTheme.typography.bodySemi14,
-            color = DPlayTheme.colors.gray500
+            color = DPlayTheme.colors.gray500,
         )
     }
 }
 
 @Composable
 @Preview(showBackground = true)
-fun DPlayCheckPreview(){
+fun DPlayCheckPreview() {
     DPlayTheme {
         Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(color = Color.White)
-                .padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
-        ){
+            modifier =
+                Modifier
+                    .fillMaxSize()
+                    .background(color = Color.White)
+                    .padding(16.dp),
+            verticalArrangement = Arrangement.spacedBy(16.dp),
+        ) {
             DPlayCheck(
                 text = stringResource(id = R.string.reason_inappropriate_content),
                 isChecked = true,
                 onClick = {},
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
             )
 
             DPlayCheck(
                 text = stringResource(id = R.string.reason_inappropriate_content),
                 isChecked = false,
                 onClick = {},
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
             )
 
             DPlayCheck(
                 text = stringResource(id = R.string.reason_offensive_expression),
                 isChecked = false,
                 onClick = {},
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
             )
 
             DPlayCheck(
                 text = stringResource(id = R.string.reason_suspicious_or_spam),
                 isChecked = false,
                 onClick = {},
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
             )
 
             DPlayCheck(
                 text = stringResource(id = R.string.reason_copyright_violation),
                 isChecked = false,
                 onClick = {},
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
             )
         }
     }

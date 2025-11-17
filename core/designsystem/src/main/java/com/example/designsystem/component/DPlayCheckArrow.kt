@@ -26,17 +26,18 @@ fun DPlayCheckArrow(
     isChecked: Boolean,
     onCheckBoxClick: () -> Unit,
     onArrowClick: () -> Unit,
-    modifier: Modifier = Modifier
-){
+    modifier: Modifier = Modifier,
+) {
     val checkBoxIconRes = if (isChecked) R.drawable.ic_check_circle_pink_24 else R.drawable.ic_check_circle_lightgray_24
 
     Row(
-        modifier = modifier
-            .padding(
-                horizontal = 12.dp,
-                vertical = 16.dp
-            ),
-        verticalAlignment = Alignment.CenterVertically
+        modifier =
+            modifier
+                .padding(
+                    horizontal = 12.dp,
+                    vertical = 16.dp,
+                ),
+        verticalAlignment = Alignment.CenterVertically,
     ) {
         DplayClickableIcon(
             iconRes = checkBoxIconRes,
@@ -48,7 +49,7 @@ fun DPlayCheckArrow(
         Text(
             text = text,
             style = DPlayTheme.typography.bodySemi16,
-            color = DPlayTheme.colors.dplayBlack
+            color = DPlayTheme.colors.dplayBlack,
         )
 
         Spacer(modifier = Modifier.weight(1f))
@@ -62,21 +63,22 @@ fun DPlayCheckArrow(
 
 @Composable
 @Preview(showBackground = true)
-fun DPlayCheckArrowPreview(){
+fun DPlayCheckArrowPreview() {
     DPlayTheme {
         Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(Color.White)
-                .padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
-        ){
+            modifier =
+                Modifier
+                    .fillMaxSize()
+                    .background(Color.White)
+                    .padding(16.dp),
+            verticalArrangement = Arrangement.spacedBy(16.dp),
+        ) {
             DPlayCheckArrow(
                 text = stringResource(id = R.string.terms_service_required),
                 isChecked = true,
                 onArrowClick = {},
                 onCheckBoxClick = {},
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
             )
 
             DPlayCheckArrow(
@@ -84,7 +86,7 @@ fun DPlayCheckArrowPreview(){
                 isChecked = false,
                 onArrowClick = {},
                 onCheckBoxClick = {},
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
             )
         }
     }
