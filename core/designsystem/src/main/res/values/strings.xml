@@ -83,4 +83,7 @@
     <string name="reason_suspicious_or_spam">의심스럽거나 스팸이에요.</string>
     <string name="reason_copyright_violation">저작권을 침해하고 있어요.</string>
 
+    <!-- DPlay Image Check -->
+    <string name="image_check_image_description">%1$s 앨범 커버</string>
+
 </resources>
