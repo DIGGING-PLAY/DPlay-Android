@@ -15,16 +15,16 @@ fun ModalButton(
     backgroundColor: Color,
     modifier: Modifier = Modifier,
     onClick: () -> Unit = {},
-    content: @Composable () -> Unit = {}
+    content: @Composable () -> Unit = {},
 ) {
     Box(
-        modifier = modifier
-            .background(
-                color = backgroundColor,
-            )
-            .noRippleClickable(onClick = onClick)
-            .padding(vertical = 16.dp),
-        contentAlignment = Alignment.Center
+        modifier =
+            modifier
+                .background(
+                    color = backgroundColor,
+                ).noRippleClickable(onClick = onClick)
+                .padding(vertical = 16.dp),
+        contentAlignment = Alignment.Center,
     ) {
         content()
     }

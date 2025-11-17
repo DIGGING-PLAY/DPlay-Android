@@ -24,9 +24,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.dplay.designsystem.R
+import com.example.designsystem.component.DplayBaseIcon
 import com.example.designsystem.component.button.ModalButton
 import com.example.designsystem.theme.DPlayTheme
-import com.example.designsystem.util.icon.DplayBaseIcon
 import com.example.designsystem.util.noRippleClickable
 
 @Composable
@@ -37,34 +37,34 @@ fun GraphicModal(
     onButtonClick: () -> Unit,
     modifier: Modifier = Modifier,
     subText: String? = null,
-){
+) {
     Box(
-        modifier = modifier
-            .clip(
-                shape = RoundedCornerShape(16.dp)
-            )
-            .background(
-                color = DPlayTheme.colors.dplayWhite,
-            )
-    ){
+        modifier =
+            modifier
+                .clip(
+                    shape = RoundedCornerShape(16.dp),
+                ).background(
+                    color = DPlayTheme.colors.dplayWhite,
+                ),
+    ) {
         Column(
-            horizontalAlignment = Alignment.CenterHorizontally
-        ){
+            horizontalAlignment = Alignment.CenterHorizontally,
+        ) {
             ModalContent(
                 mainText = mainText,
                 subText = subText,
-                onCloseIconClick = onCloseIconClick
+                onCloseIconClick = onCloseIconClick,
             )
 
             ModalButton(
                 modifier = Modifier.fillMaxWidth(),
                 backgroundColor = DPlayTheme.colors.gray600,
-                onClick = onButtonClick
-            ){
+                onClick = onButtonClick,
+            ) {
                 Text(
                     text = buttonLabel,
                     style = DPlayTheme.typography.bodySemi14,
-                    color = DPlayTheme.colors.dplayWhite
+                    color = DPlayTheme.colors.dplayWhite,
                 )
             }
         }
@@ -78,15 +78,16 @@ private fun ModalContent(
     onCloseIconClick: () -> Unit,
 ) {
     Column(
-        modifier = Modifier
-            .padding(horizontal = 12.dp)
-            .padding(top = 16.dp, bottom = 20.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
+        modifier =
+            Modifier
+                .padding(horizontal = 12.dp)
+                .padding(top = 16.dp, bottom = 20.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Row(
             modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween
-        ){
+            horizontalArrangement = Arrangement.SpaceBetween,
+        ) {
             Spacer(modifier = Modifier.size(32.dp))
 
             Image(
@@ -95,11 +96,12 @@ private fun ModalContent(
             )
 
             Box(
-                modifier = Modifier
-                    .size(32.dp)
-                    .noRippleClickable(onClick = onCloseIconClick),
+                modifier =
+                    Modifier
+                        .size(32.dp)
+                        .noRippleClickable(onClick = onCloseIconClick),
                 contentAlignment = Alignment.Center,
-            ){
+            ) {
                 DplayBaseIcon(
                     iconRes = R.drawable.ic_close_24,
                     contentDescription = stringResource(R.string.graphic_modal_close_icon_description),
@@ -114,7 +116,7 @@ private fun ModalContent(
             text = mainText,
             style = DPlayTheme.typography.bodyBold16,
             color = DPlayTheme.colors.dplayBlack,
-            textAlign = TextAlign.Center
+            textAlign = TextAlign.Center,
         )
 
         if (subText != null) {
@@ -124,7 +126,7 @@ private fun ModalContent(
                 text = subText,
                 style = DPlayTheme.typography.bodyMed14,
                 color = DPlayTheme.colors.gray400,
-                textAlign = TextAlign.Center
+                textAlign = TextAlign.Center,
             )
         }
     }
@@ -135,12 +137,12 @@ private fun ModalContent(
 fun GraphicModalPreview() {
     DPlayTheme {
         Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(
-                    color = DPlayTheme.colors.dplayBlack
-                )
-                .padding(horizontal = 40.dp),
+            modifier =
+                Modifier
+                    .fillMaxSize()
+                    .background(
+                        color = DPlayTheme.colors.dplayBlack,
+                    ).padding(horizontal = 40.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp),
         ) {
             GraphicModal(
@@ -148,7 +150,7 @@ fun GraphicModalPreview() {
                 subText = stringResource(R.string.recommend_prompt_modal_sub_text),
                 buttonLabel = stringResource(R.string.recommend_prompt_modal_button_label),
                 onCloseIconClick = {},
-                onButtonClick = {}
+                onButtonClick = {},
             )
         }
     }
