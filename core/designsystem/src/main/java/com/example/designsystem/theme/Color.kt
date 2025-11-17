@@ -24,7 +24,6 @@ val Alert_red = Color(0xFFFC4649)
 val Info_blue = Color(0xFF2C8BFF)
 val Kakao_yellow = Color(0xFFFEE500)
 
-
 // Transparent
 val Dplay_pink_trans = Color(0xCCFF8FBA)
 val Dim_40 = Color(0x6614181B)
@@ -35,7 +34,6 @@ data class DPlayColors(
     val dplayPink: Color,
     val dplayPink300: Color,
     val dplayPink100: Color,
-
     val dplayWhite: Color,
     val gray100: Color,
     val gray200: Color,
@@ -44,39 +42,33 @@ data class DPlayColors(
     val gray500: Color,
     val gray600: Color,
     val dplayBlack: Color,
-
     val alertRed: Color,
     val infoBlue: Color,
     val kakaoYellow: Color,
-
-
     val dplayPinkTrans: Color,
     val dim40: Color,
-    val dim80: Color
+    val dim80: Color,
 )
 
-val defaultDPlayColors = DPlayColors(
-    dplayPink = Dplay_pink,
-    dplayPink300 = Dplay_pink300,
-    dplayPink100 = Dplay_pink100,
-
-    dplayWhite = Dplay_white,
-    gray100 = Gray100,
-    gray200 = Gray200,
-    gray300 = Gray300,
-    gray400 = Gray400,
-    gray500 = Gray500,
-    gray600 = Gray600,
-    dplayBlack = Dplay_black,
-
-    alertRed = Alert_red,
-    infoBlue = Info_blue,
-    kakaoYellow = Kakao_yellow,
-
-
-    dplayPinkTrans = Dplay_pink_trans,
-    dim40 = Dim_40,
-    dim80 = Dim_80
-)
+val defaultDPlayColors =
+    DPlayColors(
+        dplayPink = Dplay_pink,
+        dplayPink300 = Dplay_pink300,
+        dplayPink100 = Dplay_pink100,
+        dplayWhite = Dplay_white,
+        gray100 = Gray100,
+        gray200 = Gray200,
+        gray300 = Gray300,
+        gray400 = Gray400,
+        gray500 = Gray500,
+        gray600 = Gray600,
+        dplayBlack = Dplay_black,
+        alertRed = Alert_red,
+        infoBlue = Info_blue,
+        kakaoYellow = Kakao_yellow,
+        dplayPinkTrans = Dplay_pink_trans,
+        dim40 = Dim_40,
+        dim80 = Dim_80,
+    )
 
 val LocalDPlayColors = staticCompositionLocalOf { defaultDPlayColors }
