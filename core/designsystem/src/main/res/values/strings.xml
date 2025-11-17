@@ -84,6 +84,6 @@
     <string name="reason_copyright_violation">저작권을 침해하고 있어요.</string>
 
     <!-- DPlay Image Check -->
-    <string name="image_check_image_description">%1$s 앨범 커버</string>
+    <string name="image_check_image_description">%s 앨범 커버</string>
 
 </resources>
