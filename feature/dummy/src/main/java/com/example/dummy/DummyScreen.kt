@@ -22,7 +22,7 @@ import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun DummyScreen(
-    viewModel: DummyViewModel = hiltViewModel()
+    viewModel: DummyViewModel = hiltViewModel(),
 ) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
     val snackbarHostState = remember { SnackbarHostState() }
@@ -46,7 +46,7 @@ fun DummyScreen(
         state = state,
         onNumberButtonClick = {
             viewModel.handleIntent(DummyContract.DummyIntent.OnClickNumberButton(it))
-        }
+        },
     )
 }
 
@@ -54,27 +54,28 @@ fun DummyScreen(
 private fun DummyScreen(
     snackbarHostState: SnackbarHostState,
     state: DummyContract.DummyState,
-    onNumberButtonClick: (Int) -> Unit
+    onNumberButtonClick: (Int) -> Unit,
 ) {
     Scaffold(
-        snackbarHost = { SnackbarHost(snackbarHostState) }
+        snackbarHost = { SnackbarHost(snackbarHostState) },
     ) { padding ->
         Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(padding),
+            modifier =
+                Modifier
+                    .fillMaxSize()
+                    .padding(padding),
             verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
+            horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Text(text = "Count: ${state.count}")
             Button(
-                onClick = { onNumberButtonClick(1) }
+                onClick = { onNumberButtonClick(1) },
             ) {
                 Text(text = "1")
             }
 
             Button(
-                onClick = { onNumberButtonClick(2) }
+                onClick = { onNumberButtonClick(2) },
             ) {
                 Text(text = "2")
             }
@@ -86,6 +87,6 @@ private fun DummyScreen(
 @Composable
 private fun DummyScreenPreview() {
     DummyScreen(
-        viewModel = DummyViewModel()
+        viewModel = DummyViewModel(),
     )
 }

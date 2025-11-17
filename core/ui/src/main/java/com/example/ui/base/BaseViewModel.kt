@@ -12,7 +12,6 @@ import kotlinx.coroutines.launch
 abstract class BaseViewModel<STATE : BaseContract.State, INTENT : BaseContract.Intent, SIDE_EFFECT : BaseContract.SideEffect>(
     initialState: STATE,
 ) : ViewModel() {
-
     private val _uiState = MutableStateFlow(initialState)
     val uiState = _uiState.asStateFlow()
 

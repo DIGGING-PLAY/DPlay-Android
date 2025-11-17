@@ -11,10 +11,14 @@ class DummyContract {
     sealed interface DummyIntent : BaseContract.Intent {
         data object Initialize : DummyIntent
 
-        data class OnClickNumberButton(val number: Int) : DummyIntent
+        data class OnClickNumberButton(
+            val number: Int,
+        ) : DummyIntent
     }
 
     sealed interface DummySideEffect : BaseContract.SideEffect {
-        data class ShowSnackBar(val message: String) : DummySideEffect
+        data class ShowSnackBar(
+            val message: String,
+        ) : DummySideEffect
     }
 }
