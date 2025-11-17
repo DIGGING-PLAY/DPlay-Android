@@ -53,9 +53,10 @@ fun DPlayImageCheck(
         AsyncImage(
             model = imageUrl,
             contentDescription = stringResource(R.string.image_check_image_description, musicName),
-            modifier = Modifier
-                .size(52.dp)
-                .clip(RoundedCornerShape(16.dp)),
+            modifier =
+                Modifier
+                    .size(52.dp)
+                    .clip(RoundedCornerShape(16.dp)),
             contentScale = ContentScale.FillBounds,
         )
 
