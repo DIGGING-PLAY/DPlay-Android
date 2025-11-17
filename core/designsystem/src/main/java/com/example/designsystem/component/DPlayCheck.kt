@@ -46,9 +46,9 @@ fun DPlayCheck(
             DplayBaseIcon(
                 iconRes = R.drawable.ic_check_circle_20,
             )
-        }
 
-        Spacer(modifier = Modifier.width(10.dp))
+            Spacer(modifier = Modifier.width(10.dp))
+        }
 
         Text(
             text = text,
