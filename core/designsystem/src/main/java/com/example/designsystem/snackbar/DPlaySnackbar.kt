@@ -2,7 +2,6 @@ package com.example.designsystem.snackbar
 
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -31,25 +30,23 @@ fun DPlaySnackbar(
     @DrawableRes iconRes: Int,
     description: String,
     modifier: Modifier = Modifier,
-    content: (@Composable () -> Unit)? = null
-){
+    content: (@Composable () -> Unit)? = null,
+) {
     Row(
-        modifier = modifier
-            .fillMaxWidth()
-            .clip(
-                shape = RoundedCornerShape(8.dp)
-            )
-            .background(
-                color = DPlayTheme.colors.gray500,
-            )
-            .padding(horizontal = 12.dp, vertical = 16.dp)
-        ,
-        verticalAlignment = Alignment.CenterVertically
-    ){
+        modifier =
+            modifier
+                .fillMaxWidth()
+                .clip(
+                    shape = RoundedCornerShape(8.dp),
+                ).background(
+                    color = DPlayTheme.colors.gray500,
+                ).padding(horizontal = 12.dp, vertical = 16.dp),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
         Icon(
             imageVector = ImageVector.vectorResource(iconRes),
             contentDescription = null,
-            tint = Color.Unspecified
+            tint = Color.Unspecified,
         )
 
         Spacer(modifier = Modifier.width(12.dp))
@@ -57,7 +54,7 @@ fun DPlaySnackbar(
         Text(
             text = description,
             color = DPlayTheme.colors.dplayWhite,
-            style = DPlayTheme.typography.bodyMed14
+            style = DPlayTheme.typography.bodyMed14,
         )
 
         Spacer(modifier = Modifier.weight(1f))
@@ -68,21 +65,22 @@ fun DPlaySnackbar(
 
 @Preview(showBackground = true)
 @Composable
-fun DPlaySnackbarPreview(){
+fun DPlaySnackbarPreview() {
     DPlayTheme {
         Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(16.dp)
+            modifier =
+                Modifier
+                    .fillMaxSize()
+                    .padding(16.dp),
         ) {
             DPlaySnackbar(
                 iconRes = R.drawable.ic_check_circle_pink_24,
-                description = stringResource(R.string.add_success_snackbar_description)
+                description = stringResource(R.string.add_success_snackbar_description),
             ) {
                 Text(
                     text = stringResource(R.string.add_success_snackbar_action_label),
                     color = DPlayTheme.colors.dplayPink,
-                    style = DPlayTheme.typography.bodyBold14
+                    style = DPlayTheme.typography.bodyBold14,
                 )
             }
         }
