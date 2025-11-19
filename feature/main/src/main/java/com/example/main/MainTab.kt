@@ -14,23 +14,20 @@ enum class MainTab(
     HOME(
         route = Route.Home,
         selectedIconRes = R.drawable.ic_home_active_32,
-        unselectedIconRes = R.drawable.ic_home_disabled_32
+        unselectedIconRes = R.drawable.ic_home_disabled_32,
     ),
     MY_PAGE(
         route = Route.MyPage,
         selectedIconRes = R.drawable.ic_bookmark_active_32,
-        unselectedIconRes = R.drawable.ic_bookmark_disabled_32
-    );
+        unselectedIconRes = R.drawable.ic_bookmark_disabled_32,
+    ),
+    ;
 
     companion object {
         @Composable
-        fun contains(predicate: @Composable (Route) -> Boolean): Boolean {
-            return entries.map { it.route }.any { predicate(it) }
-        }
+        fun contains(predicate: @Composable (Route) -> Boolean): Boolean = entries.map { it.route }.any { predicate(it) }
 
         @Composable
-        fun find(predicate: @Composable (Route) -> Boolean): MainTab? {
-            return entries.find { predicate(it.route) }
-        }
+        fun find(predicate: @Composable (Route) -> Boolean): MainTab? = entries.find { predicate(it.route) }
     }
 }

@@ -7,6 +7,6 @@ android {
     namespace = "com.dplay.navigation"
 }
 
-dependencies{
+dependencies {
     implementation(libs.kotlinx.serialization.json)
 }

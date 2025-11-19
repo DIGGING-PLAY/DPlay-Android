@@ -8,11 +8,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 
 @Composable
-fun MyPageScreen(){
+fun MyPageScreen() {
     Column(
         modifier = Modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.Bottom
-    ){
+        verticalArrangement = Arrangement.Bottom,
+    ) {
         Text("MyPage Screen")
     }
 }

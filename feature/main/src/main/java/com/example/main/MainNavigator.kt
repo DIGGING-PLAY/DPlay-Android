@@ -1,6 +1,5 @@
 package com.example.main
 
-import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.navigation.NavDestination
@@ -16,7 +15,7 @@ import com.example.recommend.navigateToRecommend
 import timber.log.Timber
 
 class MainNavigator(
-    val navController: NavHostController
+    val navController: NavHostController,
 ) {
     private val currentDestination: NavDestination?
         @Composable get() = navController.currentBackStackEntryAsState().value?.destination
@@ -32,24 +31,26 @@ class MainNavigator(
     @Composable
     fun shouldShowBottomBar(): Boolean {
         val destination = currentDestination
-        val shouldShow = MainTab.contains {
-            Timber.d("MainNavigator", "currentDestinationInLambda: $currentDestination")
-            Timber.d("MainNavigator", "localValue: $destination")
-            destination?.hasRoute(it::class) == true
-        }
+        val shouldShow =
+            MainTab.contains {
+                Timber.d("MainNavigator", "currentDestinationInLambda: $currentDestination")
+                Timber.d("MainNavigator", "localValue: $destination")
+                destination?.hasRoute(it::class) == true
+            }
         Timber.d("MainNavigator", "currentDestination: ${destination?.route}, shouldShow: $shouldShow")
         return shouldShow
     }
 
     fun navigateBottomNavigation(tab: MainTab) {
         Timber.d("MainNavigator", "Navigating to ${tab.name}")
-        val navOptions = navOptions {
-            popUpTo(navController.graph.findStartDestination().id) {
-                saveState = true
+        val navOptions =
+            navOptions {
+                popUpTo(navController.graph.findStartDestination().id) {
+                    saveState = true
+                }
+                launchSingleTop = true
+                restoreState = true
             }
-            launchSingleTop = true
-            restoreState = true
-        }
 
         when (tab) {
             MainTab.HOME -> navController.navigateToHome(navOptions)
@@ -57,18 +58,20 @@ class MainNavigator(
         }
     }
 
-    fun navigateRecommend(){
+    fun navigateRecommend() {
         navController.navigateToRecommend(
-            navOptions = navOptions {
-                launchSingleTop = true
-            }
+            navOptions =
+                navOptions {
+                    launchSingleTop = true
+                },
         )
     }
 }
 
 @Composable
 fun rememberMainNavigator(
-    navController: NavHostController = rememberNavController()
-): MainNavigator = remember(navController) {
-    MainNavigator(navController)
-}
+    navController: NavHostController = rememberNavController(),
+): MainNavigator =
+    remember(navController) {
+        MainNavigator(navController)
+    }

@@ -34,29 +34,29 @@ fun BottomNavigationBar(
     onBottomNavigationItemClick: (MainTab) -> Unit,
     onPlusButtonClick: () -> Unit = {},
     modifier: Modifier = Modifier,
-){
-    if(isVisible) {
+) {
+    if (isVisible) {
         Box(
-            modifier = modifier.fillMaxWidth()
+            modifier = modifier.fillMaxWidth(),
         ) {
             Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .clip(RoundedCornerShape(topStart = 20.dp, topEnd = 20.dp))
-                    .background(color = DPlayTheme.colors.dplayWhite)
-                    .border(
-                        width = 1.dp,
-                        color = DPlayTheme.colors.gray200,
-                        shape = RoundedCornerShape(topStart = 20.dp, topEnd = 20.dp)
-                    )
-                    .padding(horizontal = 20.dp),
-                horizontalArrangement = Arrangement.SpaceBetween
+                modifier =
+                    Modifier
+                        .fillMaxWidth()
+                        .clip(RoundedCornerShape(topStart = 20.dp, topEnd = 20.dp))
+                        .background(color = DPlayTheme.colors.dplayWhite)
+                        .border(
+                            width = 1.dp,
+                            color = DPlayTheme.colors.gray200,
+                            shape = RoundedCornerShape(topStart = 20.dp, topEnd = 20.dp),
+                        ).padding(horizontal = 20.dp),
+                horizontalArrangement = Arrangement.SpaceBetween,
             ) {
                 mainTabList.forEach { tab ->
                     BottomNavigationItem(
                         isSelected = currentTab == tab,
                         tab = tab,
-                        onBottomNavigationItemClick = onBottomNavigationItemClick
+                        onBottomNavigationItemClick = onBottomNavigationItemClick,
                     )
                 }
             }
@@ -64,9 +64,10 @@ fun BottomNavigationBar(
             DPlayCircleButton(
                 circleButtonType = CircleButtonType.LargePlus(),
                 onClick = onPlusButtonClick,
-                modifier = Modifier
-                    .align(Alignment.TopCenter)
-                    .offset(y = (-28).dp)
+                modifier =
+                    Modifier
+                        .align(Alignment.TopCenter)
+                        .offset(y = (-28).dp),
             )
         }
     }
@@ -78,26 +79,25 @@ private fun BottomNavigationItem(
     tab: MainTab,
     onBottomNavigationItemClick: (MainTab) -> Unit,
     modifier: Modifier = Modifier,
-){
+) {
     Box(
-        modifier = modifier
-            .noRippleClickable(
-                onClick = { onBottomNavigationItemClick(tab) }
-            )
-            .padding(vertical = 12.dp, horizontal = 48.dp),
-        contentAlignment = Alignment.Center
-    ){
+        modifier =
+            modifier
+                .noRippleClickable(
+                    onClick = { onBottomNavigationItemClick(tab) },
+                ).padding(vertical = 12.dp, horizontal = 48.dp),
+        contentAlignment = Alignment.Center,
+    ) {
         DplayBaseIcon(
-            iconRes = if(isSelected) tab.selectedIconRes else tab.unselectedIconRes
+            iconRes = if (isSelected) tab.selectedIconRes else tab.unselectedIconRes,
         )
     }
 }
 
-
 @Preview(showBackground = true)
 @Composable
 fun BottomNavigationBarPreview() {
-        var currentTab by remember { mutableStateOf(MainTab.HOME) }
+    var currentTab by remember { mutableStateOf(MainTab.HOME) }
     DPlayTheme {
         BottomNavigationBar(
             isVisible = true,
@@ -105,7 +105,7 @@ fun BottomNavigationBarPreview() {
             currentTab = currentTab,
             onBottomNavigationItemClick = {
                 currentTab = it
-            }
+            },
         )
     }
 }

@@ -14,7 +14,7 @@ import kotlinx.collections.immutable.toImmutableList
 
 @Composable
 fun MainScreen(
-    navigator: MainNavigator = rememberMainNavigator()
+    navigator: MainNavigator = rememberMainNavigator(),
 ) {
     Scaffold(
         modifier =
@@ -25,14 +25,14 @@ fun MainScreen(
                 mainTabList = MainTab.entries.toImmutableList(),
                 currentTab = navigator.currentTab,
                 onBottomNavigationItemClick = { navigator.navigateBottomNavigation(it) },
-                onPlusButtonClick = { navigator.navigateRecommend() }
+                onPlusButtonClick = { navigator.navigateRecommend() },
             )
-        }
+        },
     ) { padding ->
         NavHost(
             navController = navigator.navController,
             startDestination = Route.Home,
-            modifier = Modifier.padding(bottom = padding.calculateBottomPadding())
+            modifier = Modifier.padding(bottom = padding.calculateBottomPadding()),
         ) {
             homeScreen()
             myPageScreen()
