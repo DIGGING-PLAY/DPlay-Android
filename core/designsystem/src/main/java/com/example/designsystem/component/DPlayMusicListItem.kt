@@ -92,20 +92,22 @@ fun DPlayMusicListItem(
 @Composable
 private fun DPlayMusicListItemPreview() {
     DPlayTheme {
-        DPlayMusicListItem(
-            musicImageUrl = "",
-            musicName = "Title",
-            musicArtistName = "artist",
-            musicContent = "contents",
-            onMoreClick = {},
-        )
-        DPlayMusicListItem(
-            musicImageUrl = "",
-            musicName = "Title",
-            musicArtistName = "artist",
-            musicContent = "contents",
-            onMoreClick = {},
-            isEditorPick = true,
-        )
+        Column {
+            DPlayMusicListItem(
+                musicImageUrl = "",
+                musicName = "Title",
+                musicArtistName = "artist",
+                musicContent = "contents",
+                onMoreClick = {},
+            )
+            DPlayMusicListItem(
+                musicImageUrl = "",
+                musicName = "Title",
+                musicArtistName = "artist",
+                musicContent = "contents",
+                onMoreClick = {},
+                isEditorPick = true,
+            )
+        }
     }
 }
