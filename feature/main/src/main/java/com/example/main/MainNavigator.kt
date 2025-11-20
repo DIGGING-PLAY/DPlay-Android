@@ -33,16 +33,15 @@ class MainNavigator(
         val destination = currentDestination
         val shouldShow =
             MainTab.contains {
-                Timber.d("MainNavigator", "currentDestinationInLambda: $currentDestination")
-                Timber.d("MainNavigator", "localValue: $destination")
+                Timber.d("currentDestinationInLambda: $destination")
                 destination?.hasRoute(it::class) == true
             }
-        Timber.d("MainNavigator", "currentDestination: ${destination?.route}, shouldShow: $shouldShow")
+        Timber.d("shouldShow: $shouldShow")
         return shouldShow
     }
 
     fun navigateBottomNavigation(tab: MainTab) {
-        Timber.d("MainNavigator", "Navigating to ${tab.name}")
+        Timber.d("Navigating to ${tab.name}")
         val navOptions =
             navOptions {
                 popUpTo(navController.graph.findStartDestination().id) {
