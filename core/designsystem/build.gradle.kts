@@ -5,3 +5,7 @@ plugins {
 android {
     namespace = "com.dplay.designsystem"
 }
+
+dependencies {
+    implementation(libs.coil.compose)
+}
