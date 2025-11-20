@@ -26,7 +26,7 @@ import com.dplay.designsystem.R
 import com.example.designsystem.component.button.DPlayLargeGrayButton
 import com.example.designsystem.component.button.DPlayUnderlineTextButton
 import com.example.designsystem.theme.DPlayTheme
-import com.example.designsystem.util.icon.DplayClickableIcon
+import com.example.designsystem.util.DPlayReportReasons
 import com.example.designsystem.util.noRippleClickable
 
 @Composable
@@ -80,6 +80,7 @@ fun DPlayTitleButtonBottomSheet(
     onButtonClick: () -> Unit,
     onCloseClick: () -> Unit,
     modifier: Modifier = Modifier,
+    checkList: List<String> = DPlayReportReasons.all,
     titleText: String = stringResource(R.string.report_bottom_sheet_title),
 ) {
     val bottomSheetShape = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp)
@@ -119,7 +120,14 @@ fun DPlayTitleButtonBottomSheet(
         }
         Spacer(modifier = Modifier.height(12.dp))
 
-        // TODO: Card 컴포넌트 머지 시 추가
+        checkList.forEach {
+            DPlayCheck(
+                text = it,
+                isChecked = false,
+                onClick = {},
+                modifier = Modifier.fillMaxWidth(),
+            )
+        }
 
         Spacer(modifier = Modifier.height(12.dp))
 
