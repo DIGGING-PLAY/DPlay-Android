@@ -38,10 +38,10 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.dplay.designsystem.R
-import com.example.designsystem.component.textfield.constant.TextFieldConstant
 import com.example.designsystem.component.textfield.type.InputState
 import com.example.designsystem.component.textfield.type.NicknameInputState
 import com.example.designsystem.theme.DPlayTheme
+import com.example.designsystem.util.TextFieldConstant
 
 @Composable
 fun DPlayTextInput(
