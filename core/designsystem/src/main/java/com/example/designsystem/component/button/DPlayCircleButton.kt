@@ -15,9 +15,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.dplay.designsystem.R
+import com.example.designsystem.component.DplayBaseIcon
 import com.example.designsystem.component.button.type.CircleButtonType
 import com.example.designsystem.theme.DPlayTheme
-import com.example.designsystem.util.icon.DplayBaseIcon
 import com.example.designsystem.util.noRippleClickable
 
 @Composable
