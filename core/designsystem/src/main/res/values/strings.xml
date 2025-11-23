@@ -71,6 +71,7 @@
 
     <string name="report_bottom_sheet_title">신고 사유를 선택해주세요</string>
     <string name="tooltip_learn_more">더 알아보기</string>
+    <string name="day_topic_text">%1$d일</string>
 
     <!-- 서비스 약관 -->
     <string name="agree_all_terms">네, 모두 동의합니다</string>
