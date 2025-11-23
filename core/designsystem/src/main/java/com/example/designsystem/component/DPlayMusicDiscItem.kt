@@ -30,11 +30,11 @@ import com.example.designsystem.theme.DPlayTheme
 fun DPlayMusicDiscItem(
     imageUrl: String,
     modifier: Modifier = Modifier,
-    isRotate: Boolean = false,
+    isStreaming: Boolean = false,
 ) {
     val grayBorderColor = DPlayTheme.colors.gray400
 
-    val rotation by if (isRotate) {
+    val rotation by if (isStreaming) {
         rememberInfiniteTransition().animateFloat(
             initialValue = 0f,
             targetValue = 360f,

@@ -40,6 +40,7 @@ fun DPlayLargeCover(
     onLikeClick: () -> Unit,
     onBookmarkClick: () -> Unit,
     modifier: Modifier = Modifier,
+    isStreaming: Boolean = false,
 ) {
     val color = DPlayTheme.colors
     val typography = DPlayTheme.typography
@@ -51,7 +52,7 @@ fun DPlayLargeCover(
         DPlayMusicDiscItem(
             imageUrl = musicImageUrl,
             modifier = Modifier.padding(bottom = 44.dp),
-            isRotate = false,
+            isStreaming = isStreaming,
         )
         DplayClickableIcon(
             iconRes = if (isBookmarkChecked) R.drawable.ic_bookmark_filled_24 else R.drawable.ic_bookmark_unfilled_24,
