@@ -20,8 +20,10 @@ import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.CompositingStrategy
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import com.example.designsystem.theme.DPlayTheme
@@ -51,8 +53,10 @@ fun DPlayMusicDiscItem(
         modifier =
             modifier
                 .aspectRatio(1f)
-                .graphicsLayer { rotationZ = rotation }
-                .clip(CircleShape)
+                .graphicsLayer {
+                    rotationZ = rotation
+                    compositingStrategy = CompositingStrategy.Offscreen
+                }.clip(CircleShape)
                 .border(
                     width = 2.dp,
                     color = grayBorderColor,
@@ -62,7 +66,6 @@ fun DPlayMusicDiscItem(
 
                     val cx = size.width / 2
                     val cy = size.height / 2
-
                     val holeRadius = size.minDimension * 0.0625f
 
                     drawCircle(
@@ -84,6 +87,7 @@ fun DPlayMusicDiscItem(
             model = imageUrl,
             contentDescription = null,
             modifier = Modifier.fillMaxSize(),
+            contentScale = ContentScale.Crop,
         )
     }
 }

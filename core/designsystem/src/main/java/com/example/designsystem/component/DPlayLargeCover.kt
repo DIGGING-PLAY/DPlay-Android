@@ -51,7 +51,7 @@ fun DPlayLargeCover(
     Box(modifier = modifier) {
         DPlayMusicDiscItem(
             imageUrl = musicImageUrl,
-            modifier = Modifier.padding(bottom = 44.dp),
+            modifier = Modifier.padding(bottom = 44.dp, start = 12.dp, end = 12.dp),
             isStreaming = isStreaming,
         )
         DplayClickableIcon(
@@ -87,7 +87,7 @@ fun DPlayLargeCover(
             Spacer(modifier = Modifier.height(24.dp))
             Row {
                 DplayBaseIcon(iconRes = R.drawable.ic_quote_up_16, modifier = Modifier.align(Alignment.Top))
-                Text(text = content, maxLines = 3, overflow = TextOverflow.Ellipsis, style = typography.bodySemi14, color = color.dplayWhite)
+                Text(text = content, maxLines = 3, overflow = TextOverflow.Ellipsis, style = typography.bodySemi14, color = color.dplayWhite, modifier = Modifier.weight(1f))
                 DplayBaseIcon(iconRes = R.drawable.ic_quote_down_16, modifier = Modifier.align(Alignment.Bottom))
             }
             Spacer(modifier = Modifier.height(24.dp))
