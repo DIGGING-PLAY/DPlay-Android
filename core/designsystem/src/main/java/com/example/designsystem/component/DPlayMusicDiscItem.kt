@@ -25,7 +25,6 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import com.example.designsystem.theme.DPlayTheme
-import com.example.designsystem.theme.defaultDPlayColors
 
 @Composable
 fun DPlayMusicDiscItem(
@@ -33,6 +32,8 @@ fun DPlayMusicDiscItem(
     modifier: Modifier = Modifier,
     isRotate: Boolean = false,
 ) {
+    val grayBorderColor = DPlayTheme.colors.gray400
+
     val rotation by if (isRotate) {
         rememberInfiniteTransition().animateFloat(
             initialValue = 0f,
@@ -54,7 +55,7 @@ fun DPlayMusicDiscItem(
                 .clip(CircleShape)
                 .border(
                     width = 2.dp,
-                    color = DPlayTheme.colors.gray400,
+                    color = grayBorderColor,
                     shape = CircleShape,
                 ).drawWithContent {
                     drawContent()
@@ -72,7 +73,7 @@ fun DPlayMusicDiscItem(
                     )
 
                     drawCircle(
-                        color = defaultDPlayColors.gray400,
+                        color = grayBorderColor,
                         radius = holeRadius,
                         center = Offset(cx, cy),
                         style = Stroke(width = 2.dp.toPx()),
