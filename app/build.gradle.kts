@@ -16,5 +16,7 @@ android {
 
 dependencies {
     implementation(projects.feature.main)
+    implementation(libs.coil.compose)
+    implementation(libs.coil.network.okhttp)
     testImplementation(kotlin("test"))
 }
