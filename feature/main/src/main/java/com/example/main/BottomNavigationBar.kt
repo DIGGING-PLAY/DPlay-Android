@@ -24,6 +24,9 @@ import com.example.designsystem.component.button.DPlayCircleButton
 import com.example.designsystem.component.button.type.CircleButtonType
 import com.example.designsystem.theme.DPlayTheme
 import com.example.designsystem.util.noRippleClickable
+import com.example.navigation.Home
+import com.example.navigation.MyPage
+import com.example.navigation.TopLevelRoute
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 
@@ -33,7 +36,7 @@ fun BottomNavigationBar(
     topLevelRouteList: ImmutableList<TopLevelRoute>,
     currentTab: Any?,
     onBottomNavigationItemClick: (TopLevelRoute) -> Unit,
-    onPlusButtonClick: () -> Unit = {},
+    onPlusButtonClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     if (isVisible) {
@@ -107,6 +110,7 @@ fun BottomNavigationBarPreview() {
             onBottomNavigationItemClick = {
                 currentTab = it
             },
+            onPlusButtonClick = {}
         )
     }
 }
