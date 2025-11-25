@@ -24,7 +24,7 @@ import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import javax.inject.Inject
 
-private val TOP_LEVEL_ROUTES : ImmutableList<TopLevelRoute> = persistentListOf(Home, MyPage)
+private val TOP_LEVEL_ROUTES: ImmutableList<TopLevelRoute> = persistentListOf(Home, MyPage)
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -60,11 +60,12 @@ class MainActivity : ComponentActivity() {
                         modifier = Modifier.padding(bottom = padding.calculateBottomPadding()),
                         backStack = navigator.backStack,
                         onBack = { navigator.goBack() },
-                        entryProvider = entryProvider {
-                            entryProviders.forEach { installer ->
-                                installer()
-                            }
-                        }
+                        entryProvider =
+                            entryProvider {
+                                entryProviders.forEach { installer ->
+                                    installer()
+                                }
+                            },
                     )
                 }
             }

@@ -14,9 +14,10 @@ import dagger.multibindings.IntoSet
 object MyPageNavigationModule {
     @Provides
     @IntoSet
-    fun provideMyPageEntry(): EntryProviderScope<NavKey>.() -> Unit = {
-        entry<MyPage> {
-            MyPageScreen()
+    fun provideMyPageEntry(): EntryProviderScope<NavKey>.() -> Unit =
+        {
+            entry<MyPage> {
+                MyPageScreen()
+            }
         }
-    }
 }

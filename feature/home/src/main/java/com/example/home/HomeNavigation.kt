@@ -14,9 +14,10 @@ import dagger.multibindings.IntoSet
 object HomeNavigationModule {
     @Provides
     @IntoSet
-    fun provideHomeEntry(): EntryProviderScope<NavKey>.() -> Unit  = {
-        entry<Home> {
-            HomeScreen()
+    fun provideHomeEntry(): EntryProviderScope<NavKey>.() -> Unit =
+        {
+            entry<Home> {
+                HomeScreen()
+            }
         }
-    }
 }

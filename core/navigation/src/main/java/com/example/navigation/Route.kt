@@ -7,6 +7,7 @@ import com.dplay.designsystem.R
 sealed interface TopLevelRoute {
     @get:DrawableRes
     val selectedIconRes: Int
+
     @get:DrawableRes
     val unselectedIconRes: Int
 }

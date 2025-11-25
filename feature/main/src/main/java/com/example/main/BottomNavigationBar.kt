@@ -110,7 +110,7 @@ fun BottomNavigationBarPreview() {
             onBottomNavigationItemClick = {
                 currentTab = it
             },
-            onPlusButtonClick = {}
+            onPlusButtonClick = {},
         )
     }
 }
