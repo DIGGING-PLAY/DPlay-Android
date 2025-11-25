@@ -16,5 +16,6 @@ android {
 
 dependencies {
     implementation(projects.feature.main)
+    implementation(projects.core.navigation)
     testImplementation(kotlin("test"))
 }
