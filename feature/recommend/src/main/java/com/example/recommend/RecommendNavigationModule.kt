@@ -14,9 +14,10 @@ import dagger.multibindings.IntoSet
 object RecommendNavigationModule {
     @Provides
     @IntoSet
-    fun provideRecommendEntry(): EntryProviderScope<NavKey>.() -> Unit = {
-        entry<Recommend> {
-            RecommendScreen()
+    fun provideRecommendEntry(): EntryProviderScope<NavKey>.() -> Unit =
+        {
+            entry<Recommend> {
+                RecommendScreen()
+            }
         }
-    }
 }
