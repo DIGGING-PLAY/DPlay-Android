@@ -24,14 +24,15 @@ import com.example.designsystem.component.button.DPlayCircleButton
 import com.example.designsystem.component.button.type.CircleButtonType
 import com.example.designsystem.theme.DPlayTheme
 import com.example.designsystem.util.noRippleClickable
-import kotlinx.collections.immutable.toImmutableList
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
 
 @Composable
 fun BottomNavigationBar(
     isVisible: Boolean,
-    mainTabList: List<MainTab>,
-    currentTab: MainTab?,
-    onBottomNavigationItemClick: (MainTab) -> Unit,
+    topLevelRouteList: ImmutableList<TopLevelRoute>,
+    currentTab: Any?,
+    onBottomNavigationItemClick: (TopLevelRoute) -> Unit,
     onPlusButtonClick: () -> Unit = {},
     modifier: Modifier = Modifier,
 ) {
@@ -52,11 +53,11 @@ fun BottomNavigationBar(
                         ).padding(horizontal = 20.dp),
                 horizontalArrangement = Arrangement.SpaceBetween,
             ) {
-                mainTabList.forEach { tab ->
+                topLevelRouteList.forEach { tab ->
                     BottomNavigationItem(
                         isSelected = currentTab == tab,
                         tab = tab,
-                        onBottomNavigationItemClick = onBottomNavigationItemClick,
+                        onBottomNavigationItemClick = { onBottomNavigationItemClick(it) },
                     )
                 }
             }
@@ -76,8 +77,8 @@ fun BottomNavigationBar(
 @Composable
 private fun BottomNavigationItem(
     isSelected: Boolean,
-    tab: MainTab,
-    onBottomNavigationItemClick: (MainTab) -> Unit,
+    tab: TopLevelRoute,
+    onBottomNavigationItemClick: (TopLevelRoute) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Box(
@@ -97,11 +98,11 @@ private fun BottomNavigationItem(
 @Preview(showBackground = true)
 @Composable
 fun BottomNavigationBarPreview() {
-    var currentTab by remember { mutableStateOf(MainTab.HOME) }
+    var currentTab by remember { mutableStateOf<TopLevelRoute>(Home) }
     DPlayTheme {
         BottomNavigationBar(
             isVisible = true,
-            mainTabList = MainTab.entries.toImmutableList(),
+            topLevelRouteList = persistentListOf(Home, MyPage),
             currentTab = currentTab,
             onBottomNavigationItemClick = {
                 currentTab = it
