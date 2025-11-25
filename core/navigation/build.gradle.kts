@@ -1,6 +1,6 @@
 plugins {
-    alias(libs.plugins.dplay.android.library)
-    alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.dplay.android.compose)
+    alias(libs.plugins.dplay.hilt)
 }
 
 android {
@@ -9,4 +9,5 @@ android {
 
 dependencies {
     implementation(libs.kotlinx.serialization.json)
+    implementation(projects.core.designsystem)
 }
