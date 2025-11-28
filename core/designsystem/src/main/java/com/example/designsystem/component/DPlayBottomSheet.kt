@@ -135,7 +135,7 @@ fun DPlayTitleButtonBottomSheet(
                 text = stringResource(reason.stringResId),
                 isChecked = false,
                 onClick = { onCheckClick(reason) },
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
             )
         }
 
