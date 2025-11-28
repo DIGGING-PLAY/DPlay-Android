@@ -87,5 +87,9 @@
 
     <!-- DplayBottomSheet -->
     <string name="report_bottom_sheet_title">신고 사유를 선택해주세요</string>
+    <string name="report_reason_inappropriate_content">부적절한 내용을 포함하고 있어요.</string>
+    <string name="report_reason_offensive_expression">불쾌한 표현이 포함되어 있어요.</string>
+    <string name="report_reason_suspicious_or_spam">의심스럽거나 스팸이에요.</string>
+    <string name="report_reason_copyright_violation">저작권을 침해하고 있어요.</string>
 
 </resources>

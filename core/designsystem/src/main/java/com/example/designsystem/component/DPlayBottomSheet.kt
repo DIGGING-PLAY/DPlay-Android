@@ -1,5 +1,6 @@
 package com.example.designsystem.component
 
+import androidx.annotation.StringRes
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -26,8 +27,16 @@ import com.dplay.designsystem.R
 import com.example.designsystem.component.button.DPlayLargeGrayButton
 import com.example.designsystem.component.button.DPlayUnderlineTextButton
 import com.example.designsystem.theme.DPlayTheme
-import com.example.designsystem.util.DPlayReportReasons
 import com.example.designsystem.util.noRippleClickable
+
+enum class DPlayReportReason(
+    @param:StringRes val stringResId: Int,
+) {
+    INAPPROPRIATE_CONTENT(R.string.report_reason_inappropriate_content),
+    OFFENSIVE_EXPRESSION(R.string.report_reason_offensive_expression),
+    SUSPICIOUS_OR_SPAM(R.string.report_reason_suspicious_or_spam),
+    COPYRIGHT_VIOLATION(R.string.report_reason_copyright_violation),
+}
 
 @Composable
 fun DPlayButtonBottomSheet(
@@ -80,7 +89,7 @@ fun DPlayTitleButtonBottomSheet(
     onButtonClick: () -> Unit,
     onCloseClick: () -> Unit,
     modifier: Modifier = Modifier,
-    checkList: List<String> = DPlayReportReasons.all,
+    checkList: List<String> = DPlayReportReason.entries.map { stringResource(it.stringResId) },
     titleText: String = stringResource(R.string.report_bottom_sheet_title),
 ) {
     val bottomSheetShape = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp)
