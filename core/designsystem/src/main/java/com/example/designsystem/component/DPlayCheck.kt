@@ -15,6 +15,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.dplay.designsystem.R
@@ -54,6 +55,7 @@ fun DPlayCheck(
             text = text,
             style = DPlayTheme.typography.bodySemi14,
             color = DPlayTheme.colors.gray500,
+            textAlign = TextAlign.Start,
         )
     }
 }

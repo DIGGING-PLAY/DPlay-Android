@@ -1,4 +1,4 @@
-package com.example.designsystem.chip.type
+package com.example.designsystem.component.chip.type
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes

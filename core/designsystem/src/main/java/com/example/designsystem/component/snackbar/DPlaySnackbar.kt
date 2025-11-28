@@ -1,4 +1,4 @@
-package com.example.designsystem.snackbar
+package com.example.designsystem.component.snackbar
 
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.background
