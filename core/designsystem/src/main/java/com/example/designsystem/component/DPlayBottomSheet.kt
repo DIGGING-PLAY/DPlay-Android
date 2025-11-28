@@ -88,8 +88,9 @@ fun DPlayButtonBottomSheet(
 fun DPlayTitleButtonBottomSheet(
     onButtonClick: () -> Unit,
     onCloseClick: () -> Unit,
+    onCheckClick: (DPlayReportReason) -> Unit,
     modifier: Modifier = Modifier,
-    checkList: List<String> = DPlayReportReason.entries.map { stringResource(it.stringResId) },
+    reasons: List<DPlayReportReason> = DPlayReportReason.entries,
     titleText: String = stringResource(R.string.report_bottom_sheet_title),
 ) {
     val bottomSheetShape = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp)
@@ -129,12 +130,12 @@ fun DPlayTitleButtonBottomSheet(
         }
         Spacer(modifier = Modifier.height(12.dp))
 
-        checkList.forEach {
+        reasons.forEach { reason ->
             DPlayCheck(
-                text = it,
+                text = stringResource(reason.stringResId),
                 isChecked = false,
-                onClick = {},
-                modifier = Modifier.fillMaxWidth(),
+                onClick = { onCheckClick(reason) },
+                modifier = Modifier.fillMaxWidth()
             )
         }
 
@@ -173,6 +174,7 @@ private fun DPlayBottomSheetPreview() {
             DPlayTitleButtonBottomSheet(
                 onCloseClick = {},
                 onButtonClick = {},
+                onCheckClick = {},
             )
         }
     }
