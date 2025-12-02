@@ -33,4 +33,10 @@ class Navigator(
         backStack.removeLastOrNull()
         Timber.d("backStack: $backStack")
     }
+
+    fun navigateToLogin(){
+        backStack.clear()
+        backStack.add(Home)
+        Timber.d("backStack: $backStack")
+    }
 }
