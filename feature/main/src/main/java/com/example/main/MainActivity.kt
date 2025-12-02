@@ -18,6 +18,7 @@ import com.example.navigation.Home
 import com.example.navigation.MyPage
 import com.example.navigation.Navigator
 import com.example.navigation.Recommend
+import com.example.navigation.Splash
 import com.example.navigation.TopLevelRoute
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.collections.immutable.ImmutableList
@@ -37,7 +38,6 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            val navigator = remember { Navigator(Home) }
             DPlayTheme {
                 Scaffold(
                     modifier =
