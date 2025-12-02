@@ -26,4 +26,6 @@ data object MyPage : TopLevelRoute, NavKey {
         get() = R.drawable.ic_bookmark_disabled_32
 }
 
+data object Splash : NavKey
+
 data object Recommend : NavKey
