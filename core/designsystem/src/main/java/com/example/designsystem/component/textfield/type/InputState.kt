@@ -4,7 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.ui.res.stringResource
 import com.dplay.designsystem.R
-import com.example.designsystem.component.textfield.constant.TextFieldConstant
+import com.example.designsystem.util.TextFieldConstant
 
 sealed class InputState {
     data object Default : InputState()
