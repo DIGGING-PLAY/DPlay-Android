@@ -68,8 +68,29 @@
     <!-- DPlayTooltip -->
     <string name="tooltip_default_description">존중하는 말과 따뜻한 표현을 사용해주세요.\n욕설, 비방, 혐오 발언은 삼가해주세요.\n저작권 문제로 가사 전체 업로드는 불가해요.</string>
 
-
-    <string name="report_bottom_sheet_title">신고 사유를 선택해주세요</string>
     <string name="tooltip_learn_more">더 알아보기</string>
+    <string name="day_topic_text">%1$d일</string>
+
+    <!-- 서비스 약관 -->
+    <string name="agree_all_terms">네, 모두 동의합니다</string>
+    <string name="terms_service_required">서비스 이용약관(필수)</string>
+    <string name="privacy_policy_required">개인정보 처리방침(필수)</string>
+
+    <!-- 신고사유 -->
+    <string name="reason_inappropriate_content">부적절한 내용을 포함하고 있어요.</string>
+    <string name="reason_offensive_expression">불쾌한 표현이 포함되어 있어요.</string>
+    <string name="reason_suspicious_or_spam">의심스럽거나 스팸이에요.</string>
+    <string name="reason_copyright_violation">저작권을 침해하고 있어요.</string>
+
+    <!-- DPlay Image Check -->
+    <string name="image_check_image_description">%s 앨범 커버</string>
+
+
+    <!-- DplayBottomSheet -->
+    <string name="report_bottom_sheet_title">신고 사유를 선택해주세요</string>
+    <string name="report_reason_inappropriate_content">부적절한 내용을 포함하고 있어요.</string>
+    <string name="report_reason_offensive_expression">불쾌한 표현이 포함되어 있어요.</string>
+    <string name="report_reason_suspicious_or_spam">의심스럽거나 스팸이에요.</string>
+    <string name="report_reason_copyright_violation">저작권을 침해하고 있어요.</string>
 
 </resources>
