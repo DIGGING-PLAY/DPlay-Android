@@ -1,0 +1,72 @@
+package com.example.login
+
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import com.dplay.designsystem.R
+import com.example.designsystem.component.button.DPlayKakaoLoginButton
+import com.example.designsystem.theme.DPlayTheme
+
+@Composable
+fun LoginRoute(
+    viewModel: LoginViewModel = hiltViewModel(),
+){
+    LoginScreen(
+        onKaKaoLogin = {
+            viewModel.handleIntent(LoginContract.LoginIntent.OnKakaoLogin)
+        }
+    )
+}
+
+@Composable
+fun LoginScreen(
+    onKaKaoLogin: () -> Unit = {}
+){
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(color = DPlayTheme.colors.dplayWhite)
+            .padding(top = 200.dp, bottom = 16.dp)
+            .padding(horizontal = 16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Text(
+            text = "새로움을 발견하는 순간",
+            style = DPlayTheme.typography.bodyBold16,
+        )
+
+        Image(
+            painter = painterResource(R.drawable.img_wordmark_pink),
+            contentDescription = null,
+            modifier = Modifier.size(width = 200.dp, height = 60.dp)
+        )
+
+        Spacer(modifier = Modifier.weight(1f))
+
+        DPlayKakaoLoginButton(
+            onClick = onKaKaoLogin,
+            modifier = Modifier.fillMaxWidth()
+        )
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun LoginScreenPreview(){
+    DPlayTheme {
+        LoginScreen()
+    }
+}
