@@ -1,6 +1,7 @@
 package com.example.login
 
 import com.example.navigation.Navigator
+import com.example.navigation.OnboardingTerms
 import com.example.ui.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -16,7 +17,8 @@ constructor(
     override fun handleIntent(intent: LoginContract.LoginIntent) {
         when (intent) {
             LoginContract.LoginIntent.OnKakaoLogin -> {
-                navigator.navigateToHome()
+                navigator.backStack.clear()
+                navigator.backStack.add(OnboardingTerms)
             }
         }
     }
