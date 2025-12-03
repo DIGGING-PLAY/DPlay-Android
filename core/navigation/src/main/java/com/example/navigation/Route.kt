@@ -28,4 +28,6 @@ data object MyPage : TopLevelRoute, NavKey {
 
 data object Splash : NavKey
 
+data object Login : NavKey
+
 data object Recommend : NavKey
