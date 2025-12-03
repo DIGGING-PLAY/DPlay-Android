@@ -14,4 +14,5 @@ dependencies {
     implementation(projects.feature.home)
     implementation(projects.feature.mypage)
     implementation(projects.feature.recommend)
+    implementation(projects.feature.onboarding)
 }
