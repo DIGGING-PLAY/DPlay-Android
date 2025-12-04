@@ -6,3 +6,7 @@ plugins {
 android {
     namespace = "com.dplay.onboarding"
 }
+
+dependencies {
+    implementation(libs.coil.compose)
+}
