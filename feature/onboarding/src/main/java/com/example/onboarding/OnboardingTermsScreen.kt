@@ -39,7 +39,7 @@ fun OnboardingTermsRoute(
             viewModel.handleIntent(OnboardingContract.OnboardingIntent.OnToggleAllTerms)
         },
         onNextButtonClick = {
-            viewModel.handleIntent(OnboardingContract.OnboardingIntent.OnNextButtonClick)
+            viewModel.handleIntent(OnboardingContract.OnboardingIntent.OnTermsScreenNextButtonClick)
         },
     )
 }
@@ -47,10 +47,10 @@ fun OnboardingTermsRoute(
 @Composable
 fun OnboardingTermsScreen(
     state: OnboardingContract.OnboardingState,
+    modifier: Modifier = Modifier,
     onToggleTerm: (TermType) -> Unit = {},
     onToggleAllTerms: () -> Unit = {},
-    onNextButtonClick: () -> Unit = {},
-    modifier: Modifier = Modifier
+    onNextButtonClick: () -> Unit = {}
 ) {
     Column(
         modifier = modifier
@@ -100,7 +100,7 @@ fun OnboardingTermsScreen(
                 onClick = onNextButtonClick,
                 modifier = Modifier.fillMaxWidth(),
                 label = stringResource(R.string.next_button_label),
-                enabled = state.isNextButtonEnabled
+                enabled = state.isTermsScreenNextButtonEnabled
             )
         }
     }
