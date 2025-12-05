@@ -17,7 +17,6 @@ constructor(
     override fun handleIntent(intent: LoginContract.LoginIntent) {
         when (intent) {
             LoginContract.LoginIntent.OnKakaoLogin -> {
-                navigator.backStack.clear()
                 navigator.backStack.add(OnboardingTerms)
             }
         }
