@@ -69,6 +69,9 @@ fun OnboardingProfileRoute(
         },
         onAlbumImageSelect = {
             viewModel.handleIntent(OnboardingContract.OnboardingIntent.OnAlbumImageSelect(it))
+        },
+        onBackButtonClick = {
+            viewModel.handleIntent(OnboardingContract.OnboardingIntent.OnBackButtonClick)
         }
     )
 }
@@ -82,7 +85,8 @@ fun OnboardingProfileScreen(
     onAlbumLauncherBottomSheetDismiss: () -> Unit = {},
     onDefaultImageSelect: () -> Unit = {},
     onNextButtonClick: () -> Unit = {},
-    onAlbumImageSelect: (String?) -> Unit = {}
+    onAlbumImageSelect: (String?) -> Unit = {},
+    onBackButtonClick: () -> Unit = {},
 ){
     val photoPickerLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.PickVisualMedia(),
@@ -101,7 +105,7 @@ fun OnboardingProfileScreen(
                 .background(color = DPlayTheme.colors.dplayWhite)
                 .padding(bottom = 16.dp)
         ) {
-            DplayLeftIconTopAppBar { }
+            DplayLeftIconTopAppBar { onBackButtonClick() }
 
             Text(
                 text = "디플레이에서 사용할\n프로필을 완성해주세요",

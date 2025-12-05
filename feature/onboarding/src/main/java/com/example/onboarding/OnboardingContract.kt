@@ -24,6 +24,8 @@ class OnboardingContract {
     }
 
     sealed interface OnboardingIntent : BaseContract.Intent {
+        data object OnBackButtonClick : OnboardingIntent
+
         data class OnToggleTerm(val term: TermType) : OnboardingIntent
         data object OnToggleAllTerms : OnboardingIntent
         data object OnTermsScreenNextButtonClick : OnboardingIntent

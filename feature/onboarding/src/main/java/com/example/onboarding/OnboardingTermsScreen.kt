@@ -41,6 +41,9 @@ fun OnboardingTermsRoute(
         onNextButtonClick = {
             viewModel.handleIntent(OnboardingContract.OnboardingIntent.OnTermsScreenNextButtonClick)
         },
+        onBackButtonClick = {
+            viewModel.handleIntent(OnboardingContract.OnboardingIntent.OnBackButtonClick)
+        }
     )
 }
 
@@ -50,14 +53,15 @@ fun OnboardingTermsScreen(
     modifier: Modifier = Modifier,
     onToggleTerm: (TermType) -> Unit = {},
     onToggleAllTerms: () -> Unit = {},
-    onNextButtonClick: () -> Unit = {}
+    onNextButtonClick: () -> Unit = {},
+    onBackButtonClick: () -> Unit = {}
 ) {
     Column(
         modifier = modifier
             .fillMaxSize()
             .background(color = DPlayTheme.colors.dplayWhite)
     ) {
-        DplayLeftIconTopAppBar {  }
+        DplayLeftIconTopAppBar { onBackButtonClick() }
 
         Column(
             modifier = Modifier
