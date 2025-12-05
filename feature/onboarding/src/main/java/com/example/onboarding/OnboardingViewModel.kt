@@ -16,6 +16,10 @@ class OnboardingViewModel @Inject constructor(
 ) {
     override fun handleIntent(intent: OnboardingContract.OnboardingIntent) {
         when (intent) {
+            OnboardingContract.OnboardingIntent.OnBackButtonClick -> {
+                navigator.goBack()
+            }
+
             is OnboardingContract.OnboardingIntent.OnToggleTerm -> {
                 updateState {
                     val newAgreedTerms = if (agreedTerms.contains(intent.term)) {
