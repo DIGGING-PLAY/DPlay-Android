@@ -37,6 +37,8 @@ class OnboardingContract {
         data object OnAlbumLauncherSelect : OnboardingIntent
         data class OnAlbumImageSelect(val uri: String?) : OnboardingIntent
         data object OnProfileScreenNextButtonClick : OnboardingIntent
+
+        data object OnStartButtonClick : OnboardingIntent
     }
 
     sealed interface OnboardingSideEffect : BaseContract.SideEffect

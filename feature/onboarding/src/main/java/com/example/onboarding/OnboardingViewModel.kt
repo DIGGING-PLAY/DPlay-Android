@@ -3,6 +3,7 @@ package com.example.onboarding
 import com.example.designsystem.component.textfield.type.NicknameInputState
 import com.example.navigation.Navigator
 import com.example.navigation.Onboarding
+import com.example.navigation.OnboardingPermission
 import com.example.navigation.OnboardingProfile
 import com.example.ui.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -85,6 +86,10 @@ class OnboardingViewModel @Inject constructor(
 
             OnboardingContract.OnboardingIntent.OnAlbumLauncherSelect -> {
                 // Todo 앨범띄우는 것을 SideEffect로 관리해야할까?
+            }
+
+            OnboardingContract.OnboardingIntent.OnStartButtonClick -> {
+                navigator.goTo(OnboardingPermission)
             }
         }
     }
