@@ -11,6 +11,8 @@ class OnboardingContract {
         val profileImageUri: String? = null,
         val nicknameInputState: InputState = InputState.Default,
         val isAlbumLauncherBottomSheetVisible: Boolean = false,
+
+        val isNotificationPermissionGranted: Boolean = false
     ) : BaseContract.State {
 
         val isTermsScreenNextButtonEnabled: Boolean
@@ -39,9 +41,15 @@ class OnboardingContract {
         data object OnProfileScreenNextButtonClick : OnboardingIntent
 
         data object OnStartButtonClick : OnboardingIntent
+
+        data object OnPermissionConfirmButtonClick : OnboardingIntent
+        data object OnNotificationPermissionBoxClick: OnboardingIntent
+        data class OnNotificationPermissionResult(val isGranted: Boolean) : OnboardingIntent
     }
 
-    sealed interface OnboardingSideEffect : BaseContract.SideEffect
+    sealed interface OnboardingSideEffect : BaseContract.SideEffect{
+        data object ShowPermissionDialog : OnboardingSideEffect
+    }
 }
 
 enum class TermType(val isMandatory: Boolean) {

@@ -1,6 +1,7 @@
 package com.example.onboarding
 
 import com.example.designsystem.component.textfield.type.NicknameInputState
+import com.example.navigation.Home
 import com.example.navigation.Navigator
 import com.example.navigation.Onboarding
 import com.example.navigation.OnboardingPermission
@@ -91,6 +92,24 @@ class OnboardingViewModel @Inject constructor(
             OnboardingContract.OnboardingIntent.OnStartButtonClick -> {
                 navigator.goTo(OnboardingPermission)
             }
+
+            OnboardingContract.OnboardingIntent.OnPermissionConfirmButtonClick -> {
+                navigator.backStack.clear()
+                navigator.goTo(Home)
+            }
+
+            OnboardingContract.OnboardingIntent.OnNotificationPermissionBoxClick -> {
+                setSideEffect(OnboardingContract.OnboardingSideEffect.ShowPermissionDialog)
+            }
+
+            is OnboardingContract.OnboardingIntent.OnNotificationPermissionResult -> {
+                updateState {
+                    copy(
+                        isNotificationPermissionGranted = intent.isGranted
+                    )
+                }
+            }
+
         }
     }
 
