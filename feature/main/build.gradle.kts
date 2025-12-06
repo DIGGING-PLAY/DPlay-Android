@@ -9,5 +9,7 @@ android {
 }
 
 dependencies {
-    // 모든 feature들을 의존
+    implementation(projects.feature.home)
+    implementation(projects.feature.mypage)
+    implementation(projects.feature.recommend)
 }

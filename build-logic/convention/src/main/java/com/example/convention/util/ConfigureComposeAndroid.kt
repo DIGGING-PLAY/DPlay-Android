@@ -10,6 +10,7 @@ internal fun Project.configureComposeAndroid(commonExtension: CommonExtension<*,
     commonExtension.apply {
         buildFeatures {
             compose = true
+            buildConfig = true
         }
 
         dependencies {
