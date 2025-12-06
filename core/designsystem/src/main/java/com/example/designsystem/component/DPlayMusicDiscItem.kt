@@ -28,6 +28,8 @@ import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import com.example.designsystem.theme.DPlayTheme
 
+private const val DISC_ROTATION_DURATION_MILLIS = 10000 // 10초
+
 @Composable
 fun DPlayMusicDiscItem(
     imageUrl: String,
@@ -43,7 +45,7 @@ fun DPlayMusicDiscItem(
             targetValue = 360f,
             animationSpec =
                 infiniteRepeatable(
-                    animation = tween(durationMillis = 6000, easing = LinearEasing),
+                    animation = tween(durationMillis = DISC_ROTATION_DURATION_MILLIS, easing = LinearEasing),
                 ),
         )
     } else {
