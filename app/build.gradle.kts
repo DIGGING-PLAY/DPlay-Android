@@ -16,8 +16,6 @@ android {
 
 dependencies {
     implementation(projects.feature.main)
-    implementation(libs.coil.compose)
-    implementation(libs.coil.network.okhttp)
     implementation(projects.core.navigation)
     testImplementation(kotlin("test"))
 }
