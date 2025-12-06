@@ -104,7 +104,7 @@ private fun FirstOnboardingPage(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            text = "오늘의 질문이 도착했어요",
+            text = stringResource(com.dplay.onboarding.R.string.first_onboarding_page_main_text),
             style = DPlayTheme.typography.titleBold24,
             color = DPlayTheme.colors.dplayBlack
         )
@@ -112,7 +112,7 @@ private fun FirstOnboardingPage(
         Spacer(modifier = Modifier.height(12.dp))
 
         Text(
-            text = "모두가 같은 질문을 받고,\n그 순간에 어울리는 노래를 추천해요",
+            text = stringResource(com.dplay.onboarding.R.string.first_onboarding_page_sub_text),
             style = DPlayTheme.typography.bodyMed16,
             color = DPlayTheme.colors.gray400,
             textAlign = TextAlign.Center,
@@ -128,7 +128,7 @@ private fun SecondOnboardingPage(modifier: Modifier = Modifier) {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            text = "다른 사람들의 추천을 만나보세요",
+            text = stringResource(com.dplay.onboarding.R.string.second_onboarding_page_main_text),
             style = DPlayTheme.typography.titleBold24,
             color = DPlayTheme.colors.dplayBlack,
             textAlign = TextAlign.Center,
@@ -137,7 +137,7 @@ private fun SecondOnboardingPage(modifier: Modifier = Modifier) {
         Spacer(modifier = Modifier.height(12.dp))
 
         Text(
-            text = "최대 3곡까지 먼저 보고,\n노래를 추천하면 더 많은 추천을 볼 수 있어요",
+            text = stringResource(com.dplay.onboarding.R.string.second_onboarding_page_sub_text),
             style = DPlayTheme.typography.bodyMed16,
             color = DPlayTheme.colors.gray400,
             textAlign = TextAlign.Center,
@@ -153,7 +153,7 @@ private fun ThirdOnboardingPage(modifier: Modifier = Modifier) {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            text = "노래 추천 받으러 가볼까요?",
+            text = stringResource(com.dplay.onboarding.R.string.third_onboarding_page_main_text),
             style = DPlayTheme.typography.titleBold24,
             color = DPlayTheme.colors.dplayBlack,
             textAlign = TextAlign.Center,
@@ -162,7 +162,7 @@ private fun ThirdOnboardingPage(modifier: Modifier = Modifier) {
         Spacer(modifier = Modifier.height(12.dp))
 
         Text(
-            text = "마음에 드는 곡에 반응을 남기고,\n보관함에 추가할 수 있어요",
+            text = stringResource(com.dplay.onboarding.R.string.third_onboarding_page_sub_text),
             style = DPlayTheme.typography.bodyMed16,
             color = DPlayTheme.colors.gray400,
             textAlign = TextAlign.Center,

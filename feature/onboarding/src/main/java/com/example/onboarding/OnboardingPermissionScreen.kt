@@ -122,7 +122,7 @@ fun OnboardingPermissionScreen(
         Spacer(modifier = Modifier.height(24.dp))
 
         Text(
-            text = "앱 사용을 위해\n접근 권한을 허용해주세요",
+            text = stringResource(com.dplay.onboarding.R.string.permission_screen_title),
             style = DPlayTheme.typography.titleBold18,
             color = DPlayTheme.colors.dplayBlack,
             textAlign = TextAlign.Center
@@ -182,12 +182,12 @@ private fun PermissionBox(
 
         Column{
             Text(
-                text = "알림(선택)",
+                text = stringResource(com.dplay.onboarding.R.string.permission_box_title),
                 style = DPlayTheme.typography.bodyBold14,
             )
 
             Text(
-                text = "알림 메세지 제공",
+                text = stringResource(com.dplay.onboarding.R.string.permission_box_sub_text),
                 style = DPlayTheme.typography.bodyMed14,
                 color = DPlayTheme.colors.gray400
             )

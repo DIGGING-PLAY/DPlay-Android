@@ -70,7 +70,7 @@ fun OnboardingTermsScreen(
                 .padding(top = 20.dp, bottom = 16.dp)
         ){
             Text(
-                "디플레이 이용을 위해\n약관에 동의해주세요"
+                stringResource(com.dplay.onboarding.R.string.terms_screen_title)
             )
 
             Spacer(modifier = Modifier.height(40.dp))

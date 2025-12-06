@@ -108,7 +108,7 @@ fun OnboardingProfileScreen(
             DplayLeftIconTopAppBar { onBackButtonClick() }
 
             Text(
-                text = "디플레이에서 사용할\n프로필을 완성해주세요",
+                text = stringResource(com.dplay.onboarding.R.string.profile_screen_title),
                 modifier = Modifier.padding(start = 16.dp),
                 style = DPlayTheme.typography.titleBold24,
                 color = DPlayTheme.colors.dplayBlack
@@ -177,7 +177,7 @@ fun OnboardingProfileScreen(
                 modifier = Modifier
                     .fillMaxSize()
                     .background(color = DPlayTheme.colors.dim40)
-                    .noRippleClickable{ onAlbumLauncherBottomSheetDismiss() }
+                    .noRippleClickable { onAlbumLauncherBottomSheetDismiss() }
             )
         }
 
@@ -192,8 +192,8 @@ fun OnboardingProfileScreen(
             )
         ) {
             DPlayButtonBottomSheet(
-                mainText = "앨범에서 선택하기",
-                subText = "기본 이미지로 변경하기",
+                mainText = stringResource(com.dplay.onboarding.R.string.profile_screen_bottomsheet_album_select),
+                subText = stringResource(com.dplay.onboarding.R.string.profile_screen_bottomsheet_default_image),
                 mainOnClick = {
                     photoPickerLauncher.launch(
                         PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
