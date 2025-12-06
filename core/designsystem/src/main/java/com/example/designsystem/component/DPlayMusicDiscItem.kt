@@ -35,9 +35,10 @@ fun DPlayMusicDiscItem(
     isStreaming: Boolean = false,
 ) {
     val grayBorderColor = DPlayTheme.colors.gray200
+    val infiniteTransition = rememberInfiniteTransition()
 
     val rotation by if (isStreaming) {
-        rememberInfiniteTransition().animateFloat(
+        infiniteTransition.animateFloat(
             initialValue = 0f,
             targetValue = 360f,
             animationSpec =

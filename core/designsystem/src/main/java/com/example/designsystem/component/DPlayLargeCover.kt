@@ -58,8 +58,11 @@ fun DPlayLargeCover(
             iconRes = if (isBookmarkChecked) R.drawable.ic_bookmark_filled_24 else R.drawable.ic_bookmark_unfilled_24,
             modifier =
                 Modifier
-                    .roundedBackgroundWithPadding(backgroundColor = color.gray600, padding = PaddingValues(10.dp), cornerRadius = 12.dp)
-                    .align(Alignment.TopEnd),
+                    .roundedBackgroundWithPadding(
+                        backgroundColor = color.gray600,
+                        padding = PaddingValues(10.dp),
+                        cornerRadius = 12.dp,
+                    ).align(Alignment.TopEnd),
             onClick = onBookmarkClick,
         )
         Column(
@@ -87,13 +90,23 @@ fun DPlayLargeCover(
             Spacer(modifier = Modifier.height(24.dp))
             Row {
                 DplayBaseIcon(iconRes = R.drawable.ic_quote_up_16, modifier = Modifier.align(Alignment.Top))
-                Text(text = content, maxLines = 3, overflow = TextOverflow.Ellipsis, style = typography.bodySemi14, color = color.dplayWhite, modifier = Modifier.weight(1f))
+                Text(
+                    text = content,
+                    maxLines = 3,
+                    overflow = TextOverflow.Ellipsis,
+                    style = typography.bodySemi14,
+                    color = color.dplayWhite,
+                    modifier = Modifier.weight(1f),
+                )
                 DplayBaseIcon(iconRes = R.drawable.ic_quote_down_16, modifier = Modifier.align(Alignment.Bottom))
             }
             Spacer(modifier = Modifier.height(24.dp))
             Row(verticalAlignment = Alignment.Bottom) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
-                    DplayClickableIcon(iconRes = if (isLikeChecked) R.drawable.ic_heart_white_filled_24 else R.drawable.ic_heart_white_unfilled_24, onClick = onLikeClick)
+                    DplayClickableIcon(
+                        iconRes = if (isLikeChecked) R.drawable.ic_heart_white_filled_24 else R.drawable.ic_heart_white_unfilled_24,
+                        onClick = onLikeClick,
+                    )
                     Spacer(modifier = Modifier.width(4.dp))
                     Text(text = likeCountString, style = typography.bodySemi14, color = color.dplayWhite)
                 }

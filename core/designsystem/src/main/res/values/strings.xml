@@ -86,6 +86,6 @@
 
     <!-- DPlay Image Check -->
     <string name="image_check_image_description">%s 앨범 커버</string>
-    <string name="subect_title">오늘의 질문</string>
+    <string name="subject_title">오늘의 질문</string>
 
 </resources>

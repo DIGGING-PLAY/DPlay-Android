@@ -43,7 +43,7 @@ fun DPlaySubjectItem(
                 iconRes = R.drawable.ic_symbol_20,
             )
             Spacer(modifier = Modifier.width(4.dp))
-            Text(text = stringResource(R.string.subect_title), style = typography.bodySemi14, color = color.dplayPink)
+            Text(text = stringResource(R.string.subject_title), style = typography.bodySemi14, color = color.dplayPink)
         }
         Spacer(modifier = Modifier.height(4.dp))
 
