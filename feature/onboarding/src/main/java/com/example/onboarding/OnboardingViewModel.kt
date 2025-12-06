@@ -94,11 +94,6 @@ class OnboardingViewModel @Inject constructor(
             }
 
             OnboardingContract.OnboardingIntent.OnPermissionConfirmButtonClick -> {
-                navigator.backStack.clear()
-                navigator.goTo(Home)
-            }
-
-            OnboardingContract.OnboardingIntent.OnNotificationPermissionBoxClick -> {
                 setSideEffect(OnboardingContract.OnboardingSideEffect.ShowPermissionDialog)
             }
 
@@ -108,8 +103,9 @@ class OnboardingViewModel @Inject constructor(
                         isNotificationPermissionGranted = intent.isGranted
                     )
                 }
+                navigator.backStack.clear()
+                navigator.goTo(Home)
             }
-
         }
     }
 

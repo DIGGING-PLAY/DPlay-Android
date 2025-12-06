@@ -43,7 +43,6 @@ class OnboardingContract {
         data object OnStartButtonClick : OnboardingIntent
 
         data object OnPermissionConfirmButtonClick : OnboardingIntent
-        data object OnNotificationPermissionBoxClick: OnboardingIntent
         data class OnNotificationPermissionResult(val isGranted: Boolean) : OnboardingIntent
     }
 

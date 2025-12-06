@@ -39,7 +39,6 @@ import com.example.designsystem.component.button.DPlayLargePinkButton
 import com.example.designsystem.theme.DPlayTheme
 import com.example.designsystem.util.noRippleClickable
 import kotlinx.coroutines.flow.collectLatest
-import kotlin.text.compareTo
 
 @Composable
 fun OnboardingPermissionRoute(
@@ -92,19 +91,14 @@ fun OnboardingPermissionRoute(
         onPermissionConfirmButtonClick = {
             viewModel.handleIntent(OnboardingContract.OnboardingIntent.OnPermissionConfirmButtonClick)
         },
-        onNotificationPermissionBoxClick = {
-            viewModel.handleIntent(OnboardingContract.OnboardingIntent.OnNotificationPermissionBoxClick)
-        }
     )
 }
 
 @Composable
 fun OnboardingPermissionScreen(
     modifier: Modifier = Modifier,
-    onNotificationPermissionBoxClick: () -> Unit = {},
     onPermissionConfirmButtonClick: () -> Unit = {},
 ) {
-
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -130,11 +124,7 @@ fun OnboardingPermissionScreen(
 
         Spacer(modifier = Modifier.height(32.dp))
 
-        PermissionBox(
-            onClick = {
-                onNotificationPermissionBoxClick()
-            }
-        )
+        PermissionBox()
 
         Spacer(modifier = Modifier.weight(1f))
 
