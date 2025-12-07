@@ -16,12 +16,12 @@ object SplashNavigationModule {
     @Provides
     @IntoSet
     fun provideSplashEntry(
-        navigator: Navigator
+        navigator: Navigator,
     ): EntryProviderScope<NavKey>.() -> Unit =
         {
             entry<Splash> {
                 SplashRoute(
-                    navigator = navigator
+                    navigator = navigator,
                 )
             }
         }

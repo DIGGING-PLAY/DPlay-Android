@@ -30,10 +30,10 @@ import kotlinx.coroutines.flow.collectLatest
 fun LoginRoute(
     navigator: Navigator,
     viewModel: LoginViewModel = hiltViewModel(),
-){
-    LaunchedEffect(Unit){
+) {
+    LaunchedEffect(Unit) {
         viewModel.sideEffect.collectLatest { sideEffect ->
-            when(sideEffect){
+            when (sideEffect) {
                 LoginContract.LoginSideEffect.NavigateToOnboarding -> {
                     navigator.navigateTo(OnboardingGraph)
                 }
@@ -47,21 +47,22 @@ fun LoginRoute(
     LoginScreen(
         onKaKaoLogin = {
             viewModel.handleIntent(LoginContract.LoginIntent.OnKakaoLogin)
-        }
+        },
     )
 }
 
 @Composable
 fun LoginScreen(
-    onKaKaoLogin: () -> Unit = {}
-){
+    onKaKaoLogin: () -> Unit = {},
+) {
     Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(color = DPlayTheme.colors.dplayWhite)
-            .padding(top = 200.dp, bottom = 16.dp)
-            .padding(horizontal = 16.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
+        modifier =
+            Modifier
+                .fillMaxSize()
+                .background(color = DPlayTheme.colors.dplayWhite)
+                .padding(top = 200.dp, bottom = 16.dp)
+                .padding(horizontal = 16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Text(
             text = stringResource(com.dplay.login.R.string.login_title),
@@ -71,21 +72,21 @@ fun LoginScreen(
         Image(
             painter = painterResource(R.drawable.img_wordmark_pink),
             contentDescription = null,
-            modifier = Modifier.size(width = 200.dp, height = 60.dp)
+            modifier = Modifier.size(width = 200.dp, height = 60.dp),
         )
 
         Spacer(modifier = Modifier.weight(1f))
 
         DPlayKakaoLoginButton(
             onClick = onKaKaoLogin,
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
         )
     }
 }
 
 @Preview(showBackground = true)
 @Composable
-private fun LoginScreenPreview(){
+private fun LoginScreenPreview() {
     DPlayTheme {
         LoginScreen()
     }

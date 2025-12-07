@@ -8,21 +8,23 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class SplashViewModel @Inject constructor() : BaseViewModel<SplashContract.SplashState, SplashContract.SplashIntent, SplashContract.SplashSideEffect>(
-    SplashContract.SplashState()
-) {
-    override fun handleIntent(intent: SplashContract.SplashIntent) {
-        when (intent) {
-            SplashContract.SplashIntent.OnSplashScreenStart -> {
-                viewModelScope.launch {
-                    onSplashStart()
+class SplashViewModel
+    @Inject
+    constructor() : BaseViewModel<SplashContract.SplashState, SplashContract.SplashIntent, SplashContract.SplashSideEffect>(
+            SplashContract.SplashState(),
+        ) {
+        override fun handleIntent(intent: SplashContract.SplashIntent) {
+            when (intent) {
+                SplashContract.SplashIntent.OnSplashScreenStart -> {
+                    viewModelScope.launch {
+                        onSplashStart()
+                    }
                 }
             }
         }
 
+        suspend fun onSplashStart() {
+            delay(2000L)
+            setSideEffect(SplashContract.SplashSideEffect.NavigateToLogin)
+        }
     }
-    suspend fun onSplashStart() {
-        delay(2000L)
-        setSideEffect(SplashContract.SplashSideEffect.NavigateToLogin)
-    }
-}

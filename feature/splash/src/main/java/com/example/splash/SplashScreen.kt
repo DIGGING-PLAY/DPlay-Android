@@ -23,8 +23,8 @@ import kotlinx.coroutines.flow.collectLatest
 @Composable
 fun SplashRoute(
     navigator: Navigator,
-    viewModel: SplashViewModel = hiltViewModel()
-){
+    viewModel: SplashViewModel = hiltViewModel(),
+) {
     LaunchedEffect(Unit) {
         viewModel.sideEffect.collectLatest { sideEffect ->
             when (sideEffect) {
@@ -49,23 +49,24 @@ fun SplashRoute(
 }
 
 @Composable
-fun SplashScreen(){
+fun SplashScreen() {
     Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(color = DPlayTheme.colors.dplayPink)
-            .padding(top = 265.dp, start = 90.dp)
-    ){
+        modifier =
+            Modifier
+                .fillMaxSize()
+                .background(color = DPlayTheme.colors.dplayPink)
+                .padding(top = 265.dp, start = 90.dp),
+    ) {
         Image(
             painter = painterResource(R.drawable.img_wordmark_white),
             contentDescription = null,
-            modifier = Modifier.size(width = 200.dp, height = 60.dp)
+            modifier = Modifier.size(width = 200.dp, height = 60.dp),
         )
     }
 }
 
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
-fun SplashScreenPreview(){
+fun SplashScreenPreview() {
     SplashScreen()
 }

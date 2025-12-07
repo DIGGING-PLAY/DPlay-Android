@@ -53,10 +53,11 @@ class MainActivity : ComponentActivity() {
                         modifier = Modifier.padding(bottom = padding.calculateBottomPadding()),
                         backStack = navigator.backStack,
                         onBack = { navigator.navigateToBack() },
-                        entryDecorators = listOf(
-                            rememberSaveableStateHolderNavEntryDecorator(),
-                            rememberViewModelStoreNavEntryDecorator(),
-                        ),
+                        entryDecorators =
+                            listOf(
+                                rememberSaveableStateHolderNavEntryDecorator(),
+                                rememberViewModelStoreNavEntryDecorator(),
+                            ),
                         entryProvider =
                             entryProvider {
                                 entryProviders.forEach { installer ->

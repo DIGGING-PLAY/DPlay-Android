@@ -33,13 +33,13 @@ fun OnboardingTermsRoute(
     onboardingNavigator: Navigator,
     globalNavigator: Navigator,
     modifier: Modifier = Modifier,
-    viewModel: OnboardingViewModel = hiltViewModel()
+    viewModel: OnboardingViewModel = hiltViewModel(),
 ) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
 
     LaunchedEffect(Unit) {
         viewModel.sideEffect.collectLatest { sideEffect ->
-            when(sideEffect){
+            when (sideEffect) {
                 OnboardingContract.OnboardingSideEffect.NavigateToBack -> {
                     globalNavigator.navigateToBack()
                 }
@@ -64,7 +64,7 @@ fun OnboardingTermsRoute(
         },
         onBackButtonClick = {
             viewModel.handleIntent(OnboardingContract.OnboardingIntent.OnBackButtonClick)
-        }
+        },
     )
 }
 
@@ -75,25 +75,27 @@ fun OnboardingTermsScreen(
     onToggleTerm: (TermType) -> Unit = {},
     onToggleAllTerms: () -> Unit = {},
     onNextButtonClick: () -> Unit = {},
-    onBackButtonClick: () -> Unit = {}
+    onBackButtonClick: () -> Unit = {},
 ) {
     Column(
-        modifier = modifier
-            .fillMaxSize()
-            .background(color = DPlayTheme.colors.dplayWhite)
+        modifier =
+            modifier
+                .fillMaxSize()
+                .background(color = DPlayTheme.colors.dplayWhite),
     ) {
         DplayLeftIconTopAppBar { onBackButtonClick() }
 
         Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(horizontal = 16.dp)
-                .padding(top = 20.dp, bottom = 16.dp)
-        ){
+            modifier =
+                Modifier
+                    .fillMaxSize()
+                    .padding(horizontal = 16.dp)
+                    .padding(top = 20.dp, bottom = 16.dp),
+        ) {
             Text(
                 text = stringResource(com.dplay.onboarding.R.string.terms_screen_title),
                 style = DPlayTheme.typography.titleBold24,
-                color = DPlayTheme.colors.dplayBlack
+                color = DPlayTheme.colors.dplayBlack,
             )
 
             Spacer(modifier = Modifier.height(40.dp))
@@ -127,7 +129,7 @@ fun OnboardingTermsScreen(
                 onClick = onNextButtonClick,
                 modifier = Modifier.fillMaxWidth(),
                 label = stringResource(R.string.next_button_label),
-                enabled = state.isTermsScreenNextButtonEnabled
+                enabled = state.isTermsScreenNextButtonEnabled,
             )
         }
     }
@@ -138,7 +140,7 @@ fun OnboardingTermsScreen(
 private fun OnboardingTermsScreenPreview() {
     DPlayTheme {
         OnboardingTermsScreen(
-            state = OnboardingContract.OnboardingState()
+            state = OnboardingContract.OnboardingState(),
         )
     }
 }

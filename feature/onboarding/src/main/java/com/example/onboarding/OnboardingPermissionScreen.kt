@@ -48,44 +48,46 @@ fun OnboardingPermissionRoute(
     onboardingNavigator: Navigator,
     globalNavigator: Navigator,
     modifier: Modifier = Modifier,
-    viewModel: OnboardingViewModel = hiltViewModel()
+    viewModel: OnboardingViewModel = hiltViewModel(),
 ) {
     val context = LocalContext.current
 
-    val notificationPermissionLauncher = rememberLauncherForActivityResult(
-        ActivityResultContracts.RequestPermission()
-    ) { isGranted ->
-        viewModel.handleIntent(
-            OnboardingContract.OnboardingIntent.OnNotificationPermissionResult(isGranted)
-        )
-    }
+    val notificationPermissionLauncher =
+        rememberLauncherForActivityResult(
+            ActivityResultContracts.RequestPermission(),
+        ) { isGranted ->
+            viewModel.handleIntent(
+                OnboardingContract.OnboardingIntent.OnNotificationPermissionResult(isGranted),
+            )
+        }
 
     LaunchedEffect(Unit) {
-        viewModel.sideEffect.collectLatest { sideEffect -> 
-            when(sideEffect){
+        viewModel.sideEffect.collectLatest { sideEffect ->
+            when (sideEffect) {
                 OnboardingContract.OnboardingSideEffect.ShowPermissionDialog -> {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                        val hasPermission = ContextCompat.checkSelfPermission(
-                            context,
-                            Manifest.permission.POST_NOTIFICATIONS
-                        ) == PackageManager.PERMISSION_GRANTED
+                        val hasPermission =
+                            ContextCompat.checkSelfPermission(
+                                context,
+                                Manifest.permission.POST_NOTIFICATIONS,
+                            ) == PackageManager.PERMISSION_GRANTED
 
                         if (!hasPermission) {
                             notificationPermissionLauncher.launch(
-                                Manifest.permission.POST_NOTIFICATIONS
+                                Manifest.permission.POST_NOTIFICATIONS,
                             )
                         } else {
                             viewModel.handleIntent(
                                 OnNotificationPermissionResult(
-                                    isGranted = true
-                                )
+                                    isGranted = true,
+                                ),
                             )
                         }
                     } else {
                         viewModel.handleIntent(
                             OnNotificationPermissionResult(
-                                isGranted = true
-                            )
+                                isGranted = true,
+                            ),
                         )
                     }
                 }
@@ -116,17 +118,18 @@ fun OnboardingPermissionScreen(
     onPermissionConfirmButtonClick: () -> Unit = {},
 ) {
     Column(
-        modifier = modifier
-            .fillMaxSize()
-            .background(color = DPlayTheme.colors.dplayWhite)
-            .padding(horizontal = 16.dp)
-            .padding(top = 110.dp, bottom = 16.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
+        modifier =
+            modifier
+                .fillMaxSize()
+                .background(color = DPlayTheme.colors.dplayWhite)
+                .padding(horizontal = 16.dp)
+                .padding(top = 110.dp, bottom = 16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Image(
             painter = painterResource(R.drawable.img_wordmark_pink),
             contentDescription = null,
-            modifier = Modifier.size(width = 100.dp, height = 30.dp)
+            modifier = Modifier.size(width = 100.dp, height = 30.dp),
         )
 
         Spacer(modifier = Modifier.height(24.dp))
@@ -135,7 +138,7 @@ fun OnboardingPermissionScreen(
             text = stringResource(com.dplay.onboarding.R.string.permission_screen_title),
             style = DPlayTheme.typography.titleBold18,
             color = DPlayTheme.colors.dplayBlack,
-            textAlign = TextAlign.Center
+            textAlign = TextAlign.Center,
         )
 
         Spacer(modifier = Modifier.height(32.dp))
@@ -156,29 +159,28 @@ fun OnboardingPermissionScreen(
 private fun PermissionBox(
     modifier: Modifier = Modifier,
     onClick: () -> Unit = {},
-){
+) {
     Row(
-        modifier = modifier
-            .fillMaxWidth()
-            .noRippleClickable(
-                onClick = onClick
-            )
-            .border(
-                width = 1.dp,
-                color = DPlayTheme.colors.gray200,
-                shape = RoundedCornerShape(16.dp)
-            )
-            .padding(16.dp),
-        verticalAlignment = Alignment.CenterVertically
-    ){
+        modifier =
+            modifier
+                .fillMaxWidth()
+                .noRippleClickable(
+                    onClick = onClick,
+                ).border(
+                    width = 1.dp,
+                    color = DPlayTheme.colors.gray200,
+                    shape = RoundedCornerShape(16.dp),
+                ).padding(16.dp),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
         Box(
-            modifier = Modifier
-                .background(
-                    color = DPlayTheme.colors.gray100,
-                    shape = CircleShape
-                )
-                .padding(10.dp)
-        ){
+            modifier =
+                Modifier
+                    .background(
+                        color = DPlayTheme.colors.gray100,
+                        shape = CircleShape,
+                    ).padding(10.dp),
+        ) {
             DplayBaseIcon(
                 iconRes = R.drawable.ic_alert_24,
             )
@@ -186,7 +188,7 @@ private fun PermissionBox(
 
         Spacer(modifier = Modifier.width(12.dp))
 
-        Column{
+        Column {
             Text(
                 text = stringResource(com.dplay.onboarding.R.string.permission_box_title),
                 style = DPlayTheme.typography.bodyBold14,
@@ -195,7 +197,7 @@ private fun PermissionBox(
             Text(
                 text = stringResource(com.dplay.onboarding.R.string.permission_box_sub_text),
                 style = DPlayTheme.typography.bodyMed14,
-                color = DPlayTheme.colors.gray400
+                color = DPlayTheme.colors.gray400,
             )
         }
     }

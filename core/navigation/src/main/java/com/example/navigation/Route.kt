@@ -27,11 +27,17 @@ data object MyPage : TopLevelRoute, NavKey {
 }
 
 data object Splash : NavKey
+
 data object Login : NavKey
-data object OnboardingGraph : NavKey{
+
+data object OnboardingGraph : NavKey {
     data object Terms : NavKey
+
     data object Profile : NavKey
+
     data object Onboarding : NavKey
+
     data object Permission : NavKey
 }
+
 data object Recommend : NavKey

@@ -39,11 +39,11 @@ import kotlinx.coroutines.flow.collectLatest
 fun OnboardingRoute(
     onboardingNavigator: Navigator,
     modifier: Modifier = Modifier,
-    viewModel: OnboardingViewModel = hiltViewModel()
+    viewModel: OnboardingViewModel = hiltViewModel(),
 ) {
     LaunchedEffect(Unit) {
         viewModel.sideEffect.collectLatest { sideEffect ->
-            when(sideEffect){
+            when (sideEffect) {
                 OnboardingContract.OnboardingSideEffect.NavigateToBack -> {
                     onboardingNavigator.navigateToBack()
                 }
@@ -58,36 +58,37 @@ fun OnboardingRoute(
     OnboardingScreen(
         onStartButtonClick = {
             viewModel.handleIntent(OnboardingContract.OnboardingIntent.OnStartButtonClick)
-        }
+        },
     )
 }
 
 @Composable
 fun OnboardingScreen(
     modifier: Modifier = Modifier,
-    onStartButtonClick: () -> Unit = {}
+    onStartButtonClick: () -> Unit = {},
 ) {
-
     val pagerState = rememberPagerState(pageCount = { 3 })
 
     Column(
-        modifier = modifier
-            .fillMaxSize()
-            .background(color = DPlayTheme.colors.dplayWhite)
-            .padding(bottom = 16.dp),
-    ){
-        DplayLeftIconTopAppBar {  }
+        modifier =
+            modifier
+                .fillMaxSize()
+                .background(color = DPlayTheme.colors.dplayWhite)
+                .padding(bottom = 16.dp),
+    ) {
+        DplayLeftIconTopAppBar { }
 
         Spacer(modifier = Modifier.height(40.dp))
 
         HorizontalPager(
             state = pagerState,
-            modifier = Modifier
-                .fillMaxWidth()
-                .weight(1f),
-            verticalAlignment = Alignment.Top
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .weight(1f),
+            verticalAlignment = Alignment.Top,
         ) { page ->
-            when(page){
+            when (page) {
                 0 -> FirstOnboardingPage()
                 1 -> SecondOnboardingPage()
                 2 -> ThirdOnboardingPage()
@@ -98,15 +99,16 @@ fun OnboardingScreen(
 
         DotIndicator(
             currentPage = pagerState.currentPage,
-            modifier = Modifier.align(Alignment.CenterHorizontally)
+            modifier = Modifier.align(Alignment.CenterHorizontally),
         )
 
         Spacer(modifier = Modifier.height(54.dp))
 
         DPlayLargePinkButton(
-            modifier = Modifier
-                .padding(horizontal = 16.dp)
-                .fillMaxWidth(),
+            modifier =
+                Modifier
+                    .padding(horizontal = 16.dp)
+                    .fillMaxWidth(),
             onClick = { onStartButtonClick() },
             label = stringResource(R.string.start_button_label),
         )
@@ -115,17 +117,18 @@ fun OnboardingScreen(
 
 @Composable
 private fun FirstOnboardingPage(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     Column(
-        modifier = modifier
-            .fillMaxSize(),
-        horizontalAlignment = Alignment.CenterHorizontally
+        modifier =
+            modifier
+                .fillMaxSize(),
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Text(
             text = stringResource(com.dplay.onboarding.R.string.first_onboarding_page_main_text),
             style = DPlayTheme.typography.titleBold24,
-            color = DPlayTheme.colors.dplayBlack
+            color = DPlayTheme.colors.dplayBlack,
         )
 
         Spacer(modifier = Modifier.height(12.dp))
@@ -142,9 +145,10 @@ private fun FirstOnboardingPage(
 @Composable
 private fun SecondOnboardingPage(modifier: Modifier = Modifier) {
     Column(
-        modifier = modifier
-            .fillMaxSize(),
-        horizontalAlignment = Alignment.CenterHorizontally
+        modifier =
+            modifier
+                .fillMaxSize(),
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Text(
             text = stringResource(com.dplay.onboarding.R.string.second_onboarding_page_main_text),
@@ -167,9 +171,10 @@ private fun SecondOnboardingPage(modifier: Modifier = Modifier) {
 @Composable
 private fun ThirdOnboardingPage(modifier: Modifier = Modifier) {
     Column(
-        modifier = modifier
-            .fillMaxSize(),
-        horizontalAlignment = Alignment.CenterHorizontally
+        modifier =
+            modifier
+                .fillMaxSize(),
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Text(
             text = stringResource(com.dplay.onboarding.R.string.third_onboarding_page_main_text),
@@ -200,19 +205,20 @@ private fun ThirdOnboardingPage(modifier: Modifier = Modifier) {
 private fun DotIndicator(
     currentPage: Int,
     modifier: Modifier = Modifier,
-){
+) {
     Row(
         modifier = modifier,
-        horizontalArrangement = Arrangement.spacedBy(16.dp)
+        horizontalArrangement = Arrangement.spacedBy(16.dp),
     ) {
         repeat(3) { iteration ->
             val color = if (currentPage == iteration) DPlayTheme.colors.dplayBlack else DPlayTheme.colors.gray200
 
             Box(
-                modifier = Modifier
-                    .size(8.dp)
-                    .clip(CircleShape)
-                    .background(color)
+                modifier =
+                    Modifier
+                        .size(8.dp)
+                        .clip(CircleShape)
+                        .background(color),
             )
         }
     }
@@ -221,7 +227,7 @@ private fun DotIndicator(
 @Preview
 @Composable
 private fun OnboardingScreenPreview() {
-    DPlayTheme{
+    DPlayTheme {
         OnboardingScreen()
     }
 }

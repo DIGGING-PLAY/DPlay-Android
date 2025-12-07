@@ -50,20 +50,23 @@ import kotlinx.coroutines.flow.collectLatest
 fun OnboardingProfileRoute(
     onboardingNavigator: Navigator,
     modifier: Modifier = Modifier,
-    viewModel: OnboardingViewModel = hiltViewModel()
+    viewModel: OnboardingViewModel = hiltViewModel(),
 ) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
 
-    val photoPickerLauncher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.PickVisualMedia(),
-        onResult = { uri -> viewModel.handleIntent(
-            OnboardingContract.OnboardingIntent.OnAlbumImageSelect(uri)
-        ) }
-    )
+    val photoPickerLauncher =
+        rememberLauncherForActivityResult(
+            contract = ActivityResultContracts.PickVisualMedia(),
+            onResult = { uri ->
+                viewModel.handleIntent(
+                    OnboardingContract.OnboardingIntent.OnAlbumImageSelect(uri),
+                )
+            },
+        )
 
     LaunchedEffect(Unit) {
         viewModel.sideEffect.collectLatest { sideEffect ->
-            when(sideEffect){
+            when (sideEffect) {
                 OnboardingContract.OnboardingSideEffect.NavigateToBack -> {
                     onboardingNavigator.navigateToBack()
                 }
@@ -72,7 +75,7 @@ fun OnboardingProfileRoute(
                 }
                 OnboardingContract.OnboardingSideEffect.LaunchAlbum -> {
                     photoPickerLauncher.launch(
-                        PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
+                        PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly),
                     )
                 }
                 else -> {}
@@ -102,7 +105,7 @@ fun OnboardingProfileRoute(
         },
         onAlbumLauncherSelect = {
             viewModel.handleIntent(OnboardingContract.OnboardingIntent.OnAlbumLauncherSelect)
-        }
+        },
     )
 }
 
@@ -117,18 +120,20 @@ fun OnboardingProfileScreen(
     onNextButtonClick: () -> Unit = {},
     onBackButtonClick: () -> Unit = {},
     onAlbumLauncherSelect: () -> Unit = {},
-){
+) {
     BackHandler(enabled = state.isAlbumLauncherBottomSheetVisible, onBack = onAlbumLauncherBottomSheetDismiss)
 
     Box(
-        modifier = Modifier
-            .fillMaxSize()
+        modifier =
+            Modifier
+                .fillMaxSize(),
     ) {
         Column(
-            modifier = modifier
-                .fillMaxSize()
-                .background(color = DPlayTheme.colors.dplayWhite)
-                .padding(bottom = 16.dp)
+            modifier =
+                modifier
+                    .fillMaxSize()
+                    .background(color = DPlayTheme.colors.dplayWhite)
+                    .padding(bottom = 16.dp),
         ) {
             DplayLeftIconTopAppBar { onBackButtonClick() }
 
@@ -136,30 +141,32 @@ fun OnboardingProfileScreen(
                 text = stringResource(com.dplay.onboarding.R.string.profile_screen_title),
                 modifier = Modifier.padding(start = 16.dp),
                 style = DPlayTheme.typography.titleBold24,
-                color = DPlayTheme.colors.dplayBlack
+                color = DPlayTheme.colors.dplayBlack,
             )
 
             Spacer(modifier = Modifier.height(28.dp))
 
             Box(
-                modifier = Modifier
-                    .align(Alignment.CenterHorizontally)
-                    .noRippleClickable(
-                        onClick = { onProfileImageClick() }
-                    )
+                modifier =
+                    Modifier
+                        .align(Alignment.CenterHorizontally)
+                        .noRippleClickable(
+                            onClick = { onProfileImageClick() },
+                        ),
             ) {
                 AsyncImage(
                     model = state.profileImageUri ?: R.drawable.img_profile,
                     contentDescription = null,
-                    modifier = Modifier
-                        .size(116.dp)
-                        .clip(CircleShape)
-                        .border(
-                            width = 1.dp,
-                            color = DPlayTheme.colors.gray200,
-                            shape = CircleShape
-                        ),
-                    contentScale = ContentScale.Crop
+                    modifier =
+                        Modifier
+                            .size(116.dp)
+                            .clip(CircleShape)
+                            .border(
+                                width = 1.dp,
+                                color = DPlayTheme.colors.gray200,
+                                shape = CircleShape,
+                            ),
+                    contentScale = ContentScale.Crop,
                 )
 
                 DPlayCircleButton(
@@ -168,7 +175,7 @@ fun OnboardingProfileScreen(
                             R.string.add_profile_image_button_icon_description,
                         ),
                     onClick = { onProfileImageClick() },
-                    modifier = Modifier.align(Alignment.BottomEnd)
+                    modifier = Modifier.align(Alignment.BottomEnd),
                 )
             }
 
@@ -181,7 +188,7 @@ fun OnboardingProfileScreen(
                 onFocusChange = {},
                 placeholder = stringResource(R.string.placeholder_nickname),
                 maxLength = TextFieldConstant.MAX_NICKNAME_LENGTH,
-                modifier = Modifier.padding(horizontal = 8.dp)
+                modifier = Modifier.padding(horizontal = 8.dp),
             )
 
             Spacer(modifier = Modifier.weight(1f))
@@ -189,43 +196,46 @@ fun OnboardingProfileScreen(
             DPlayLargePinkButton(
                 onClick = { onNextButtonClick() },
                 label = stringResource(R.string.next_button_label),
-                modifier = Modifier
-                    .padding(horizontal = 16.dp)
-                    .fillMaxWidth(),
-                enabled = state.isProfileScreenNextButtonEnabled
+                modifier =
+                    Modifier
+                        .padding(horizontal = 16.dp)
+                        .fillMaxWidth(),
+                enabled = state.isProfileScreenNextButtonEnabled,
             )
         }
 
         // scrim 효과
         if (state.isAlbumLauncherBottomSheetVisible) {
             Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(color = DPlayTheme.colors.dim40)
-                    .noRippleClickable { onAlbumLauncherBottomSheetDismiss() }
+                modifier =
+                    Modifier
+                        .fillMaxSize()
+                        .background(color = DPlayTheme.colors.dim40)
+                        .noRippleClickable { onAlbumLauncherBottomSheetDismiss() },
             )
         }
 
         AnimatedVisibility(
             visible = state.isAlbumLauncherBottomSheetVisible,
             modifier = Modifier.align(Alignment.BottomCenter),
-            enter = slideInVertically(
-                initialOffsetY = { it }
-            ),
-            exit = slideOutVertically(
-                targetOffsetY = { it }
-            )
+            enter =
+                slideInVertically(
+                    initialOffsetY = { it },
+                ),
+            exit =
+                slideOutVertically(
+                    targetOffsetY = { it },
+                ),
         ) {
             DPlayButtonBottomSheet(
                 mainText = stringResource(com.dplay.onboarding.R.string.profile_screen_bottomsheet_album_select),
                 subText = stringResource(com.dplay.onboarding.R.string.profile_screen_bottomsheet_default_image),
                 mainOnClick = { onAlbumLauncherSelect() },
                 subOnClick = { onDefaultImageSelect() },
-                modifier = Modifier.noRippleClickable()
+                modifier = Modifier.noRippleClickable(),
             )
         }
     }
-
 }
 
 @Preview
@@ -233,7 +243,7 @@ fun OnboardingProfileScreen(
 private fun OnboardingProfileScreenPreview() {
     DPlayTheme {
         OnboardingProfileScreen(
-            state = OnboardingContract.OnboardingState()
+            state = OnboardingContract.OnboardingState(),
         )
     }
 }

@@ -13,17 +13,16 @@ import dagger.multibindings.IntoSet
 @Module
 @InstallIn(ActivityRetainedComponent::class)
 object OnboardingNavigationModule {
-
     @Provides
     @IntoSet
     fun provideOnboardingEntries(
-        navigator: Navigator
-    ): EntryProviderScope<NavKey>.() -> Unit = {
-
-        entry<OnboardingGraph> {
-            OnboardingNavDisplay(
-                globalNavigator = navigator
-            )
+        navigator: Navigator,
+    ): EntryProviderScope<NavKey>.() -> Unit =
+        {
+            entry<OnboardingGraph> {
+                OnboardingNavDisplay(
+                    globalNavigator = navigator,
+                )
+            }
         }
-    }
 }

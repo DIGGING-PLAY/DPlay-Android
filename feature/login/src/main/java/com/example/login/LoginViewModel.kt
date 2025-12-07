@@ -6,15 +6,15 @@ import javax.inject.Inject
 
 @HiltViewModel
 class LoginViewModel
-@Inject
-constructor() : BaseViewModel<LoginContract.LoginState, LoginContract.LoginIntent, LoginContract.LoginSideEffect>(
-    LoginContract.LoginState(),
-) {
-    override fun handleIntent(intent: LoginContract.LoginIntent) {
-        when (intent) {
-            LoginContract.LoginIntent.OnKakaoLogin -> {
-                setSideEffect(LoginContract.LoginSideEffect.NavigateToOnboarding)
+    @Inject
+    constructor() : BaseViewModel<LoginContract.LoginState, LoginContract.LoginIntent, LoginContract.LoginSideEffect>(
+            LoginContract.LoginState(),
+        ) {
+        override fun handleIntent(intent: LoginContract.LoginIntent) {
+            when (intent) {
+                LoginContract.LoginIntent.OnKakaoLogin -> {
+                    setSideEffect(LoginContract.LoginSideEffect.NavigateToOnboarding)
+                }
             }
         }
     }
-}

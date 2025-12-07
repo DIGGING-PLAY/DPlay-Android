@@ -16,12 +16,12 @@ object LoginNavigationModule {
     @Provides
     @IntoSet
     fun provideLoginEntry(
-        navigator: Navigator
+        navigator: Navigator,
     ): EntryProviderScope<NavKey>.() -> Unit =
         {
             entry<Login> {
                 LoginRoute(
-                    navigator = navigator
+                    navigator = navigator,
                 )
             }
         }
