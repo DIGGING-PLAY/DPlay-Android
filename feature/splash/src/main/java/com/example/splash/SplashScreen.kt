@@ -15,13 +15,34 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.dplay.designsystem.R
 import com.example.designsystem.theme.DPlayTheme
+import com.example.navigation.Home
+import com.example.navigation.Login
+import com.example.navigation.Navigator
+import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun SplashRoute(
+    navigator: Navigator,
     viewModel: SplashViewModel = hiltViewModel()
 ){
     LaunchedEffect(Unit) {
-        viewModel.onSplashFinished()
+        viewModel.sideEffect.collectLatest { sideEffect ->
+            when (sideEffect) {
+                SplashContract.SplashSideEffect.NavigateToHome -> {
+                    navigator.backStack.clear()
+                    navigator.goTo(Home)
+                }
+
+                SplashContract.SplashSideEffect.NavigateToLogin -> {
+                    navigator.backStack.clear()
+                    navigator.goTo(Login)
+                }
+            }
+        }
+    }
+
+    LaunchedEffect(Unit) {
+        viewModel.handleIntent(SplashContract.SplashIntent.OnSplashScreenStart)
     }
 
     SplashScreen()
