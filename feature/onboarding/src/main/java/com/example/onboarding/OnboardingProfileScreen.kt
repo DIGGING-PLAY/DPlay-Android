@@ -45,12 +45,11 @@ import com.example.designsystem.util.TextFieldConstant
 import com.example.designsystem.util.noRippleClickable
 import com.example.navigation.Navigator
 import com.example.navigation.Onboarding
-import com.example.navigation.OnboardingProfile
 import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun OnboardingProfileRoute(
-    navigator: Navigator,
+    onboardingNavigator: Navigator,
     modifier: Modifier = Modifier,
     viewModel: OnboardingViewModel = hiltViewModel()
 ) {
@@ -60,10 +59,10 @@ fun OnboardingProfileRoute(
         viewModel.sideEffect.collectLatest { sideEffect ->
             when(sideEffect){
                 OnboardingContract.OnboardingSideEffect.NavigateToBack -> {
-                    navigator.goBack()
+                    onboardingNavigator.goBack()
                 }
                 OnboardingContract.OnboardingSideEffect.NavigateToOnboarding -> {
-                    navigator.goTo(Onboarding)
+                    onboardingNavigator.goTo(Onboarding)
                 }
                 else -> {}
             }

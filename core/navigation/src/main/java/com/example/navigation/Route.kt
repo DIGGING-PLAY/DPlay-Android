@@ -28,6 +28,7 @@ data object MyPage : TopLevelRoute, NavKey {
 
 data object Splash : NavKey
 data object Login : NavKey
+data object OnboardingGraph : NavKey
 data object OnboardingTerms : NavKey
 data object OnboardingProfile : NavKey
 data object Onboarding : NavKey

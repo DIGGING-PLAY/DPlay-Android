@@ -45,7 +45,8 @@ import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun OnboardingPermissionRoute(
-    navigator: Navigator,
+    onboardingNavigator: Navigator,
+    globalNavigator: Navigator,
     modifier: Modifier = Modifier,
     viewModel: OnboardingViewModel = hiltViewModel()
 ) {
@@ -90,12 +91,12 @@ fun OnboardingPermissionRoute(
                 }
 
                 OnboardingContract.OnboardingSideEffect.NavigateToBack -> {
-                    navigator.goBack()
+                    onboardingNavigator.goBack()
                 }
 
                 OnboardingContract.OnboardingSideEffect.NavigateToHome -> {
-                    navigator.backStack.clear()
-                    navigator.goTo(Home)
+                    globalNavigator.backStack.clear()
+                    globalNavigator.goTo(Home)
                 }
 
                 else -> {}

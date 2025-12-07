@@ -15,7 +15,7 @@ constructor() : BaseViewModel<LoginContract.LoginState, LoginContract.LoginInten
     override fun handleIntent(intent: LoginContract.LoginIntent) {
         when (intent) {
             LoginContract.LoginIntent.OnKakaoLogin -> {
-                setSideEffect(LoginContract.LoginSideEffect.NavigateToEnroll)
+                setSideEffect(LoginContract.LoginSideEffect.NavigateToOnboarding)
             }
         }
     }

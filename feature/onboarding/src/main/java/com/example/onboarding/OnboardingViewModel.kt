@@ -1,7 +1,6 @@
 package com.example.onboarding
 
 import com.example.designsystem.component.textfield.type.NicknameInputState
-import com.example.navigation.Navigator
 import com.example.ui.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject

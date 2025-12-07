@@ -12,7 +12,7 @@ class LoginContract {
     }
 
     sealed interface LoginSideEffect : BaseContract.SideEffect{
-        data object NavigateToEnroll : LoginSideEffect
+        data object NavigateToOnboarding : LoginSideEffect
         data object NavigateToHome : LoginSideEffect
     }
 }

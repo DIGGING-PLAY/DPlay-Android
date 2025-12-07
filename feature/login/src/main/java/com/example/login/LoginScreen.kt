@@ -23,7 +23,7 @@ import com.example.designsystem.component.button.DPlayKakaoLoginButton
 import com.example.designsystem.theme.DPlayTheme
 import com.example.navigation.Home
 import com.example.navigation.Navigator
-import com.example.navigation.OnboardingTerms
+import com.example.navigation.OnboardingGraph
 import kotlinx.coroutines.flow.collectLatest
 
 @Composable
@@ -34,8 +34,8 @@ fun LoginRoute(
     LaunchedEffect(Unit){
         viewModel.sideEffect.collectLatest { sideEffect ->
             when(sideEffect){
-                LoginContract.LoginSideEffect.NavigateToEnroll -> {
-                    navigator.goTo(OnboardingTerms)
+                LoginContract.LoginSideEffect.NavigateToOnboarding -> {
+                    navigator.goTo(OnboardingGraph)
                 }
                 LoginContract.LoginSideEffect.NavigateToHome -> {
                     navigator.backStack.clear()

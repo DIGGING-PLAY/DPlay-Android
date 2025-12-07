@@ -29,7 +29,8 @@ import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun OnboardingTermsRoute(
-    navigator: Navigator,
+    onboardingNavigator: Navigator,
+    globalNavigator: Navigator,
     modifier: Modifier = Modifier,
     viewModel: OnboardingViewModel = hiltViewModel()
 ) {
@@ -39,10 +40,10 @@ fun OnboardingTermsRoute(
         viewModel.sideEffect.collectLatest { sideEffect ->
             when(sideEffect){
                 OnboardingContract.OnboardingSideEffect.NavigateToBack -> {
-                    navigator.goBack()
+                    globalNavigator.goBack()
                 }
                 OnboardingContract.OnboardingSideEffect.NavigateToProfile -> {
-                    navigator.goTo(OnboardingProfile)
+                    onboardingNavigator.goTo(OnboardingProfile)
                 }
                 else -> {}
             }
