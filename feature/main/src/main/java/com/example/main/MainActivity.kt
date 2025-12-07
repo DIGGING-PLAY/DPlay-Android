@@ -9,9 +9,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.viewmodel.navigation3.rememberViewModelStoreNavEntryDecorator
 import androidx.navigation3.runtime.EntryProviderScope
 import androidx.navigation3.runtime.NavKey
 import androidx.navigation3.runtime.entryProvider
+import androidx.navigation3.runtime.rememberSaveableStateHolderNavEntryDecorator
 import androidx.navigation3.ui.NavDisplay
 import com.example.designsystem.theme.DPlayTheme
 import com.example.navigation.Home
@@ -58,6 +60,10 @@ class MainActivity : ComponentActivity() {
                         modifier = Modifier.padding(bottom = padding.calculateBottomPadding()),
                         backStack = navigator.backStack,
                         onBack = { navigator.goBack() },
+                        entryDecorators = listOf(
+                            rememberSaveableStateHolderNavEntryDecorator(),
+                            rememberViewModelStoreNavEntryDecorator(),
+                        ),
                         entryProvider =
                             entryProvider {
                                 entryProviders.forEach { installer ->
