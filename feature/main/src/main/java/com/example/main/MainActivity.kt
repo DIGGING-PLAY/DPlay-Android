@@ -25,8 +25,6 @@ import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import javax.inject.Inject
 
-private val TOP_LEVEL_ROUTES: ImmutableList<TopLevelRoute> = persistentListOf(Home, MyPage)
-
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     @Inject lateinit var navigator: Navigator
@@ -45,7 +43,7 @@ class MainActivity : ComponentActivity() {
                     bottomBar = {
                         BottomNavigationBar(
                             isVisible = navigator.shouldShowBottomSheet,
-                            topLevelRouteList = TOP_LEVEL_ROUTES,
+                            topLevelRouteList = navigator.topLevelRoutes,
                             currentTab = navigator.currentScreen,
                             onBottomNavigationItemClick = { route ->
                                 navigator.goToTopLevelRoute(route)
