@@ -25,7 +25,7 @@ import com.example.designsystem.component.DplayLeftIconTopAppBar
 import com.example.designsystem.component.button.DPlayLargePinkButton
 import com.example.designsystem.theme.DPlayTheme
 import com.example.navigation.Navigator
-import com.example.navigation.OnboardingProfile
+import com.example.navigation.OnboardingGraph
 import kotlinx.coroutines.flow.collectLatest
 
 @Composable
@@ -44,7 +44,7 @@ fun OnboardingTermsRoute(
                     globalNavigator.navigateToBack()
                 }
                 OnboardingContract.OnboardingSideEffect.NavigateToProfile -> {
-                    onboardingNavigator.navigateTo(OnboardingProfile)
+                    onboardingNavigator.navigateTo(OnboardingGraph.Profile)
                 }
                 else -> {}
             }

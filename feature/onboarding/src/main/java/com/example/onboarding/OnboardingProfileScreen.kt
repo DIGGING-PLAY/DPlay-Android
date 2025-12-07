@@ -43,7 +43,7 @@ import com.example.designsystem.theme.DPlayTheme
 import com.example.designsystem.util.TextFieldConstant
 import com.example.designsystem.util.noRippleClickable
 import com.example.navigation.Navigator
-import com.example.navigation.Onboarding
+import com.example.navigation.OnboardingGraph
 import kotlinx.coroutines.flow.collectLatest
 
 @Composable
@@ -68,7 +68,7 @@ fun OnboardingProfileRoute(
                     onboardingNavigator.navigateToBack()
                 }
                 OnboardingContract.OnboardingSideEffect.NavigateToOnboarding -> {
-                    onboardingNavigator.navigateTo(Onboarding)
+                    onboardingNavigator.navigateTo(OnboardingGraph.Onboarding)
                 }
                 OnboardingContract.OnboardingSideEffect.LaunchAlbum -> {
                     photoPickerLauncher.launch(

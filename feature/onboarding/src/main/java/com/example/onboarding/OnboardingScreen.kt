@@ -32,7 +32,7 @@ import com.example.designsystem.component.DplayLeftIconTopAppBar
 import com.example.designsystem.component.button.DPlayLargePinkButton
 import com.example.designsystem.theme.DPlayTheme
 import com.example.navigation.Navigator
-import com.example.navigation.OnboardingPermission
+import com.example.navigation.OnboardingGraph
 import kotlinx.coroutines.flow.collectLatest
 
 @Composable
@@ -48,7 +48,7 @@ fun OnboardingRoute(
                     onboardingNavigator.navigateToBack()
                 }
                 OnboardingContract.OnboardingSideEffect.NavigateToPermission -> {
-                    onboardingNavigator.navigateTo(OnboardingPermission)
+                    onboardingNavigator.navigateTo(OnboardingGraph.Permission)
                 }
                 else -> {}
             }

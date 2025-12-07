@@ -6,17 +6,14 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.ui.NavDisplay
 import com.example.navigation.Navigator
-import com.example.navigation.Onboarding
-import com.example.navigation.OnboardingPermission
-import com.example.navigation.OnboardingProfile
-import com.example.navigation.OnboardingTerms
+import com.example.navigation.OnboardingGraph
 
 @Composable
 fun OnboardingNavDisplay(
     globalNavigator: Navigator,
     viewModel: OnboardingViewModel = hiltViewModel()
 ) {
-    val onboardingNavigator = remember { Navigator(OnboardingTerms) }
+    val onboardingNavigator = remember { Navigator(OnboardingGraph.Terms) }
 
     NavDisplay(
         backStack = onboardingNavigator.backStack,
@@ -29,7 +26,7 @@ fun OnboardingNavDisplay(
         },
         entryProvider = entryProvider {
             // 1. 약관 동의 화면
-            entry<OnboardingTerms> {
+            entry<OnboardingGraph.Terms> {
                 OnboardingTermsRoute(
                     onboardingNavigator = onboardingNavigator,
                     globalNavigator = globalNavigator
@@ -37,21 +34,21 @@ fun OnboardingNavDisplay(
             }
 
             // 2. 프로필 등록 화면
-            entry<OnboardingProfile> {
+            entry<OnboardingGraph.Profile> {
                 OnboardingProfileRoute(
                     onboardingNavigator = onboardingNavigator
                 )
             }
 
             // 3. 튜토리얼 화면 (Pager 포함)
-            entry<Onboarding> {
+            entry<OnboardingGraph.Onboarding> {
                 OnboardingRoute(
                     onboardingNavigator = onboardingNavigator
                 )
             }
 
             // 4. 권한 동의 화면
-            entry<OnboardingPermission> {
+            entry<OnboardingGraph.Permission> {
                 OnboardingPermissionRoute(
                     onboardingNavigator = onboardingNavigator,
                     globalNavigator = globalNavigator
