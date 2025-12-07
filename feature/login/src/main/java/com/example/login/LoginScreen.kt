@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -19,11 +20,29 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.dplay.designsystem.R
 import com.example.designsystem.component.button.DPlayKakaoLoginButton
 import com.example.designsystem.theme.DPlayTheme
+import com.example.navigation.Home
+import com.example.navigation.Navigator
+import com.example.navigation.OnboardingTerms
+import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun LoginRoute(
+    navigator: Navigator,
     viewModel: LoginViewModel = hiltViewModel(),
 ){
+    LaunchedEffect(Unit){
+        viewModel.sideEffect.collectLatest { sideEffect ->
+            when(sideEffect){
+                LoginContract.LoginSideEffect.NavigateToEnroll -> {
+                    navigator.goTo(OnboardingTerms)
+                }
+                LoginContract.LoginSideEffect.NavigateToHome -> {
+                    navigator.backStack.clear()
+                    navigator.goTo(Home)
+                }
+            }
+        }
+    }
     LoginScreen(
         onKaKaoLogin = {
             viewModel.handleIntent(LoginContract.LoginIntent.OnKakaoLogin)

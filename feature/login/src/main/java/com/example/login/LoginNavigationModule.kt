@@ -3,6 +3,7 @@ package com.example.login
 import androidx.navigation3.runtime.EntryProviderScope
 import androidx.navigation3.runtime.NavKey
 import com.example.navigation.Login
+import com.example.navigation.Navigator
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -14,10 +15,14 @@ import dagger.multibindings.IntoSet
 object LoginNavigationModule {
     @Provides
     @IntoSet
-    fun provideLoginEntry(): EntryProviderScope<NavKey>.() -> Unit =
+    fun provideLoginEntry(
+        navigator: Navigator
+    ): EntryProviderScope<NavKey>.() -> Unit =
         {
             entry<Login> {
-                LoginRoute()
+                LoginRoute(
+                    navigator = navigator
+                )
             }
         }
 }

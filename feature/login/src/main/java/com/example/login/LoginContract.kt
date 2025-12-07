@@ -11,5 +11,8 @@ class LoginContract {
         data object OnKakaoLogin : LoginIntent
     }
 
-    sealed interface LoginSideEffect : BaseContract.SideEffect
+    sealed interface LoginSideEffect : BaseContract.SideEffect{
+        data object NavigateToEnroll : LoginSideEffect
+        data object NavigateToHome : LoginSideEffect
+    }
 }
