@@ -29,7 +29,6 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.core.net.toUri
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil3.compose.AsyncImage
@@ -55,6 +54,13 @@ fun OnboardingProfileRoute(
 ) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
 
+    val photoPickerLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.PickVisualMedia(),
+        onResult = { uri -> viewModel.handleIntent(
+            OnboardingContract.OnboardingIntent.OnAlbumImageSelect(uri)
+        ) }
+    )
+
     LaunchedEffect(Unit) {
         viewModel.sideEffect.collectLatest { sideEffect ->
             when(sideEffect){
@@ -63,6 +69,11 @@ fun OnboardingProfileRoute(
                 }
                 OnboardingContract.OnboardingSideEffect.NavigateToOnboarding -> {
                     onboardingNavigator.navigateTo(Onboarding)
+                }
+                OnboardingContract.OnboardingSideEffect.LaunchAlbum -> {
+                    photoPickerLauncher.launch(
+                        PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
+                    )
                 }
                 else -> {}
             }
@@ -86,11 +97,11 @@ fun OnboardingProfileRoute(
         onDefaultImageSelect = {
             viewModel.handleIntent(OnboardingContract.OnboardingIntent.OnDefaultImageSelect)
         },
-        onAlbumImageSelect = {
-            viewModel.handleIntent(OnboardingContract.OnboardingIntent.OnAlbumImageSelect(it))
-        },
         onBackButtonClick = {
             viewModel.handleIntent(OnboardingContract.OnboardingIntent.OnBackButtonClick)
+        },
+        onAlbumLauncherSelect = {
+            viewModel.handleIntent(OnboardingContract.OnboardingIntent.OnAlbumLauncherSelect)
         }
     )
 }
@@ -104,14 +115,9 @@ fun OnboardingProfileScreen(
     onAlbumLauncherBottomSheetDismiss: () -> Unit = {},
     onDefaultImageSelect: () -> Unit = {},
     onNextButtonClick: () -> Unit = {},
-    onAlbumImageSelect: (String?) -> Unit = {},
     onBackButtonClick: () -> Unit = {},
+    onAlbumLauncherSelect: () -> Unit = {},
 ){
-    val photoPickerLauncher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.PickVisualMedia(),
-        onResult = { uri -> onAlbumImageSelect(uri?.toString()) }
-    )
-
     BackHandler(enabled = state.isAlbumLauncherBottomSheetVisible, onBack = onAlbumLauncherBottomSheetDismiss)
 
     Box(
@@ -143,7 +149,7 @@ fun OnboardingProfileScreen(
                     )
             ) {
                 AsyncImage(
-                    model = state.profileImageUri?.toUri() ?: R.drawable.img_profile,
+                    model = state.profileImageUri ?: R.drawable.img_profile,
                     contentDescription = null,
                     modifier = Modifier
                         .size(116.dp)
@@ -213,11 +219,7 @@ fun OnboardingProfileScreen(
             DPlayButtonBottomSheet(
                 mainText = stringResource(com.dplay.onboarding.R.string.profile_screen_bottomsheet_album_select),
                 subText = stringResource(com.dplay.onboarding.R.string.profile_screen_bottomsheet_default_image),
-                mainOnClick = {
-                    photoPickerLauncher.launch(
-                        PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
-                    )
-                },
+                mainOnClick = { onAlbumLauncherSelect() },
                 subOnClick = { onDefaultImageSelect() },
                 modifier = Modifier.noRippleClickable()
             )

@@ -80,7 +80,7 @@ class OnboardingViewModel @Inject constructor() : BaseViewModel<OnboardingContra
             }
 
             OnboardingContract.OnboardingIntent.OnAlbumLauncherSelect -> {
-                // Todo 앨범띄우는 것을 SideEffect로 관리해야할까?
+                setSideEffect(OnboardingContract.OnboardingSideEffect.LaunchAlbum)
             }
 
             OnboardingContract.OnboardingIntent.OnStartButtonClick -> {

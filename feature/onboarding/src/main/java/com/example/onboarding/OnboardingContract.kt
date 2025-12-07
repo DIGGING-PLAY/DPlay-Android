@@ -1,5 +1,6 @@
 package com.example.onboarding
 
+import android.net.Uri
 import com.example.common.type.TermType
 import com.example.designsystem.component.textfield.type.InputState
 import com.example.ui.base.BaseContract
@@ -9,7 +10,7 @@ class OnboardingContract {
         val agreedTerms: Set<TermType> = emptySet(),
 
         val nickname: String = "",
-        val profileImageUri: String? = null,
+        val profileImageUri: Uri? = null,
         val nicknameInputState: InputState = InputState.Default,
         val isAlbumLauncherBottomSheetVisible: Boolean = false,
 
@@ -38,7 +39,7 @@ class OnboardingContract {
         data object OnAlbumLauncherBottomSheetDismiss : OnboardingIntent
         data object OnDefaultImageSelect : OnboardingIntent
         data object OnAlbumLauncherSelect : OnboardingIntent
-        data class OnAlbumImageSelect(val uri: String?) : OnboardingIntent
+        data class OnAlbumImageSelect(val uri: Uri?) : OnboardingIntent
         data object OnProfileScreenNextButtonClick : OnboardingIntent
 
         data object OnStartButtonClick : OnboardingIntent
@@ -54,5 +55,6 @@ class OnboardingContract {
         data object NavigateToPermission : OnboardingSideEffect
         data object NavigateToHome : OnboardingSideEffect
         data object ShowPermissionDialog : OnboardingSideEffect
+        data object LaunchAlbum : OnboardingSideEffect
     }
 }
