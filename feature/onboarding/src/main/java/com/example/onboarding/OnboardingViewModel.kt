@@ -1,25 +1,19 @@
 package com.example.onboarding
 
 import com.example.designsystem.component.textfield.type.NicknameInputState
-import com.example.navigation.Home
 import com.example.navigation.Navigator
-import com.example.navigation.Onboarding
-import com.example.navigation.OnboardingPermission
-import com.example.navigation.OnboardingProfile
 import com.example.ui.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class OnboardingViewModel @Inject constructor(
-    private val navigator: Navigator
-) : BaseViewModel<OnboardingContract.OnboardingState, OnboardingContract.OnboardingIntent, OnboardingContract.OnboardingSideEffect>(
+class OnboardingViewModel @Inject constructor() : BaseViewModel<OnboardingContract.OnboardingState, OnboardingContract.OnboardingIntent, OnboardingContract.OnboardingSideEffect>(
     OnboardingContract.OnboardingState(),
 ) {
     override fun handleIntent(intent: OnboardingContract.OnboardingIntent) {
         when (intent) {
             OnboardingContract.OnboardingIntent.OnBackButtonClick -> {
-                navigator.goBack()
+                setSideEffect(OnboardingContract.OnboardingSideEffect.NavigateToBack)
             }
 
             is OnboardingContract.OnboardingIntent.OnToggleTerm -> {
@@ -45,7 +39,7 @@ class OnboardingViewModel @Inject constructor(
             }
 
             OnboardingContract.OnboardingIntent.OnTermsScreenNextButtonClick -> {
-                navigator.goTo(OnboardingProfile)
+                setSideEffect(OnboardingContract.OnboardingSideEffect.NavigateToProfile)
             }
 
 
@@ -55,7 +49,7 @@ class OnboardingViewModel @Inject constructor(
 
             OnboardingContract.OnboardingIntent.OnProfileScreenNextButtonClick -> {
                 // TODO 닉네임 검증(중복 검사, 금칙어 검사)
-                navigator.goTo(Onboarding)
+                setSideEffect(OnboardingContract.OnboardingSideEffect.NavigateToOnboarding)
             }
 
             is OnboardingContract.OnboardingIntent.OnAlbumImageSelect -> {
@@ -90,7 +84,7 @@ class OnboardingViewModel @Inject constructor(
             }
 
             OnboardingContract.OnboardingIntent.OnStartButtonClick -> {
-                navigator.goTo(OnboardingPermission)
+                setSideEffect(OnboardingContract.OnboardingSideEffect.NavigateToPermission)
             }
 
             OnboardingContract.OnboardingIntent.OnPermissionConfirmButtonClick -> {
@@ -103,8 +97,7 @@ class OnboardingViewModel @Inject constructor(
                         isNotificationPermissionGranted = intent.isGranted
                     )
                 }
-                navigator.backStack.clear()
-                navigator.goTo(Home)
+                setSideEffect(OnboardingContract.OnboardingSideEffect.NavigateToHome)
             }
         }
     }

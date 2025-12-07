@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -22,13 +23,31 @@ import com.example.designsystem.component.DPlayCheckBox
 import com.example.designsystem.component.DplayLeftIconTopAppBar
 import com.example.designsystem.component.button.DPlayLargePinkButton
 import com.example.designsystem.theme.DPlayTheme
+import com.example.navigation.Navigator
+import com.example.navigation.OnboardingProfile
+import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun OnboardingTermsRoute(
+    navigator: Navigator,
     modifier: Modifier = Modifier,
     viewModel: OnboardingViewModel = hiltViewModel()
 ) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
+
+    LaunchedEffect(Unit) {
+        viewModel.sideEffect.collectLatest { sideEffect ->
+            when(sideEffect){
+                OnboardingContract.OnboardingSideEffect.NavigateToBack -> {
+                    navigator.goBack()
+                }
+                OnboardingContract.OnboardingSideEffect.NavigateToProfile -> {
+                    navigator.goTo(OnboardingProfile)
+                }
+                else -> {}
+            }
+        }
+    }
 
     OnboardingTermsScreen(
         state = state,

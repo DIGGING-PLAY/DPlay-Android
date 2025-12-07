@@ -17,6 +17,7 @@ import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -30,12 +31,30 @@ import com.dplay.designsystem.R
 import com.example.designsystem.component.DplayLeftIconTopAppBar
 import com.example.designsystem.component.button.DPlayLargePinkButton
 import com.example.designsystem.theme.DPlayTheme
+import com.example.navigation.Navigator
+import com.example.navigation.OnboardingPermission
+import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun OnboardingRoute(
+    navigator: Navigator,
     modifier: Modifier = Modifier,
     viewModel: OnboardingViewModel = hiltViewModel()
 ) {
+    LaunchedEffect(Unit) {
+        viewModel.sideEffect.collectLatest { sideEffect ->
+            when(sideEffect){
+                OnboardingContract.OnboardingSideEffect.NavigateToBack -> {
+                    navigator.goBack()
+                }
+                OnboardingContract.OnboardingSideEffect.NavigateToPermission -> {
+                    navigator.goTo(OnboardingPermission)
+                }
+                else -> {}
+            }
+        }
+    }
+
     OnboardingScreen(
         onStartButtonClick = {
             viewModel.handleIntent(OnboardingContract.OnboardingIntent.OnStartButtonClick)

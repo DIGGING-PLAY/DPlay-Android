@@ -47,6 +47,11 @@ class OnboardingContract {
     }
 
     sealed interface OnboardingSideEffect : BaseContract.SideEffect{
+        data object NavigateToBack : OnboardingSideEffect
+        data object NavigateToProfile : OnboardingSideEffect
+        data object NavigateToOnboarding : OnboardingSideEffect
+        data object NavigateToPermission : OnboardingSideEffect
+        data object NavigateToHome : OnboardingSideEffect
         data object ShowPermissionDialog : OnboardingSideEffect
     }
 }

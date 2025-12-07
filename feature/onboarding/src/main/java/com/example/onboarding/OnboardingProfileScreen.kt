@@ -20,6 +20,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -42,13 +43,32 @@ import com.example.designsystem.component.textfield.DPlayTextInput
 import com.example.designsystem.theme.DPlayTheme
 import com.example.designsystem.util.TextFieldConstant
 import com.example.designsystem.util.noRippleClickable
+import com.example.navigation.Navigator
+import com.example.navigation.Onboarding
+import com.example.navigation.OnboardingProfile
+import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun OnboardingProfileRoute(
+    navigator: Navigator,
     modifier: Modifier = Modifier,
     viewModel: OnboardingViewModel = hiltViewModel()
 ) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
+
+    LaunchedEffect(Unit) {
+        viewModel.sideEffect.collectLatest { sideEffect ->
+            when(sideEffect){
+                OnboardingContract.OnboardingSideEffect.NavigateToBack -> {
+                    navigator.goBack()
+                }
+                OnboardingContract.OnboardingSideEffect.NavigateToOnboarding -> {
+                    navigator.goTo(Onboarding)
+                }
+                else -> {}
+            }
+        }
+    }
 
     OnboardingProfileScreen(
         state = state,

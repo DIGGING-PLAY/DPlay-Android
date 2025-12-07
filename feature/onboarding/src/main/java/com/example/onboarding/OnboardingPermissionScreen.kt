@@ -38,10 +38,14 @@ import com.example.designsystem.component.DplayBaseIcon
 import com.example.designsystem.component.button.DPlayLargePinkButton
 import com.example.designsystem.theme.DPlayTheme
 import com.example.designsystem.util.noRippleClickable
+import com.example.navigation.Home
+import com.example.navigation.Navigator
+import com.example.onboarding.OnboardingContract.OnboardingIntent.*
 import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun OnboardingPermissionRoute(
+    navigator: Navigator,
     modifier: Modifier = Modifier,
     viewModel: OnboardingViewModel = hiltViewModel()
 ) {
@@ -71,19 +75,30 @@ fun OnboardingPermissionRoute(
                             )
                         } else {
                             viewModel.handleIntent(
-                                OnboardingContract.OnboardingIntent.OnNotificationPermissionResult(
+                                OnNotificationPermissionResult(
                                     isGranted = true
                                 )
                             )
                         }
                     } else {
                         viewModel.handleIntent(
-                            OnboardingContract.OnboardingIntent.OnNotificationPermissionResult(
+                            OnNotificationPermissionResult(
                                 isGranted = true
                             )
                         )
                     }
                 }
+
+                OnboardingContract.OnboardingSideEffect.NavigateToBack -> {
+                    navigator.goBack()
+                }
+
+                OnboardingContract.OnboardingSideEffect.NavigateToHome -> {
+                    navigator.backStack.clear()
+                    navigator.goTo(Home)
+                }
+
+                else -> {}
             }
         }
     }
