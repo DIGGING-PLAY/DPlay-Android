@@ -91,7 +91,9 @@ fun OnboardingTermsScreen(
                 .padding(top = 20.dp, bottom = 16.dp)
         ){
             Text(
-                stringResource(com.dplay.onboarding.R.string.terms_screen_title)
+                text = stringResource(com.dplay.onboarding.R.string.terms_screen_title),
+                style = DPlayTheme.typography.titleBold24,
+                color = DPlayTheme.colors.dplayBlack
             )
 
             Spacer(modifier = Modifier.height(40.dp))
