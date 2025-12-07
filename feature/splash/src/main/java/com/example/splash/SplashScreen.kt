@@ -30,12 +30,12 @@ fun SplashRoute(
             when (sideEffect) {
                 SplashContract.SplashSideEffect.NavigateToHome -> {
                     navigator.backStack.clear()
-                    navigator.goTo(Home)
+                    navigator.navigateTo(Home)
                 }
 
                 SplashContract.SplashSideEffect.NavigateToLogin -> {
                     navigator.backStack.clear()
-                    navigator.goTo(Login)
+                    navigator.navigateTo(Login)
                 }
             }
         }

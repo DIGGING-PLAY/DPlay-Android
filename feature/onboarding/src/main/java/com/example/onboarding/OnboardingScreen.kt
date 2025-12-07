@@ -45,10 +45,10 @@ fun OnboardingRoute(
         viewModel.sideEffect.collectLatest { sideEffect ->
             when(sideEffect){
                 OnboardingContract.OnboardingSideEffect.NavigateToBack -> {
-                    onboardingNavigator.goBack()
+                    onboardingNavigator.navigateToBack()
                 }
                 OnboardingContract.OnboardingSideEffect.NavigateToPermission -> {
-                    onboardingNavigator.goTo(OnboardingPermission)
+                    onboardingNavigator.navigateTo(OnboardingPermission)
                 }
                 else -> {}
             }

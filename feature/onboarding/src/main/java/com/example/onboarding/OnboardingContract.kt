@@ -1,5 +1,6 @@
 package com.example.onboarding
 
+import com.example.common.type.TermType
 import com.example.designsystem.component.textfield.type.InputState
 import com.example.ui.base.BaseContract
 
@@ -53,14 +54,5 @@ class OnboardingContract {
         data object NavigateToPermission : OnboardingSideEffect
         data object NavigateToHome : OnboardingSideEffect
         data object ShowPermissionDialog : OnboardingSideEffect
-    }
-}
-
-enum class TermType(val isMandatory: Boolean) {
-    TERMS_OF_SERVICE(isMandatory = true), // 서비스 이용약관 (필수)
-    PRIVACY_POLICY(isMandatory = true);   // 개인정보 처리방침 (필수)
-
-    companion object {
-        val mandatoryTerms = entries.filter { it.isMandatory }.toSet()
     }
 }

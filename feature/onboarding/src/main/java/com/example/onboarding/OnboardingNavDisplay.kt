@@ -22,9 +22,9 @@ fun OnboardingNavDisplay(
         backStack = onboardingNavigator.backStack,
         onBack = {
             if (onboardingNavigator.backStack.size > 1) {
-                onboardingNavigator.goBack()
+                onboardingNavigator.navigateToBack()
             } else {
-                globalNavigator.goBack()
+                globalNavigator.navigateToBack()
             }
         },
         entryProvider = entryProvider {

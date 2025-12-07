@@ -7,7 +7,6 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.navigation3.rememberViewModelStoreNavEntryDecorator
 import androidx.navigation3.runtime.EntryProviderScope
@@ -16,15 +15,9 @@ import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.runtime.rememberSaveableStateHolderNavEntryDecorator
 import androidx.navigation3.ui.NavDisplay
 import com.example.designsystem.theme.DPlayTheme
-import com.example.navigation.Home
-import com.example.navigation.MyPage
 import com.example.navigation.Navigator
 import com.example.navigation.Recommend
-import com.example.navigation.Splash
-import com.example.navigation.TopLevelRoute
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.collections.immutable.ImmutableList
-import kotlinx.collections.immutable.persistentListOf
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -48,10 +41,10 @@ class MainActivity : ComponentActivity() {
                             topLevelRouteList = navigator.topLevelRoutes,
                             currentTab = navigator.currentScreen,
                             onBottomNavigationItemClick = { route ->
-                                navigator.goToTopLevelRoute(route)
+                                navigator.navigateToTopLevelRoute(route)
                             },
                             onPlusButtonClick = {
-                                navigator.goTo(Recommend)
+                                navigator.navigateTo(Recommend)
                             },
                         )
                     },
@@ -59,7 +52,7 @@ class MainActivity : ComponentActivity() {
                     NavDisplay(
                         modifier = Modifier.padding(bottom = padding.calculateBottomPadding()),
                         backStack = navigator.backStack,
-                        onBack = { navigator.goBack() },
+                        onBack = { navigator.navigateToBack() },
                         entryDecorators = listOf(
                             rememberSaveableStateHolderNavEntryDecorator(),
                             rememberViewModelStoreNavEntryDecorator(),

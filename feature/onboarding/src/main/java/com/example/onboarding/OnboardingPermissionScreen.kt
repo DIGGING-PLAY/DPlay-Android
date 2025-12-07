@@ -91,12 +91,12 @@ fun OnboardingPermissionRoute(
                 }
 
                 OnboardingContract.OnboardingSideEffect.NavigateToBack -> {
-                    onboardingNavigator.goBack()
+                    onboardingNavigator.navigateToBack()
                 }
 
                 OnboardingContract.OnboardingSideEffect.NavigateToHome -> {
                     globalNavigator.backStack.clear()
-                    globalNavigator.goTo(Home)
+                    globalNavigator.navigateTo(Home)
                 }
 
                 else -> {}

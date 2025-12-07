@@ -18,6 +18,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.dplay.designsystem.R
+import com.example.common.type.TermType
 import com.example.designsystem.component.DPlayCheckArrow
 import com.example.designsystem.component.DPlayCheckBox
 import com.example.designsystem.component.DplayLeftIconTopAppBar
@@ -40,10 +41,10 @@ fun OnboardingTermsRoute(
         viewModel.sideEffect.collectLatest { sideEffect ->
             when(sideEffect){
                 OnboardingContract.OnboardingSideEffect.NavigateToBack -> {
-                    globalNavigator.goBack()
+                    globalNavigator.navigateToBack()
                 }
                 OnboardingContract.OnboardingSideEffect.NavigateToProfile -> {
-                    onboardingNavigator.goTo(OnboardingProfile)
+                    onboardingNavigator.navigateTo(OnboardingProfile)
                 }
                 else -> {}
             }

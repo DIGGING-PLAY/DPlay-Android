@@ -35,11 +35,11 @@ fun LoginRoute(
         viewModel.sideEffect.collectLatest { sideEffect ->
             when(sideEffect){
                 LoginContract.LoginSideEffect.NavigateToOnboarding -> {
-                    navigator.goTo(OnboardingGraph)
+                    navigator.navigateTo(OnboardingGraph)
                 }
                 LoginContract.LoginSideEffect.NavigateToHome -> {
                     navigator.backStack.clear()
-                    navigator.goTo(Home)
+                    navigator.navigateTo(Home)
                 }
             }
         }

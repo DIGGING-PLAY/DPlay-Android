@@ -59,10 +59,10 @@ fun OnboardingProfileRoute(
         viewModel.sideEffect.collectLatest { sideEffect ->
             when(sideEffect){
                 OnboardingContract.OnboardingSideEffect.NavigateToBack -> {
-                    onboardingNavigator.goBack()
+                    onboardingNavigator.navigateToBack()
                 }
                 OnboardingContract.OnboardingSideEffect.NavigateToOnboarding -> {
-                    onboardingNavigator.goTo(Onboarding)
+                    onboardingNavigator.navigateTo(Onboarding)
                 }
                 else -> {}
             }
