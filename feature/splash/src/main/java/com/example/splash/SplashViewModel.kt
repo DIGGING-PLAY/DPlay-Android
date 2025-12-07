@@ -10,9 +10,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class SplashViewModel @Inject constructor(
-    private val navigator: Navigator
-) : BaseViewModel<SplashContract.SplashState, SplashContract.SplashIntent, SplashContract.SplashSideEffect>(
+class SplashViewModel @Inject constructor() : BaseViewModel<SplashContract.SplashState, SplashContract.SplashIntent, SplashContract.SplashSideEffect>(
     SplashContract.SplashState()
 ) {
     override fun handleIntent(intent: SplashContract.SplashIntent) {
