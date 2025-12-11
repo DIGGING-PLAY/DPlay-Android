@@ -5,3 +5,7 @@ plugins {
 android {
     namespace = "com.dplay.ui"
 }
+
+dependencies {
+    implementation(projects.core.designsystem)
+}
