@@ -118,8 +118,10 @@ fun DPlayLargeCover(
                     ).padding(12.dp)
                     .align(Alignment.BottomCenter),
         ) {
-            Row(verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier.noRippleClickable(onClick = onWriterProfileClick)) {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.noRippleClickable(onClick = onWriterProfileClick),
+            ) {
                 AsyncImage(
                     model = writerProfileImageUrl,
                     contentDescription = null,
