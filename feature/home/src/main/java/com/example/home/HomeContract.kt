@@ -203,16 +203,24 @@ class HomeContract {
     ) : BaseContract.State
 
     sealed interface HomeIntent : BaseContract.Intent {
-        data object Initialize : HomeIntent
+        data object LoadHomeData : HomeIntent
+        data object OnRefresh : HomeIntent
+        data object OnBookmarkClick : HomeIntent
+        data object OnCoverClick : HomeIntent
+        data object OnStreamClick : HomeIntent
+        data object OnLikeClick : HomeIntent
 
-        data class OnClickNumberButton(
-            val number: Int,
-        ) : HomeIntent
     }
 
     sealed interface HomeSideEffect : BaseContract.SideEffect {
-        data class ShowSnackBar(
-            val message: String,
+        data class NavigateToWriterProfile(
+            val writerUserId: Long,
         ) : HomeSideEffect
+
+        data class NavigateToTrackDetail(
+            val trackId: String,
+        ) : HomeSideEffect
+
+        data object NavigateToRecommend : HomeSideEffect
     }
 }
