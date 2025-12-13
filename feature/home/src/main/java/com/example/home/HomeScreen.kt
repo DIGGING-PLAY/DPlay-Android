@@ -1,31 +1,42 @@
 package com.example.home
 
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.SnackbarHostState
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.dplay.common.model.FeedItem
+import com.dplay.designsystem.R
 import com.example.designsystem.component.DPlayLargeCover
+import com.example.designsystem.component.DPlayMusicDiscItem
 import com.example.designsystem.component.DPlaySubjectItem
+import com.example.designsystem.component.DplayBaseIcon
 import com.example.designsystem.component.DplayClickableIcon
 import com.example.designsystem.component.DplayLogoTopAppBar
 import com.example.designsystem.theme.DPlayTheme
 import kotlinx.coroutines.flow.collectLatest
-import com.dplay.designsystem.R
+import kotlin.math.absoluteValue
 
 @Composable
 fun HomeRoute(
@@ -41,76 +52,132 @@ fun HomeRoute(
         viewModel.sideEffect.collectLatest {
             when (it) {
                 is HomeContract.HomeSideEffect.ShowSnackBar -> {
-
                 }
             }
         }
     }
-
     HomeScreen(
-
+        uiState = state,
     )
 }
 
 @Composable
 private fun HomeScreen(
-    uiState: HomeContract.HomeState = HomeContract.HomeState()
+    uiState: HomeContract.HomeState = HomeContract.HomeState(),
 ) {
-    val colors =  DPlayTheme.colors
+    val colors = DPlayTheme.colors
     val typography = DPlayTheme.typography
     Column(
         modifier = Modifier.fillMaxSize(),
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         DplayLogoTopAppBar(
             onListClick = {
-                //TODO: [과거 추천 기록] 뷰로 이동
-            }
+                // TODO: [과거 추천 기록] 뷰로 이동
+            },
         )
         Spacer(modifier = Modifier.height(20.dp))
-        Row(modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 16.dp),
-            verticalAlignment = Alignment.CenterVertically) {
-            Text(text = uiState.todayQuestion.dateText , style = typography.titleBold18, color = colors.dplayBlack)
+        Row(
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            Text(text = uiState.todayQuestion.dateText, style = typography.titleBold18, color = colors.dplayBlack)
             DplayClickableIcon(
                 iconRes = R.drawable.ic_refresh_20,
                 modifier = Modifier.padding(16.dp),
-                onClick = {}
+                onClick = {},
             )
         }
         Spacer(modifier = Modifier.height(4.dp))
         DPlaySubjectItem(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 16.dp),
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp),
             subject = uiState.todayQuestion.title,
         )
         Spacer(modifier = Modifier.height(44.dp))
-        DPlayLargeCover(
-            isBookmarkChecked = true,
-            isLikeChecked = false,
-            likeCount = 24,
-            writerProfileImageUrl = "",
-            writerNickname = "윤서얌",
-            content = "진짜 나오자마자 들었는데 이 노래가 최고! 출근곡, 퇴근곡, 노동곡 다 되는 짱제로! 일하는 매장에서도 수십 번씩 틀고 있어요. 모두가 알아야 돼..",
-            musicImageUrl = "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/53/d4/c1/53d4c1e4-c712-ef2b-e862-f46045fe5500/cover_KM0022858_1.jpg/512x512bb.jpg",
-            onStreamClick = {},
-            onLikeClick = {},
-            onBookmarkClick = {},
-            isStreaming = true,
-            modifier = Modifier.padding(horizontal = 48.dp)
-        )
+        HomePager(feedItems = uiState.feedItems)
+    }
+}
+
+@OptIn(ExperimentalFoundationApi::class)
+@Composable
+private fun HomePager(
+    feedItems: List<FeedItem>,
+    uiState: HomeContract.HomeState = HomeContract.HomeState(),
+) {
+    val pagerState = rememberPagerState(pageCount = { feedItems.size })
+
+    HorizontalPager(
+        state = pagerState,
+        modifier = Modifier.fillMaxWidth(),
+        contentPadding = PaddingValues(horizontal = 40.dp),
+        pageSpacing = 24.dp,
+    ) { page ->
+
+        val item = feedItems[page]
+
+        val pageOffset =
+            (
+                (pagerState.currentPage - page) +
+                    pagerState.currentPageOffsetFraction
+            ).absoluteValue
+
+        val isCenter = pageOffset < 0.2f
+
+        val isLockedPage = uiState.locked && page >= 3
+
+        if (isLockedPage) {
+            Box {
+                DPlayMusicDiscItem(
+                    modifier = Modifier.fillMaxWidth(),
+                    imageUrl = item.track.coverImg,
+                )
+                Box(
+                    modifier =
+                        Modifier
+                            .fillMaxWidth()
+                            .clip(shape = CircleShape)
+                            .aspectRatio(1f)
+                            .background(color = DPlayTheme.colors.dplayGrayTrans),
+                    contentAlignment = Alignment.Center,
+                ) {
+                    DplayBaseIcon(
+                        iconRes = R.drawable.ic_lock_42,
+                    )
+                }
+            }
+        } else {
+            DPlayLargeCover(
+                modifier = Modifier.fillMaxWidth(),
+                isBookmarkChecked = item.isScrapped,
+                isLikeChecked = item.like.isLiked,
+                likeCount = item.like.count,
+                writerProfileImageUrl = item.writer.profileImg,
+                writerNickname = item.writer.nickname,
+                content = item.content,
+                musicImageUrl = item.track.coverImg,
+                onStreamClick = {},
+                onLikeClick = {},
+                onBookmarkClick = {},
+                isStreaming = false,
+                bookmarkIconVisible = isCenter,
+            )
+        }
     }
 }
 
 @Preview(
     showBackground = true,
-    backgroundColor = 0xFFFFFFFF
+    backgroundColor = 0xFFFFFFFF,
 )
 @Composable
 private fun HomePreview() {
-   DPlayTheme {
-       HomeScreen()
-   }
+    DPlayTheme {
+        HomeScreen()
+    }
 }

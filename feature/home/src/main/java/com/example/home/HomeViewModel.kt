@@ -18,9 +18,9 @@ class HomeViewModel
         }
 
         private fun increment(count: Int) {
-            updateState {
-                copy(count = currentState.count + count)
-            }
+//            updateState {
+//                copy(count = currentState.count + count)
+//            }
             setSideEffect(HomeContract.HomeSideEffect.ShowSnackBar(count.toString()))
         }
     }

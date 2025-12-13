@@ -16,9 +16,15 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.layout.onSizeChanged
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -40,6 +46,7 @@ fun DPlayLargeCover(
     onLikeClick: () -> Unit,
     onBookmarkClick: () -> Unit,
     modifier: Modifier = Modifier,
+    bookmarkIconVisible: Boolean = true,
     isStreaming: Boolean = false,
 ) {
     val color = DPlayTheme.colors
@@ -48,30 +55,64 @@ fun DPlayLargeCover(
     val likeCountString = likeCount.takeIf { it > 0 }?.toString().orEmpty()
     val textCoverShape = RoundedCornerShape(bottomStart = 20.dp, bottomEnd = 20.dp)
 
-    Box(modifier = modifier) {
+    var discHeightPx by remember { mutableIntStateOf(0) }
+    val density = LocalDensity.current
+
+    val textHeightDp =
+        remember(discHeightPx) {
+            if (discHeightPx == 0) {
+                0.dp
+            } else {
+                with(density) {
+                    (discHeightPx.toDp() * (204f / 255f))
+                }
+            }
+        }
+
+    Box(modifier = modifier.fillMaxWidth()) {
         DPlayMusicDiscItem(
             imageUrl = musicImageUrl,
-            modifier = Modifier.padding(bottom = 44.dp, start = 12.dp, end = 12.dp),
             isStreaming = isStreaming,
-        )
-        DplayClickableIcon(
-            iconRes = if (isBookmarkChecked) R.drawable.ic_bookmark_filled_24 else R.drawable.ic_bookmark_unfilled_24,
             modifier =
                 Modifier
-                    .roundedBackgroundWithPadding(
-                        backgroundColor = color.gray600,
-                        padding = PaddingValues(10.dp),
-                        cornerRadius = 12.dp,
-                    ).align(Alignment.TopEnd),
-            onClick = onBookmarkClick,
+                    .fillMaxWidth()
+                    .padding(bottom = 44.dp, start = 12.dp, end = 12.dp)
+                    .onSizeChanged { discHeightPx = it.height }
+                    .align(Alignment.TopCenter),
         )
+
+        if (bookmarkIconVisible) {
+            DplayClickableIcon(
+                iconRes =
+                    if (isBookmarkChecked) {
+                        R.drawable.ic_bookmark_filled_24
+                    } else {
+                        R.drawable.ic_bookmark_unfilled_24
+                    },
+                modifier =
+                    Modifier
+                        .roundedBackgroundWithPadding(
+                            backgroundColor = color.gray600,
+                            padding = PaddingValues(10.dp),
+                            cornerRadius = 12.dp,
+                        ).align(Alignment.TopEnd),
+                onClick = onBookmarkClick,
+            )
+        }
+
         Column(
             modifier =
                 Modifier
                     .fillMaxWidth()
-                    .background(color = color.dplayPinkTrans, shape = textCoverShape)
-                    .border(shape = textCoverShape, width = 1.dp, color = color.dplayPink)
-                    .padding(12.dp)
+                    .height(textHeightDp)
+                    .background(
+                        color = color.dplayPinkTrans,
+                        shape = textCoverShape,
+                    ).border(
+                        width = 1.dp,
+                        color = color.dplayPink,
+                        shape = textCoverShape,
+                    ).padding(12.dp)
                     .align(Alignment.BottomCenter),
         ) {
             Row(verticalAlignment = Alignment.CenterVertically) {
@@ -81,15 +122,24 @@ fun DPlayLargeCover(
                     modifier =
                         Modifier
                             .size(28.dp)
-                            .clip(shape = CircleShape)
+                            .clip(CircleShape)
                             .border(1.dp, color = color.gray200, shape = CircleShape),
                 )
                 Spacer(modifier = Modifier.width(6.dp))
-                Text(text = writerNickname, style = typography.bodyBold16, color = color.dplayWhite)
+                Text(
+                    text = writerNickname,
+                    style = typography.bodyBold16,
+                    color = color.dplayWhite,
+                )
             }
+
             Spacer(modifier = Modifier.height(24.dp))
+
             Row {
-                DplayBaseIcon(iconRes = R.drawable.ic_quote_up_16, modifier = Modifier.align(Alignment.Top))
+                DplayBaseIcon(
+                    iconRes = R.drawable.ic_quote_up_16,
+                    modifier = Modifier.align(Alignment.Top),
+                )
                 Text(
                     text = content,
                     maxLines = 3,
@@ -98,25 +148,41 @@ fun DPlayLargeCover(
                     color = color.dplayWhite,
                     modifier = Modifier.weight(1f),
                 )
-                DplayBaseIcon(iconRes = R.drawable.ic_quote_down_16, modifier = Modifier.align(Alignment.Bottom))
+                DplayBaseIcon(
+                    iconRes = R.drawable.ic_quote_down_16,
+                    modifier = Modifier.align(Alignment.Bottom),
+                )
             }
-            Spacer(modifier = Modifier.height(24.dp))
+
+            Spacer(modifier = Modifier.weight(1f))
+
             Row(verticalAlignment = Alignment.Bottom) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     DplayClickableIcon(
-                        iconRes = if (isLikeChecked) R.drawable.ic_heart_white_filled_24 else R.drawable.ic_heart_white_unfilled_24,
+                        iconRes =
+                            if (isLikeChecked) {
+                                R.drawable.ic_heart_white_filled_24
+                            } else {
+                                R.drawable.ic_heart_white_unfilled_24
+                            },
                         onClick = onLikeClick,
                     )
                     Spacer(modifier = Modifier.width(4.dp))
-                    Text(text = likeCountString, style = typography.bodySemi14, color = color.dplayWhite)
+                    Text(
+                        text = likeCountString,
+                        style = typography.bodySemi14,
+                        color = color.dplayWhite,
+                    )
                 }
                 Spacer(modifier = Modifier.weight(1f))
                 DplayClickableIcon(
                     iconRes = R.drawable.ic_stream_pink_32,
                     modifier =
                         Modifier
-                            .background(color = color.dplayWhite, shape = RoundedCornerShape(16.dp))
-                            .padding(10.dp),
+                            .background(
+                                color = color.dplayWhite,
+                                shape = RoundedCornerShape(16.dp),
+                            ).padding(10.dp),
                     onClick = onStreamClick,
                 )
             }
