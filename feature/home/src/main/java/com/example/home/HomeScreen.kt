@@ -164,6 +164,8 @@ private fun HomePager(
                 onStreamClick = {},
                 onLikeClick = {},
                 onBookmarkClick = {},
+                onCoverClick = {},
+                onWriterProfileClick = {},
                 isStreaming = false,
                 bookmarkIconVisible = isCenter,
             )

@@ -31,6 +31,7 @@ import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import com.dplay.designsystem.R
 import com.example.designsystem.theme.DPlayTheme
+import com.example.designsystem.util.noRippleClickable
 import com.example.designsystem.util.roundedBackgroundWithPadding
 
 @Composable
@@ -42,6 +43,8 @@ fun DPlayLargeCover(
     writerNickname: String,
     content: String,
     musicImageUrl: String,
+    onCoverClick: () -> Unit,
+    onWriterProfileClick: () -> Unit,
     onStreamClick: () -> Unit,
     onLikeClick: () -> Unit,
     onBookmarkClick: () -> Unit,
@@ -69,7 +72,7 @@ fun DPlayLargeCover(
             }
         }
 
-    Box(modifier = modifier.fillMaxWidth()) {
+    Box(modifier = modifier.fillMaxWidth().noRippleClickable(onClick = onCoverClick)) {
         DPlayMusicDiscItem(
             imageUrl = musicImageUrl,
             isStreaming = isStreaming,
@@ -115,7 +118,8 @@ fun DPlayLargeCover(
                     ).padding(12.dp)
                     .align(Alignment.BottomCenter),
         ) {
-            Row(verticalAlignment = Alignment.CenterVertically) {
+            Row(verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.noRippleClickable(onClick = onWriterProfileClick)) {
                 AsyncImage(
                     model = writerProfileImageUrl,
                     contentDescription = null,
@@ -205,6 +209,8 @@ private fun DPlayLargeCoverPreview() {
             onStreamClick = {},
             onLikeClick = {},
             onBookmarkClick = {},
+            onCoverClick = {},
+            onWriterProfileClick = {},
         )
     }
 }
