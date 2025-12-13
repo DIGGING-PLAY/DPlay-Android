@@ -26,8 +26,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.dplay.common.model.FeedItem
 import com.dplay.designsystem.R
+import com.example.common.model.FeedItem
 import com.example.designsystem.component.DPlayLargeCover
 import com.example.designsystem.component.DPlayMusicDiscItem
 import com.example.designsystem.component.DPlaySubjectItem
@@ -42,28 +42,57 @@ import kotlin.math.absoluteValue
 fun HomeRoute(
     viewModel: HomeViewModel = hiltViewModel(),
 ) {
-    val state by viewModel.uiState.collectAsStateWithLifecycle()
+    val state by viewModel.homeUiState.collectAsStateWithLifecycle()
 
     LaunchedEffect(Unit) {
-        viewModel.handleIntent(HomeContract.HomeIntent.Initialize)
+        viewModel.handleIntent(HomeContract.HomeIntent.LoadHomeData)
     }
 
     LaunchedEffect(viewModel.sideEffect) {
         viewModel.sideEffect.collectLatest {
             when (it) {
-                is HomeContract.HomeSideEffect.ShowSnackBar -> {
-                }
+                is HomeContract.HomeSideEffect.NavigateToRecommend -> TODO()
+                is HomeContract.HomeSideEffect.NavigateToPostDetail -> TODO()
+                is HomeContract.HomeSideEffect.NavigateToWriterProfile -> TODO()
             }
         }
     }
     HomeScreen(
         uiState = state,
+        onRefresh = {
+            viewModel.handleIntent(HomeContract.HomeIntent.OnRefreshClick)
+        },
+        onPostClick = { postId ->
+            viewModel.handleIntent(HomeContract.HomeIntent.OnCoverClick(postId = postId))
+        },
+        onBookmarkClick = { postId ->
+            viewModel.handleIntent(HomeContract.HomeIntent.OnBookmarkClick(postId = postId))
+        },
+        onStreamClick = { trackId ->
+            viewModel.handleIntent(HomeContract.HomeIntent.OnStreamClick(trackId = trackId))
+        },
+        onLikeClick = { postId ->
+            viewModel.handleIntent(HomeContract.HomeIntent.OnLikeClick(postId = postId))
+        },
+        onWriterProfileClick = { writerUserId ->
+            viewModel.handleIntent(HomeContract.HomeIntent.OnWriterProfileClick(writerUserId = writerUserId))
+        },
+        onListClick = {
+            viewModel.handleIntent(HomeContract.HomeIntent.OnListClick)
+        },
     )
 }
 
 @Composable
 private fun HomeScreen(
     uiState: HomeContract.HomeState = HomeContract.HomeState(),
+    onRefresh: () -> Unit,
+    onPostClick: (postId: Long) -> Unit,
+    onBookmarkClick: (postId: Long) -> Unit,
+    onStreamClick: (trackId: String) -> Unit,
+    onLikeClick: (postId: Long) -> Unit,
+    onWriterProfileClick: (Long) -> Unit,
+    onListClick: () -> Unit,
 ) {
     val colors = DPlayTheme.colors
     val typography = DPlayTheme.typography
@@ -71,11 +100,7 @@ private fun HomeScreen(
         modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        DplayLogoTopAppBar(
-            onListClick = {
-                // TODO: [과거 추천 기록] 뷰로 이동
-            },
-        )
+        DplayLogoTopAppBar(onListClick = onListClick)
         Spacer(modifier = Modifier.height(20.dp))
         Row(
             modifier =
@@ -88,7 +113,7 @@ private fun HomeScreen(
             DplayClickableIcon(
                 iconRes = R.drawable.ic_refresh_20,
                 modifier = Modifier.padding(16.dp),
-                onClick = {},
+                onClick = onRefresh,
             )
         }
         Spacer(modifier = Modifier.height(4.dp))
@@ -100,7 +125,15 @@ private fun HomeScreen(
             subject = uiState.todayQuestion.title,
         )
         Spacer(modifier = Modifier.height(44.dp))
-        HomePager(feedItems = uiState.feedItems)
+        HomePager(
+            feedItems = uiState.feedItems,
+            onPostClick = onPostClick,
+            onBookmarkClick = onBookmarkClick,
+            onStreamClick = onStreamClick,
+            onLikeClick = onLikeClick,
+            onWriterProfileClick = onWriterProfileClick,
+            uiState = uiState,
+        )
     }
 }
 
@@ -108,7 +141,12 @@ private fun HomeScreen(
 @Composable
 private fun HomePager(
     feedItems: List<FeedItem>,
-    uiState: HomeContract.HomeState = HomeContract.HomeState(),
+    onPostClick: (postId: Long) -> Unit,
+    onBookmarkClick: (postId: Long) -> Unit,
+    onStreamClick: (trackId: String) -> Unit,
+    onLikeClick: (postId: Long) -> Unit,
+    onWriterProfileClick: (Long) -> Unit,
+    uiState: HomeContract.HomeState,
 ) {
     val pagerState = rememberPagerState(pageCount = { feedItems.size })
 
@@ -161,11 +199,11 @@ private fun HomePager(
                 writerNickname = item.writer.nickname,
                 content = item.content,
                 musicImageUrl = item.track.coverImg,
-                onStreamClick = {},
-                onLikeClick = {},
-                onBookmarkClick = {},
-                onCoverClick = {},
-                onWriterProfileClick = {},
+                onStreamClick = { onStreamClick(item.track.trackId) },
+                onLikeClick = { onLikeClick(item.postId) },
+                onBookmarkClick = { onBookmarkClick(item.postId) },
+                onCoverClick = { onPostClick(item.postId) },
+                onWriterProfileClick = { onWriterProfileClick(item.writer.userId) },
                 isStreaming = false,
                 bookmarkIconVisible = isCenter,
             )
@@ -180,6 +218,14 @@ private fun HomePager(
 @Composable
 private fun HomePreview() {
     DPlayTheme {
-        HomeScreen()
+        HomeScreen(
+            onPostClick = {},
+            onBookmarkClick = {},
+            onStreamClick = {},
+            onLikeClick = {},
+            onWriterProfileClick = {},
+            onRefresh = {},
+            onListClick = {},
+        )
     }
 }
