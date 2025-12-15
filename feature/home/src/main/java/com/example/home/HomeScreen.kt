@@ -1,6 +1,7 @@
 package com.example.home
 
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -27,6 +28,8 @@ import com.example.designsystem.component.DPlayLargeCover
 import com.example.designsystem.component.DPlaySubjectItem
 import com.example.designsystem.component.DplayClickableIcon
 import com.example.designsystem.component.DplayLogoTopAppBar
+import com.example.designsystem.component.chip.DPlayChip
+import com.example.designsystem.component.chip.type.DPlayChipType
 import com.example.designsystem.theme.DPlayTheme
 import kotlinx.coroutines.flow.collectLatest
 import kotlin.math.absoluteValue
@@ -117,7 +120,7 @@ private fun HomeScreen(
                     .padding(horizontal = 16.dp),
             subject = uiState.todayQuestion.title,
         )
-        Spacer(modifier = Modifier.height(44.dp))
+        Spacer(modifier = Modifier.height(32.dp))
         HomePager(
             feedItems = uiState.feedItems,
             onPostClick = onPostClick,
@@ -161,25 +164,45 @@ private fun HomePager(
         val isCenter = pageOffset < 0.2f
 
         val isLockedPage = uiState.locked && page >= 3
+        val chipType: DPlayChipType? =
+            when {
+                item.badges.isPopular -> DPlayChipType.BEST
+                item.badges.isEditorPick -> DPlayChipType.EDITOR
+                item.badges.isNew -> DPlayChipType.NEW
+                else -> null
+            }
 
-        DPlayLargeCover(
-            modifier = Modifier.fillMaxWidth(),
-            isLocked = isLockedPage,
-            isBookmarkChecked = item.isScrapped,
-            isLikeChecked = item.like.isLiked,
-            likeCount = item.like.count,
-            writerProfileImageUrl = item.writer.profileImg,
-            writerNickname = item.writer.nickname,
-            content = item.content,
-            musicImageUrl = item.track.coverImg,
-            onStreamClick = { onStreamClick(item.track.trackId) },
-            onLikeClick = { onLikeClick(item.postId) },
-            onBookmarkClick = { onBookmarkClick(item.postId) },
-            onCoverClick = { onPostClick(item.postId) },
-            onWriterProfileClick = { onWriterProfileClick(item.writer.userId) },
-            isStreaming = false,
-            bookmarkIconVisible = isCenter,
-        )
+        Box {
+            chipType
+                ?.takeIf { !isLockedPage }
+                ?.let {
+                    DPlayChip(
+                        type = it,
+                        modifier = Modifier.align(Alignment.TopCenter),
+                    )
+                }
+            Column {
+                Spacer(modifier = Modifier.height(52.dp))
+                DPlayLargeCover(
+                    modifier = Modifier.fillMaxWidth(),
+                    isLocked = isLockedPage,
+                    isBookmarkChecked = item.isScrapped,
+                    isLikeChecked = item.like.isLiked,
+                    likeCount = item.like.count,
+                    writerProfileImageUrl = item.writer.profileImg,
+                    writerNickname = item.writer.nickname,
+                    content = item.content,
+                    musicImageUrl = item.track.coverImg,
+                    onStreamClick = { onStreamClick(item.track.trackId) },
+                    onLikeClick = { onLikeClick(item.postId) },
+                    onBookmarkClick = { onBookmarkClick(item.postId) },
+                    onCoverClick = { onPostClick(item.postId) },
+                    onWriterProfileClick = { onWriterProfileClick(item.writer.userId) },
+                    isStreaming = false,
+                    bookmarkIconVisible = isCenter,
+                )
+            }
+        }
     }
 }
 
