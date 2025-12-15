@@ -1,27 +1,22 @@
 package com.example.home
 
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
@@ -29,9 +24,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.dplay.designsystem.R
 import com.example.common.model.FeedItem
 import com.example.designsystem.component.DPlayLargeCover
-import com.example.designsystem.component.DPlayMusicDiscItem
 import com.example.designsystem.component.DPlaySubjectItem
-import com.example.designsystem.component.DplayBaseIcon
 import com.example.designsystem.component.DplayClickableIcon
 import com.example.designsystem.component.DplayLogoTopAppBar
 import com.example.designsystem.theme.DPlayTheme
@@ -169,45 +162,24 @@ private fun HomePager(
 
         val isLockedPage = uiState.locked && page >= 3
 
-        if (isLockedPage) {
-            Box {
-                DPlayMusicDiscItem(
-                    modifier = Modifier.fillMaxWidth(),
-                    imageUrl = item.track.coverImg,
-                )
-                Box(
-                    modifier =
-                        Modifier
-                            .fillMaxWidth()
-                            .clip(shape = CircleShape)
-                            .aspectRatio(1f)
-                            .background(color = DPlayTheme.colors.dplayGrayTrans),
-                    contentAlignment = Alignment.Center,
-                ) {
-                    DplayBaseIcon(
-                        iconRes = R.drawable.ic_lock_42,
-                    )
-                }
-            }
-        } else {
-            DPlayLargeCover(
-                modifier = Modifier.fillMaxWidth(),
-                isBookmarkChecked = item.isScrapped,
-                isLikeChecked = item.like.isLiked,
-                likeCount = item.like.count,
-                writerProfileImageUrl = item.writer.profileImg,
-                writerNickname = item.writer.nickname,
-                content = item.content,
-                musicImageUrl = item.track.coverImg,
-                onStreamClick = { onStreamClick(item.track.trackId) },
-                onLikeClick = { onLikeClick(item.postId) },
-                onBookmarkClick = { onBookmarkClick(item.postId) },
-                onCoverClick = { onPostClick(item.postId) },
-                onWriterProfileClick = { onWriterProfileClick(item.writer.userId) },
-                isStreaming = false,
-                bookmarkIconVisible = isCenter,
-            )
-        }
+        DPlayLargeCover(
+            modifier = Modifier.fillMaxWidth(),
+            isLocked = isLockedPage,
+            isBookmarkChecked = item.isScrapped,
+            isLikeChecked = item.like.isLiked,
+            likeCount = item.like.count,
+            writerProfileImageUrl = item.writer.profileImg,
+            writerNickname = item.writer.nickname,
+            content = item.content,
+            musicImageUrl = item.track.coverImg,
+            onStreamClick = { onStreamClick(item.track.trackId) },
+            onLikeClick = { onLikeClick(item.postId) },
+            onBookmarkClick = { onBookmarkClick(item.postId) },
+            onCoverClick = { onPostClick(item.postId) },
+            onWriterProfileClick = { onWriterProfileClick(item.writer.userId) },
+            isStreaming = false,
+            bookmarkIconVisible = isCenter,
+        )
     }
 }
 

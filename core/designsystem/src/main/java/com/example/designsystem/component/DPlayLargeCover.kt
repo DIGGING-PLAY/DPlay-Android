@@ -22,6 +22,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.blur
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalDensity
@@ -49,6 +50,7 @@ fun DPlayLargeCover(
     onLikeClick: () -> Unit,
     onBookmarkClick: () -> Unit,
     modifier: Modifier = Modifier,
+    isLocked: Boolean = true,
     bookmarkIconVisible: Boolean = true,
     isStreaming: Boolean = false,
 ) {
@@ -66,131 +68,156 @@ fun DPlayLargeCover(
             if (discHeightPx == 0) {
                 0.dp
             } else {
-                with(density) {
-                    (discHeightPx.toDp() * (204f / 255f))
-                }
+                with(density) { discHeightPx.toDp() * (204f / 255f) }
             }
         }
 
-    Box(modifier = modifier.fillMaxWidth().noRippleClickable(onClick = onCoverClick)) {
-        DPlayMusicDiscItem(
-            imageUrl = musicImageUrl,
-            isStreaming = isStreaming,
+    Box(modifier = modifier.fillMaxWidth()) {
+        Box(
             modifier =
                 Modifier
                     .fillMaxWidth()
-                    .padding(bottom = 44.dp, start = 12.dp, end = 12.dp)
-                    .onSizeChanged { discHeightPx = it.height }
-                    .align(Alignment.TopCenter),
-        )
-
-        if (bookmarkIconVisible) {
-            DplayClickableIcon(
-                iconRes =
-                    if (isBookmarkChecked) {
-                        R.drawable.ic_bookmark_filled_24
-                    } else {
-                        R.drawable.ic_bookmark_unfilled_24
-                    },
+                    .then(if (isLocked) Modifier.clip(shape = textCoverShape).blur(20.dp) else Modifier)
+                    .noRippleClickable(onClick = onCoverClick),
+        ) {
+            DPlayMusicDiscItem(
+                imageUrl = musicImageUrl,
+                isStreaming = isStreaming,
                 modifier =
                     Modifier
-                        .roundedBackgroundWithPadding(
-                            backgroundColor = color.gray600,
-                            padding = PaddingValues(10.dp),
-                            cornerRadius = 12.dp,
-                        ).align(Alignment.TopEnd),
-                onClick = onBookmarkClick,
+                        .fillMaxWidth()
+                        .padding(bottom = 44.dp, start = 12.dp, end = 12.dp)
+                        .onSizeChanged { discHeightPx = it.height }
+                        .align(Alignment.TopCenter),
             )
-        }
 
-        Column(
-            modifier =
-                Modifier
-                    .fillMaxWidth()
-                    .height(textHeightDp)
-                    .background(
-                        color = color.dplayPinkTrans,
-                        shape = textCoverShape,
-                    ).border(
-                        width = 1.dp,
-                        color = color.dplayPink,
-                        shape = textCoverShape,
-                    ).padding(12.dp)
-                    .align(Alignment.BottomCenter),
-        ) {
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier.noRippleClickable(onClick = onWriterProfileClick),
-            ) {
-                AsyncImage(
-                    model = writerProfileImageUrl,
-                    contentDescription = null,
+            if (bookmarkIconVisible && !isLocked) {
+                DplayClickableIcon(
+                    iconRes =
+                        if (isBookmarkChecked) {
+                            R.drawable.ic_bookmark_filled_24
+                        } else {
+                            R.drawable.ic_bookmark_unfilled_24
+                        },
                     modifier =
                         Modifier
-                            .size(28.dp)
-                            .clip(CircleShape)
-                            .border(1.dp, color = color.gray200, shape = CircleShape),
-                )
-                Spacer(modifier = Modifier.width(6.dp))
-                Text(
-                    text = writerNickname,
-                    style = typography.bodyBold16,
-                    color = color.dplayWhite,
+                            .roundedBackgroundWithPadding(
+                                backgroundColor = color.gray600,
+                                padding = PaddingValues(10.dp),
+                                cornerRadius = 12.dp,
+                            ).align(Alignment.TopEnd),
+                    onClick = onBookmarkClick,
                 )
             }
 
-            Spacer(modifier = Modifier.height(24.dp))
-
-            Row {
-                DplayBaseIcon(
-                    iconRes = R.drawable.ic_quote_up_16,
-                    modifier = Modifier.align(Alignment.Top),
-                )
-                Text(
-                    text = content,
-                    maxLines = 3,
-                    overflow = TextOverflow.Ellipsis,
-                    style = typography.bodySemi14,
-                    color = color.dplayWhite,
-                    modifier = Modifier.weight(1f),
-                )
-                DplayBaseIcon(
-                    iconRes = R.drawable.ic_quote_down_16,
-                    modifier = Modifier.align(Alignment.Bottom),
-                )
-            }
-
-            Spacer(modifier = Modifier.weight(1f))
-
-            Row(verticalAlignment = Alignment.Bottom) {
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    DplayClickableIcon(
-                        iconRes =
-                            if (isLikeChecked) {
-                                R.drawable.ic_heart_white_filled_24
-                            } else {
-                                R.drawable.ic_heart_white_unfilled_24
-                            },
-                        onClick = onLikeClick,
+            Column(
+                modifier =
+                    Modifier
+                        .fillMaxWidth()
+                        .height(textHeightDp)
+                        .background(
+                            color = color.dplayPinkTrans,
+                            shape = textCoverShape,
+                        ).border(
+                            width = 1.dp,
+                            color = color.dplayPink,
+                            shape = textCoverShape,
+                        ).padding(12.dp)
+                        .align(Alignment.BottomCenter),
+            ) {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier.noRippleClickable(onClick = onWriterProfileClick),
+                ) {
+                    AsyncImage(
+                        model = writerProfileImageUrl,
+                        contentDescription = null,
+                        modifier =
+                            Modifier
+                                .size(28.dp)
+                                .clip(CircleShape)
+                                .border(1.dp, color = color.gray200, shape = CircleShape),
                     )
-                    Spacer(modifier = Modifier.width(4.dp))
+                    Spacer(modifier = Modifier.width(6.dp))
                     Text(
-                        text = likeCountString,
-                        style = typography.bodySemi14,
+                        text = writerNickname,
+                        style = typography.bodyBold16,
                         color = color.dplayWhite,
                     )
                 }
+
+                Spacer(modifier = Modifier.height(24.dp))
+
+                Row {
+                    DplayBaseIcon(
+                        iconRes = R.drawable.ic_quote_up_16,
+                        modifier = Modifier.align(Alignment.Top),
+                    )
+                    Text(
+                        text = content,
+                        maxLines = 3,
+                        overflow = TextOverflow.Ellipsis,
+                        style = typography.bodySemi14,
+                        color = color.dplayWhite,
+                        modifier = Modifier.weight(1f),
+                    )
+                    DplayBaseIcon(
+                        iconRes = R.drawable.ic_quote_down_16,
+                        modifier = Modifier.align(Alignment.Bottom),
+                    )
+                }
+
                 Spacer(modifier = Modifier.weight(1f))
-                DplayClickableIcon(
-                    iconRes = R.drawable.ic_stream_pink_32,
-                    modifier =
-                        Modifier
-                            .background(
-                                color = color.dplayWhite,
-                                shape = RoundedCornerShape(16.dp),
-                            ).padding(10.dp),
-                    onClick = onStreamClick,
-                )
+
+                Row(verticalAlignment = Alignment.Bottom) {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        DplayClickableIcon(
+                            iconRes =
+                                if (isLikeChecked) {
+                                    R.drawable.ic_heart_white_filled_24
+                                } else {
+                                    R.drawable.ic_heart_white_unfilled_24
+                                },
+                            onClick = onLikeClick,
+                        )
+                        Spacer(modifier = Modifier.width(4.dp))
+                        Text(
+                            text = likeCountString,
+                            style = typography.bodySemi14,
+                            color = color.dplayWhite,
+                        )
+                    }
+                    Spacer(modifier = Modifier.weight(1f))
+                    DplayClickableIcon(
+                        iconRes = R.drawable.ic_stream_pink_32,
+                        modifier =
+                            Modifier
+                                .background(
+                                    color = color.dplayWhite,
+                                    shape = RoundedCornerShape(16.dp),
+                                ).padding(10.dp),
+                        onClick = onStreamClick,
+                    )
+                }
+            }
+        }
+
+        if (isLocked) {
+            Box(
+                modifier =
+                    Modifier
+                        .matchParentSize()
+                        .background(color.dplayWhite.copy(alpha = 0.9f))
+                        .blur(20.dp),
+            )
+            Column(modifier = Modifier.matchParentSize(), horizontalAlignment = Alignment.CenterHorizontally) {
+                Spacer(modifier = Modifier.weight(4f))
+                DplayBaseIcon(iconRes = R.drawable.ic_lock_140)
+                Spacer(modifier = Modifier.height(8.dp))
+                Text(text = "앗, 아직 열어 볼 수 없어요!", style = typography.bodyBold16, color = color.dplayBlack)
+                Spacer(modifier = Modifier.height(4.dp))
+                Text(text = "잠겨있는 곡이에요", style = typography.bodyMed14, color = color.gray400)
+                Spacer(modifier = Modifier.weight(6f))
             }
         }
     }
