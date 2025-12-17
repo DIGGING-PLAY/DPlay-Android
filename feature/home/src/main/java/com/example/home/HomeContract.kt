@@ -2,6 +2,7 @@ package com.example.home
 
 import com.example.common.model.FeedItem
 import com.example.common.model.TodayQuestion
+import com.example.designsystem.component.snackbar.type.SnackBarType
 import com.example.ui.base.BaseContract
 
 class HomeContract {
@@ -59,5 +60,12 @@ class HomeContract {
         ) : HomeSideEffect
 
         data object NavigateToRecommend : HomeSideEffect
+
+        data class ShowToast(
+            val snackBarType: SnackBarType,
+            val action: (() -> Unit)? = null,
+        ) : HomeSideEffect
+
+        data object NavigateToMyPage : HomeSideEffect
     }
 }

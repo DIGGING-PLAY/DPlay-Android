@@ -30,6 +30,7 @@ import com.example.designsystem.component.DplayClickableIcon
 import com.example.designsystem.component.DplayLogoTopAppBar
 import com.example.designsystem.component.chip.DPlayChip
 import com.example.designsystem.component.chip.type.DPlayChipType
+import com.example.designsystem.component.snackbar.LocalShowSnackBar
 import com.example.designsystem.theme.DPlayTheme
 import kotlinx.coroutines.flow.collectLatest
 import kotlin.math.absoluteValue
@@ -39,6 +40,7 @@ fun HomeRoute(
     viewModel: HomeViewModel = hiltViewModel(),
 ) {
     val state by viewModel.homeUiState.collectAsStateWithLifecycle()
+    val showSnackBar = LocalShowSnackBar.current
 
     LaunchedEffect(Unit) {
         viewModel.handleIntent(HomeContract.HomeIntent.LoadHomeData)
@@ -50,6 +52,10 @@ fun HomeRoute(
                 is HomeContract.HomeSideEffect.NavigateToRecommend -> TODO()
                 is HomeContract.HomeSideEffect.NavigateToPostDetail -> TODO()
                 is HomeContract.HomeSideEffect.NavigateToWriterProfile -> TODO()
+                is HomeContract.HomeSideEffect.ShowToast -> {
+                    showSnackBar(it.snackBarType, it.action)
+                }
+                is HomeContract.HomeSideEffect.NavigateToMyPage -> TODO()
             }
         }
     }

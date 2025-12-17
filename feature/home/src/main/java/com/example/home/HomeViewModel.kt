@@ -6,6 +6,7 @@ import com.example.common.model.FeedItem
 import com.example.common.model.Like
 import com.example.common.model.Track
 import com.example.common.model.Writer
+import com.example.designsystem.component.snackbar.type.SnackBarType
 import com.example.home.HomeContract.HomeSideEffect.*
 import com.example.ui.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -61,6 +62,14 @@ class HomeViewModel
         }
 
         private fun previewStreaming(trackId: String) {
+            if (true) { // TODO: 미리듣기 API 미제공 게시물일 경우
+                setSideEffect(
+                    effect =
+                        ShowToast(snackBarType = SnackBarType.STREAMING_NOT_SUPPORT, action = {
+                            setSideEffect(NavigateToMyPage)
+                        }),
+                )
+            }
         }
 
         private fun refreshTodayPosts() {
