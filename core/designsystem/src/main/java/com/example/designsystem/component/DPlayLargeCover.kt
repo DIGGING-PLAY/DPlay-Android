@@ -207,7 +207,7 @@ fun DPlayLargeCover(
                 modifier =
                     Modifier
                         .matchParentSize()
-                        .noRippleClickable{onCoverClick()}
+                        .noRippleClickable { onCoverClick() }
                         .background(color.dplayWhite.copy(alpha = 0.9f))
                         .blur(20.dp),
             )
