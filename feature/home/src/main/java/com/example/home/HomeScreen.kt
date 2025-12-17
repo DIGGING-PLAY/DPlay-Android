@@ -49,13 +49,21 @@ fun HomeRoute(
     LaunchedEffect(viewModel.sideEffect) {
         viewModel.sideEffect.collectLatest {
             when (it) {
-                is HomeContract.HomeSideEffect.NavigateToRecommend -> TODO()
-                is HomeContract.HomeSideEffect.NavigateToPostDetail -> TODO()
-                is HomeContract.HomeSideEffect.NavigateToWriterProfile -> TODO()
+                is HomeContract.HomeSideEffect.NavigateToRecommend -> {
+                    // TODO
+                }
+                is HomeContract.HomeSideEffect.NavigateToPostDetail -> {
+                    // TODO
+                }
+                is HomeContract.HomeSideEffect.NavigateToWriterProfile -> {
+                    // TODO
+                }
                 is HomeContract.HomeSideEffect.ShowToast -> {
                     showSnackBar(it.snackBarType, it.action)
                 }
-                is HomeContract.HomeSideEffect.NavigateToMyPage -> TODO()
+                is HomeContract.HomeSideEffect.NavigateToMyPage -> {
+                    // TODO
+                }
             }
         }
     }
