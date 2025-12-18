@@ -7,80 +7,93 @@ import com.example.common.model.Like
 import com.example.common.model.Track
 import com.example.common.model.Writer
 import com.example.designsystem.component.snackbar.type.SnackBarType
-import com.example.home.HomeContract.HomeSideEffect.*
+import com.example.home.HomeContract.HomeSideEffect.NavigateToMyPage
+import com.example.home.HomeContract.HomeSideEffect.NavigateToPostDetail
+import com.example.home.HomeContract.HomeSideEffect.NavigateToRecommend
+import com.example.home.HomeContract.HomeSideEffect.NavigateToWriterProfile
+import com.example.home.HomeContract.HomeSideEffect.ShowToast
 import com.example.ui.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel
-    @Inject
-    constructor() : BaseViewModel<HomeContract.HomeState, HomeContract.HomeIntent, HomeContract.HomeSideEffect>(
-            HomeContract.HomeState(),
-        ) {
-        private val loadTrigger = MutableStateFlow(Unit)
+@Inject
+constructor() :
+    BaseViewModel<HomeContract.HomeState, HomeContract.HomeIntent, HomeContract.HomeSideEffect>(
+        HomeContract.HomeState(),
+    ) {
+        init {
+            loadData()
+        }
 
-        val homeUiState: StateFlow<HomeContract.HomeState> =
-            loadTrigger
-                .map {
-                    HomeContract.HomeState(
-                        isLoading = false,
-                        feedItems = dummyFeedItems,
-                    )
-                }.stateIn(
-                    scope = viewModelScope,
-                    started = SharingStarted.WhileSubscribed(5_000),
-                    initialValue = HomeContract.HomeState(isLoading = true),
-                )
-
-        override fun handleIntent(intent: HomeContract.HomeIntent) {
-            when (intent) {
-                is HomeContract.HomeIntent.LoadHomeData -> getTodayPosts()
-                is HomeContract.HomeIntent.OnBookmarkClick -> toggleBookmark(intent.postId)
-                is HomeContract.HomeIntent.OnLikeClick -> toggleLike(intent.postId)
-                is HomeContract.HomeIntent.OnRefreshClick -> refreshTodayPosts()
-                is HomeContract.HomeIntent.OnStreamClick -> previewStreaming(intent.trackId)
-                is HomeContract.HomeIntent.OnListClick -> {
-                    setSideEffect(NavigateToRecommend)
-                }
-                is HomeContract.HomeIntent.OnWriterProfileClick -> {
-                    setSideEffect(NavigateToWriterProfile(writerUserId = intent.writerUserId))
-                }
-
-                is HomeContract.HomeIntent.OnCoverClick -> {
-                    setSideEffect(NavigateToPostDetail(postId = intent.postId))
-                }
+    override fun handleIntent(intent: HomeContract.HomeIntent) {
+        when (intent) {
+            is HomeContract.HomeIntent.LoadHomeData -> getTodayPosts()
+            is HomeContract.HomeIntent.OnBookmarkClick -> toggleBookmark(intent.postId)
+            is HomeContract.HomeIntent.OnLikeClick -> toggleLike(intent.postId)
+            is HomeContract.HomeIntent.OnRefreshClick -> refreshTodayPosts()
+            is HomeContract.HomeIntent.OnStreamClick -> previewStreaming(intent.trackId)
+            is HomeContract.HomeIntent.OnListClick -> {
+                setSideEffect(NavigateToRecommend)
             }
-        }
 
-        private fun getTodayPosts() {
-        }
-
-        private fun previewStreaming(trackId: String) {
-            if (true) { // TODO: 미리듣기 API 미제공 게시물일 경우
-                setSideEffect(
-                    effect =
-                        ShowToast(snackBarType = SnackBarType.STREAMING_NOT_SUPPORT, action = {
-                            setSideEffect(NavigateToMyPage)
-                        }),
-                )
+            is HomeContract.HomeIntent.OnWriterProfileClick -> {
+                setSideEffect(NavigateToWriterProfile(writerUserId = intent.writerUserId))
             }
-        }
 
-        private fun refreshTodayPosts() {
-        }
-
-        private fun toggleBookmark(postId: Long) {
-        }
-
-        private fun toggleLike(postId: Long) {
+            is HomeContract.HomeIntent.OnCoverClick -> {
+                setSideEffect(NavigateToPostDetail(postId = intent.postId))
+            }
         }
     }
+
+    private fun loadData() {
+        viewModelScope.launch {
+            updateState { copy(isLoading = true) }
+
+            runCatching {
+                //TODO: 추후 서버통신 함수
+                dummyFeedItems
+            }.onSuccess { items ->
+                updateState {
+                    copy(
+                        isLoading = false,
+                        feedItems = items,
+                    )
+                }
+            }.onFailure { e ->
+                updateState {
+                    copy(isLoading = false)
+                }
+            }
+        }
+    }
+
+    private fun getTodayPosts() {
+    }
+
+    private fun previewStreaming(trackId: String) {
+        if (true) { // TODO: 미리듣기 API 미제공 게시물일 경우
+            setSideEffect(
+                effect =
+                    ShowToast(snackBarType = SnackBarType.STREAMING_NOT_SUPPORT, action = {
+                        setSideEffect(NavigateToMyPage)
+                    }),
+            )
+        }
+    }
+
+    private fun refreshTodayPosts() {
+    }
+
+    private fun toggleBookmark(postId: Long) {
+    }
+
+    private fun toggleLike(postId: Long) {
+    }
+}
 
 val dummyFeedItems =
     listOf(

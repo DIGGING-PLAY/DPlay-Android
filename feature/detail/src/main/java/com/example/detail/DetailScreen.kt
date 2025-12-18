@@ -34,7 +34,9 @@ import com.example.designsystem.component.button.DPlayLikeButton
 import com.example.designsystem.component.button.DPlayStreamingButton
 import com.example.designsystem.component.chip.DPlayChip
 import com.example.designsystem.component.chip.type.DPlayChipType
+import com.example.designsystem.component.snackbar.LocalShowSnackBar
 import com.example.designsystem.theme.DPlayTheme
+import com.example.designsystem.util.noRippleClickable
 import com.example.designsystem.util.roundedBackgroundWithPadding
 import kotlinx.coroutines.flow.collectLatest
 
@@ -43,9 +45,18 @@ fun DetailRoute(
     viewModel: DetailViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val showSnackBar = LocalShowSnackBar.current
 
-    LaunchedEffect(Unit) {
-        viewModel.handleIntent(DetailContract.DetailIntent.Initialize)
+
+    LaunchedEffect(viewModel.sideEffect) {
+        viewModel.sideEffect.collectLatest {
+            when (it) {
+                is DetailContract.DetailSideEffect.ShowToast -> {
+                    showSnackBar(it.snackBarType, it.action)
+                }
+
+            }
+        }
     }
 
     LaunchedEffect(viewModel.sideEffect) {
@@ -59,11 +70,23 @@ fun DetailRoute(
 
     DetailScreen(
         state = uiState,
+        onTopAppBarLeftIconClick = TODO(),
+        onTopAppBarRightIconClick = TODO(),
+        onBookmarkClick = TODO(),
+        onStreamClick = TODO(),
+        onLickClick = TODO(),
+        onWriterProfileClick = TODO(),
     )
 }
 
 @Composable
 private fun DetailScreen(
+    onTopAppBarLeftIconClick: () -> Unit,
+    onTopAppBarRightIconClick: () -> Unit,
+    onBookmarkClick: () -> Unit,
+    onStreamClick: () -> Unit,
+    onLickClick: () -> Unit,
+    onWriterProfileClick: () -> Unit,
     state: DetailContract.DetailState = DetailContract.DetailState(),
 ) {
     val color = DPlayTheme.colors
@@ -88,12 +111,8 @@ private fun DetailScreen(
             title = state.date,
             leftIconRes = R.drawable.ic_arrow_left_16,
             rightIconRes = R.drawable.ic_more_24,
-            onLeftClick = {
-                // TODO
-            },
-            onRightClick = {
-                // TODO
-            },
+            onLeftClick = onTopAppBarLeftIconClick,
+            onRightClick = onTopAppBarRightIconClick,
         )
         Spacer(modifier = Modifier.height(24.dp))
 
@@ -104,9 +123,7 @@ private fun DetailScreen(
             )
             DPlayBookmarkButton(
                 isMarked = postDetailData.isScrapped,
-                onClick = {
-                    // TODO
-                },
+                onClick = onBookmarkClick,
                 modifier = Modifier.align(Alignment.TopEnd),
             )
             chipType
@@ -136,9 +153,7 @@ private fun DetailScreen(
 
         Row(modifier = horizontalModifier) {
             DPlayStreamingButton(
-                onClick = {
-                    // TODO
-                },
+                onClick = onStreamClick,
                 enabled = true,
                 modifier = Modifier.weight(1f),
             )
@@ -146,9 +161,7 @@ private fun DetailScreen(
             DPlayLikeButton(
                 isLiked = postDetailData.like.isLiked,
                 likeCount = postDetailData.like.count,
-                onClick = {
-                    // TODO
-                },
+                onClick = onLickClick,
                 modifier = Modifier.weight(1f),
             )
         }
@@ -161,19 +174,26 @@ private fun DetailScreen(
                         width = 1.dp,
                         color = color.gray200,
                         shape = RoundedCornerShape(12.dp),
-                    ).roundedBackgroundWithPadding(
+                    )
+                    .roundedBackgroundWithPadding(
                         backgroundColor = color.dplayWhite,
                         cornerRadius = 12.dp,
                         padding = PaddingValues(horizontal = 12.dp, vertical = 16.dp),
                     ),
         ) {
-            Text(text = postDetailData.content,
+            Text(
+                text = postDetailData.content,
                 maxLines = 3,
                 overflow = TextOverflow.Ellipsis,
                 style = typography.bodySemi14,
-                color=color.dplayBlack)
+                color = color.dplayBlack
+            )
             Spacer(modifier = Modifier.height(12.dp))
-            Row(modifier = Modifier.align(Alignment.CenterHorizontally)) {
+            Row(
+                modifier = Modifier
+                    .align(Alignment.CenterHorizontally)
+                    .noRippleClickable(onClick = onWriterProfileClick)
+            ) {
                 AsyncImage(
                     model = postDetailData.writer.profileImg,
                     contentDescription = null,
@@ -184,9 +204,11 @@ private fun DetailScreen(
                             .border(1.dp, color = color.gray200, shape = CircleShape),
                 )
                 Spacer(modifier = Modifier.width(6.dp))
-                Text(text = postDetailData.writer.nickname,
+                Text(
+                    text = postDetailData.writer.nickname,
                     style = typography.bodySemi14,
-                    color=color.gray400)
+                    color = color.gray400
+                )
             }
         }
     }

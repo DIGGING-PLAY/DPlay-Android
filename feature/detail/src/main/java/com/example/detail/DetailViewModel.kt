@@ -6,18 +6,55 @@ import javax.inject.Inject
 
 @HiltViewModel
 class DetailViewModel
-    @Inject
-    constructor() : BaseViewModel<DetailContract.DetailState, DetailContract.DetailIntent, DetailContract.DetailSideEffect>(
-            DetailContract.DetailState(),
-        ) {
-        override fun handleIntent(intent: DetailContract.DetailIntent) {
-            when (intent) {
-                DetailContract.DetailIntent.Initialize -> {}
-                is DetailContract.DetailIntent.OnClickNumberButton -> increment(intent.number)
-            }
+@Inject
+constructor() :
+    BaseViewModel<DetailContract.DetailState, DetailContract.DetailIntent, DetailContract.DetailSideEffect>(
+        DetailContract.DetailState(),
+    ) {
+        init {
+            loadData()
         }
 
-        private fun increment(count: Int) {
-            setSideEffect(DetailContract.DetailSideEffect.ShowSnackBar(count.toString()))
+    override fun handleIntent(intent: DetailContract.DetailIntent) {
+        when (intent) {
+            is DetailContract.DetailIntent.OnBackButtonClick -> {
+                setSideEffect(DetailContract.DetailSideEffect.NavigateBackStack)
+            }
+            is DetailContract.DetailIntent.OnBookmarkClick -> toggleBookmark()
+            is DetailContract.DetailIntent.OnDeleteClick -> deletePost()
+            is DetailContract.DetailIntent.OnLikeClick -> toggleLike()
+            is DetailContract.DetailIntent.OnMeatBallsClick -> {
+                setSideEffect(DetailContract.DetailSideEffect.ShowBottomSheet)
+            }
+            is DetailContract.DetailIntent.OnReportClick -> reportPost()
+            is DetailContract.DetailIntent.OnStreamClick -> streamTrack()
+            is DetailContract.DetailIntent.OnWriterProfileClick -> {
+                setSideEffect(DetailContract.DetailSideEffect.NavigateToWriterProfile(writerUserId = intent.writerUserId))
+            }
         }
     }
+
+    private fun loadData() {
+
+    }
+
+    private fun toggleBookmark(){
+
+    }
+
+    private fun toggleLike(){
+
+    }
+
+    private fun deletePost(){
+
+    }
+
+    private fun reportPost(){
+
+    }
+
+    private fun streamTrack(){
+
+    }
+}

@@ -5,6 +5,7 @@ import com.example.common.model.FeedItem
 import com.example.common.model.Like
 import com.example.common.model.Track
 import com.example.common.model.Writer
+import com.example.designsystem.component.snackbar.type.SnackBarType
 import com.example.ui.base.BaseContract
 
 class DetailContract {
@@ -43,16 +44,42 @@ class DetailContract {
     ) : BaseContract.State
 
     sealed interface DetailIntent : BaseContract.Intent {
-        data object Initialize : DetailIntent
-
-        data class OnClickNumberButton(
-            val number: Int,
+        data class OnBookmarkClick(
+            val postId: Long,
         ) : DetailIntent
+
+        data class OnStreamClick(
+            val trackId: String,
+        ) : DetailIntent
+
+        data class OnLikeClick(
+            val postId: Long,
+        ) : DetailIntent
+
+        data object OnMeatBallsClick : DetailIntent
+
+        data class OnWriterProfileClick(
+            val writerUserId: Long,
+        ) : DetailIntent
+
+        data object OnBackButtonClick: DetailIntent
+
+        data class OnReportClick(val reasons:List<String>): DetailIntent
+
+        data object OnDeleteClick: DetailIntent
     }
 
     sealed interface DetailSideEffect : BaseContract.SideEffect {
-        data class ShowSnackBar(
-            val message: String,
+        data object NavigateBackStack: DetailSideEffect
+
+        data object ShowBottomSheet: DetailSideEffect
+
+        data class NavigateToWriterProfile(
+            val writerUserId: Long,
+        ) : DetailSideEffect
+        data class ShowToast(
+            val snackBarType: SnackBarType,
+            val action: (() -> Unit)? = null,
         ) : DetailSideEffect
     }
 }
