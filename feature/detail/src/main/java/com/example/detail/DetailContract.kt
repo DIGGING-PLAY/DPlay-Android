@@ -62,21 +62,24 @@ class DetailContract {
             val writerUserId: Long,
         ) : DetailIntent
 
-        data object OnBackButtonClick: DetailIntent
+        data object OnBackButtonClick : DetailIntent
 
-        data class OnReportClick(val reasons:List<String>): DetailIntent
+        data class OnReportClick(
+            val reasons: List<String>,
+        ) : DetailIntent
 
-        data object OnDeleteClick: DetailIntent
+        data object OnDeleteClick : DetailIntent
     }
 
     sealed interface DetailSideEffect : BaseContract.SideEffect {
-        data object NavigateBackStack: DetailSideEffect
+        data object NavigateBackStack : DetailSideEffect
 
-        data object ShowBottomSheet: DetailSideEffect
+        data object ShowBottomSheet : DetailSideEffect
 
         data class NavigateToWriterProfile(
             val writerUserId: Long,
         ) : DetailSideEffect
+
         data class ShowToast(
             val snackBarType: SnackBarType,
             val action: (() -> Unit)? = null,

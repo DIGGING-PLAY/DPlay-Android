@@ -47,14 +47,12 @@ fun DetailRoute(
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val showSnackBar = LocalShowSnackBar.current
 
-
     LaunchedEffect(viewModel.sideEffect) {
         viewModel.sideEffect.collectLatest {
             when (it) {
                 is DetailContract.DetailSideEffect.ShowToast -> {
                     showSnackBar(it.snackBarType, it.action)
                 }
-
             }
         }
     }
@@ -174,8 +172,7 @@ private fun DetailScreen(
                         width = 1.dp,
                         color = color.gray200,
                         shape = RoundedCornerShape(12.dp),
-                    )
-                    .roundedBackgroundWithPadding(
+                    ).roundedBackgroundWithPadding(
                         backgroundColor = color.dplayWhite,
                         cornerRadius = 12.dp,
                         padding = PaddingValues(horizontal = 12.dp, vertical = 16.dp),
@@ -186,13 +183,14 @@ private fun DetailScreen(
                 maxLines = 3,
                 overflow = TextOverflow.Ellipsis,
                 style = typography.bodySemi14,
-                color = color.dplayBlack
+                color = color.dplayBlack,
             )
             Spacer(modifier = Modifier.height(12.dp))
             Row(
-                modifier = Modifier
-                    .align(Alignment.CenterHorizontally)
-                    .noRippleClickable(onClick = onWriterProfileClick)
+                modifier =
+                    Modifier
+                        .align(Alignment.CenterHorizontally)
+                        .noRippleClickable(onClick = onWriterProfileClick),
             ) {
                 AsyncImage(
                     model = postDetailData.writer.profileImg,
@@ -207,7 +205,7 @@ private fun DetailScreen(
                 Text(
                     text = postDetailData.writer.nickname,
                     style = typography.bodySemi14,
-                    color = color.gray400
+                    color = color.gray400,
                 )
             }
         }
