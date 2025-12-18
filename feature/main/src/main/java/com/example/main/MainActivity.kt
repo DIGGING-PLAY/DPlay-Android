@@ -42,7 +42,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             val modalController = remember { ModalController() }
-            val appTerminationHandler = remember { AppTerminationHandler(this) }
+            val appTerminationHandler = remember(this) { AppTerminationHandler(this) }
 
             CompositionLocalProvider(
                 LocalModalController provides modalController,
