@@ -18,31 +18,25 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.navigation3.rememberViewModelStoreNavEntryDecorator
 import androidx.navigation3.runtime.EntryProviderScope
 import androidx.navigation3.runtime.NavKey
 import androidx.navigation3.runtime.entryProvider
+import androidx.navigation3.runtime.rememberSaveableStateHolderNavEntryDecorator
 import androidx.navigation3.ui.NavDisplay
 import com.example.designsystem.component.snackbar.DPlaySnackBar
 import com.example.designsystem.component.snackbar.LocalShowSnackBar
 import com.example.designsystem.component.snackbar.LocalSnackBarState
 import com.example.designsystem.component.snackbar.type.SnackBarType
 import com.example.designsystem.theme.DPlayTheme
-import com.example.navigation.Home
-import com.example.navigation.MyPage
 import com.example.navigation.Navigator
 import com.example.navigation.Recommend
-import com.example.navigation.TopLevelRoute
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.collections.immutable.ImmutableList
-import kotlinx.collections.immutable.persistentListOf
 import javax.inject.Inject
-
-private val TOP_LEVEL_ROUTES: ImmutableList<TopLevelRoute> = persistentListOf(Home, MyPage)
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
-    @Inject
-    lateinit var navigator: Navigator
+    @Inject lateinit var navigator: Navigator
 
     @Inject
     lateinit var entryProviders: Set<@JvmSuppressWildcards EntryProviderScope<NavKey>.() -> Unit>
@@ -51,7 +45,6 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            val navigator = remember { Navigator(Home) }
             var snackBarType by remember { mutableStateOf<SnackBarType?>(null) }
             var snackBarAction by remember { mutableStateOf<(() -> Unit)?>(null) }
 
@@ -116,6 +109,40 @@ class MainActivity : ComponentActivity() {
                             )
                         }
                     }
+            DPlayTheme {
+                Scaffold(
+                    modifier =
+                        Modifier.navigationBarsPadding(),
+                    bottomBar = {
+                        BottomNavigationBar(
+                            isVisible = navigator.shouldShowBottomSheet,
+                            topLevelRouteList = navigator.topLevelRoutes,
+                            currentTab = navigator.currentScreen,
+                            onBottomNavigationItemClick = { route ->
+                                navigator.navigateToTopLevelRoute(route)
+                            },
+                            onPlusButtonClick = {
+                                navigator.navigateTo(Recommend)
+                            },
+                        )
+                    },
+                ) { padding ->
+                    NavDisplay(
+                        modifier = Modifier.padding(bottom = padding.calculateBottomPadding()),
+                        backStack = navigator.backStack,
+                        onBack = { navigator.navigateToBack() },
+                        entryDecorators =
+                            listOf(
+                                rememberSaveableStateHolderNavEntryDecorator(),
+                                rememberViewModelStoreNavEntryDecorator(),
+                            ),
+                        entryProvider =
+                            entryProvider {
+                                entryProviders.forEach { installer ->
+                                    installer()
+                                }
+                            },
+                    )
                 }
             }
         }

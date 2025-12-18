@@ -163,7 +163,10 @@ private fun GuidelineRow(
     value: String,
 ) {
     Row(
-        modifier = Modifier.fillMaxWidth(),
+        modifier =
+            Modifier
+                .fillMaxWidth()
+                .padding(start = 4.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         when (inputState) {
