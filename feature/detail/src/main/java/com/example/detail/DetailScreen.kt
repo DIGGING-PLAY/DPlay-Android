@@ -20,6 +20,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
@@ -166,7 +167,11 @@ private fun DetailScreen(
                         padding = PaddingValues(horizontal = 12.dp, vertical = 16.dp),
                     ),
         ) {
-            Text(text = postDetailData.content)
+            Text(text = postDetailData.content,
+                maxLines = 3,
+                overflow = TextOverflow.Ellipsis,
+                style = typography.bodySemi14,
+                color=color.dplayBlack)
             Spacer(modifier = Modifier.height(12.dp))
             Row(modifier = Modifier.align(Alignment.CenterHorizontally)) {
                 AsyncImage(
@@ -179,7 +184,9 @@ private fun DetailScreen(
                             .border(1.dp, color = color.gray200, shape = CircleShape),
                 )
                 Spacer(modifier = Modifier.width(6.dp))
-                Text(text = postDetailData.writer.nickname)
+                Text(text = postDetailData.writer.nickname,
+                    style = typography.bodySemi14,
+                    color=color.gray400)
             }
         }
     }
