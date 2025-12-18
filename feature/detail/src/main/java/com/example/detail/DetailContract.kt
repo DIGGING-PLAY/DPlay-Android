@@ -44,6 +44,10 @@ class DetailContract {
     ) : BaseContract.State
 
     sealed interface DetailIntent : BaseContract.Intent {
+        data class LoadData(
+            val postId: Long,
+        ) : DetailIntent
+
         data object OnBookmarkClick : DetailIntent
 
         data object OnStreamClick : DetailIntent

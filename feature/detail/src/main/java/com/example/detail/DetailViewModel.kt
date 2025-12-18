@@ -1,6 +1,5 @@
 package com.example.detail
 
-import androidx.lifecycle.SavedStateHandle
 import com.example.common.model.Badges
 import com.example.common.model.FeedItem
 import com.example.common.model.Like
@@ -9,7 +8,6 @@ import com.example.common.model.Writer
 import com.example.designsystem.component.snackbar.type.SnackBarType
 import com.example.detail.DetailContract.DetailSideEffect.NavigateToMyPage
 import com.example.detail.DetailContract.DetailSideEffect.ShowSnackBar
-import com.example.navigation.Detail
 import com.example.ui.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -17,22 +15,12 @@ import javax.inject.Inject
 @HiltViewModel
 class DetailViewModel
     @Inject
-    constructor(
-        savedStateHandle: SavedStateHandle,
-    ) : BaseViewModel<DetailContract.DetailState, DetailContract.DetailIntent, DetailContract.DetailSideEffect>(
+    constructor() : BaseViewModel<DetailContract.DetailState, DetailContract.DetailIntent, DetailContract.DetailSideEffect>(
             DetailContract.DetailState(),
         ) {
-        private val postId: Long =
-            savedStateHandle.get<Detail>("key")?.postId
-                ?: savedStateHandle["postId"]
-                ?: error("postId is required")
-
-        init {
-            loadData(postId)
-        }
-
         override fun handleIntent(intent: DetailContract.DetailIntent) {
             when (intent) {
+                is DetailContract.DetailIntent.LoadData -> loadData(intent.postId)
                 is DetailContract.DetailIntent.OnBackButtonClick -> {
                     setSideEffect(DetailContract.DetailSideEffect.NavigateBackStack)
                 }

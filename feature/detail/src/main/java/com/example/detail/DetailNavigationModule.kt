@@ -3,6 +3,7 @@ package com.example.detail
 import androidx.navigation3.runtime.EntryProviderScope
 import androidx.navigation3.runtime.NavKey
 import com.example.navigation.Detail
+import com.example.navigation.Navigator
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -14,12 +15,12 @@ import dagger.multibindings.IntoSet
 object DetailNavigationModule {
     @Provides
     @IntoSet
-    fun provideDetailEntry(): EntryProviderScope<NavKey>.() -> Unit =
+    fun provideDetailEntry(
+        navigator: Navigator,
+    ): EntryProviderScope<NavKey>.() -> Unit =
         {
             entry<Detail> { args ->
-                DetailRoute(
-                    postId = args.postId,
-                )
+                DetailRoute(postId = args.postId)
             }
         }
 }

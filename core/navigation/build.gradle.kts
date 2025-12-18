@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.dplay.android.compose)
     alias(libs.plugins.dplay.hilt)
+    id("kotlin-parcelize")
 }
 
 android {

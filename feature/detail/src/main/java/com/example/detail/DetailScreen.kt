@@ -42,10 +42,15 @@ import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun DetailRoute(
+    postId: Long,
     viewModel: DetailViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val showSnackBar = LocalShowSnackBar.current
+
+    LaunchedEffect(Unit) {
+        viewModel.handleIntent(DetailContract.DetailIntent.LoadData(postId = postId))
+    }
 
     LaunchedEffect(viewModel.sideEffect) {
         viewModel.sideEffect.collectLatest {
@@ -210,6 +215,7 @@ private fun DetailScreen(
                     Modifier
                         .align(Alignment.CenterHorizontally)
                         .noRippleClickable(onClick = onWriterProfileClick),
+                verticalAlignment = Alignment.CenterVertically,
             ) {
                 AsyncImage(
                     model = postDetailData.writer.profileImg,

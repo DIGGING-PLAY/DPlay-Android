@@ -56,7 +56,7 @@ fun HomeRoute(
                     // TODO
                 }
                 is HomeContract.HomeSideEffect.NavigateToPostDetail -> {
-                    navigator.goTo(Detail(it.postId))
+                    navigator.navigateTo(Detail(it.postId))
                 }
                 is HomeContract.HomeSideEffect.NavigateToWriterProfile -> {
                     // TODO
