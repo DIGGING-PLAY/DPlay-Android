@@ -1,5 +1,6 @@
 package com.example.onboarding
 
+import com.example.common.constant.Regex
 import com.example.common.type.TermType
 import com.example.designsystem.component.textfield.type.NicknameInputState
 import com.example.ui.base.BaseViewModel
@@ -117,7 +118,7 @@ class OnboardingViewModel
             val inputState =
                 when {
                     nickname.length < 2 -> NicknameInputState.Error.NotEnoughLength
-                    !nickname.matches("^[가-힣a-zA-Z0-9]+\$".toRegex()) -> NicknameInputState.Error.InvalidFormat
+                    !nickname.matches(Regex.NICKNAME_REGEX) -> NicknameInputState.Error.InvalidFormat
                     else -> NicknameInputState.Success
                 }
 
