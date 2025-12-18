@@ -41,6 +41,7 @@ import com.example.designsystem.util.noRippleClickable
 import com.example.navigation.Home
 import com.example.navigation.Navigator
 import com.example.onboarding.OnboardingContract.OnboardingIntent.*
+import com.example.ui.handler.rememberPermissionHandler
 import kotlinx.coroutines.flow.collectLatest
 
 @Composable
@@ -50,46 +51,20 @@ fun OnboardingPermissionRoute(
     modifier: Modifier = Modifier,
     viewModel: OnboardingViewModel = hiltViewModel(),
 ) {
-    val context = LocalContext.current
-
-    val notificationPermissionLauncher =
-        rememberLauncherForActivityResult(
-            ActivityResultContracts.RequestPermission(),
-        ) { isGranted ->
-            viewModel.handleIntent(
-                OnboardingContract.OnboardingIntent.OnNotificationPermissionResult(isGranted),
-            )
-        }
+    val permissionHandler = rememberPermissionHandler { isGranted ->
+        viewModel.handleIntent(
+            OnboardingContract.OnboardingIntent.OnNotificationPermissionResult(isGranted)
+        )
+    }
 
     LaunchedEffect(Unit) {
         viewModel.sideEffect.collectLatest { sideEffect ->
             when (sideEffect) {
                 OnboardingContract.OnboardingSideEffect.ShowPermissionDialog -> {
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                        val hasPermission =
-                            ContextCompat.checkSelfPermission(
-                                context,
-                                Manifest.permission.POST_NOTIFICATIONS,
-                            ) == PackageManager.PERMISSION_GRANTED
-
-                        if (!hasPermission) {
-                            notificationPermissionLauncher.launch(
-                                Manifest.permission.POST_NOTIFICATIONS,
-                            )
-                        } else {
-                            viewModel.handleIntent(
-                                OnNotificationPermissionResult(
-                                    isGranted = true,
-                                ),
-                            )
-                        }
-                    } else {
-                        viewModel.handleIntent(
-                            OnNotificationPermissionResult(
-                                isGranted = true,
-                            ),
-                        )
-                    }
+                    permissionHandler.requestIf(
+                        permission = Manifest.permission.POST_NOTIFICATIONS,
+                        condition = Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU
+                    )
                 }
 
                 OnboardingContract.OnboardingSideEffect.NavigateToBack -> {
