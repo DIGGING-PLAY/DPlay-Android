@@ -12,7 +12,6 @@ class OnboardingContract {
         val profileImageUri: Uri? = null,
         val nicknameInputState: InputState = InputState.Default,
         val isAlbumLauncherBottomSheetVisible: Boolean = false,
-        val isNotificationPermissionGranted: Boolean = false,
     ) : BaseContract.State {
         val isTermsScreenNextButtonEnabled: Boolean
             get() = agreedTerms.containsAll(TermType.mandatoryTerms)

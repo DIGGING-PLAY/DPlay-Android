@@ -80,11 +80,6 @@ class OnboardingViewModel
                 }
 
                 is OnboardingContract.OnboardingIntent.OnNotificationPermissionResult -> {
-                    updateState {
-                        copy(
-                            isNotificationPermissionGranted = intent.isGranted,
-                        )
-                    }
                     setSideEffect(OnboardingContract.OnboardingSideEffect.NavigateToHome)
                 }
             }
