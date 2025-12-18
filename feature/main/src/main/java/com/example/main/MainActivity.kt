@@ -1,7 +1,9 @@
 package com.example.main
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
+import androidx.activity.compose.BackHandler
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.Box
@@ -24,6 +26,7 @@ import com.example.navigation.Navigator
 import com.example.navigation.Recommend
 import com.example.ui.controller.LocalModalController
 import com.example.ui.controller.ModalController
+import com.example.ui.handler.AppTerminationHandler
 import com.example.ui.handler.GlobalModalHandler
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -40,11 +43,16 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             val modalController = remember { ModalController() }
+            val appTerminationHandler = remember {AppTerminationHandler(this)}
 
             CompositionLocalProvider(
                 LocalModalController provides modalController,
             ){
                 DPlayTheme {
+                    BackHandler(enabled = navigator.backStack.size <= 1) {
+                        appTerminationHandler.onBackPress()
+                    }
+
                     Box(
                         modifier = Modifier.fillMaxSize()
                     ) {
@@ -68,7 +76,14 @@ class MainActivity : ComponentActivity() {
                             NavDisplay(
                                 modifier = Modifier.padding(bottom = padding.calculateBottomPadding()),
                                 backStack = navigator.backStack,
-                                onBack = { navigator.navigateToBack() },
+                                onBack = {
+                                    Log.d("DEBUG_NAV", "현재 스택 크기: ${navigator.backStack}")
+                                    if (navigator.backStack.size <= 1) {
+                                        appTerminationHandler.onBackPress()
+                                    } else {
+                                        navigator.navigateToBack()
+                                    }
+                                },
                                 entryDecorators =
                                     listOf(
                                         rememberSaveableStateHolderNavEntryDecorator(),
