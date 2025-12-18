@@ -37,4 +37,10 @@ class Navigator(
         backStack.removeLastOrNull()
         Timber.d("backStack: $backStack")
     }
+
+    fun clearAndNavigateTo(destination: NavKey) {
+        backStack.clear()
+        backStack.add(destination)
+        Timber.d("backStack: $backStack")
+    }
 }
