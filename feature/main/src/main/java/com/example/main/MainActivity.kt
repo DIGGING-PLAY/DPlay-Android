@@ -1,7 +1,6 @@
 package com.example.main
 
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.setContent
@@ -77,7 +76,6 @@ class MainActivity : ComponentActivity() {
                                 modifier = Modifier.padding(bottom = padding.calculateBottomPadding()),
                                 backStack = navigator.backStack,
                                 onBack = {
-                                    Log.d("DEBUG_NAV", "현재 스택 크기: ${navigator.backStack}")
                                     if (navigator.backStack.size <= 1) {
                                         appTerminationHandler.onBackPress()
                                     } else {
