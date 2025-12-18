@@ -76,11 +76,7 @@ class MainActivity : ComponentActivity() {
                                 modifier = Modifier.padding(bottom = padding.calculateBottomPadding()),
                                 backStack = navigator.backStack,
                                 onBack = {
-                                    if (navigator.backStack.size <= 1) {
-                                        appTerminationHandler.onBackPress()
-                                    } else {
-                                        navigator.navigateToBack()
-                                    }
+                                    navigator.navigateToBack()
                                 },
                                 entryDecorators =
                                     listOf(
