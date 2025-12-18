@@ -43,18 +43,18 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             val modalController = remember { ModalController() }
-            val appTerminationHandler = remember {AppTerminationHandler(this)}
+            val appTerminationHandler = remember { AppTerminationHandler(this) }
 
             CompositionLocalProvider(
                 LocalModalController provides modalController,
-            ){
+            ) {
                 DPlayTheme {
                     BackHandler(enabled = navigator.backStack.size <= 1) {
                         appTerminationHandler.onBackPress()
                     }
 
                     Box(
-                        modifier = Modifier.fillMaxSize()
+                        modifier = Modifier.fillMaxSize(),
                     ) {
                         Scaffold(
                             modifier =
@@ -99,7 +99,7 @@ class MainActivity : ComponentActivity() {
                         }
 
                         GlobalModalHandler(
-                            modifier = Modifier.align(Alignment.Center)
+                            modifier = Modifier.align(Alignment.Center),
                         )
                     }
                 }

@@ -13,13 +13,14 @@ import com.example.designsystem.util.noRippleClickable
 fun DPlayScrim(
     backgroundColor: Color,
     onDismiss: () -> Unit,
-){
+) {
     Box(
-        modifier = Modifier
-        .fillMaxSize()
-        .background(color = backgroundColor)
-        .noRippleClickable { onDismiss() },
-    ){
+        modifier =
+            Modifier
+                .fillMaxSize()
+                .background(color = backgroundColor)
+                .noRippleClickable { onDismiss() },
+    ) {
         BackHandler { onDismiss() }
     }
 }

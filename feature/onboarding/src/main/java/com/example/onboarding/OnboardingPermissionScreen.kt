@@ -1,10 +1,7 @@
 package com.example.onboarding
 
 import android.Manifest
-import android.content.pm.PackageManager
 import android.os.Build
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -25,13 +22,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.core.content.ContextCompat
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.dplay.designsystem.R
 import com.example.designsystem.component.DplayBaseIcon
@@ -51,11 +46,12 @@ fun OnboardingPermissionRoute(
     modifier: Modifier = Modifier,
     viewModel: OnboardingViewModel = hiltViewModel(),
 ) {
-    val permissionHandler = rememberPermissionHandler { isGranted ->
-        viewModel.handleIntent(
-            OnboardingContract.OnboardingIntent.OnNotificationPermissionResult(isGranted)
-        )
-    }
+    val permissionHandler =
+        rememberPermissionHandler { isGranted ->
+            viewModel.handleIntent(
+                OnboardingContract.OnboardingIntent.OnNotificationPermissionResult(isGranted),
+            )
+        }
 
     LaunchedEffect(Unit) {
         viewModel.sideEffect.collectLatest { sideEffect ->
@@ -63,7 +59,7 @@ fun OnboardingPermissionRoute(
                 OnboardingContract.OnboardingSideEffect.ShowPermissionDialog -> {
                     permissionHandler.requestIf(
                         permission = Manifest.permission.POST_NOTIFICATIONS,
-                        condition = Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU
+                        condition = Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU,
                     )
                 }
 

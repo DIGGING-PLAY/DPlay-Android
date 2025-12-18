@@ -85,31 +85,31 @@ class OnboardingViewModel
             }
         }
 
-    private fun toggleAllTerms() {
-        updateState {
-            val newAgreedTerms =
-                if (currentState.isAllTermsAgreed) {
-                    emptySet()
-                } else {
-                    TermType.entries.toSet()
-                }
-            copy(agreedTerms = newAgreedTerms)
+        private fun toggleAllTerms() {
+            updateState {
+                val newAgreedTerms =
+                    if (currentState.isAllTermsAgreed) {
+                        emptySet()
+                    } else {
+                        TermType.entries.toSet()
+                    }
+                copy(agreedTerms = newAgreedTerms)
+            }
         }
-    }
 
-    private fun toggleEachTerm(term: TermType) {
-        updateState {
-            val newAgreedTerms =
-                if (agreedTerms.contains(term)) {
-                    agreedTerms - term
-                } else {
-                    agreedTerms + term
-                }
-            copy(agreedTerms = newAgreedTerms)
+        private fun toggleEachTerm(term: TermType) {
+            updateState {
+                val newAgreedTerms =
+                    if (agreedTerms.contains(term)) {
+                        agreedTerms - term
+                    } else {
+                        agreedTerms + term
+                    }
+                copy(agreedTerms = newAgreedTerms)
+            }
         }
-    }
 
-    private fun validateAndUpdateNickname(nickname: String) {
+        private fun validateAndUpdateNickname(nickname: String) {
             val inputState =
                 when {
                     nickname.length < 2 -> NicknameInputState.Error.NotEnoughLength

@@ -5,7 +5,9 @@ import android.content.Context
 import android.widget.Toast
 import timber.log.Timber
 
-class AppTerminationHandler(private val context: Context) {
+class AppTerminationHandler(
+    private val context: Context,
+) {
     private var backPressedTime: Long = 0
     private val finishIntervalTime: Long = 2000 // 2초
 

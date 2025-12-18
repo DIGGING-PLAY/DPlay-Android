@@ -15,15 +15,16 @@ class ModalController {
         subText: String?,
         buttonLabel: String,
         onButtonClick: () -> Unit = {},
-        onDismiss: () -> Unit = {}
+        onDismiss: () -> Unit = {},
     ) {
-        _modalState.value = ModalState.GraphicModal(
-            mainText = mainText,
-            subText = subText,
-            onButtonClick = onButtonClick,
-            onDismiss = onDismiss,
-            buttonLabel = buttonLabel
-        )
+        _modalState.value =
+            ModalState.GraphicModal(
+                mainText = mainText,
+                subText = subText,
+                onButtonClick = onButtonClick,
+                onDismiss = onDismiss,
+                buttonLabel = buttonLabel,
+            )
     }
 
     fun showWarningModal(
@@ -33,17 +34,18 @@ class ModalController {
         onRightButtonClick: () -> Unit,
         onDismiss: () -> Unit,
         leftButtonLabel: String,
-        rightButtonLabel: String
+        rightButtonLabel: String,
     ) {
-        _modalState.value = ModalState.WarningModal(
-            mainText = mainText,
-            subText = subText,
-            onLeftButtonClick = onLeftButtonClick,
-            onRightButtonClick = onRightButtonClick,
-            onDismiss = onDismiss,
-            leftButtonLabel = leftButtonLabel,
-            rightButtonLabel = rightButtonLabel
-        )
+        _modalState.value =
+            ModalState.WarningModal(
+                mainText = mainText,
+                subText = subText,
+                onLeftButtonClick = onLeftButtonClick,
+                onRightButtonClick = onRightButtonClick,
+                onDismiss = onDismiss,
+                leftButtonLabel = leftButtonLabel,
+                rightButtonLabel = rightButtonLabel,
+            )
     }
 
     fun hideModal() {
@@ -57,7 +59,7 @@ sealed class ModalState {
         val subText: String?,
         val onButtonClick: () -> Unit,
         val onDismiss: () -> Unit,
-        val buttonLabel: String
+        val buttonLabel: String,
     ) : ModalState()
 
     data class WarningModal(
@@ -67,10 +69,11 @@ sealed class ModalState {
         val onRightButtonClick: () -> Unit,
         val onDismiss: () -> Unit,
         val leftButtonLabel: String,
-        val rightButtonLabel: String
+        val rightButtonLabel: String,
     ) : ModalState()
 }
 
-val LocalModalController = compositionLocalOf<ModalController> {
-    error("DialogController not provided")
-}
+val LocalModalController =
+    compositionLocalOf<ModalController> {
+        error("DialogController not provided")
+    }

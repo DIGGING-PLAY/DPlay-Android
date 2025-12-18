@@ -16,7 +16,7 @@ import com.example.ui.controller.ModalState
 @Composable
 fun GlobalModalHandler(
     modifier: Modifier = Modifier,
-    controller: ModalController = LocalModalController.current
+    controller: ModalController = LocalModalController.current,
 ) {
     val modalState by controller.modalState
 
@@ -34,8 +34,9 @@ fun GlobalModalHandler(
                 rightButtonLabel = state.rightButtonLabel,
                 onLeftButtonClick = state.onLeftButtonClick,
                 onRightButtonClick = state.onRightButtonClick,
-                modifier = modifier
-                    .padding(horizontal = 40.dp)
+                modifier =
+                    modifier
+                        .padding(horizontal = 40.dp),
             )
         }
         is ModalState.GraphicModal -> {
@@ -50,8 +51,9 @@ fun GlobalModalHandler(
                 buttonLabel = state.buttonLabel,
                 onCloseIconClick = state.onDismiss,
                 onButtonClick = state.onButtonClick,
-                modifier = modifier
-                    .padding(horizontal = 40.dp)
+                modifier =
+                    modifier
+                        .padding(horizontal = 40.dp),
             )
         }
         null -> { /* 다이얼로그 없음 */ }
