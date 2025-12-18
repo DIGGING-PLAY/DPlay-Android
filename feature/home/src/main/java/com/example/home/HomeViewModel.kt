@@ -99,7 +99,7 @@ val dummyFeedItems =
                     trackId = "apple:203948",
                     songTitle = "Song Title 1",
                     coverImg = "https://picsum.photos/300",
-                    artistNames = listOf("Artist1", "Artist2"),
+                    artistName = "Artist1, Artist2",
                 ),
             writer =
                 Writer(
@@ -128,7 +128,7 @@ val dummyFeedItems =
                     trackId = "apple:204837",
                     songTitle = "Song Title 2",
                     coverImg = "https://picsum.photos/310",
-                    artistNames = listOf("Artist3"),
+                    artistName = "Artist3",
                 ),
             writer =
                 Writer(
@@ -157,7 +157,7 @@ val dummyFeedItems =
                     trackId = "apple:204111",
                     songTitle = "Song Title 3",
                     coverImg = "https://picsum.photos/320",
-                    artistNames = listOf("Artist4"),
+                    artistName = "Artist4",
                 ),
             writer =
                 Writer(
@@ -186,7 +186,7 @@ val dummyFeedItems =
                     trackId = "apple:204111",
                     songTitle = "Song Title 3",
                     coverImg = "https://picsum.photos/320",
-                    artistNames = listOf("Artist4"),
+                    artistName = "Artist4",
                 ),
             writer =
                 Writer(
@@ -215,7 +215,7 @@ val dummyFeedItems =
                     trackId = "apple:204111",
                     songTitle = "Song Title 3",
                     coverImg = "https://picsum.photos/320",
-                    artistNames = listOf("Artist4"),
+                    artistName = "Artist4",
                 ),
             writer =
                 Writer(
@@ -244,7 +244,7 @@ val dummyFeedItems =
                     trackId = "apple:204111",
                     songTitle = "Song Title 3",
                     coverImg = "https://picsum.photos/320",
-                    artistNames = listOf("Artist4"),
+                    artistName = "Artist4",
                 ),
             writer =
                 Writer(
