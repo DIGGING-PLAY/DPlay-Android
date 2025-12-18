@@ -50,17 +50,24 @@ fun DetailRoute(
     LaunchedEffect(viewModel.sideEffect) {
         viewModel.sideEffect.collectLatest {
             when (it) {
-                is DetailContract.DetailSideEffect.ShowToast -> {
+                is DetailContract.DetailSideEffect.ShowSnackBar -> {
                     showSnackBar(it.snackBarType, it.action)
                 }
-            }
-        }
-    }
 
-    LaunchedEffect(viewModel.sideEffect) {
-        viewModel.sideEffect.collectLatest {
-            when (it) {
-                is DetailContract.DetailSideEffect.ShowSnackBar -> {
+                is DetailContract.DetailSideEffect.NavigateBackStack -> {
+                    // TODO
+                }
+
+                is DetailContract.DetailSideEffect.NavigateToWriterProfile -> {
+                    // TODO
+                }
+
+                is DetailContract.DetailSideEffect.ShowBottomSheet -> {
+                    // TODO
+                }
+
+                is DetailContract.DetailSideEffect.NavigateToMyPage -> {
+                    // TODO
                 }
             }
         }
@@ -68,12 +75,24 @@ fun DetailRoute(
 
     DetailScreen(
         state = uiState,
-        onTopAppBarLeftIconClick = TODO(),
-        onTopAppBarRightIconClick = TODO(),
-        onBookmarkClick = TODO(),
-        onStreamClick = TODO(),
-        onLickClick = TODO(),
-        onWriterProfileClick = TODO(),
+        onTopAppBarLeftIconClick = {
+            viewModel.handleIntent(DetailContract.DetailIntent.OnBackButtonClick)
+        },
+        onTopAppBarRightIconClick = {
+            viewModel.handleIntent(DetailContract.DetailIntent.OnMeatBallsClick)
+        },
+        onBookmarkClick = {
+            viewModel.handleIntent(DetailContract.DetailIntent.OnBookmarkClick)
+        },
+        onStreamClick = {
+            viewModel.handleIntent(DetailContract.DetailIntent.OnStreamClick)
+        },
+        onLikeClick = {
+            viewModel.handleIntent(DetailContract.DetailIntent.OnLikeClick)
+        },
+        onWriterProfileClick = {
+            viewModel.handleIntent(DetailContract.DetailIntent.OnWriterProfileClick)
+        },
     )
 }
 
@@ -83,7 +102,7 @@ private fun DetailScreen(
     onTopAppBarRightIconClick: () -> Unit,
     onBookmarkClick: () -> Unit,
     onStreamClick: () -> Unit,
-    onLickClick: () -> Unit,
+    onLikeClick: () -> Unit,
     onWriterProfileClick: () -> Unit,
     state: DetailContract.DetailState = DetailContract.DetailState(),
 ) {
@@ -159,7 +178,7 @@ private fun DetailScreen(
             DPlayLikeButton(
                 isLiked = postDetailData.like.isLiked,
                 likeCount = postDetailData.like.count,
-                onClick = onLickClick,
+                onClick = onLikeClick,
                 modifier = Modifier.weight(1f),
             )
         }
@@ -219,6 +238,13 @@ private fun DetailScreen(
 @Composable
 private fun DetailScreenPreview() {
     DPlayTheme {
-        DetailScreen()
+        DetailScreen(
+            onTopAppBarLeftIconClick = {},
+            onTopAppBarRightIconClick = {},
+            onBookmarkClick = {},
+            onStreamClick = {},
+            onLikeClick = {},
+            onWriterProfileClick = {},
+        )
     }
 }

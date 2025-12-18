@@ -61,7 +61,7 @@ class HomeContract {
 
         data object NavigateToRecommend : HomeSideEffect
 
-        data class ShowToast(
+        data class ShowSnackBar(
             val snackBarType: SnackBarType,
             val action: (() -> Unit)? = null,
         ) : HomeSideEffect

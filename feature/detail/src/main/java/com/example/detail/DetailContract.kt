@@ -13,54 +13,46 @@ class DetailContract {
         val data: FeedItem =
             FeedItem(
                 postId = 111,
-                isScrapped = true,
-                content = "그냥 좋아요 이 노래",
+                isScrapped = false,
+                content = "",
                 badges =
                     Badges(
                         isEditorPick = false,
-                        isPopular = true,
-                        isNew = true,
+                        isPopular = false,
+                        isNew = false,
                     ),
                 track =
                     Track(
-                        trackId = "apple:203948",
-                        songTitle = "Song Title 1",
-                        coverImg = "https://picsum.photos/300",
-                        artistName = "Artist1,Artist2",
+                        trackId = "",
+                        songTitle = "",
+                        coverImg = "",
+                        artistName = "",
                     ),
                 writer =
                     Writer(
-                        userId = 222,
-                        nickname = "윤서암",
-                        profileImg = "https://picsum.photos/200",
+                        userId = 0,
+                        nickname = "",
+                        profileImg = "",
                     ),
                 like =
                     Like(
                         isLiked = false,
-                        count = 24,
+                        count = 0,
                     ),
             ),
         val date: String = "2025-10-19",
     ) : BaseContract.State
 
     sealed interface DetailIntent : BaseContract.Intent {
-        data class OnBookmarkClick(
-            val postId: Long,
-        ) : DetailIntent
+        data object OnBookmarkClick : DetailIntent
 
-        data class OnStreamClick(
-            val trackId: String,
-        ) : DetailIntent
+        data object OnStreamClick : DetailIntent
 
-        data class OnLikeClick(
-            val postId: Long,
-        ) : DetailIntent
+        data object OnLikeClick : DetailIntent
 
         data object OnMeatBallsClick : DetailIntent
 
-        data class OnWriterProfileClick(
-            val writerUserId: Long,
-        ) : DetailIntent
+        data object OnWriterProfileClick : DetailIntent
 
         data object OnBackButtonClick : DetailIntent
 
@@ -76,13 +68,13 @@ class DetailContract {
 
         data object ShowBottomSheet : DetailSideEffect
 
-        data class NavigateToWriterProfile(
-            val writerUserId: Long,
-        ) : DetailSideEffect
+        data object NavigateToWriterProfile : DetailSideEffect
 
-        data class ShowToast(
+        data class ShowSnackBar(
             val snackBarType: SnackBarType,
             val action: (() -> Unit)? = null,
         ) : DetailSideEffect
+
+        data object NavigateToMyPage : DetailSideEffect
     }
 }

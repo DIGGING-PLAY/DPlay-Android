@@ -16,8 +16,10 @@ object DetailNavigationModule {
     @IntoSet
     fun provideDetailEntry(): EntryProviderScope<NavKey>.() -> Unit =
         {
-            entry<Detail> {
-                DetailRoute()
+            entry<Detail> { args ->
+                DetailRoute(
+                    postId = args.postId,
+                )
             }
         }
 }

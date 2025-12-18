@@ -28,4 +28,6 @@ data object MyPage : TopLevelRoute, NavKey {
 
 data object Recommend : NavKey
 
-data object Detail : NavKey
+data class Detail(
+    val postId: Long,
+) : NavKey
