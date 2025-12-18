@@ -26,6 +26,8 @@ val Kakao_yellow = Color(0xFFFEE500)
 
 // Transparent
 val Dplay_pink_trans = Color(0xCCFF8FBA)
+val Dplay_gray_trans = Color(0xCCD9D9D9)
+
 val Dim_40 = Color(0x6614181B)
 val Dim_80 = Color(0xCC14181B)
 
@@ -46,6 +48,7 @@ data class DPlayColors(
     val infoBlue: Color,
     val kakaoYellow: Color,
     val dplayPinkTrans: Color,
+    val dplayGrayTrans: Color,
     val dim40: Color,
     val dim80: Color,
 )
@@ -67,6 +70,7 @@ val defaultDPlayColors =
         infoBlue = Info_blue,
         kakaoYellow = Kakao_yellow,
         dplayPinkTrans = Dplay_pink_trans,
+        dplayGrayTrans = Dplay_gray_trans,
         dim40 = Dim_40,
         dim80 = Dim_80,
     )

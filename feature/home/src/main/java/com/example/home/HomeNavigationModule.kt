@@ -17,7 +17,7 @@ object HomeNavigationModule {
     fun provideHomeEntry(): EntryProviderScope<NavKey>.() -> Unit =
         {
             entry<Home> {
-                HomeScreen()
+                HomeRoute()
             }
         }
 }
