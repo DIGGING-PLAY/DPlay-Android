@@ -18,9 +18,6 @@ class DetailViewModel
         }
 
         private fun increment(count: Int) {
-            updateState {
-                DetailContract.DetailState(count = currentState.count + count)
-            }
             setSideEffect(DetailContract.DetailSideEffect.ShowSnackBar(count.toString()))
         }
     }
