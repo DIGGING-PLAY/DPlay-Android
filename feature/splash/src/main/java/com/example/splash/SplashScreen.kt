@@ -29,13 +29,11 @@ fun SplashRoute(
         viewModel.sideEffect.collectLatest { sideEffect ->
             when (sideEffect) {
                 SplashContract.SplashSideEffect.NavigateToHome -> {
-                    navigator.backStack.clear()
-                    navigator.navigateTo(Home)
+                    navigator.clearAndNavigateTo(Home)
                 }
 
                 SplashContract.SplashSideEffect.NavigateToLogin -> {
-                    navigator.backStack.clear()
-                    navigator.navigateTo(Login)
+                    navigator.clearAndNavigateTo(Login)
                 }
             }
         }

@@ -1,10 +1,7 @@
 package com.example.onboarding
 
 import android.Manifest
-import android.content.pm.PackageManager
 import android.os.Build
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -25,13 +22,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.core.content.ContextCompat
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.dplay.designsystem.R
 import com.example.designsystem.component.DplayBaseIcon
@@ -40,7 +35,7 @@ import com.example.designsystem.theme.DPlayTheme
 import com.example.designsystem.util.noRippleClickable
 import com.example.navigation.Home
 import com.example.navigation.Navigator
-import com.example.onboarding.OnboardingContract.OnboardingIntent.*
+import com.example.ui.handler.rememberPermissionHandler
 import kotlinx.coroutines.flow.collectLatest
 
 @Composable
@@ -50,12 +45,8 @@ fun OnboardingPermissionRoute(
     modifier: Modifier = Modifier,
     viewModel: OnboardingViewModel = hiltViewModel(),
 ) {
-    val context = LocalContext.current
-
-    val notificationPermissionLauncher =
-        rememberLauncherForActivityResult(
-            ActivityResultContracts.RequestPermission(),
-        ) { isGranted ->
+    val permissionHandler =
+        rememberPermissionHandler { isGranted ->
             viewModel.handleIntent(
                 OnboardingContract.OnboardingIntent.OnNotificationPermissionResult(isGranted),
             )
@@ -65,31 +56,10 @@ fun OnboardingPermissionRoute(
         viewModel.sideEffect.collectLatest { sideEffect ->
             when (sideEffect) {
                 OnboardingContract.OnboardingSideEffect.ShowPermissionDialog -> {
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                        val hasPermission =
-                            ContextCompat.checkSelfPermission(
-                                context,
-                                Manifest.permission.POST_NOTIFICATIONS,
-                            ) == PackageManager.PERMISSION_GRANTED
-
-                        if (!hasPermission) {
-                            notificationPermissionLauncher.launch(
-                                Manifest.permission.POST_NOTIFICATIONS,
-                            )
-                        } else {
-                            viewModel.handleIntent(
-                                OnNotificationPermissionResult(
-                                    isGranted = true,
-                                ),
-                            )
-                        }
-                    } else {
-                        viewModel.handleIntent(
-                            OnNotificationPermissionResult(
-                                isGranted = true,
-                            ),
-                        )
-                    }
+                    permissionHandler.requestIf(
+                        permission = Manifest.permission.POST_NOTIFICATIONS,
+                        condition = Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU,
+                    )
                 }
 
                 OnboardingContract.OnboardingSideEffect.NavigateToBack -> {
@@ -97,8 +67,7 @@ fun OnboardingPermissionRoute(
                 }
 
                 OnboardingContract.OnboardingSideEffect.NavigateToHome -> {
-                    globalNavigator.backStack.clear()
-                    globalNavigator.navigateTo(Home)
+                    globalNavigator.clearAndNavigateTo(Home)
                 }
 
                 else -> {}

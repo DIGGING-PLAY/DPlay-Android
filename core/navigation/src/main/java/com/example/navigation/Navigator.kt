@@ -23,8 +23,7 @@ class Navigator(
     val topLevelRoutes: ImmutableList<TopLevelRoute> = persistentListOf(Home, MyPage)
 
     fun navigateToTopLevelRoute(destination: TopLevelRoute) {
-        backStack.clear()
-        backStack.add(destination as NavKey)
+        clearAndNavigateTo(destination as NavKey)
         Timber.d("backStack: $backStack")
     }
 
@@ -35,6 +34,12 @@ class Navigator(
 
     fun navigateToBack() {
         backStack.removeLastOrNull()
+        Timber.d("backStack: $backStack")
+    }
+
+    fun clearAndNavigateTo(destination: NavKey) {
+        backStack.clear()
+        backStack.add(destination)
         Timber.d("backStack: $backStack")
     }
 }
