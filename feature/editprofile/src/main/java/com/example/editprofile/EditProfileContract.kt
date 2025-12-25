@@ -34,8 +34,6 @@ class EditProfileContract {
             val uri: Uri?,
         ) : EditProfileIntent
 
-        data object OnProfileScreenNextButtonClick : EditProfileIntent
-
         data object OnEditButtonClick : EditProfileIntent
     }
 
@@ -43,5 +41,7 @@ class EditProfileContract {
         data object LaunchAlbum : EditProfileSideEffect
 
         data object NavigateToMyPage : EditProfileSideEffect
+
+        data object NavigateToBack : EditProfileSideEffect
     }
 }
