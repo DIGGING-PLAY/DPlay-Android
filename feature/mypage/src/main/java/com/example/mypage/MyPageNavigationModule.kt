@@ -3,6 +3,7 @@ package com.example.mypage
 import androidx.navigation3.runtime.EntryProviderScope
 import androidx.navigation3.runtime.NavKey
 import com.example.navigation.MyPage
+import com.example.navigation.Navigator
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -14,10 +15,12 @@ import dagger.multibindings.IntoSet
 object MyPageNavigationModule {
     @Provides
     @IntoSet
-    fun provideMyPageEntry(): EntryProviderScope<NavKey>.() -> Unit =
+    fun provideMyPageEntry(
+        navigator: Navigator
+    ): EntryProviderScope<NavKey>.() -> Unit =
         {
             entry<MyPage> {
-                MyPageScreen()
+                MyPageRoute(navigator = navigator)
             }
         }
 }
