@@ -35,7 +35,6 @@ import com.example.designsystem.theme.DPlayTheme
 import com.example.designsystem.util.noRippleClickable
 import com.example.navigation.Home
 import com.example.navigation.Navigator
-import com.example.onboarding.OnboardingContract.OnboardingIntent.*
 import com.example.ui.handler.rememberPermissionHandler
 import kotlinx.coroutines.flow.collectLatest
 
