@@ -37,16 +37,16 @@ import kotlinx.coroutines.flow.collectLatest
 fun SettingRoute(
     navigator: Navigator,
     modifier: Modifier = Modifier,
-    viewModel: SettingViewModel = hiltViewModel()
+    viewModel: SettingViewModel = hiltViewModel(),
 ) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
 
     val context = LocalContext.current
     val modalController = LocalModalController.current
 
-    LaunchedEffect(Unit){
-        viewModel.sideEffect.collectLatest{ sideEffect ->
-            when(sideEffect){
+    LaunchedEffect(Unit) {
+        viewModel.sideEffect.collectLatest { sideEffect ->
+            when (sideEffect) {
                 SettingContract.SettingSideEffect.NavigateToBack -> {
                     navigator.navigateToBack()
                 }
@@ -65,7 +65,7 @@ fun SettingRoute(
                         },
                         onDismiss = { modalController.hideModal() },
                         leftButtonLabel = context.getString(com.dplay.setting.R.string.logout_warning_left_button_label),
-                        rightButtonLabel = context.getString(com.dplay.setting.R.string.logout_warning_right_button_label)
+                        rightButtonLabel = context.getString(com.dplay.setting.R.string.logout_warning_right_button_label),
                     )
                 }
                 SettingContract.SettingSideEffect.ShowWithdrawWarningDialog -> {
@@ -93,7 +93,7 @@ fun SettingRoute(
         },
         onMenuClick = {
             viewModel.handleIntent(SettingContract.SettingIntent.OnMenuClick(it))
-        }
+        },
     )
 }
 
@@ -105,64 +105,65 @@ fun SettingScreen(
     onMenuClick: (SettingMenuType) -> Unit = {},
 ) {
     Column(
-        modifier = modifier
-            .fillMaxSize()
-            .background(color = DPlayTheme.colors.dplayWhite)
-            .padding(bottom = 20.dp),
+        modifier =
+            modifier
+                .fillMaxSize()
+                .background(color = DPlayTheme.colors.dplayWhite)
+                .padding(bottom = 20.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         DplayLeftIconTitleTopAppBar(
-            title = stringResource(com.dplay.setting.R.string.setting_screen_title)
+            title = stringResource(com.dplay.setting.R.string.setting_screen_title),
         ) {
             onBackIconClick()
         }
 
         SettingMenuType.entries.forEach { type ->
-            val titleColor = if(type == SettingMenuType.LOGOUT) DPlayTheme.colors.alertRed else DPlayTheme.colors.gray600
+            val titleColor = if (type == SettingMenuType.LOGOUT) DPlayTheme.colors.alertRed else DPlayTheme.colors.gray600
 
-            if(type != SettingMenuType.WITHDRAW){
+            if (type != SettingMenuType.WITHDRAW) {
                 SettingActionRow(
                     stringResource(id = type.titleResId),
                     titleColor = titleColor,
-                    onClick = { onMenuClick(type)}
-                ){
-                    when(type){
+                    onClick = { onMenuClick(type) },
+                ) {
+                    when (type) {
                         SettingMenuType.PUSH_NOTIFICATION -> {
                             DPlayToggle(
                                 isChecked = state.isPushNotificationEnabled,
                                 onClick = {
                                     onMenuClick(type)
-                                }
+                                },
                             )
                         }
                         SettingMenuType.VERSION -> {
                             Text(
                                 text = state.appVersion,
                                 style = DPlayTheme.typography.bodyMed14,
-                                color = DPlayTheme.colors.gray400
+                                color = DPlayTheme.colors.gray400,
                             )
                         }
                         SettingMenuType.LOGOUT -> {}
                         else -> {
                             DplayBaseIcon(
-                                iconRes = R.drawable.ic_arrow_right_16
+                                iconRes = R.drawable.ic_arrow_right_16,
                             )
                         }
                     }
                 }
-            }else{
+            } else {
                 Spacer(modifier = Modifier.weight(1f))
 
                 DPlayUnderlineTextButton(
                     text = stringResource(id = type.titleResId),
-                    onClick = { onMenuClick(type) }
+                    onClick = { onMenuClick(type) },
                 )
             }
 
-            if(type == SettingMenuType.INQUIRY){
+            if (type == SettingMenuType.INQUIRY) {
                 HorizontalDivider(
                     thickness = 8.dp,
-                    color = DPlayTheme.colors.gray100
+                    color = DPlayTheme.colors.gray100,
                 )
             }
         }
@@ -173,21 +174,22 @@ fun SettingScreen(
 private fun SettingActionRow(
     actionName: String,
     modifier: Modifier = Modifier,
-    titleColor: Color= DPlayTheme.colors.gray600,
+    titleColor: Color = DPlayTheme.colors.gray600,
     onClick: () -> Unit = {},
-    trailingContent: @Composable () -> Unit = {}
+    trailingContent: @Composable () -> Unit = {},
 ) {
     Row(
-        modifier = modifier
-            .fillMaxWidth()
-            .noRippleClickable { onClick() }
-            .padding(all = 16.dp),
-        verticalAlignment = Alignment.CenterVertically
-    ){
+        modifier =
+            modifier
+                .fillMaxWidth()
+                .noRippleClickable { onClick() }
+                .padding(all = 16.dp),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
         Text(
             text = actionName,
             color = titleColor,
-            style = DPlayTheme.typography.bodySemi16
+            style = DPlayTheme.typography.bodySemi16,
         )
 
         Spacer(modifier = Modifier.weight(1f))

@@ -8,47 +8,44 @@ import javax.inject.Inject
 class MyPageViewModel
     @Inject
     constructor() : BaseViewModel<MyPageContract.MyPageState, MyPageContract.MyPageIntent, MyPageContract.MyPageSideEffect>(
-        MyPageContract.MyPageState(),
-    ) {
-    override fun handleIntent(intent: MyPageContract.MyPageIntent) {
-        when (intent) {
-            MyPageContract.MyPageIntent.OnBottomSheetCancelClick -> {
+            MyPageContract.MyPageState(),
+        ) {
+        override fun handleIntent(intent: MyPageContract.MyPageIntent) {
+            when (intent) {
+                MyPageContract.MyPageIntent.OnBottomSheetCancelClick -> {
+                }
 
-            }
+                MyPageContract.MyPageIntent.OnBottomSheetDeleteClick -> {
+                }
 
-            MyPageContract.MyPageIntent.OnBottomSheetDeleteClick -> {
+                MyPageContract.MyPageIntent.OnDialogueCancelClick -> {
+                }
 
-            }
+                MyPageContract.MyPageIntent.OnDialogueDeleteClick -> {
+                    // 삭제 api
+                }
 
-            MyPageContract.MyPageIntent.OnDialogueCancelClick -> {
+                is MyPageContract.MyPageIntent.OnKebabIconClick -> {
+                    setSideEffect(MyPageContract.MyPageSideEffect.ShowDeleteBottomSheet)
+                }
 
-            }
+                is MyPageContract.MyPageIntent.OnMusicItemClick -> {
+                    setSideEffect(MyPageContract.MyPageSideEffect.NavigateToDetail(intent.musicId))
+                }
 
-            MyPageContract.MyPageIntent.OnDialogueDeleteClick -> {
-                // 삭제 api
-            }
+                MyPageContract.MyPageIntent.OnProfileClick -> {
+                    setSideEffect(MyPageContract.MyPageSideEffect.NavigateToEditProfile)
+                }
 
-            is MyPageContract.MyPageIntent.OnKebabIconClick -> {
-                setSideEffect(MyPageContract.MyPageSideEffect.ShowDeleteBottomSheet)
-            }
+                MyPageContract.MyPageIntent.OnSettingIconClick -> {
+                    setSideEffect(MyPageContract.MyPageSideEffect.NavigateToSettings)
+                }
 
-            is MyPageContract.MyPageIntent.OnMusicItemClick -> {
-                setSideEffect(MyPageContract.MyPageSideEffect.NavigateToDetail(intent.musicId))
-            }
-
-            MyPageContract.MyPageIntent.OnProfileClick -> {
-                setSideEffect(MyPageContract.MyPageSideEffect.NavigateToEditProfile)
-            }
-
-            MyPageContract.MyPageIntent.OnSettingIconClick -> {
-                setSideEffect(MyPageContract.MyPageSideEffect.NavigateToSettings)
-            }
-
-            is MyPageContract.MyPageIntent.OnTabClick -> {
-                updateState {
-                    copy(selectedTabIndex = intent.tabIndex)
+                is MyPageContract.MyPageIntent.OnTabClick -> {
+                    updateState {
+                        copy(selectedTabIndex = intent.tabIndex)
+                    }
                 }
             }
         }
     }
-}

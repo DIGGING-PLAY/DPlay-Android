@@ -10,7 +10,7 @@ class EditProfileContract {
         val nicknameInputState: InputState = InputState.Default,
         val profileImageUri: Uri? = null,
         val isAlbumLauncherBottomSheetVisible: Boolean = false,
-    ): BaseContract.State{
+    ) : BaseContract.State {
         val isEditButtonEnabled: Boolean
             get() = nicknameInputState is InputState.Success
     }

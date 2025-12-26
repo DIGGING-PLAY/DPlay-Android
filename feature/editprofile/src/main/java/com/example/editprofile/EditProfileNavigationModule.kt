@@ -3,7 +3,6 @@ package com.example.editprofile
 import androidx.navigation3.runtime.EntryProviderScope
 import androidx.navigation3.runtime.NavKey
 import com.example.navigation.EditProfile
-import com.example.navigation.MyPage
 import com.example.navigation.Navigator
 import dagger.Module
 import dagger.Provides
@@ -17,7 +16,7 @@ object EditProfileNavigationModule {
     @Provides
     @IntoSet
     fun provideEditProfileEntry(
-        navigator: Navigator
+        navigator: Navigator,
     ): EntryProviderScope<NavKey>.() -> Unit =
         {
             entry<EditProfile> {

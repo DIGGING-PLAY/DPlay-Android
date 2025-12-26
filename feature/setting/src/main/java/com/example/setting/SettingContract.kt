@@ -2,7 +2,7 @@ package com.example.setting
 
 import com.example.ui.base.BaseContract
 
-class SettingContract{
+class SettingContract {
     data class SettingState(
         val isLoading: Boolean = false,
         val isPushNotificationEnabled: Boolean = false,
@@ -11,14 +11,22 @@ class SettingContract{
 
     sealed interface SettingIntent : BaseContract.Intent {
         data object Initialize : SettingIntent
-        data class OnMenuClick(val type: SettingMenuType) : SettingIntent
+
+        data class OnMenuClick(
+            val type: SettingMenuType,
+        ) : SettingIntent
+
         data object OnLogoutConfirm : SettingIntent
+
         data object OnWithdrawConfirm : SettingIntent
+
         data object OnBackIconClick : SettingIntent
     }
 
-    sealed interface SettingSideEffect : BaseContract.SideEffect{
-        data class NavigateToWeb(val url: String) : SettingSideEffect
+    sealed interface SettingSideEffect : BaseContract.SideEffect {
+        data class NavigateToWeb(
+            val url: String,
+        ) : SettingSideEffect
 
         data object NavigateToLogin : SettingSideEffect
 

@@ -16,7 +16,7 @@ object MyPageNavigationModule {
     @Provides
     @IntoSet
     fun provideMyPageEntry(
-        navigator: Navigator
+        navigator: Navigator,
     ): EntryProviderScope<NavKey>.() -> Unit =
         {
             entry<MyPage> {

@@ -59,13 +59,11 @@ fun DPlayButtonBottomSheet(
                             radius = 20.dp,
                             alpha = 0.15f,
                         ),
-                )
-                .clip(bottomSheetShape)
+                ).clip(bottomSheetShape)
                 .background(
                     color = DPlayTheme.colors.dplayWhite,
                     shape = bottomSheetShape,
-                )
-                .padding(16.dp),
+                ).padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Text(
@@ -107,13 +105,11 @@ fun DPlayTitleButtonBottomSheet(
                             radius = 20.dp,
                             alpha = 0.15f,
                         ),
-                )
-                .clip(bottomSheetShape)
+                ).clip(bottomSheetShape)
                 .background(
                     color = DPlayTheme.colors.dplayWhite,
                     shape = bottomSheetShape,
-                )
-                .padding(top = 24.dp, bottom = 16.dp),
+                ).padding(top = 24.dp, bottom = 16.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Row(
@@ -170,7 +166,7 @@ private fun DPlayBottomSheetPreview() {
                 mainText = stringResource(R.string.launch_album_bottomsheet_main_text),
                 subText = stringResource(R.string.launch_album_bottomsheet_sub_text),
                 mainOnClick = {},
-                subOnClick = {}
+                subOnClick = {},
             )
 
             DPlayButtonBottomSheet(

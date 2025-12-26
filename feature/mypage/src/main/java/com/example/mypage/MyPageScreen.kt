@@ -67,12 +67,12 @@ fun MyPageRoute(
     navigator: Navigator,
     modifier: Modifier = Modifier,
     viewModel: MyPageViewModel = hiltViewModel(),
-){
+) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
-    
-    LaunchedEffect(Unit){
-        viewModel.sideEffect.collectLatest{ sideEffect ->
-            when(sideEffect){
+
+    LaunchedEffect(Unit) {
+        viewModel.sideEffect.collectLatest { sideEffect ->
+            when (sideEffect) {
                 is MyPageContract.MyPageSideEffect.NavigateToDetail -> TODO()
                 MyPageContract.MyPageSideEffect.NavigateToEditProfile -> {
                     navigator.navigateTo(destination = EditProfile)
@@ -97,7 +97,7 @@ fun MyPageRoute(
         },
         onProfileImageClick = {
             viewModel.handleIntent(MyPageContract.MyPageIntent.OnProfileClick)
-        }
+        },
     )
 }
 
@@ -110,9 +110,10 @@ fun MyPageScreen(
     modifier: Modifier = Modifier,
 ) {
     Column(
-        modifier = modifier
-            .fillMaxSize()
-            .background(DPlayTheme.colors.dplayWhite),
+        modifier =
+            modifier
+                .fillMaxSize()
+                .background(DPlayTheme.colors.dplayWhite),
     ) {
         DplayRightIconTitleTopAppBar(
             title = stringResource(com.dplay.mypage.R.string.mypage_screen_title),
@@ -126,7 +127,7 @@ fun MyPageScreen(
             nickname = state.userNickname,
             registeredMusicCount = state.registeredMusicCount,
             profileImageUri = state.profileImageUri,
-            onProfileImageClick = { onProfileImageClick() }
+            onProfileImageClick = { onProfileImageClick() },
         )
 
         Spacer(modifier = Modifier.height(20.dp))
@@ -135,12 +136,10 @@ fun MyPageScreen(
             selectedTabIndex = state.selectedTabIndex,
             onTabSelected = onTabSelected,
             registeredMusicList = state.registeredMusicList,
-            bookmarkedMusicList = state.bookmarkedMusicList
+            bookmarkedMusicList = state.bookmarkedMusicList,
         )
     }
 }
-
-
 
 @Composable
 private fun UserInformationRow(
@@ -149,41 +148,43 @@ private fun UserInformationRow(
     profileImageUri: Uri?,
     onProfileImageClick: () -> Unit,
     modifier: Modifier = Modifier,
-){
+) {
     Row(
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(horizontal = 16.dp),
+        modifier =
+            modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween,
-    ){
+    ) {
         Column(
-            modifier = Modifier.padding(vertical = 12.5.dp)
-        ){
+            modifier = Modifier.padding(vertical = 12.5.dp),
+        ) {
             Text(
                 text = nickname,
                 style = DPlayTheme.typography.titleBold24,
-                color = DPlayTheme.colors.dplayBlack
+                color = DPlayTheme.colors.dplayBlack,
             )
 
             Spacer(modifier = Modifier.height(4.dp))
 
             Text(
-                text = buildAnnotatedString {
-                    val rawText = stringResource(id = com.dplay.mypage.R.string.registered_music_count)
-                    val parts = rawText.split($$"""%1$s""")
+                text =
+                    buildAnnotatedString {
+                        val rawText = stringResource(id = com.dplay.mypage.R.string.registered_music_count)
+                        val parts = rawText.split($$"""%1$s""")
 
-                    append(parts[0])
-                    withStyle(style = SpanStyle(color = DPlayTheme.colors.dplayPink)) {
-                        append("$registeredMusicCount")
-                    }
-                    append(parts[1])
-                },
+                        append(parts[0])
+                        withStyle(style = SpanStyle(color = DPlayTheme.colors.dplayPink)) {
+                            append("$registeredMusicCount")
+                        }
+                        append(parts[1])
+                    },
                 style = DPlayTheme.typography.bodySemi14,
-                color = DPlayTheme.colors.gray400
+                color = DPlayTheme.colors.gray400,
             )
         }
-        
+
         Box(
             modifier =
                 Modifier
@@ -232,17 +233,20 @@ private fun TabContent(
         )
 
         Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(color = DPlayTheme.colors.gray100)
-        ){
+            modifier =
+                Modifier
+                    .fillMaxSize()
+                    .background(color = DPlayTheme.colors.gray100),
+        ) {
             when (selectedTabIndex) {
-                0 -> RegisteredMusicList(
-                    registeredMusicList = registeredMusicList
-                )
-                1 -> BookmarkedMusicList(
-                    bookmarkedMusicList = bookmarkedMusicList
-                )
+                0 ->
+                    RegisteredMusicList(
+                        registeredMusicList = registeredMusicList,
+                    )
+                1 ->
+                    BookmarkedMusicList(
+                        bookmarkedMusicList = bookmarkedMusicList,
+                    )
             }
         }
     }
@@ -252,18 +256,20 @@ private fun TabContent(
 private fun MyPageTabRow(
     selectedTabIndex: Int,
     onTabSelected: (Int) -> Unit = {},
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
-    val tabs = listOf(
-        stringResource(com.dplay.mypage.R.string.registered_music_tab_label),
-        stringResource(com.dplay.mypage.R.string.bookmarked_music_tab_label)
-    )
+    val tabs =
+        listOf(
+            stringResource(com.dplay.mypage.R.string.registered_music_tab_label),
+            stringResource(com.dplay.mypage.R.string.bookmarked_music_tab_label),
+        )
     val indicatorHorizontalPadding = 28.dp
 
     val density = LocalDensity.current
-    val textWidths = remember {
-        mutableStateListOf<Dp>().apply { repeat(tabs.size) { add(0.dp) } }
-    }
+    val textWidths =
+        remember {
+            mutableStateListOf<Dp>().apply { repeat(tabs.size) { add(0.dp) } }
+        }
 
     BoxWithConstraints(modifier = modifier.fillMaxWidth()) {
         val totalWidth = maxWidth
@@ -273,13 +279,13 @@ private fun MyPageTabRow(
             Row(modifier = Modifier.fillMaxWidth()) {
                 tabs.forEachIndexed { index, title ->
                     Box(
-                        modifier = Modifier
-                            .weight(1f)
-                            .noRippleClickable {
-                                onTabSelected(index)
-                            }
-                            .padding(vertical = 12.dp),
-                        contentAlignment = Alignment.Center
+                        modifier =
+                            Modifier
+                                .weight(1f)
+                                .noRippleClickable {
+                                    onTabSelected(index)
+                                }.padding(vertical = 12.dp),
+                        contentAlignment = Alignment.Center,
                     ) {
                         Text(
                             text = title,
@@ -287,7 +293,7 @@ private fun MyPageTabRow(
                             color = if (selectedTabIndex == index) DPlayTheme.colors.dplayBlack else DPlayTheme.colors.gray300,
                             onTextLayout = { textLayoutResult ->
                                 textWidths[index] = with(density) { textLayoutResult.size.width.toDp() }
-                            }
+                            },
                         )
                     }
                 }
@@ -295,9 +301,10 @@ private fun MyPageTabRow(
 
             // 인디케이터 영역
             Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(2.dp)
+                modifier =
+                    Modifier
+                        .fillMaxWidth()
+                        .height(2.dp),
             ) {
                 val currentTextWidth = textWidths[selectedTabIndex]
 
@@ -309,11 +316,12 @@ private fun MyPageTabRow(
 
                 // 인디케이터
                 Box(
-                    modifier = Modifier
-                        .offset(x = indicatorOffset)
-                        .width(indicatorWidth)
-                        .height(2.dp)
-                        .background(color = DPlayTheme.colors.dplayBlack)
+                    modifier =
+                        Modifier
+                            .offset(x = indicatorOffset)
+                            .width(indicatorWidth)
+                            .height(2.dp)
+                            .background(color = DPlayTheme.colors.dplayBlack),
                 )
             }
         }
@@ -323,7 +331,7 @@ private fun MyPageTabRow(
 @Composable
 private fun RegisteredMusicList(
     registeredMusicList: ImmutableList<RegisteredMusic>,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     LazyColumn(
         contentPadding = PaddingValues(16.dp),
@@ -331,12 +339,12 @@ private fun RegisteredMusicList(
     ) {
         items(registeredMusicList) {
             DPlayMusicListItem(
-                musicImageUrl = it.thumbnailUrl?:"",
+                musicImageUrl = it.thumbnailUrl ?: "",
                 musicName = it.musicTitle,
                 musicArtistName = it.artistName,
                 musicContent = it.comment,
                 onMoreClick = {},
-                onClick = {}
+                onClick = {},
             )
         }
     }
@@ -345,7 +353,7 @@ private fun RegisteredMusicList(
 @Composable
 private fun BookmarkedMusicList(
     bookmarkedMusicList: ImmutableList<BookmarkedMusic>,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     LazyVerticalGrid(
         modifier = modifier,
@@ -356,10 +364,10 @@ private fun BookmarkedMusicList(
     ) {
         items(bookmarkedMusicList) {
             DPlayMusicGridItem(
-                musicImageUrl = it.thumbnailUrl?:"",
+                musicImageUrl = it.thumbnailUrl ?: "",
                 musicName = it.musicTitle,
                 musicArtistName = it.artistName,
-                onClick = {}
+                onClick = {},
             )
         }
     }
@@ -374,7 +382,7 @@ private fun MyPageScreenPreview() {
                 userNickname = "디플레이",
                 registeredMusicList = dummyRegisteredMusicList,
                 bookmarkedMusicList = dummyBookmarkedMusicList,
-            )
+            ),
         )
     }
 
@@ -384,7 +392,7 @@ private fun MyPageScreenPreview() {
             onTabSelected = {
                 uiState = uiState.copy(selectedTabIndex = it)
                 Log.d("selectedTabIndex", it.toString())
-            }
+            },
         )
     }
 }

@@ -134,7 +134,7 @@ fun EditProfileScreen(
                     .padding(bottom = 16.dp),
         ) {
             DplayLeftIconTitleTopAppBar(
-                title = stringResource(com.dplay.editprofile.R.string.edit_profile_screen_title)
+                title = stringResource(com.dplay.editprofile.R.string.edit_profile_screen_title),
             ) { onBackButtonClick() }
 
             Spacer(modifier = Modifier.height(24.dp))

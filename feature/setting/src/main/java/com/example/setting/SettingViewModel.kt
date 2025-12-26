@@ -8,10 +8,10 @@ import javax.inject.Inject
 class SettingViewModel
     @Inject
     constructor() : BaseViewModel<SettingContract.SettingState, SettingContract.SettingIntent, SettingContract.SettingSideEffect>(
-        SettingContract.SettingState(),
-    ){
+            SettingContract.SettingState(),
+        ) {
         override fun handleIntent(intent: SettingContract.SettingIntent) {
-            when(intent){
+            when (intent) {
                 SettingContract.SettingIntent.Initialize -> {
                     // 앱 버전, 알림 권한 초기화
                 }
@@ -37,7 +37,7 @@ class SettingViewModel
                 SettingMenuType.PUSH_NOTIFICATION -> {
                     updateState {
                         copy(
-                            isPushNotificationEnabled = !this.isPushNotificationEnabled
+                            isPushNotificationEnabled = !this.isPushNotificationEnabled,
                         )
                     }
                 }

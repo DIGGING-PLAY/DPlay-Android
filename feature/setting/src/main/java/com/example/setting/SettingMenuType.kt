@@ -13,5 +13,5 @@ enum class SettingMenuType(
     PRIVACY(R.string.setting_privacy),
     VERSION(R.string.setting_version),
     LOGOUT(R.string.setting_logout),
-    WITHDRAW(R.string.setting_withdraw);
+    WITHDRAW(R.string.setting_withdraw),
 }
