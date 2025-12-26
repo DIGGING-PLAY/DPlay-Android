@@ -24,6 +24,7 @@ import com.example.designsystem.component.DplayLeftIconTitleTopAppBar
 import com.example.designsystem.component.button.DPlayToggle
 import com.example.designsystem.component.button.DPlayUnderlineTextButton
 import com.example.designsystem.theme.DPlayTheme
+import com.example.navigation.Navigator
 
 enum class SettingMenuType(
     val title: String,
@@ -40,6 +41,7 @@ enum class SettingMenuType(
 
 @Composable
 fun SettingRoute(
+    navigator: Navigator,
     modifier: Modifier = Modifier,
     viewModel: SettingViewModel = hiltViewModel()
 ) {

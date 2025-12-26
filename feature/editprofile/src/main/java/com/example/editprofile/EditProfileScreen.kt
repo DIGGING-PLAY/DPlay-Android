@@ -45,8 +45,8 @@ import com.example.navigation.Navigator
 import kotlinx.coroutines.flow.collectLatest
 
 @Composable
-fun EditProfileProfileRoute(
-    EditProfileNavigator: Navigator,
+fun EditProfileRoute(
+    navigator: Navigator,
     modifier: Modifier = Modifier,
     viewModel: EditProfileViewModel = hiltViewModel(),
 ) {
@@ -66,7 +66,7 @@ fun EditProfileProfileRoute(
         viewModel.sideEffect.collectLatest { sideEffect ->
             when (sideEffect) {
                 EditProfileContract.EditProfileSideEffect.NavigateToBack -> {
-                    EditProfileNavigator.navigateToBack()
+                    navigator.navigateToBack()
                 }
                 EditProfileContract.EditProfileSideEffect.NavigateToMyPage -> {
                     // navigation
@@ -81,7 +81,7 @@ fun EditProfileProfileRoute(
         }
     }
 
-    EditProfileProfileScreen(
+    EditProfileScreen(
         state = state,
         onNicknameChanged = {
             viewModel.handleIntent(EditProfileContract.EditProfileIntent.OnNicknameChanged(it))
@@ -108,7 +108,7 @@ fun EditProfileProfileRoute(
 }
 
 @Composable
-fun EditProfileProfileScreen(
+fun EditProfileScreen(
     state: EditProfileContract.EditProfileState,
     modifier: Modifier = Modifier,
     onNicknameChanged: (String) -> Unit = {},
@@ -233,9 +233,9 @@ fun EditProfileProfileScreen(
 
 @Preview
 @Composable
-private fun EditProfileProfileScreenPreview() {
+private fun EditProfileScreenPreview() {
     DPlayTheme {
-        EditProfileProfileScreen(
+        EditProfileScreen(
             state = EditProfileContract.EditProfileState(),
         )
     }
