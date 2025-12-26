@@ -134,7 +134,7 @@ fun EditProfileScreen(
                     .padding(bottom = 16.dp),
         ) {
             DplayLeftIconTitleTopAppBar(
-                title = "프로필 수정"
+                title = stringResource(com.dplay.editprofile.R.string.edit_profile_screen_title)
             ) { onBackButtonClick() }
 
             Spacer(modifier = Modifier.height(24.dp))
@@ -221,8 +221,8 @@ fun EditProfileScreen(
                 ),
         ) {
             DPlayButtonBottomSheet(
-                mainText = "앨범에서 선택하기",
-                subText = "기본 이미지로 변경하기",
+                mainText = stringResource(R.string.launch_album_bottomsheet_main_text),
+                subText = stringResource(R.string.launch_album_bottomsheet_sub_text),
                 mainOnClick = { onAlbumLauncherSelect() },
                 subOnClick = { onDefaultImageSelect() },
                 modifier = Modifier.noRippleClickable(),

@@ -228,8 +228,8 @@ fun OnboardingProfileScreen(
                 ),
         ) {
             DPlayButtonBottomSheet(
-                mainText = stringResource(com.dplay.onboarding.R.string.profile_screen_bottomsheet_album_select),
-                subText = stringResource(com.dplay.onboarding.R.string.profile_screen_bottomsheet_default_image),
+                mainText = stringResource(R.string.launch_album_bottomsheet_main_text),
+                subText = stringResource(R.string.launch_album_bottomsheet_sub_text),
                 mainOnClick = { onAlbumLauncherSelect() },
                 subOnClick = { onDefaultImageSelect() },
                 modifier = Modifier.noRippleClickable(),
