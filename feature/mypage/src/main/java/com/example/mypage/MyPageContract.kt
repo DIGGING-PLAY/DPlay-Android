@@ -6,15 +6,13 @@ import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 
 data class RegisteredMusic(
-    val id: Long,
-    val musicTitle: String,
-    val artistName: String,
+    val postId: Long,
     val comment: String,
-    val thumbnailUrl: String?,
+    val music: Music
 )
 
-data class BookmarkedMusic(
-    val id: Long,
+data class Music(
+    val trackId: String,
     val musicTitle: String,
     val artistName: String,
     val thumbnailUrl: String?,
@@ -27,7 +25,7 @@ class MyPageContract {
         val profileImageUri: Uri? = null,
         val selectedTabIndex: Int = 0,
         val registeredMusicList: ImmutableList<RegisteredMusic> = dummyRegisteredMusicList,
-        val bookmarkedMusicList: ImmutableList<BookmarkedMusic> = dummyBookmarkedMusicList,
+        val bookmarkedMusicList: ImmutableList<RegisteredMusic> = dummyBookmarkedMusicList,
     ) : BaseContract.State {
         val registeredMusicCount: Int
             get() = registeredMusicList.size
@@ -74,131 +72,198 @@ class MyPageContract {
     }
 }
 
-val dummyRegisteredMusicList =
-    persistentListOf(
-        RegisteredMusic(
-            id = 1L,
+val dummyRegisteredMusicList = persistentListOf(
+    RegisteredMusic(
+        postId = 1L,
+        comment = "운동할 때 들으면 힘나는 노래!",
+        music = Music(
+            trackId = "track_1",
             musicTitle = "Supernova",
             artistName = "aespa",
-            comment = "운동할 때 들으면 힘나는 노래!",
-            thumbnailUrl = null,
-        ),
-        RegisteredMusic(
-            id = 2L,
+            thumbnailUrl = null
+        )
+    ),
+    RegisteredMusic(
+        postId = 2L,
+        comment = "요즘 제일 많이 듣는 곡",
+        music = Music(
+            trackId = "track_2",
             musicTitle = "Magnetic",
             artistName = "ILLIT",
-            comment = "요즘 제일 많이 듣는 곡",
-            thumbnailUrl = null,
-        ),
-        RegisteredMusic(
-            id = 3L,
+            thumbnailUrl = null
+        )
+    ),
+    RegisteredMusic(
+        postId = 3L,
+        comment = "비트가 너무 좋음",
+        music = Music(
+            trackId = "track_3",
             musicTitle = "SPOT! (feat. JENNIE)",
             artistName = "지코 (ZICO)",
-            comment = "비트가 너무 좋음",
-            thumbnailUrl = null,
-        ),
-        RegisteredMusic(
-            id = 4L,
+            thumbnailUrl = null
+        )
+    ),
+    RegisteredMusic(
+        postId = 4L,
+        comment = "반복 재생 중...",
+        music = Music(
+            trackId = "track_4",
             musicTitle = "해야 (HEYA)",
             artistName = "IVE (아이브)",
-            comment = "반복 재생 중...",
-            thumbnailUrl = null,
-        ),
-        RegisteredMusic(
-            id = 5L,
+            thumbnailUrl = null
+        )
+    ),
+    RegisteredMusic(
+        postId = 5L,
+        comment = "선재 업고 튀어 OST",
+        music = Music(
+            trackId = "track_5",
             musicTitle = "소나기",
             artistName = "이클립스 (ECLIPSE)",
-            comment = "선재 업고 튀어 OST",
-            thumbnailUrl = null,
-        ),
-        RegisteredMusic(
-            id = 6L,
+            thumbnailUrl = null
+        )
+    ),
+    RegisteredMusic(
+        postId = 6L,
+        comment = "자기 전에 듣기 좋아요 자기 전에 듣기 좋아요 자기 전에 듣기 좋아요",
+        music = Music(
+            trackId = "track_6",
             musicTitle = "Love wins all",
             artistName = "아이유 (IU)",
-            comment = "자기 전에 듣기 좋아요 자기 전에 듣기 좋아요 자기 전에 듣기 좋아요",
-            thumbnailUrl = null,
-        ),
+            thumbnailUrl = null
+        )
     )
+)
 
-// 2. 보관함 더미 데이터 (13개)
-val dummyBookmarkedMusicList =
-    persistentListOf(
-        BookmarkedMusic(
-            id = 101L,
+val dummyBookmarkedMusicList = persistentListOf(
+    RegisteredMusic(
+        postId = 101L,
+        comment = "", // 보관함용 빈 코멘트
+        music = Music(
+            trackId = "track_101",
             musicTitle = "How Sweet",
             artistName = "NewJeans",
-            thumbnailUrl = null,
-        ),
-        BookmarkedMusic(
-            id = 102L,
+            thumbnailUrl = null
+        )
+    ),
+    RegisteredMusic(
+        postId = 102L,
+        comment = "",
+        music = Music(
+            trackId = "track_102",
             musicTitle = "Bubble Gum",
             artistName = "NewJeans",
-            thumbnailUrl = null,
-        ),
-        BookmarkedMusic(
-            id = 103L,
+            thumbnailUrl = null
+        )
+    ),
+    RegisteredMusic(
+        postId = 103L,
+        comment = "",
+        music = Music(
+            trackId = "track_103",
             musicTitle = "나는 아픈 건 딱 질색이니까",
             artistName = "(여자)아이들",
-            thumbnailUrl = null,
-        ),
-        BookmarkedMusic(
-            id = 104L,
+            thumbnailUrl = null
+        )
+    ),
+    RegisteredMusic(
+        postId = 104L,
+        comment = "",
+        music = Music(
+            trackId = "track_104",
             musicTitle = "첫 만남은 계획대로 되지 않아",
             artistName = "TWS (투어스)",
-            thumbnailUrl = null,
-        ),
-        BookmarkedMusic(
-            id = 105L,
+            thumbnailUrl = null
+        )
+    ),
+    RegisteredMusic(
+        postId = 105L,
+        comment = "",
+        music = Music(
+            trackId = "track_105",
             musicTitle = "밤양갱",
             artistName = "비비 (BIBI)",
-            thumbnailUrl = null,
-        ),
-        BookmarkedMusic(
-            id = 106L,
+            thumbnailUrl = null
+        )
+    ),
+    RegisteredMusic(
+        postId = 106L,
+        comment = "",
+        music = Music(
+            trackId = "track_106",
             musicTitle = "EASY",
             artistName = "LE SSERAFIM",
-            thumbnailUrl = null,
-        ),
-        BookmarkedMusic(
-            id = 107L,
+            thumbnailUrl = null
+        )
+    ),
+    RegisteredMusic(
+        postId = 107L,
+        comment = "",
+        music = Music(
+            trackId = "track_107",
             musicTitle = "Smart",
             artistName = "LE SSERAFIM",
-            thumbnailUrl = null,
-        ),
-        BookmarkedMusic(
-            id = 108L,
+            thumbnailUrl = null
+        )
+    ),
+    RegisteredMusic(
+        postId = 108L,
+        comment = "",
+        music = Music(
+            trackId = "track_108",
             musicTitle = "Drama",
             artistName = "aespa",
-            thumbnailUrl = null,
-        ),
-        BookmarkedMusic(
-            id = 109L,
+            thumbnailUrl = null
+        )
+    ),
+    RegisteredMusic(
+        postId = 109L,
+        comment = "",
+        music = Music(
+            trackId = "track_109",
             musicTitle = "To. X",
             artistName = "태연 (TAEYEON)",
-            thumbnailUrl = null,
-        ),
-        BookmarkedMusic(
-            id = 110L,
+            thumbnailUrl = null
+        )
+    ),
+    RegisteredMusic(
+        postId = 110L,
+        comment = "",
+        music = Music(
+            trackId = "track_110",
             musicTitle = "Perfect Night",
             artistName = "LE SSERAFIM",
-            thumbnailUrl = null,
-        ),
-        BookmarkedMusic(
-            id = 111L,
+            thumbnailUrl = null
+        )
+    ),
+    RegisteredMusic(
+        postId = 111L,
+        comment = "",
+        music = Music(
+            trackId = "track_111",
             musicTitle = "Love 119",
             artistName = "RIIZE",
-            thumbnailUrl = null,
-        ),
-        BookmarkedMusic(
-            id = 112L,
+            thumbnailUrl = null
+        )
+    ),
+    RegisteredMusic(
+        postId = 112L,
+        comment = "",
+        music = Music(
+            trackId = "track_112",
             musicTitle = "Get A Guitar",
             artistName = "RIIZE",
-            thumbnailUrl = null,
-        ),
-        BookmarkedMusic(
-            id = 113L,
+            thumbnailUrl = null
+        )
+    ),
+    RegisteredMusic(
+        postId = 113L,
+        comment = "",
+        music = Music(
+            trackId = "track_113",
             musicTitle = "Ditto",
             artistName = "NewJeans",
-            thumbnailUrl = null,
-        ),
+            thumbnailUrl = null
+        )
     )
+)

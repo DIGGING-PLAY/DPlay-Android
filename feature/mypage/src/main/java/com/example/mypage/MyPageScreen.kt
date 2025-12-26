@@ -222,7 +222,7 @@ private fun UserInformationRow(
 private fun TabContent(
     selectedTabIndex: Int,
     registeredMusicList: ImmutableList<RegisteredMusic>,
-    bookmarkedMusicList: ImmutableList<BookmarkedMusic>,
+    bookmarkedMusicList: ImmutableList<RegisteredMusic>,
     onTabSelected: (Int) -> Unit,
 ) {
     Column {
@@ -336,11 +336,14 @@ private fun RegisteredMusicList(
         contentPadding = PaddingValues(16.dp),
         verticalArrangement = Arrangement.spacedBy(12.dp),
     ) {
-        items(registeredMusicList) {
+        items(
+            items = registeredMusicList,
+            key = { it.postId },
+        ) {
             DPlayMusicListItem(
-                musicImageUrl = it.thumbnailUrl ?: "",
-                musicName = it.musicTitle,
-                musicArtistName = it.artistName,
+                musicImageUrl = it.music.thumbnailUrl ?: "",
+                musicName = it.music.musicTitle,
+                musicArtistName = it.music.artistName,
                 musicContent = it.comment,
                 onMoreClick = {},
                 onClick = {},
@@ -351,7 +354,7 @@ private fun RegisteredMusicList(
 
 @Composable
 private fun BookmarkedMusicList(
-    bookmarkedMusicList: ImmutableList<BookmarkedMusic>,
+    bookmarkedMusicList: ImmutableList<RegisteredMusic>,
     modifier: Modifier = Modifier,
 ) {
     LazyVerticalGrid(
@@ -361,11 +364,14 @@ private fun BookmarkedMusicList(
         horizontalArrangement = Arrangement.spacedBy(12.dp),
         verticalArrangement = Arrangement.spacedBy(12.dp),
     ) {
-        items(bookmarkedMusicList) {
+        items(
+            items =bookmarkedMusicList,
+            key = { it.postId },
+        ) {
             DPlayMusicGridItem(
-                musicImageUrl = it.thumbnailUrl ?: "",
-                musicName = it.musicTitle,
-                musicArtistName = it.artistName,
+                musicImageUrl = it.music.thumbnailUrl ?: "",
+                musicName = it.music.musicTitle,
+                musicArtistName = it.music.artistName,
                 onClick = {},
             )
         }
