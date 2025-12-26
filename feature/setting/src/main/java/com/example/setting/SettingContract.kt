@@ -2,7 +2,6 @@ package com.example.setting
 
 import com.example.ui.base.BaseContract
 
-
 class SettingContract{
     data class SettingState(
         val isLoading: Boolean = false,

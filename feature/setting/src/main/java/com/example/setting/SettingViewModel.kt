@@ -1,6 +1,5 @@
 package com.example.setting
 
-import com.dplay.setting.BuildConfig
 import com.example.ui.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
