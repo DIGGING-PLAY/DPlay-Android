@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="mypage_screen_title">마이페이지</string>
+    <string name="registered_music_count">총 %1$s개의 노래를 공유했어요</string>
+    <string name="registered_music_tab_label">등록한 곡</string>
+    <string name="bookmarked_music_tab_label">보관함</string>
+</resources>

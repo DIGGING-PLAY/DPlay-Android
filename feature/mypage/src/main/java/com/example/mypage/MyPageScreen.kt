@@ -38,6 +38,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.withStyle
@@ -59,7 +60,6 @@ import com.example.navigation.EditProfile
 import com.example.navigation.Navigator
 import com.example.navigation.Setting
 import kotlinx.collections.immutable.ImmutableList
-import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.flow.collectLatest
 
 @Composable
@@ -115,7 +115,7 @@ fun MyPageScreen(
             .background(DPlayTheme.colors.dplayWhite),
     ) {
         DplayRightIconTitleTopAppBar(
-            title = "마이페이지",
+            title = stringResource(com.dplay.mypage.R.string.mypage_screen_title),
         ) {
             onSettingIconClick()
         }
@@ -170,11 +170,14 @@ private fun UserInformationRow(
 
             Text(
                 text = buildAnnotatedString {
-                    append("총 ")
+                    val rawText = stringResource(id = com.dplay.mypage.R.string.registered_music_count)
+                    val parts = rawText.split($$"""%1$s""")
+
+                    append(parts[0])
                     withStyle(style = SpanStyle(color = DPlayTheme.colors.dplayPink)) {
                         append("$registeredMusicCount")
                     }
-                    append("개의 노래를 공유했어요")
+                    append(parts[1])
                 },
                 style = DPlayTheme.typography.bodySemi14,
                 color = DPlayTheme.colors.gray400
@@ -251,7 +254,10 @@ private fun MyPageTabRow(
     onTabSelected: (Int) -> Unit = {},
     modifier: Modifier = Modifier
 ) {
-    val tabs = listOf("등록한 곡", "보관함")
+    val tabs = listOf(
+        stringResource(com.dplay.mypage.R.string.registered_music_tab_label),
+        stringResource(com.dplay.mypage.R.string.bookmarked_music_tab_label)
+    )
     val indicatorHorizontalPadding = 28.dp
 
     val density = LocalDensity.current
@@ -269,7 +275,7 @@ private fun MyPageTabRow(
                     Box(
                         modifier = Modifier
                             .weight(1f)
-                            .noRippleClickable{
+                            .noRippleClickable {
                                 onTabSelected(index)
                             }
                             .padding(vertical = 12.dp),
