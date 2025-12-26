@@ -40,8 +40,6 @@ class EditProfileContract {
     sealed interface EditProfileSideEffect : BaseContract.SideEffect {
         data object LaunchAlbum : EditProfileSideEffect
 
-        data object NavigateToMyPage : EditProfileSideEffect
-
         data object NavigateToBack : EditProfileSideEffect
     }
 }

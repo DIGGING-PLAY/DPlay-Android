@@ -69,9 +69,7 @@ fun EditProfileRoute(
                 EditProfileContract.EditProfileSideEffect.NavigateToBack -> {
                     navigator.navigateToBack()
                 }
-                EditProfileContract.EditProfileSideEffect.NavigateToMyPage -> {
-                    navigator.clearAndNavigateTo(MyPage)
-                }
+
                 EditProfileContract.EditProfileSideEffect.LaunchAlbum -> {
                     photoPickerLauncher.launch(
                         PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly),

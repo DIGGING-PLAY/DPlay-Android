@@ -44,7 +44,7 @@ class EditProfileViewModel
                     }
                 }
                 EditProfileContract.EditProfileIntent.OnEditButtonClick -> {
-                    setSideEffect(EditProfileContract.EditProfileSideEffect.NavigateToMyPage)
+                    setSideEffect(EditProfileContract.EditProfileSideEffect.NavigateToBack)
                 }
                 is EditProfileContract.EditProfileIntent.OnNicknameChanged -> {
                     validateAndUpdateNickname(intent.input.trim())
