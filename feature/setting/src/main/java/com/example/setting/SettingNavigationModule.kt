@@ -3,7 +3,7 @@ package com.example.setting
 import androidx.navigation3.runtime.EntryProviderScope
 import androidx.navigation3.runtime.NavKey
 import com.example.navigation.Navigator
-import com.example.navigation.Splash
+import com.example.navigation.Setting
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
