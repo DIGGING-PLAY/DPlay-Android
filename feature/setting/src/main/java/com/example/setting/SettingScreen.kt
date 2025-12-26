@@ -15,6 +15,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
@@ -39,6 +41,7 @@ fun SettingRoute(
 ) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
 
+    val context = LocalContext.current
     val modalController = LocalModalController.current
 
     LaunchedEffect(Unit){
@@ -53,7 +56,7 @@ fun SettingRoute(
                 is SettingContract.SettingSideEffect.NavigateToWeb -> {}
                 SettingContract.SettingSideEffect.ShowLogoutWarningDialog -> {
                     modalController.showWarningModal(
-                        mainText = "로그아웃하시겠어요?",
+                        mainText = context.getString(com.dplay.setting.R.string.logout_warning_mainText),
                         subText = null,
                         onLeftButtonClick = { modalController.hideModal() },
                         onRightButtonClick = {
@@ -61,22 +64,22 @@ fun SettingRoute(
                             viewModel.handleIntent(SettingContract.SettingIntent.OnLogoutConfirm)
                         },
                         onDismiss = { modalController.hideModal() },
-                        leftButtonLabel = "취소",
-                        rightButtonLabel = "로그아웃"
+                        leftButtonLabel = context.getString(com.dplay.setting.R.string.logout_warning_left_button_label),
+                        rightButtonLabel = context.getString(com.dplay.setting.R.string.logout_warning_right_button_label)
                     )
                 }
                 SettingContract.SettingSideEffect.ShowWithdrawWarningDialog -> {
                     modalController.showWarningModal(
-                        mainText = "정말 탈퇴하시겠어요?",
-                        subText = "작성하신 글, 좋아요한 글, 저장한 글 등 모든 기록이 삭제되며 복구가 불가능해요.",
+                        mainText = context.getString(com.dplay.setting.R.string.withdraw_warning_main_text),
+                        subText = context.getString(com.dplay.setting.R.string.withdraw_warning_sub_text),
                         onLeftButtonClick = {
                             modalController.hideModal()
                             viewModel.handleIntent(SettingContract.SettingIntent.OnWithdrawConfirm)
                         },
                         onRightButtonClick = { modalController.hideModal() },
                         onDismiss = { modalController.hideModal() },
-                        leftButtonLabel = "탈퇴하기",
-                        rightButtonLabel = "머무르기",
+                        leftButtonLabel = context.getString(com.dplay.setting.R.string.withdraw_warning_left_button_label),
+                        rightButtonLabel = context.getString(com.dplay.setting.R.string.withdraw_warning_right_button_label),
                     )
                 }
             }
@@ -109,7 +112,7 @@ fun SettingScreen(
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         DplayLeftIconTitleTopAppBar(
-            title = "설정"
+            title = stringResource(com.dplay.setting.R.string.setting_screen_title)
         ) {
             onBackIconClick()
         }
@@ -119,7 +122,7 @@ fun SettingScreen(
 
             if(type != SettingMenuType.WITHDRAW){
                 SettingActionRow(
-                    type.title,
+                    stringResource(id = type.titleResId),
                     titleColor = titleColor,
                     onClick = { onMenuClick(type)}
                 ){
@@ -134,8 +137,7 @@ fun SettingScreen(
                         }
                         SettingMenuType.VERSION -> {
                             Text(
-                                // 임시 앱 버전
-                                text = "v1.0.0",
+                                text = state.appVersion,
                                 style = DPlayTheme.typography.bodyMed14,
                                 color = DPlayTheme.colors.gray400
                             )
@@ -152,7 +154,7 @@ fun SettingScreen(
                 Spacer(modifier = Modifier.weight(1f))
 
                 DPlayUnderlineTextButton(
-                    text = type.title,
+                    text = stringResource(id = type.titleResId),
                     onClick = { onMenuClick(type) }
                 )
             }
@@ -178,7 +180,7 @@ private fun SettingActionRow(
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .noRippleClickable{ onClick() }
+            .noRippleClickable { onClick() }
             .padding(all = 16.dp),
         verticalAlignment = Alignment.CenterVertically
     ){
