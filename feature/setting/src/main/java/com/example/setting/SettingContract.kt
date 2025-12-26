@@ -25,6 +25,8 @@ class SettingContract{
 
         data object NavigateToBack : SettingSideEffect
 
-        data object ShowDialog : SettingSideEffect
+        data object ShowLogoutWarningDialog : SettingSideEffect
+
+        data object ShowWithdrawWarningDialog : SettingSideEffect
     }
 }

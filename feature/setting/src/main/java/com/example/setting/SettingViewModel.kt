@@ -55,10 +55,10 @@ class SettingViewModel
                     // 개인정보 처리방침 노션 링크로 연결
                 }
                 SettingMenuType.LOGOUT -> {
-                    setSideEffect(SettingContract.SettingSideEffect.ShowDialog)
+                    setSideEffect(SettingContract.SettingSideEffect.ShowLogoutWarningDialog)
                 }
                 SettingMenuType.WITHDRAW -> {
-                    setSideEffect(SettingContract.SettingSideEffect.ShowDialog)
+                    setSideEffect(SettingContract.SettingSideEffect.ShowWithdrawWarningDialog)
                 }
                 SettingMenuType.VERSION -> { /* 동작없음 */ }
             }

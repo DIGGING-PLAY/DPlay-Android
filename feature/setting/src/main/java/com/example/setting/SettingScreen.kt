@@ -28,6 +28,7 @@ import com.example.designsystem.theme.DPlayTheme
 import com.example.designsystem.util.noRippleClickable
 import com.example.navigation.Login
 import com.example.navigation.Navigator
+import com.example.ui.controller.LocalModalController
 import kotlinx.coroutines.flow.collectLatest
 
 enum class SettingMenuType(
@@ -51,6 +52,8 @@ fun SettingRoute(
 ) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
 
+    val modalController = LocalModalController.current
+
     LaunchedEffect(Unit){
         viewModel.sideEffect.collectLatest{ sideEffect ->
             when(sideEffect){
@@ -61,7 +64,34 @@ fun SettingRoute(
                     navigator.clearAndNavigateTo(Login)
                 }
                 is SettingContract.SettingSideEffect.NavigateToWeb -> {}
-                SettingContract.SettingSideEffect.ShowDialog -> {}
+                SettingContract.SettingSideEffect.ShowLogoutWarningDialog -> {
+                    modalController.showWarningModal(
+                        mainText = "로그아웃하시겠어요?",
+                        subText = null,
+                        onLeftButtonClick = { modalController.hideModal() },
+                        onRightButtonClick = {
+                            modalController.hideModal()
+                            viewModel.handleIntent(SettingContract.SettingIntent.OnLogoutConfirm)
+                        },
+                        onDismiss = { modalController.hideModal() },
+                        leftButtonLabel = "취소",
+                        rightButtonLabel = "로그아웃"
+                    )
+                }
+                SettingContract.SettingSideEffect.ShowWithdrawWarningDialog -> {
+                    modalController.showWarningModal(
+                        mainText = "정말 탈퇴하시겠어요?",
+                        subText = "작성하신 글, 좋아요한 글, 저장한 글 등 모든 기록이 삭제되며 복구가 불가능해요.",
+                        onLeftButtonClick = {
+                            modalController.hideModal()
+                            viewModel.handleIntent(SettingContract.SettingIntent.OnWithdrawConfirm)
+                        },
+                        onRightButtonClick = { modalController.hideModal() },
+                        onDismiss = { modalController.hideModal() },
+                        leftButtonLabel = "탈퇴하기",
+                        rightButtonLabel = "머무르기",
+                    )
+                }
             }
         }
     }
@@ -117,6 +147,7 @@ fun SettingScreen(
                         }
                         SettingMenuType.VERSION -> {
                             Text(
+                                // 임시 앱 버전
                                 text = "v1.0.0",
                                 style = DPlayTheme.typography.bodyMed14,
                                 color = DPlayTheme.colors.gray400
