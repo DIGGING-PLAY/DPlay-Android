@@ -10,7 +10,7 @@ class SettingContract{
         val appVersion: String = "1.0.0",
     ) : BaseContract.State
 
-    sealed interface SettingIntent{
+    sealed interface SettingIntent : BaseContract.Intent {
         data class OnPushNotificationToggle(val isEnabled: Boolean) : SettingIntent
         data object OnAnnouncementClick : SettingIntent
         data object OnInquiryClick : SettingIntent
@@ -24,7 +24,7 @@ class SettingContract{
         data object OnDismissDialog : SettingIntent
     }
 
-    sealed interface SettingSideEffect{
+    sealed interface SettingSideEffect : BaseContract.SideEffect{
         data class NavigateToWeb(val url: String) : SettingSideEffect
 
         data object NavigateToLogin : SettingSideEffect
