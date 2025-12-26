@@ -18,10 +18,10 @@ class MyPageViewModel
                 MyPageContract.MyPageIntent.OnBottomSheetDeleteClick -> {
                 }
 
-                MyPageContract.MyPageIntent.OnDialogueCancelClick -> {
+                MyPageContract.MyPageIntent.OnDialogCancelClick -> {
                 }
 
-                MyPageContract.MyPageIntent.OnDialogueDeleteClick -> {
+                MyPageContract.MyPageIntent.OnDialogDeleteClick -> {
                     // 삭제 api
                 }
 

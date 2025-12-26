@@ -54,9 +54,9 @@ class MyPageContract {
 
         data object OnBottomSheetCancelClick : MyPageIntent
 
-        data object OnDialogueDeleteClick : MyPageIntent
+        data object OnDialogDeleteClick : MyPageIntent
 
-        data object OnDialogueCancelClick : MyPageIntent
+        data object OnDialogCancelClick : MyPageIntent
     }
 
     sealed interface MyPageSideEffect : BaseContract.SideEffect {
