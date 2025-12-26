@@ -10,11 +10,14 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.dplay.designsystem.R
 import com.example.designsystem.component.DplayBaseIcon
 import com.example.designsystem.component.DplayLeftIconTitleTopAppBar
@@ -36,12 +39,22 @@ enum class SettingMenuType(
 }
 
 @Composable
-fun SettingRoute(modifier: Modifier = Modifier) {
+fun SettingRoute(
+    modifier: Modifier = Modifier,
+    viewModel: SettingViewModel = hiltViewModel()
+) {
+    val state by viewModel.uiState.collectAsStateWithLifecycle()
 
+    SettingScreen(
+        state = state,
+    )
 }
 
 @Composable
-fun SettingScreen(modifier: Modifier = Modifier) {
+fun SettingScreen(
+    state: SettingContract.SettingState,
+    modifier: Modifier = Modifier,
+) {
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -51,9 +64,7 @@ fun SettingScreen(modifier: Modifier = Modifier) {
     ) {
         DplayLeftIconTitleTopAppBar(
             title = "설정"
-        ) {
-
-        }
+        ) {}
 
         SettingMenuType.entries.forEach { type ->
             val titleColor = if(type == SettingMenuType.LOGOUT) DPlayTheme.colors.alertRed else DPlayTheme.colors.gray600
@@ -66,7 +77,7 @@ fun SettingScreen(modifier: Modifier = Modifier) {
                     when(type){
                         SettingMenuType.PUSH_NOTIFICATION -> {
                             DPlayToggle(
-                                isChecked = true,
+                                isChecked = state.isPushNotificationEnabled,
                                 onClick = {}
                             )
                         }
@@ -85,6 +96,13 @@ fun SettingScreen(modifier: Modifier = Modifier) {
                         }
                     }
                 }
+            }else{
+                Spacer(modifier = Modifier.weight(1f))
+
+                DPlayUnderlineTextButton(
+                    text = type.title,
+                    onClick = {}
+                )
             }
 
             if(type == SettingMenuType.INQUIRY){
@@ -94,13 +112,6 @@ fun SettingScreen(modifier: Modifier = Modifier) {
                 )
             }
         }
-
-        Spacer(modifier = Modifier.weight(1f))
-
-        DPlayUnderlineTextButton(
-            text = "회원탈퇴",
-            onClick = {}
-        )
     }
 }
 
@@ -131,6 +142,8 @@ private fun SettingActionRow(
 @Composable
 private fun SettingScreenPreview(modifier: Modifier = Modifier) {
     DPlayTheme {
-        SettingScreen()
+        SettingScreen(
+            state = SettingContract.SettingState(),
+        )
     }
 }

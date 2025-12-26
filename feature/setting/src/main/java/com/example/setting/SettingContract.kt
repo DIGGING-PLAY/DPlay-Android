@@ -21,13 +21,14 @@ class SettingContract{
         data object OnWithdrawClick : SettingIntent
         data object OnWithdrawConfirm : SettingIntent
         data object OnBackIconClick : SettingIntent
-        data object OnDismissDialog : SettingIntent
     }
 
     sealed interface SettingSideEffect : BaseContract.SideEffect{
         data class NavigateToWeb(val url: String) : SettingSideEffect
 
         data object NavigateToLogin : SettingSideEffect
+
+        data object NavigateToBack : SettingSideEffect
 
         data object ShowDialog : SettingSideEffect
     }
