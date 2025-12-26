@@ -1,8 +1,6 @@
 package com.example.onboarding
 
-import com.example.common.constant.Regex
 import com.example.common.type.TermType
-import com.example.designsystem.component.textfield.type.NicknameInputState
 import com.example.domain.usecase.ValidateNicknameUseCase
 import com.example.ui.base.BaseViewModel
 import com.example.ui.mapper.toUiState
@@ -13,7 +11,7 @@ import javax.inject.Inject
 class OnboardingViewModel
     @Inject
     constructor(
-        private val validateNicknameUseCase : ValidateNicknameUseCase
+        private val validateNicknameUseCase: ValidateNicknameUseCase,
     ) : BaseViewModel<OnboardingContract.OnboardingState, OnboardingContract.OnboardingIntent, OnboardingContract.OnboardingSideEffect>(
             OnboardingContract.OnboardingState(),
         ) {

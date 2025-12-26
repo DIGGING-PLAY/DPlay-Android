@@ -10,7 +10,7 @@ import javax.inject.Inject
 class EditProfileViewModel
     @Inject
     constructor(
-        private val validateNicknameUseCase : ValidateNicknameUseCase
+        private val validateNicknameUseCase: ValidateNicknameUseCase,
     ) : BaseViewModel<EditProfileContract.EditProfileState, EditProfileContract.EditProfileIntent, EditProfileContract.EditProfileSideEffect>(
             EditProfileContract.EditProfileState(),
         ) {
