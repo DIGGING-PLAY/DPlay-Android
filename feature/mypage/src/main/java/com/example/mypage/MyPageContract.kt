@@ -106,7 +106,7 @@ val dummyRegisteredMusicList = persistentListOf(
         id = 6L,
         musicTitle = "Love wins all",
         artistName = "아이유 (IU)",
-        comment = "자기 전에 듣기 좋아요",
+        comment = "자기 전에 듣기 좋아요 자기 전에 듣기 좋아요 자기 전에 듣기 좋아요",
         thumbnailUrl = null
     )
 )
