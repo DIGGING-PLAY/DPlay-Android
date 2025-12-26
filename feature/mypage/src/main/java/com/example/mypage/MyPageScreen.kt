@@ -367,7 +367,7 @@ private fun BookmarkedMusicList(
         verticalArrangement = Arrangement.spacedBy(12.dp),
     ) {
         items(
-            items =bookmarkedMusicList,
+            items = bookmarkedMusicList,
             key = { it.postId },
         ) {
             DPlayMusicGridItem(
