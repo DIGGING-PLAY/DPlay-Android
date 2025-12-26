@@ -58,6 +58,8 @@ import com.example.designsystem.util.noRippleClickable
 import com.example.navigation.EditProfile
 import com.example.navigation.Navigator
 import com.example.navigation.Setting
+import com.example.ui.model.BookmarkedMusic
+import com.example.ui.model.RegisteredMusic
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.coroutines.flow.collectLatest
 
@@ -222,7 +224,7 @@ private fun UserInformationRow(
 private fun TabContent(
     selectedTabIndex: Int,
     registeredMusicList: ImmutableList<RegisteredMusic>,
-    bookmarkedMusicList: ImmutableList<RegisteredMusic>,
+    bookmarkedMusicList: ImmutableList<BookmarkedMusic>,
     onTabSelected: (Int) -> Unit,
 ) {
     Column {
@@ -354,7 +356,7 @@ private fun RegisteredMusicList(
 
 @Composable
 private fun BookmarkedMusicList(
-    bookmarkedMusicList: ImmutableList<RegisteredMusic>,
+    bookmarkedMusicList: ImmutableList<BookmarkedMusic>,
     modifier: Modifier = Modifier,
 ) {
     LazyVerticalGrid(

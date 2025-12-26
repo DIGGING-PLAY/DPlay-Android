@@ -2,21 +2,11 @@ package com.example.mypage
 
 import android.net.Uri
 import com.example.ui.base.BaseContract
+import com.example.ui.model.BookmarkedMusic
+import com.example.ui.model.RegisteredMusic
+import com.example.ui.model.Music
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
-
-data class RegisteredMusic(
-    val postId: Long,
-    val comment: String,
-    val music: Music
-)
-
-data class Music(
-    val trackId: String,
-    val musicTitle: String,
-    val artistName: String,
-    val thumbnailUrl: String?,
-)
 
 class MyPageContract {
     data class MyPageState(
@@ -25,7 +15,7 @@ class MyPageContract {
         val profileImageUri: Uri? = null,
         val selectedTabIndex: Int = 0,
         val registeredMusicList: ImmutableList<RegisteredMusic> = dummyRegisteredMusicList,
-        val bookmarkedMusicList: ImmutableList<RegisteredMusic> = dummyBookmarkedMusicList,
+        val bookmarkedMusicList: ImmutableList<BookmarkedMusic> = dummyBookmarkedMusicList,
     ) : BaseContract.State {
         val registeredMusicCount: Int
             get() = registeredMusicList.size
@@ -136,9 +126,8 @@ val dummyRegisteredMusicList = persistentListOf(
 )
 
 val dummyBookmarkedMusicList = persistentListOf(
-    RegisteredMusic(
+    BookmarkedMusic(
         postId = 101L,
-        comment = "", // 보관함용 빈 코멘트
         music = Music(
             trackId = "track_101",
             musicTitle = "How Sweet",
@@ -146,9 +135,8 @@ val dummyBookmarkedMusicList = persistentListOf(
             thumbnailUrl = null
         )
     ),
-    RegisteredMusic(
+    BookmarkedMusic(
         postId = 102L,
-        comment = "",
         music = Music(
             trackId = "track_102",
             musicTitle = "Bubble Gum",
@@ -156,9 +144,8 @@ val dummyBookmarkedMusicList = persistentListOf(
             thumbnailUrl = null
         )
     ),
-    RegisteredMusic(
+    BookmarkedMusic(
         postId = 103L,
-        comment = "",
         music = Music(
             trackId = "track_103",
             musicTitle = "나는 아픈 건 딱 질색이니까",
@@ -166,9 +153,8 @@ val dummyBookmarkedMusicList = persistentListOf(
             thumbnailUrl = null
         )
     ),
-    RegisteredMusic(
+    BookmarkedMusic(
         postId = 104L,
-        comment = "",
         music = Music(
             trackId = "track_104",
             musicTitle = "첫 만남은 계획대로 되지 않아",
@@ -176,9 +162,8 @@ val dummyBookmarkedMusicList = persistentListOf(
             thumbnailUrl = null
         )
     ),
-    RegisteredMusic(
+    BookmarkedMusic(
         postId = 105L,
-        comment = "",
         music = Music(
             trackId = "track_105",
             musicTitle = "밤양갱",
@@ -186,9 +171,8 @@ val dummyBookmarkedMusicList = persistentListOf(
             thumbnailUrl = null
         )
     ),
-    RegisteredMusic(
+    BookmarkedMusic(
         postId = 106L,
-        comment = "",
         music = Music(
             trackId = "track_106",
             musicTitle = "EASY",
@@ -196,9 +180,8 @@ val dummyBookmarkedMusicList = persistentListOf(
             thumbnailUrl = null
         )
     ),
-    RegisteredMusic(
+    BookmarkedMusic(
         postId = 107L,
-        comment = "",
         music = Music(
             trackId = "track_107",
             musicTitle = "Smart",
@@ -206,9 +189,8 @@ val dummyBookmarkedMusicList = persistentListOf(
             thumbnailUrl = null
         )
     ),
-    RegisteredMusic(
+    BookmarkedMusic(
         postId = 108L,
-        comment = "",
         music = Music(
             trackId = "track_108",
             musicTitle = "Drama",
@@ -216,9 +198,8 @@ val dummyBookmarkedMusicList = persistentListOf(
             thumbnailUrl = null
         )
     ),
-    RegisteredMusic(
+    BookmarkedMusic(
         postId = 109L,
-        comment = "",
         music = Music(
             trackId = "track_109",
             musicTitle = "To. X",
@@ -226,9 +207,8 @@ val dummyBookmarkedMusicList = persistentListOf(
             thumbnailUrl = null
         )
     ),
-    RegisteredMusic(
+    BookmarkedMusic(
         postId = 110L,
-        comment = "",
         music = Music(
             trackId = "track_110",
             musicTitle = "Perfect Night",
@@ -236,9 +216,8 @@ val dummyBookmarkedMusicList = persistentListOf(
             thumbnailUrl = null
         )
     ),
-    RegisteredMusic(
+    BookmarkedMusic(
         postId = 111L,
-        comment = "",
         music = Music(
             trackId = "track_111",
             musicTitle = "Love 119",
@@ -246,9 +225,8 @@ val dummyBookmarkedMusicList = persistentListOf(
             thumbnailUrl = null
         )
     ),
-    RegisteredMusic(
+    BookmarkedMusic(
         postId = 112L,
-        comment = "",
         music = Music(
             trackId = "track_112",
             musicTitle = "Get A Guitar",
@@ -256,9 +234,8 @@ val dummyBookmarkedMusicList = persistentListOf(
             thumbnailUrl = null
         )
     ),
-    RegisteredMusic(
+    BookmarkedMusic(
         postId = 113L,
-        comment = "",
         music = Music(
             trackId = "track_113",
             musicTitle = "Ditto",
