@@ -1,7 +1,6 @@
 package com.example.mypage
 
 import android.net.Uri
-import android.util.Log
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -391,7 +390,6 @@ private fun MyPageScreenPreview() {
             state = uiState,
             onTabSelected = {
                 uiState = uiState.copy(selectedTabIndex = it)
-                Log.d("selectedTabIndex", it.toString())
             },
         )
     }
