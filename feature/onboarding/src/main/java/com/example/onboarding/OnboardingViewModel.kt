@@ -3,14 +3,18 @@ package com.example.onboarding
 import com.example.common.constant.Regex
 import com.example.common.type.TermType
 import com.example.designsystem.component.textfield.type.NicknameInputState
+import com.example.domain.usecase.ValidateNicknameUseCase
 import com.example.ui.base.BaseViewModel
+import com.example.ui.mapper.toUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
 class OnboardingViewModel
     @Inject
-    constructor() : BaseViewModel<OnboardingContract.OnboardingState, OnboardingContract.OnboardingIntent, OnboardingContract.OnboardingSideEffect>(
+    constructor(
+        private val validateNicknameUseCase : ValidateNicknameUseCase
+    ) : BaseViewModel<OnboardingContract.OnboardingState, OnboardingContract.OnboardingIntent, OnboardingContract.OnboardingSideEffect>(
             OnboardingContract.OnboardingState(),
         ) {
         override fun handleIntent(intent: OnboardingContract.OnboardingIntent) {
@@ -110,13 +114,8 @@ class OnboardingViewModel
         }
 
         private fun validateAndUpdateNickname(nickname: String) {
-            val inputState =
-                when {
-                    nickname.length < 2 -> NicknameInputState.Error.NotEnoughLength
-                    !nickname.matches(Regex.NICKNAME_REGEX) -> NicknameInputState.Error.InvalidFormat
-                    else -> NicknameInputState.Success
-                }
-
+            val validationResult = validateNicknameUseCase(nickname)
+            val inputState = validationResult.toUiState()
             updateState {
                 copy(
                     nickname = nickname,
