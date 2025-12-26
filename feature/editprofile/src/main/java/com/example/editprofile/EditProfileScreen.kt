@@ -41,6 +41,7 @@ import com.example.designsystem.component.textfield.DPlayTextInput
 import com.example.designsystem.theme.DPlayTheme
 import com.example.designsystem.util.TextFieldConstant
 import com.example.designsystem.util.noRippleClickable
+import com.example.navigation.MyPage
 import com.example.navigation.Navigator
 import kotlinx.coroutines.flow.collectLatest
 
@@ -69,14 +70,13 @@ fun EditProfileRoute(
                     navigator.navigateToBack()
                 }
                 EditProfileContract.EditProfileSideEffect.NavigateToMyPage -> {
-                    // navigation
+                    navigator.clearAndNavigateTo(MyPage)
                 }
                 EditProfileContract.EditProfileSideEffect.LaunchAlbum -> {
                     photoPickerLauncher.launch(
                         PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly),
                     )
                 }
-                else -> {}
             }
         }
     }

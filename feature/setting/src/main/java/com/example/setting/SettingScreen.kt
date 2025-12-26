@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -24,7 +25,10 @@ import com.example.designsystem.component.DplayLeftIconTitleTopAppBar
 import com.example.designsystem.component.button.DPlayToggle
 import com.example.designsystem.component.button.DPlayUnderlineTextButton
 import com.example.designsystem.theme.DPlayTheme
+import com.example.designsystem.util.noRippleClickable
+import com.example.navigation.Login
 import com.example.navigation.Navigator
+import kotlinx.coroutines.flow.collectLatest
 
 enum class SettingMenuType(
     val title: String,
@@ -47,8 +51,29 @@ fun SettingRoute(
 ) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
 
+    LaunchedEffect(Unit){
+        viewModel.sideEffect.collectLatest{ sideEffect ->
+            when(sideEffect){
+                SettingContract.SettingSideEffect.NavigateToBack -> {
+                    navigator.navigateToBack()
+                }
+                SettingContract.SettingSideEffect.NavigateToLogin -> {
+                    navigator.clearAndNavigateTo(Login)
+                }
+                is SettingContract.SettingSideEffect.NavigateToWeb -> {}
+                SettingContract.SettingSideEffect.ShowDialog -> {}
+            }
+        }
+    }
+
     SettingScreen(
         state = state,
+        onBackIconClick = {
+            viewModel.handleIntent(SettingContract.SettingIntent.OnBackIconClick)
+        },
+        onMenuClick = {
+            viewModel.handleIntent(SettingContract.SettingIntent.OnMenuClick(it))
+        }
     )
 }
 
@@ -56,6 +81,8 @@ fun SettingRoute(
 fun SettingScreen(
     state: SettingContract.SettingState,
     modifier: Modifier = Modifier,
+    onBackIconClick: () -> Unit = {},
+    onMenuClick: (SettingMenuType) -> Unit = {},
 ) {
     Column(
         modifier = modifier
@@ -66,7 +93,9 @@ fun SettingScreen(
     ) {
         DplayLeftIconTitleTopAppBar(
             title = "설정"
-        ) {}
+        ) {
+            onBackIconClick()
+        }
 
         SettingMenuType.entries.forEach { type ->
             val titleColor = if(type == SettingMenuType.LOGOUT) DPlayTheme.colors.alertRed else DPlayTheme.colors.gray600
@@ -75,12 +104,15 @@ fun SettingScreen(
                 SettingActionRow(
                     type.title,
                     titleColor = titleColor,
+                    onClick = { onMenuClick(type)}
                 ){
                     when(type){
                         SettingMenuType.PUSH_NOTIFICATION -> {
                             DPlayToggle(
                                 isChecked = state.isPushNotificationEnabled,
-                                onClick = {}
+                                onClick = {
+                                    onMenuClick(type)
+                                }
                             )
                         }
                         SettingMenuType.VERSION -> {
@@ -103,7 +135,7 @@ fun SettingScreen(
 
                 DPlayUnderlineTextButton(
                     text = type.title,
-                    onClick = {}
+                    onClick = { onMenuClick(type) }
                 )
             }
 
@@ -122,10 +154,14 @@ private fun SettingActionRow(
     actionName: String,
     modifier: Modifier = Modifier,
     titleColor: Color= DPlayTheme.colors.gray600,
+    onClick: () -> Unit = {},
     trailingContent: @Composable () -> Unit = {}
 ) {
     Row(
-        modifier = modifier.fillMaxWidth().padding(all = 16.dp),
+        modifier = modifier
+            .fillMaxWidth()
+            .noRippleClickable{ onClick() }
+            .padding(all = 16.dp),
         verticalAlignment = Alignment.CenterVertically
     ){
         Text(

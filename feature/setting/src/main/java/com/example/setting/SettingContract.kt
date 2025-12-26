@@ -11,14 +11,9 @@ class SettingContract{
     ) : BaseContract.State
 
     sealed interface SettingIntent : BaseContract.Intent {
-        data class OnPushNotificationToggle(val isEnabled: Boolean) : SettingIntent
-        data object OnAnnouncementClick : SettingIntent
-        data object OnInquiryClick : SettingIntent
-        data object OnTermsClick : SettingIntent
-        data object OnPrivacyClick : SettingIntent
-        data object OnLogoutClick : SettingIntent
+        data object Initialize : SettingIntent
+        data class OnMenuClick(val type: SettingMenuType) : SettingIntent
         data object OnLogoutConfirm : SettingIntent
-        data object OnWithdrawClick : SettingIntent
         data object OnWithdrawConfirm : SettingIntent
         data object OnBackIconClick : SettingIntent
     }

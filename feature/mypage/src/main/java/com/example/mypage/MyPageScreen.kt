@@ -27,6 +27,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
@@ -54,9 +55,12 @@ import com.example.designsystem.component.button.DPlayCircleButton
 import com.example.designsystem.component.button.type.CircleButtonType
 import com.example.designsystem.theme.DPlayTheme
 import com.example.designsystem.util.noRippleClickable
+import com.example.navigation.EditProfile
 import com.example.navigation.Navigator
+import com.example.navigation.Setting
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
+import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun MyPageRoute(
@@ -65,10 +69,35 @@ fun MyPageRoute(
     viewModel: MyPageViewModel = hiltViewModel(),
 ){
     val state by viewModel.uiState.collectAsStateWithLifecycle()
+    
+    LaunchedEffect(Unit){
+        viewModel.sideEffect.collectLatest{ sideEffect ->
+            when(sideEffect){
+                is MyPageContract.MyPageSideEffect.NavigateToDetail -> TODO()
+                MyPageContract.MyPageSideEffect.NavigateToEditProfile -> {
+                    navigator.navigateTo(destination = EditProfile)
+                }
+                MyPageContract.MyPageSideEffect.NavigateToSettings -> {
+                    navigator.navigateTo(destination = Setting)
+                }
+                MyPageContract.MyPageSideEffect.ShowDeleteBottomSheet -> TODO()
+                MyPageContract.MyPageSideEffect.ShowDeleteDialogue -> TODO()
+            }
+        }
+    }
 
     MyPageScreen(
         state = state,
         modifier = modifier,
+        onTabSelected = {
+            viewModel.handleIntent(MyPageContract.MyPageIntent.OnTabClick(it))
+        },
+        onSettingIconClick = {
+            viewModel.handleIntent(MyPageContract.MyPageIntent.OnSettingIconClick)
+        },
+        onProfileImageClick = {
+            viewModel.handleIntent(MyPageContract.MyPageIntent.OnProfileClick)
+        }
     )
 }
 
@@ -76,6 +105,8 @@ fun MyPageRoute(
 fun MyPageScreen(
     state: MyPageContract.MyPageState,
     onTabSelected: (Int) -> Unit = {},
+    onSettingIconClick: () -> Unit = {},
+    onProfileImageClick: () -> Unit = {},
     modifier: Modifier = Modifier,
 ) {
     Column(
@@ -85,7 +116,9 @@ fun MyPageScreen(
     ) {
         DplayRightIconTitleTopAppBar(
             title = "마이페이지",
-        ) {  }
+        ) {
+            onSettingIconClick()
+        }
 
         Spacer(modifier = Modifier.height(12.dp))
 
@@ -93,7 +126,7 @@ fun MyPageScreen(
             nickname = state.userNickname,
             registeredMusicCount = state.registeredMusicCount,
             profileImageUri = state.profileImageUri,
-            onProfileImageClick = {}
+            onProfileImageClick = { onProfileImageClick() }
         )
 
         Spacer(modifier = Modifier.height(20.dp))

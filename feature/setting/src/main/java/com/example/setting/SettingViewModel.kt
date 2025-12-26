@@ -1,5 +1,6 @@
 package com.example.setting
 
+import com.dplay.setting.BuildConfig
 import com.example.ui.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -12,32 +13,54 @@ class SettingViewModel
     ){
         override fun handleIntent(intent: SettingContract.SettingIntent) {
             when(intent){
-                SettingContract.SettingIntent.OnAnnouncementClick -> {
-                    // 공지사항 노션 링크로 연결
+                SettingContract.SettingIntent.Initialize -> {
+                    // 앱 버전, 알림 권한 초기화
                 }
-                SettingContract.SettingIntent.OnInquiryClick -> {
-                    // 문의/제안하기 구글폼 링크로 연결
-                }
-                SettingContract.SettingIntent.OnTermsClick -> {
-                    // 서비스 이용약관 노션 링크로 연결
-                }
-                SettingContract.SettingIntent.OnPrivacyClick -> {
-                    // 개인정보 처리방침 노션 링크로 연결
+                is SettingContract.SettingIntent.OnMenuClick -> {
+                    handleMenuClick(intent.type)
                 }
                 SettingContract.SettingIntent.OnBackIconClick -> {
                     setSideEffect(SettingContract.SettingSideEffect.NavigateToBack)
                 }
-                is SettingContract.SettingIntent.OnPushNotificationToggle -> {
+                SettingContract.SettingIntent.OnLogoutConfirm -> {
+                    // 로그아웃 api
+                    setSideEffect(SettingContract.SettingSideEffect.NavigateToLogin)
+                }
+                SettingContract.SettingIntent.OnWithdrawConfirm -> {
+                    // 회원탈퇴 api
+                    setSideEffect(SettingContract.SettingSideEffect.NavigateToLogin)
+                }
+            }
+        }
+
+        private fun handleMenuClick(type: SettingMenuType) {
+            when (type) {
+                SettingMenuType.PUSH_NOTIFICATION -> {
                     updateState {
                         copy(
-                            isPushNotificationEnabled = !intent.isEnabled
+                            isPushNotificationEnabled = !this.isPushNotificationEnabled
                         )
                     }
                 }
-                SettingContract.SettingIntent.OnLogoutClick -> TODO()
-                SettingContract.SettingIntent.OnLogoutConfirm -> TODO()
-                SettingContract.SettingIntent.OnWithdrawClick -> TODO()
-                SettingContract.SettingIntent.OnWithdrawConfirm -> TODO()
+                SettingMenuType.ANNOUNCEMENT -> {
+                    // 공지사항 노션 링크로 연결
+                }
+                SettingMenuType.INQUIRY -> {
+                    // 문의/제안하기 구글폼 링크로 연결
+                }
+                SettingMenuType.TERMS -> {
+                    // 서비스 이용약관 노션 링크로 연결
+                }
+                SettingMenuType.PRIVACY -> {
+                    // 개인정보 처리방침 노션 링크로 연결
+                }
+                SettingMenuType.LOGOUT -> {
+                    setSideEffect(SettingContract.SettingSideEffect.ShowDialog)
+                }
+                SettingMenuType.WITHDRAW -> {
+                    setSideEffect(SettingContract.SettingSideEffect.ShowDialog)
+                }
+                SettingMenuType.VERSION -> { /* 동작없음 */ }
             }
         }
     }
