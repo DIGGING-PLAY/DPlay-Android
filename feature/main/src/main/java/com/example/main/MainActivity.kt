@@ -11,15 +11,23 @@ import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.navigation3.rememberViewModelStoreNavEntryDecorator
 import androidx.navigation3.runtime.EntryProviderScope
 import androidx.navigation3.runtime.NavKey
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.runtime.rememberSaveableStateHolderNavEntryDecorator
 import androidx.navigation3.ui.NavDisplay
+import com.example.designsystem.component.snackbar.DPlaySnackBar
+import com.example.designsystem.component.snackbar.LocalShowSnackBar
+import com.example.designsystem.component.snackbar.LocalSnackBarState
+import com.example.designsystem.component.snackbar.type.SnackBarType
 import com.example.designsystem.theme.DPlayTheme
 import com.example.navigation.Navigator
 import com.example.navigation.Recommend
@@ -32,7 +40,8 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
-    @Inject lateinit var navigator: Navigator
+    @Inject
+    lateinit var navigator: Navigator
 
     @Inject
     lateinit var entryProviders: Set<@JvmSuppressWildcards EntryProviderScope<NavKey>.() -> Unit>
@@ -43,9 +52,16 @@ class MainActivity : ComponentActivity() {
         setContent {
             val modalController = remember { ModalController() }
             val appTerminationHandler = remember(this) { AppTerminationHandler(this) }
+            var snackBarType by remember { mutableStateOf<SnackBarType?>(null) }
+            var snackBarAction by remember { mutableStateOf<(() -> Unit)?>(null) }
 
             CompositionLocalProvider(
                 LocalModalController provides modalController,
+                LocalSnackBarState provides snackBarType,
+                LocalShowSnackBar provides { type, action ->
+                    snackBarType = type
+                    snackBarAction = action
+                },
             ) {
                 DPlayTheme {
                     BackHandler(enabled = navigator.backStack.size <= 1) {
@@ -95,6 +111,24 @@ class MainActivity : ComponentActivity() {
                         GlobalModalHandler(
                             modifier = Modifier.align(Alignment.Center),
                         )
+                        snackBarType?.let { type ->
+                            DPlaySnackBar(
+                                type = type,
+                                onActionClick = {
+                                    snackBarAction?.invoke()
+                                    snackBarType = null
+                                    snackBarAction = null
+                                },
+                                onDismiss = {
+                                    snackBarType = null
+                                    snackBarAction = null
+                                },
+                                modifier =
+                                    Modifier
+                                        .align(Alignment.BottomCenter)
+                                        .padding(bottom = 80.dp, start = 16.dp, end = 16.dp),
+                            )
+                        }
                     }
                 }
             }
