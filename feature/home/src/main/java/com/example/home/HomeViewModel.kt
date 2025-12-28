@@ -7,9 +7,6 @@ import com.example.common.model.Like
 import com.example.common.model.Track
 import com.example.common.model.Writer
 import com.example.designsystem.component.snackbar.type.SnackBarType
-import com.example.home.HomeContract.HomeSideEffect.NavigateToPostDetail
-import com.example.home.HomeContract.HomeSideEffect.NavigateToRecommend
-import com.example.home.HomeContract.HomeSideEffect.NavigateToWriterProfile
 import com.example.ui.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.persistentListOf
@@ -68,7 +65,7 @@ class HomeViewModel
             if (true) { // TODO: 미리듣기 API 미제공 게시물일 경우
                 setSideEffect(
                     effect =
-                        HomeContract.HomeSideEffect.ShowToast(snackBarType = SnackBarType.STREAMING_NOT_SUPPORT, action = {
+                        HomeContract.HomeSideEffect.ShowSnackBar(snackBarType = SnackBarType.STREAMING_NOT_SUPPORT, action = {
                             setSideEffect(HomeContract.HomeSideEffect.NavigateToMyPage)
                         }),
                 )
