@@ -10,10 +10,8 @@ import com.example.designsystem.component.snackbar.type.SnackBarType
 import com.example.home.HomeContract.HomeSideEffect.NavigateToPostDetail
 import com.example.home.HomeContract.HomeSideEffect.NavigateToRecommend
 import com.example.home.HomeContract.HomeSideEffect.NavigateToWriterProfile
-import com.example.home.HomeContract.HomeSideEffect.ShowSnackBar
 import com.example.ui.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.launch
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
