@@ -7,7 +7,3 @@ plugins {
 android {
     namespace = "com.dplay.dummy"
 }
-
-dependencies {
-    implementation(projects.core.ui)
-}
