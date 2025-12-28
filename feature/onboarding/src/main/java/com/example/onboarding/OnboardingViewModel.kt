@@ -1,5 +1,6 @@
 package com.example.onboarding
 
+import com.example.common.constant.Regex
 import com.example.common.type.TermType
 import com.example.designsystem.component.textfield.type.NicknameInputState
 import com.example.ui.base.BaseViewModel
@@ -19,27 +20,11 @@ class OnboardingViewModel
                 }
 
                 is OnboardingContract.OnboardingIntent.OnToggleTerm -> {
-                    updateState {
-                        val newAgreedTerms =
-                            if (agreedTerms.contains(intent.term)) {
-                                agreedTerms - intent.term
-                            } else {
-                                agreedTerms + intent.term
-                            }
-                        copy(agreedTerms = newAgreedTerms)
-                    }
+                    toggleEachTerm(intent.term)
                 }
 
                 OnboardingContract.OnboardingIntent.OnToggleAllTerms -> {
-                    updateState {
-                        val newAgreedTerms =
-                            if (currentState.isAllTermsAgreed) {
-                                emptySet()
-                            } else {
-                                TermType.entries.toSet()
-                            }
-                        copy(agreedTerms = newAgreedTerms)
-                    }
+                    toggleAllTerms()
                 }
 
                 OnboardingContract.OnboardingIntent.OnTermsScreenNextButtonClick -> {
@@ -95,13 +80,32 @@ class OnboardingViewModel
                 }
 
                 is OnboardingContract.OnboardingIntent.OnNotificationPermissionResult -> {
-                    updateState {
-                        copy(
-                            isNotificationPermissionGranted = intent.isGranted,
-                        )
-                    }
                     setSideEffect(OnboardingContract.OnboardingSideEffect.NavigateToHome)
                 }
+            }
+        }
+
+        private fun toggleAllTerms() {
+            updateState {
+                val newAgreedTerms =
+                    if (currentState.isAllTermsAgreed) {
+                        emptySet()
+                    } else {
+                        TermType.entries.toSet()
+                    }
+                copy(agreedTerms = newAgreedTerms)
+            }
+        }
+
+        private fun toggleEachTerm(term: TermType) {
+            updateState {
+                val newAgreedTerms =
+                    if (agreedTerms.contains(term)) {
+                        agreedTerms - term
+                    } else {
+                        agreedTerms + term
+                    }
+                copy(agreedTerms = newAgreedTerms)
             }
         }
 
@@ -109,7 +113,7 @@ class OnboardingViewModel
             val inputState =
                 when {
                     nickname.length < 2 -> NicknameInputState.Error.NotEnoughLength
-                    !nickname.matches("^[가-힣a-zA-Z0-9]+\$".toRegex()) -> NicknameInputState.Error.InvalidFormat
+                    !nickname.matches(Regex.NICKNAME_REGEX) -> NicknameInputState.Error.InvalidFormat
                     else -> NicknameInputState.Success
                 }
 
