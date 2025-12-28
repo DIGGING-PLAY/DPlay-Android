@@ -10,6 +10,7 @@ import com.example.designsystem.component.snackbar.type.SnackBarType
 import com.example.home.HomeContract.HomeSideEffect.*
 import com.example.ui.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -83,7 +84,7 @@ class HomeViewModel
     }
 
 val dummyFeedItems =
-    listOf(
+    persistentListOf(
         FeedItem(
             postId = 111,
             isScrapped = true,
