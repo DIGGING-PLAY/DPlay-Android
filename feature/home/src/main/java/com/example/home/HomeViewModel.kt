@@ -14,6 +14,12 @@ import com.example.home.HomeContract.HomeSideEffect.ShowSnackBar
 import com.example.ui.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import kotlinx.collections.immutable.persistentListOf
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
 import javax.inject.Inject
 
 @HiltViewModel
@@ -22,9 +28,20 @@ class HomeViewModel
     constructor() : BaseViewModel<HomeContract.HomeState, HomeContract.HomeIntent, HomeContract.HomeSideEffect>(
             HomeContract.HomeState(),
         ) {
-        init {
-            loadData()
-        }
+        private val loadTrigger = MutableStateFlow(Unit)
+
+        val homeUiState: StateFlow<HomeContract.HomeState> =
+            loadTrigger
+                .map {
+                    HomeContract.HomeState(
+                        isLoading = false,
+                        feedItems = dummyFeedItems,
+                    )
+                }.stateIn(
+                    scope = viewModelScope,
+                    started = SharingStarted.WhileSubscribed(5_000),
+                    initialValue = HomeContract.HomeState(isLoading = true),
+                )
 
         override fun handleIntent(intent: HomeContract.HomeIntent) {
             when (intent) {
@@ -34,37 +51,14 @@ class HomeViewModel
                 is HomeContract.HomeIntent.OnRefreshClick -> refreshTodayPosts()
                 is HomeContract.HomeIntent.OnStreamClick -> previewStreaming(intent.trackId)
                 is HomeContract.HomeIntent.OnListClick -> {
-                    setSideEffect(NavigateToRecommend)
+                    setSideEffect(HomeContract.HomeSideEffect.NavigateToRecommend)
                 }
-
                 is HomeContract.HomeIntent.OnWriterProfileClick -> {
-                    setSideEffect(NavigateToWriterProfile(writerUserId = intent.writerUserId))
+                    setSideEffect(HomeContract.HomeSideEffect.NavigateToWriterProfile(writerUserId = intent.writerUserId))
                 }
 
                 is HomeContract.HomeIntent.OnCoverClick -> {
-                    setSideEffect(NavigateToPostDetail(postId = intent.postId))
-                }
-            }
-        }
-
-        private fun loadData() {
-            viewModelScope.launch {
-                updateState { copy(isLoading = true) }
-
-                runCatching {
-                    // TODO: 추후 서버통신 함수
-                    dummyFeedItems
-                }.onSuccess { items ->
-                    updateState {
-                        copy(
-                            isLoading = false,
-                            feedItems = items,
-                        )
-                    }
-                }.onFailure { e ->
-                    updateState {
-                        copy(isLoading = false)
-                    }
+                    setSideEffect(HomeContract.HomeSideEffect.NavigateToPostDetail(postId = intent.postId))
                 }
             }
         }
@@ -76,9 +70,9 @@ class HomeViewModel
             if (true) { // TODO: 미리듣기 API 미제공 게시물일 경우
                 setSideEffect(
                     effect =
-                        ShowSnackBar(
-                            snackBarType = SnackBarType.STREAMING_NOT_SUPPORT,
-                        ),
+                        HomeContract.HomeSideEffect.ShowToast(snackBarType = SnackBarType.STREAMING_NOT_SUPPORT, action = {
+                            setSideEffect(HomeContract.HomeSideEffect.NavigateToMyPage)
+                        }),
                 )
             }
         }
@@ -94,7 +88,7 @@ class HomeViewModel
     }
 
 val dummyFeedItems =
-    listOf(
+    persistentListOf(
         FeedItem(
             postId = 111,
             isScrapped = true,

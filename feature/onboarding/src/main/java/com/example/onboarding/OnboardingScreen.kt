@@ -59,6 +59,9 @@ fun OnboardingRoute(
         onStartButtonClick = {
             viewModel.handleIntent(OnboardingContract.OnboardingIntent.OnStartButtonClick)
         },
+        onBackButtonClick = {
+            viewModel.handleIntent(OnboardingContract.OnboardingIntent.OnBackButtonClick)
+        },
     )
 }
 
@@ -66,6 +69,7 @@ fun OnboardingRoute(
 fun OnboardingScreen(
     modifier: Modifier = Modifier,
     onStartButtonClick: () -> Unit = {},
+    onBackButtonClick: () -> Unit = {},
 ) {
     val pagerState = rememberPagerState(pageCount = { 3 })
 
@@ -76,7 +80,9 @@ fun OnboardingScreen(
                 .background(color = DPlayTheme.colors.dplayWhite)
                 .padding(bottom = 16.dp),
     ) {
-        DplayLeftIconTopAppBar { }
+        DplayLeftIconTopAppBar {
+            onBackButtonClick()
+        }
 
         Spacer(modifier = Modifier.height(40.dp))
 

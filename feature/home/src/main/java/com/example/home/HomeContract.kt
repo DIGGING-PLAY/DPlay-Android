@@ -4,6 +4,8 @@ import com.example.common.model.FeedItem
 import com.example.common.model.TodayQuestion
 import com.example.designsystem.component.snackbar.type.SnackBarType
 import com.example.ui.base.BaseContract
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
 
 class HomeContract {
     data class HomeState(
@@ -14,12 +16,10 @@ class HomeContract {
                 title = "여행 갈 때 플레이리스트에 꼭 넣는 노래는?",
                 date = "2025-10-19",
             ),
-        val questionId: Long = 12345,
-        val date: String = "2025-10-19",
         val hasPosted: Boolean = false,
         val locked: Boolean = true,
         val totalCount: Int = 257,
-        val feedItems: List<FeedItem> = emptyList(),
+        val feedItems: ImmutableList<FeedItem> = persistentListOf(),
     ) : BaseContract.State
 
     sealed interface HomeIntent : BaseContract.Intent {

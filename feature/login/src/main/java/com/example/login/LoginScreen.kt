@@ -38,8 +38,7 @@ fun LoginRoute(
                     navigator.navigateTo(OnboardingGraph)
                 }
                 LoginContract.LoginSideEffect.NavigateToHome -> {
-                    navigator.backStack.clear()
-                    navigator.navigateTo(Home)
+                    navigator.clearAndNavigateTo(Home)
                 }
             }
         }
