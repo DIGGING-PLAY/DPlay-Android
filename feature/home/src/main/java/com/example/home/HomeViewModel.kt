@@ -7,7 +7,6 @@ import com.example.common.model.Like
 import com.example.common.model.Track
 import com.example.common.model.Writer
 import com.example.designsystem.component.snackbar.type.SnackBarType
-import com.example.home.HomeContract.HomeSideEffect.*
 import com.example.ui.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.persistentListOf
@@ -47,14 +46,14 @@ class HomeViewModel
                 is HomeContract.HomeIntent.OnRefreshClick -> refreshTodayPosts()
                 is HomeContract.HomeIntent.OnStreamClick -> previewStreaming(intent.trackId)
                 is HomeContract.HomeIntent.OnListClick -> {
-                    setSideEffect(NavigateToRecommend)
+                    setSideEffect(HomeContract.HomeSideEffect.NavigateToRecommend)
                 }
                 is HomeContract.HomeIntent.OnWriterProfileClick -> {
-                    setSideEffect(NavigateToWriterProfile(writerUserId = intent.writerUserId))
+                    setSideEffect(HomeContract.HomeSideEffect.NavigateToWriterProfile(writerUserId = intent.writerUserId))
                 }
 
                 is HomeContract.HomeIntent.OnCoverClick -> {
-                    setSideEffect(NavigateToPostDetail(postId = intent.postId))
+                    setSideEffect(HomeContract.HomeSideEffect.NavigateToPostDetail(postId = intent.postId))
                 }
             }
         }
@@ -66,8 +65,8 @@ class HomeViewModel
             if (true) { // TODO: 미리듣기 API 미제공 게시물일 경우
                 setSideEffect(
                     effect =
-                        ShowToast(snackBarType = SnackBarType.STREAMING_NOT_SUPPORT, action = {
-                            setSideEffect(NavigateToMyPage)
+                        HomeContract.HomeSideEffect.ShowToast(snackBarType = SnackBarType.STREAMING_NOT_SUPPORT, action = {
+                            setSideEffect(HomeContract.HomeSideEffect.NavigateToMyPage)
                         }),
                 )
             }
