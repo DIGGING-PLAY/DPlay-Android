@@ -44,6 +44,8 @@ data object OnboardingGraph : NavKey {
 
 data object Recommend : NavKey
 
+data object Record : NavKey
+
 @Parcelize
 data class Detail(
     val postId: Long,

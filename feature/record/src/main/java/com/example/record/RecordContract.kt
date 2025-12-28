@@ -1,11 +1,14 @@
 package com.example.record
 
+import com.example.common.model.DailyQuestion
 import com.example.ui.base.BaseContract
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
 
 class RecordContract {
     data class RecordState(
         val loading: Boolean = false,
-        val count: Int = 0,
+        val questionList: ImmutableList<DailyQuestion> = persistentListOf(),
     ) : BaseContract.State
 
     sealed interface RecordIntent : BaseContract.Intent {
