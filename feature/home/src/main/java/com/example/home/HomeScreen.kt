@@ -104,8 +104,6 @@ private fun HomeScreen(
     onWriterProfileClick: (Long) -> Unit,
     onListClick: () -> Unit,
 ) {
-    val colors = DPlayTheme.colors
-    val typography = DPlayTheme.typography
     Column(
         modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -119,7 +117,7 @@ private fun HomeScreen(
                     .padding(horizontal = 16.dp),
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            Text(text = uiState.todayQuestion.dateText, style = typography.titleBold18, color = colors.dplayBlack)
+            Text(text = uiState.todayQuestion.dateText, style = DPlayTheme.typography.titleBold18, color = DPlayTheme.colors.dplayBlack)
             DplayClickableIcon(
                 iconRes = R.drawable.ic_refresh_20,
                 modifier = Modifier.padding(16.dp),
