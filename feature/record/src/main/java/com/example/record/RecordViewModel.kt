@@ -35,10 +35,12 @@ class RecordViewModel
         override fun handleIntent(intent: RecordContract.RecordIntent) {
             when (intent) {
                 RecordContract.RecordIntent.Initialize -> {}
-                is RecordContract.RecordIntent.OnClickNumberButton -> increment(intent.number)
+                is RecordContract.RecordIntent.OnQuestionClick -> setQuestion(question = intent.question)
+                is RecordContract.RecordIntent.OnListBackButtonClick -> setQuestion(question = null)
             }
         }
 
-        private fun increment(count: Int) {
+        private fun setQuestion(question: DailyQuestion?) {
+            updateState { copy(selectedQuestion = question) }
         }
     }

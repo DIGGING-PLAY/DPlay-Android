@@ -8,28 +8,17 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.example.common.model.DailyQuestion
 import com.example.designsystem.component.DPlayDayTopicItem
 import com.example.designsystem.component.DplayTitleButtonTopAppBar
 import com.example.designsystem.theme.DPlayTheme
-import com.example.navigation.Navigator
-
-@Composable
-fun RecordRoute(
-    navigator: Navigator,
-    viewModel: RecordViewModel = hiltViewModel(),
-) {
-    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-    RecordSelectScreen(uiState = uiState)
-}
 
 @Composable
 fun RecordSelectScreen(
+    onQuestionClick: (question: DailyQuestion) -> Unit,
     modifier: Modifier = Modifier,
     uiState: RecordContract.RecordState = RecordContract.RecordState(),
 ) {
@@ -59,6 +48,7 @@ fun RecordSelectScreen(
                     modifier = Modifier.fillMaxWidth(),
                     day = item.recordDay,
                     topic = item.title,
+                    onClick = { onQuestionClick(item) },
                 )
             }
         }
@@ -69,6 +59,8 @@ fun RecordSelectScreen(
 @Composable
 private fun RecordSelectScreenPreview() {
     DPlayTheme {
-        RecordSelectScreen()
+        RecordSelectScreen(
+            onQuestionClick = {},
+        )
     }
 }

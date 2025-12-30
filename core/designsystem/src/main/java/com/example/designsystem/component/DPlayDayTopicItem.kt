@@ -11,15 +11,17 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.dplay.designsystem.R
 import com.example.designsystem.theme.DPlayTheme
+import com.example.designsystem.util.noRippleClickable
 import com.example.designsystem.util.roundedBackgroundWithPadding
 
 @Composable
 fun DPlayDayTopicItem(
     day: Int,
     topic: String,
+    onClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    Row(modifier = modifier.fillMaxWidth()) {
+    Row(modifier = modifier.fillMaxWidth().noRippleClickable(onClick = onClick)) {
         Text(
             text = stringResource(R.string.day_topic_text, day),
             modifier =
@@ -54,6 +56,7 @@ private fun DPlayDayTopicItemPreview() {
         DPlayDayTopicItem(
             day = 1,
             topic = "여행 갈 때 플레이리스트에 꼭 넣는 노래는?",
+            onClick = {},
         )
     }
 }

@@ -195,6 +195,8 @@ fun DplayTitleButtonTopAppBar(
             if (onButtonClick != null) Modifier.noRippleClickable(onClick = onButtonClick) else Modifier,
         )
 
+    val iconPaddingModifier = Modifier.padding(12.dp)
+
     CenterAlignedTopAppBar(
         modifier = modifier,
         title = {
@@ -210,9 +212,16 @@ fun DplayTitleButtonTopAppBar(
         },
         navigationIcon = {
             if (onLeftClick != null) {
-                DplayClickableIcon(iconRes = leftIconRes, onClick = onLeftClick)
+                DplayClickableIcon(
+                    iconRes = leftIconRes,
+                    onClick = onLeftClick,
+                    modifier = iconPaddingModifier,
+                )
             } else {
-                DplayBaseIcon(iconRes = leftIconRes)
+                DplayBaseIcon(
+                    iconRes = leftIconRes,
+                    modifier = iconPaddingModifier,
+                )
             }
         },
     )
