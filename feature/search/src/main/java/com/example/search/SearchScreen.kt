@@ -26,6 +26,7 @@ import com.example.designsystem.component.DplayLeftIconTitleTopAppBar
 import com.example.designsystem.component.button.DPlayLargePinkButton
 import com.example.designsystem.component.textfield.DPlayTextInput
 import com.example.designsystem.theme.DPlayTheme
+import com.example.navigation.Comment
 import com.example.navigation.Navigator
 import com.example.ui.model.Music
 import kotlinx.collections.immutable.ImmutableList
@@ -45,7 +46,7 @@ fun SearchRoute(
                     navigator.navigateToBack()
                 }
                 is SearchContract.SearchSideEffect.NavigateToComment -> {
-                    // 코멘트 작성으로 이동
+                    navigator.navigateTo(Comment(sideEffect.musicInfo))
                 }
             }
         }

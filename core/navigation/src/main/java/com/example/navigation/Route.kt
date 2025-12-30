@@ -3,6 +3,7 @@ package com.example.navigation
 import androidx.annotation.DrawableRes
 import androidx.navigation3.runtime.NavKey
 import com.dplay.designsystem.R
+import com.example.ui.model.Music
 
 sealed interface TopLevelRoute {
     @get:DrawableRes
@@ -44,7 +45,7 @@ data object Recommend : NavKey
 
 data object Search : NavKey
 
-data object Comment : NavKey
+data class Comment(val musicInfo: Music) : NavKey
 
 data object Setting : NavKey
 
