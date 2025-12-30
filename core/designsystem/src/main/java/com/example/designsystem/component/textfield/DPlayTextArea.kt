@@ -59,7 +59,9 @@ fun DPlayTextArea(
                 }.background(
                     color = DPlayTheme.colors.gray100,
                     shape = RoundedCornerShape(16.dp),
-                ).padding(vertical = 16.dp, horizontal = 12.dp),
+                )
+                .aspectRatio(TEXT_AREA_ASPECT_RATIO)
+                .padding(vertical = 16.dp, horizontal = 12.dp),
         keyboardOptions =
             KeyboardOptions(
                 imeAction = ImeAction.Done,
@@ -78,7 +80,6 @@ fun DPlayTextArea(
                 modifier =
                     Modifier
                         .fillMaxWidth()
-                        .aspectRatio(TEXT_AREA_ASPECT_RATIO),
             ) {
                 Box(
                     modifier = Modifier.weight(1f),
