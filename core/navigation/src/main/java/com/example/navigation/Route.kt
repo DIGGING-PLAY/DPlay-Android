@@ -44,6 +44,8 @@ data object Recommend : NavKey
 
 data object Search : NavKey
 
+data object Comment : NavKey
+
 data object Setting : NavKey
 
 data object EditProfile : NavKey
