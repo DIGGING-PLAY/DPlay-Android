@@ -8,7 +8,7 @@ import kotlinx.collections.immutable.persistentListOf
 class SearchContract {
     data class SearchState(
         val searchInput: String = "",
-        val searchedMusicList: ImmutableList<Music> = persistentListOf(),
+        val searchedMusicList: ImmutableList<Music> = dummyMusicList,
         val selectedMusicId: String? = null,
     ): BaseContract.State{
         val isSearchIconEnabled: Boolean
@@ -22,8 +22,6 @@ class SearchContract {
         data class OnSearchInputChanged(
             val input: String,
         ) : SearchIntent
-
-        data object OnSearchIconClick : SearchIntent
 
         data object OnNextButtonClick : SearchIntent
 
