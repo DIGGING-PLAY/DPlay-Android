@@ -18,12 +18,12 @@ class SearchViewModel
             is SearchContract.SearchIntent.OnMusicSelected -> {
                 updateState {
                     copy(
-                        selectedMusicId = intent.trackId
+                        selectedMusic = intent.music
                     )
                 }
             }
             SearchContract.SearchIntent.OnNextButtonClick -> {
-                setSideEffect(SearchContract.SearchSideEffect.NavigateToComment(uiState.value.selectedMusicId!!))
+                setSideEffect(SearchContract.SearchSideEffect.NavigateToComment(uiState.value.selectedMusic!!))
             }
             is SearchContract.SearchIntent.OnSearchInputChanged -> {
                 updateState {

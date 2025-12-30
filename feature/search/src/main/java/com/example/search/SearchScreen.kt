@@ -67,7 +67,7 @@ fun SearchScreen(
     modifier: Modifier = Modifier,
     onBackIconClick: () -> Unit = {},
     onSearchInputChanged: (String) -> Unit = {},
-    onMusicSelected: (String) -> Unit = {},
+    onMusicSelected: (Music) -> Unit = {},
     onNextButtonClick: () -> Unit = {},
 ) {
     Column(
@@ -105,7 +105,7 @@ fun SearchScreen(
         SearchedMusicList(
             searchedMusicList = state.searchedMusicList,
             onMusicSelected = { onMusicSelected(it) },
-            selectedTrackId = state.selectedMusicId,
+            selectedTrackId = state.selectedMusic?.trackId,
             modifier = Modifier.weight(1f)
         )
 
@@ -125,7 +125,7 @@ fun SearchScreen(
 @Composable
 private fun SearchedMusicList(
     searchedMusicList: ImmutableList<Music>,
-    onMusicSelected: (String) -> Unit,
+    onMusicSelected: (Music) -> Unit,
     modifier: Modifier = Modifier,
     selectedTrackId: String? = null
 ) {
@@ -157,7 +157,7 @@ private fun SearchedMusicList(
                     musicName = music.musicTitle,
                     artistName = music.artistName,
                     isChecked = selectedTrackId == music.trackId,
-                    onClick = { onMusicSelected(music.trackId) },
+                    onClick = { onMusicSelected(music) },
                 )
             }
         }

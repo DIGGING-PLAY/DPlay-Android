@@ -9,13 +9,13 @@ class SearchContract {
     data class SearchState(
         val searchInput: String = "",
         val searchedMusicList: ImmutableList<Music> = dummyMusicList,
-        val selectedMusicId: String? = null,
+        val selectedMusic: Music? = null,
     ): BaseContract.State{
         val isSearchIconEnabled: Boolean
             get() = searchInput.isNotEmpty()
 
         val isNextButtonEnabled: Boolean
-            get() = selectedMusicId != null
+            get() = selectedMusic != null
     }
 
     sealed interface SearchIntent : BaseContract.Intent {
@@ -28,14 +28,14 @@ class SearchContract {
         data object OnBackIconClick : SearchIntent
 
         data class OnMusicSelected(
-            val trackId: String,
+            val music: Music,
         ) : SearchIntent
     }
 
     sealed interface SearchSideEffect : BaseContract.SideEffect {
         data object NavigateToBack : SearchSideEffect
 
-        data class NavigateToComment(val trackId: String) : SearchSideEffect
+        data class NavigateToComment(val musicInfo: Music) : SearchSideEffect
     }
 }
 
