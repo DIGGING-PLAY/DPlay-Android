@@ -44,6 +44,7 @@
     <string name="enroll_button_label">가입하기</string>
     <string name="start_button_label">시작하기</string>
     <string name="confirm_button_label">확인</string>
+    <string name="register_button_label">등록하기</string>
     <string name="modify_button_label">수정하기</string>
     <string name="report_button_label">신고하기</string>
     <string name="apply_button_label">적용하기</string>
