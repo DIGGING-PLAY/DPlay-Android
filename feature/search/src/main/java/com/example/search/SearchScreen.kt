@@ -11,11 +11,14 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.dplay.designsystem.R
 import com.example.designsystem.component.DPlayImageCheck
 import com.example.designsystem.component.DplayLeftIconTitleTopAppBar
@@ -26,9 +29,14 @@ import com.example.ui.model.Music
 import kotlinx.collections.immutable.ImmutableList
 
 @Composable
-fun SearchRoute(modifier: Modifier = Modifier) {
+fun SearchRoute(
+    modifier: Modifier = Modifier,
+    viewModel: SearchViewModel = hiltViewModel()
+) {
+    val state by viewModel.uiState.collectAsStateWithLifecycle()
+
     SearchScreen(
-        state = SearchContract.SearchState(),
+        state = state,
         modifier = modifier
     )
 }
@@ -36,7 +44,8 @@ fun SearchRoute(modifier: Modifier = Modifier) {
 @Composable
 fun SearchScreen(
     state: SearchContract.SearchState,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+
 ) {
     Column(
         modifier = modifier
