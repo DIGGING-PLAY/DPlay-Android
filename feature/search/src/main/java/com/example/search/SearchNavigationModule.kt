@@ -2,6 +2,7 @@ package com.example.search
 
 import androidx.navigation3.runtime.EntryProviderScope
 import androidx.navigation3.runtime.NavKey
+import com.example.navigation.Navigator
 import com.example.navigation.Search
 import dagger.Module
 import dagger.Provides
@@ -14,10 +15,12 @@ import dagger.multibindings.IntoSet
 object SearchNavigationModule {
     @Provides
     @IntoSet
-    fun provideSearchEntry(): EntryProviderScope<NavKey>.() -> Unit =
+    fun provideSearchEntry(
+        navigator: Navigator
+    ): EntryProviderScope<NavKey>.() -> Unit =
         {
             entry<Search> {
-                SearchRoute()
+                SearchRoute(navigator = navigator)
             }
         }
 }

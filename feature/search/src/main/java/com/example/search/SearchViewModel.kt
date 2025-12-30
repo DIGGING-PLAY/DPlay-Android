@@ -12,10 +12,26 @@ class SearchViewModel
     ){
     override fun handleIntent(intent: SearchContract.SearchIntent) {
         when(intent){
-            SearchContract.SearchIntent.OnBackIconClick -> TODO()
-            is SearchContract.SearchIntent.OnMusicSelected -> TODO()
-            SearchContract.SearchIntent.OnNextButtonClick -> TODO()
-            is SearchContract.SearchIntent.OnSearchInputChanged -> TODO()
+            SearchContract.SearchIntent.OnBackIconClick -> {
+                setSideEffect(SearchContract.SearchSideEffect.NavigateToBack)
+            }
+            is SearchContract.SearchIntent.OnMusicSelected -> {
+                updateState {
+                    copy(
+                        selectedMusicId = intent.trackId
+                    )
+                }
+            }
+            SearchContract.SearchIntent.OnNextButtonClick -> {
+                setSideEffect(SearchContract.SearchSideEffect.NavigateToComment(uiState.value.selectedMusicId!!))
+            }
+            is SearchContract.SearchIntent.OnSearchInputChanged -> {
+                updateState {
+                    copy(
+                        searchInput = intent.input
+                    )
+                }
+            }
         }
     }
 

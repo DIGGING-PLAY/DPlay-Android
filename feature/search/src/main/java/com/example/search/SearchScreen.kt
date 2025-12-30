@@ -11,6 +11,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -25,19 +26,38 @@ import com.example.designsystem.component.DplayLeftIconTitleTopAppBar
 import com.example.designsystem.component.button.DPlayLargePinkButton
 import com.example.designsystem.component.textfield.DPlayTextInput
 import com.example.designsystem.theme.DPlayTheme
+import com.example.navigation.Navigator
 import com.example.ui.model.Music
 import kotlinx.collections.immutable.ImmutableList
 
 @Composable
 fun SearchRoute(
+    navigator: Navigator,
     modifier: Modifier = Modifier,
     viewModel: SearchViewModel = hiltViewModel()
 ) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
 
+    LaunchedEffect(Unit){
+        viewModel.sideEffect.collect{ sideEffect ->
+            when(sideEffect){
+                SearchContract.SearchSideEffect.NavigateToBack -> {
+                    navigator.navigateToBack()
+                }
+                is SearchContract.SearchSideEffect.NavigateToComment -> {
+                    // 코멘트 작성으로 이동
+                }
+            }
+        }
+    }
+
     SearchScreen(
         state = state,
-        modifier = modifier
+        modifier = modifier,
+        onBackIconClick = { viewModel.handleIntent(SearchContract.SearchIntent.OnBackIconClick) },
+        onSearchInputChanged = { viewModel.handleIntent(SearchContract.SearchIntent.OnSearchInputChanged(it)) },
+        onMusicSelected = { viewModel.handleIntent(SearchContract.SearchIntent.OnMusicSelected(it)) },
+        onNextButtonClick = { viewModel.handleIntent(SearchContract.SearchIntent.OnNextButtonClick) }
     )
 }
 
@@ -45,7 +65,10 @@ fun SearchRoute(
 fun SearchScreen(
     state: SearchContract.SearchState,
     modifier: Modifier = Modifier,
-
+    onBackIconClick: () -> Unit = {},
+    onSearchInputChanged: (String) -> Unit = {},
+    onMusicSelected: (String) -> Unit = {},
+    onNextButtonClick: () -> Unit = {},
 ) {
     Column(
         modifier = modifier
@@ -55,7 +78,7 @@ fun SearchScreen(
     ){
         DplayLeftIconTitleTopAppBar(
             title = "노래 등록하기"
-        ) {  }
+        ) {  onBackIconClick() }
 
         Spacer(modifier = Modifier.height(20.dp))
 
@@ -70,7 +93,7 @@ fun SearchScreen(
 
         DPlayTextInput(
             value = state.searchInput,
-            onValueChange = { },
+            onValueChange = { onSearchInputChanged(it) },
             placeholder = stringResource(R.string.placeholder_music_search),
             modifier = Modifier
                 .fillMaxWidth()
@@ -81,13 +104,15 @@ fun SearchScreen(
 
         SearchedMusicList(
             searchedMusicList = state.searchedMusicList,
+            onMusicSelected = { onMusicSelected(it) },
+            selectedTrackId = state.selectedMusicId,
             modifier = Modifier.weight(1f)
         )
 
         Spacer(modifier = Modifier.height(12.dp))
 
         DPlayLargePinkButton(
-            onClick = {},
+            onClick = { onNextButtonClick() },
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp),
@@ -100,8 +125,9 @@ fun SearchScreen(
 @Composable
 private fun SearchedMusicList(
     searchedMusicList: ImmutableList<Music>,
-    selectedTrackId: String? = null,
-    modifier: Modifier = Modifier
+    onMusicSelected: (String) -> Unit,
+    modifier: Modifier = Modifier,
+    selectedTrackId: String? = null
 ) {
     if(searchedMusicList.isEmpty()){
         // emptyView
@@ -131,7 +157,7 @@ private fun SearchedMusicList(
                     musicName = music.musicTitle,
                     artistName = music.artistName,
                     isChecked = selectedTrackId == music.trackId,
-                    onClick = {},
+                    onClick = { onMusicSelected(music.trackId) },
                 )
             }
         }
