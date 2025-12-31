@@ -78,13 +78,13 @@ fun SearchScreen(
             .padding(bottom = 16.dp)
     ){
         DplayLeftIconTitleTopAppBar(
-            title = "노래 등록하기"
+            title = stringResource(com.dplay.search.R.string.search_top_bar_title)
         ) {  onBackIconClick() }
 
         Spacer(modifier = Modifier.height(20.dp))
 
         Text(
-            text = "추천하고 싶은\n노래를 검색해보세요!",
+            text = stringResource(com.dplay.search.R.string.search_title),
             style = DPlayTheme.typography.titleBold24,
             color = DPlayTheme.colors.dplayBlack,
             modifier = Modifier.padding(start = 17.dp)
@@ -139,7 +139,7 @@ private fun SearchedMusicList(
             Spacer(modifier = Modifier.height(153.dp))
 
             Text(
-                text = "일치하는 검색 결과가 없어요"
+                text = stringResource(com.dplay.search.R.string.search_empty_view_text)
             )
 
             Spacer(modifier = Modifier.weight(1f))

@@ -96,7 +96,7 @@ fun CommentScreen(
             .padding(bottom = 16.dp),
     ) {
         DplayLeftIconTitleTopAppBar(
-            title = "노래 등록하기"
+            title = stringResource(com.dplay.comment.R.string.comment_top_bar_title)
         ) {
             onBackIconClick()
         }
@@ -104,7 +104,7 @@ fun CommentScreen(
         Spacer(modifier = Modifier.height(20.dp))
 
         Text(
-            text = "노래에 대한\n이야기를 작성해보세요!",
+            text = stringResource(com.dplay.comment.R.string.comment_title),
             style = DPlayTheme.typography.titleBold24,
             color = DPlayTheme.colors.dplayBlack,
             modifier = Modifier.padding(start = 16.dp)
@@ -165,7 +165,9 @@ fun CommentScreen(
 
         DPlayLargePinkButton(
             onClick = { onRegisterButtonClick() },
-            modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp),
             label = stringResource(R.string.register_button_label),
             enabled = state.isRegisterButtonEnabled
         )
