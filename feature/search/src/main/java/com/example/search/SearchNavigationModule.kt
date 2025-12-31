@@ -16,7 +16,7 @@ object SearchNavigationModule {
     @Provides
     @IntoSet
     fun provideSearchEntry(
-        navigator: Navigator
+        navigator: Navigator,
     ): EntryProviderScope<NavKey>.() -> Unit =
         {
             entry<Search> {

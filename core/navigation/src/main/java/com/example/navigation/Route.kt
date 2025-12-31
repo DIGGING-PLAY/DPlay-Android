@@ -45,7 +45,9 @@ data object Recommend : NavKey
 
 data object Search : NavKey
 
-data class Comment(val musicInfo: Music) : NavKey
+data class Comment(
+    val musicInfo: Music,
+) : NavKey
 
 data object Setting : NavKey
 

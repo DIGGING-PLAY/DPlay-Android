@@ -51,9 +51,9 @@ fun CommentRoute(
         viewModel.handleIntent(CommentContract.CommentIntent.Initialize(musicInfo))
     }
 
-    LaunchedEffect(Unit){
-        viewModel.sideEffect.collect{ sideEffect ->
-            when(sideEffect){
+    LaunchedEffect(Unit) {
+        viewModel.sideEffect.collect { sideEffect ->
+            when (sideEffect) {
                 CommentContract.CommentSideEffect.NavigateToBack -> {
                     navigator.navigateToBack()
                 }
@@ -72,7 +72,7 @@ fun CommentRoute(
         onMoreGuideClick = { viewModel.handleIntent(CommentContract.CommentIntent.OnMoreGuideClick) },
         onGuideXIconClick = { viewModel.handleIntent(CommentContract.CommentIntent.OnGuideXIconClick) },
         onCommentInputChanged = { viewModel.handleIntent(CommentContract.CommentIntent.OnCommentInputChanged(it)) },
-        onRegisterButtonClick = { viewModel.handleIntent(CommentContract.CommentIntent.OnRegisterButtonClick) }
+        onRegisterButtonClick = { viewModel.handleIntent(CommentContract.CommentIntent.OnRegisterButtonClick) },
     )
 }
 
@@ -90,13 +90,14 @@ fun CommentScreen(
     var guideButtonHeightPx by remember { mutableIntStateOf(0) }
 
     Column(
-        modifier = modifier
-            .fillMaxSize()
-            .background(color = DPlayTheme.colors.dplayWhite)
-            .padding(bottom = 16.dp),
+        modifier =
+            modifier
+                .fillMaxSize()
+                .background(color = DPlayTheme.colors.dplayWhite)
+                .padding(bottom = 16.dp),
     ) {
         DplayLeftIconTitleTopAppBar(
-            title = stringResource(com.dplay.comment.R.string.comment_top_bar_title)
+            title = stringResource(com.dplay.comment.R.string.comment_top_bar_title),
         ) {
             onBackIconClick()
         }
@@ -107,7 +108,7 @@ fun CommentScreen(
             text = stringResource(com.dplay.comment.R.string.comment_title),
             style = DPlayTheme.typography.titleBold24,
             color = DPlayTheme.colors.dplayBlack,
-            modifier = Modifier.padding(start = 16.dp)
+            modifier = Modifier.padding(start = 16.dp),
         )
 
         Spacer(modifier = Modifier.height(20.dp))
@@ -116,9 +117,10 @@ fun CommentScreen(
             musicImageUrl = state.musicInfo?.thumbnailUrl ?: "",
             musicName = state.musicInfo?.musicTitle ?: "",
             musicArtistName = state.musicInfo?.artistName ?: "",
-            modifier = Modifier
-                .width(132.dp)
-                .align(Alignment.CenterHorizontally)
+            modifier =
+                Modifier
+                    .width(132.dp)
+                    .align(Alignment.CenterHorizontally),
         )
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -133,30 +135,33 @@ fun CommentScreen(
         Spacer(modifier = Modifier.height(12.dp))
 
         Box(
-            modifier = Modifier
-                .padding(start = 16.dp)
-                .zIndex(1f)
+            modifier =
+                Modifier
+                    .padding(start = 16.dp)
+                    .zIndex(1f),
         ) {
             DPlayGuidelineButton(
                 onClick = { onGuideButtonClick() },
-                modifier = Modifier
-                    .onGloballyPositioned { coordinates ->
-                        guideButtonHeightPx = coordinates.size.height
-                    }
+                modifier =
+                    Modifier
+                        .onGloballyPositioned { coordinates ->
+                            guideButtonHeightPx = coordinates.size.height
+                        },
             )
 
             if (state.isGuideVisible) {
                 DplayTooltip(
                     onTextButtonClicked = { onMoreGuideClick() },
                     onCloseButtonClicked = { onGuideXIconClick() },
-                    modifier = Modifier
-                        .layout { measurable, constraints ->
-                            val placeable = measurable.measure(constraints)
-                            layout(0, 0) {
-                                val topMargin = 8.dp.roundToPx()
-                                placeable.place(x = 0, y = guideButtonHeightPx + topMargin)
-                            }
-                        }
+                    modifier =
+                        Modifier
+                            .layout { measurable, constraints ->
+                                val placeable = measurable.measure(constraints)
+                                layout(0, 0) {
+                                    val topMargin = 8.dp.roundToPx()
+                                    placeable.place(x = 0, y = guideButtonHeightPx + topMargin)
+                                }
+                            },
                 )
             }
         }
@@ -165,11 +170,12 @@ fun CommentScreen(
 
         DPlayLargePinkButton(
             onClick = { onRegisterButtonClick() },
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 16.dp),
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp),
             label = stringResource(R.string.register_button_label),
-            enabled = state.isRegisterButtonEnabled
+            enabled = state.isRegisterButtonEnabled,
         )
     }
 }
@@ -179,9 +185,10 @@ fun CommentScreen(
 fun CommentPreview(modifier: Modifier = Modifier) {
     DPlayTheme {
         CommentScreen(
-            state = CommentContract.CommentState(
-                isGuideVisible = true
-            ),
+            state =
+                CommentContract.CommentState(
+                    isGuideVisible = true,
+                ),
         )
     }
 }

@@ -35,13 +35,13 @@ import kotlinx.collections.immutable.ImmutableList
 fun SearchRoute(
     navigator: Navigator,
     modifier: Modifier = Modifier,
-    viewModel: SearchViewModel = hiltViewModel()
+    viewModel: SearchViewModel = hiltViewModel(),
 ) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
 
-    LaunchedEffect(Unit){
-        viewModel.sideEffect.collect{ sideEffect ->
-            when(sideEffect){
+    LaunchedEffect(Unit) {
+        viewModel.sideEffect.collect { sideEffect ->
+            when (sideEffect) {
                 SearchContract.SearchSideEffect.NavigateToBack -> {
                     navigator.navigateToBack()
                 }
@@ -58,7 +58,7 @@ fun SearchRoute(
         onBackIconClick = { viewModel.handleIntent(SearchContract.SearchIntent.OnBackIconClick) },
         onSearchInputChanged = { viewModel.handleIntent(SearchContract.SearchIntent.OnSearchInputChanged(it)) },
         onMusicSelected = { viewModel.handleIntent(SearchContract.SearchIntent.OnMusicSelected(it)) },
-        onNextButtonClick = { viewModel.handleIntent(SearchContract.SearchIntent.OnNextButtonClick) }
+        onNextButtonClick = { viewModel.handleIntent(SearchContract.SearchIntent.OnNextButtonClick) },
     )
 }
 
@@ -72,14 +72,15 @@ fun SearchScreen(
     onNextButtonClick: () -> Unit = {},
 ) {
     Column(
-        modifier = modifier
-            .fillMaxSize()
-            .background(color = DPlayTheme.colors.dplayWhite)
-            .padding(bottom = 16.dp)
-    ){
+        modifier =
+            modifier
+                .fillMaxSize()
+                .background(color = DPlayTheme.colors.dplayWhite)
+                .padding(bottom = 16.dp),
+    ) {
         DplayLeftIconTitleTopAppBar(
-            title = stringResource(com.dplay.search.R.string.search_top_bar_title)
-        ) {  onBackIconClick() }
+            title = stringResource(com.dplay.search.R.string.search_top_bar_title),
+        ) { onBackIconClick() }
 
         Spacer(modifier = Modifier.height(20.dp))
 
@@ -87,7 +88,7 @@ fun SearchScreen(
             text = stringResource(com.dplay.search.R.string.search_title),
             style = DPlayTheme.typography.titleBold24,
             color = DPlayTheme.colors.dplayBlack,
-            modifier = Modifier.padding(start = 17.dp)
+            modifier = Modifier.padding(start = 17.dp),
         )
 
         Spacer(modifier = Modifier.height(20.dp))
@@ -96,9 +97,10 @@ fun SearchScreen(
             value = state.searchInput,
             onValueChange = { onSearchInputChanged(it) },
             placeholder = stringResource(R.string.placeholder_music_search),
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 16.dp)
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp),
         )
 
         Spacer(modifier = Modifier.height(20.dp))
@@ -107,18 +109,19 @@ fun SearchScreen(
             searchedMusicList = state.searchedMusicList,
             onMusicSelected = { onMusicSelected(it) },
             selectedTrackId = state.selectedMusic?.trackId,
-            modifier = Modifier.weight(1f)
+            modifier = Modifier.weight(1f),
         )
 
         Spacer(modifier = Modifier.height(12.dp))
 
         DPlayLargePinkButton(
             onClick = { onNextButtonClick() },
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 16.dp),
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp),
             label = stringResource(R.string.next_button_label),
-            enabled = state.isNextButtonEnabled
+            enabled = state.isNextButtonEnabled,
         )
     }
 }
@@ -128,33 +131,33 @@ private fun SearchedMusicList(
     searchedMusicList: ImmutableList<Music>,
     onMusicSelected: (Music) -> Unit,
     modifier: Modifier = Modifier,
-    selectedTrackId: String? = null
+    selectedTrackId: String? = null,
 ) {
-    if(searchedMusicList.isEmpty()){
+    if (searchedMusicList.isEmpty()) {
         // emptyView
         Column(
             modifier = modifier.fillMaxWidth(),
-            horizontalAlignment = Alignment.CenterHorizontally
+            horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Spacer(modifier = Modifier.height(153.dp))
 
             Text(
-                text = stringResource(com.dplay.search.R.string.search_empty_view_text)
+                text = stringResource(com.dplay.search.R.string.search_empty_view_text),
             )
 
             Spacer(modifier = Modifier.weight(1f))
         }
-    }else{
+    } else {
         LazyColumn(
-            modifier = modifier
-        ){
+            modifier = modifier,
+        ) {
             items(
                 items = searchedMusicList,
-                key = { it.trackId }
-            ){ music ->
+                key = { it.trackId },
+            ) { music ->
                 // url이 null로 왔을 때 기본 이미지 필요
                 DPlayImageCheck(
-                    imageUrl = music.thumbnailUrl?: "",
+                    imageUrl = music.thumbnailUrl ?: "",
                     musicName = music.musicTitle,
                     artistName = music.artistName,
                     isChecked = selectedTrackId == music.trackId,
@@ -170,9 +173,10 @@ private fun SearchedMusicList(
 fun SearchScreenPreview(modifier: Modifier = Modifier) {
     DPlayTheme {
         SearchScreen(
-            state = SearchContract.SearchState(
-                searchedMusicList = dummyMusicList
-            ),
+            state =
+                SearchContract.SearchState(
+                    searchedMusicList = dummyMusicList,
+                ),
         )
     }
 }
