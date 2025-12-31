@@ -14,6 +14,7 @@ class CommentContract {
     }
 
     sealed interface CommentIntent: BaseContract.Intent {
+        data class Initialize(val music: Music) : CommentIntent
         data object OnBackIconClick: CommentIntent
         data class OnCommentInputChanged(val commentInput: String): CommentIntent
         data object OnRegisterButtonClick: CommentIntent

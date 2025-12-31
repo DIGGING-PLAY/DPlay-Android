@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
@@ -23,6 +24,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.dplay.designsystem.R
 import com.example.designsystem.component.DPlayMusicGridItem
 import com.example.designsystem.component.DplayLeftIconTitleTopAppBar
@@ -31,17 +34,45 @@ import com.example.designsystem.component.button.DPlayGuidelineButton
 import com.example.designsystem.component.button.DPlayLargePinkButton
 import com.example.designsystem.component.textfield.DPlayTextArea
 import com.example.designsystem.theme.DPlayTheme
+import com.example.navigation.Home
+import com.example.navigation.Navigator
 import com.example.ui.model.Music
 
 @Composable
 fun CommentRoute(
     musicInfo: Music,
-    modifier: Modifier = Modifier
+    navigator: Navigator,
+    modifier: Modifier = Modifier,
+    viewModel: CommentViewModel = hiltViewModel(),
 ) {
+    val state by viewModel.uiState.collectAsStateWithLifecycle()
+
+    LaunchedEffect(musicInfo) {
+        viewModel.handleIntent(CommentContract.CommentIntent.Initialize(musicInfo))
+    }
+
+    LaunchedEffect(Unit){
+        viewModel.sideEffect.collect{ sideEffect ->
+            when(sideEffect){
+                CommentContract.CommentSideEffect.NavigateToBack -> {
+                    navigator.navigateToBack()
+                }
+                CommentContract.CommentSideEffect.NavigateToHome -> {
+                    navigator.clearAndNavigateTo(Home)
+                }
+            }
+        }
+    }
+
     CommentScreen(
-        state = CommentContract.CommentState(),
+        state = state,
         modifier = modifier,
-        musicInfo = musicInfo,
+        onBackIconClick = { viewModel.handleIntent(CommentContract.CommentIntent.OnBackIconClick) },
+        onGuideButtonClick = { viewModel.handleIntent(CommentContract.CommentIntent.OnGuideButtonClick) },
+        onMoreGuideClick = { viewModel.handleIntent(CommentContract.CommentIntent.OnMoreGuideClick) },
+        onGuideXIconClick = { viewModel.handleIntent(CommentContract.CommentIntent.OnGuideXIconClick) },
+        onCommentInputChanged = { viewModel.handleIntent(CommentContract.CommentIntent.OnCommentInputChanged(it)) },
+        onRegisterButtonClick = { viewModel.handleIntent(CommentContract.CommentIntent.OnRegisterButtonClick) }
     )
 }
 
@@ -49,7 +80,12 @@ fun CommentRoute(
 fun CommentScreen(
     state: CommentContract.CommentState,
     modifier: Modifier = Modifier,
-    musicInfo: Music? = null,
+    onBackIconClick: () -> Unit = {},
+    onGuideButtonClick: () -> Unit = {},
+    onMoreGuideClick: () -> Unit = {},
+    onGuideXIconClick: () -> Unit = {},
+    onCommentInputChanged: (String) -> Unit = {},
+    onRegisterButtonClick: () -> Unit = {},
 ) {
     var guideButtonHeightPx by remember { mutableIntStateOf(0) }
 
@@ -62,7 +98,7 @@ fun CommentScreen(
         DplayLeftIconTitleTopAppBar(
             title = "노래 등록하기"
         ) {
-
+            onBackIconClick()
         }
 
         Spacer(modifier = Modifier.height(20.dp))
@@ -77,9 +113,9 @@ fun CommentScreen(
         Spacer(modifier = Modifier.height(20.dp))
 
         DPlayMusicGridItem(
-            musicImageUrl = musicInfo?.thumbnailUrl ?: "",
-            musicName = musicInfo?.musicTitle ?: "",
-            musicArtistName = musicInfo?.artistName ?: "",
+            musicImageUrl = state.musicInfo?.thumbnailUrl ?: "",
+            musicName = state.musicInfo?.musicTitle ?: "",
+            musicArtistName = state.musicInfo?.artistName ?: "",
             modifier = Modifier
                 .width(132.dp)
                 .align(Alignment.CenterHorizontally)
@@ -89,7 +125,7 @@ fun CommentScreen(
 
         DPlayTextArea(
             value = state.commentInput,
-            onValueChange = { state.commentInput },
+            onValueChange = { onCommentInputChanged(it) },
             placeholder = stringResource(id = R.string.placeholder_comment),
             modifier = Modifier.padding(horizontal = 16.dp),
         )
@@ -102,7 +138,7 @@ fun CommentScreen(
                 .zIndex(1f)
         ) {
             DPlayGuidelineButton(
-                onClick = {  },
+                onClick = { onGuideButtonClick() },
                 modifier = Modifier
                     .onGloballyPositioned { coordinates ->
                         guideButtonHeightPx = coordinates.size.height
@@ -111,8 +147,8 @@ fun CommentScreen(
 
             if (state.isGuideVisible) {
                 DplayTooltip(
-                    onTextButtonClicked = {},
-                    onCloseButtonClicked = {},
+                    onTextButtonClicked = { onMoreGuideClick() },
+                    onCloseButtonClicked = { onGuideXIconClick() },
                     modifier = Modifier
                         .layout { measurable, constraints ->
                             val placeable = measurable.measure(constraints)
@@ -128,7 +164,7 @@ fun CommentScreen(
         Spacer(modifier = Modifier.weight(1f))
 
         DPlayLargePinkButton(
-            onClick = {},
+            onClick = { onRegisterButtonClick() },
             modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp),
             label = stringResource(R.string.register_button_label),
             enabled = state.isRegisterButtonEnabled
