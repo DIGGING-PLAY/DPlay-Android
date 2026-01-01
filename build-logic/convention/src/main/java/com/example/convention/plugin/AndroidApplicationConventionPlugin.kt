@@ -25,17 +25,10 @@ class AndroidApplicationConventionPlugin: Plugin<Project> {
                 configureKotlinAndroid(this)
                 configureComposeAndroid(this)
 
-                val properties = Properties()
-                val localProps = rootProject.file("local.properties")
-                if (localProps.exists()) {
-                    properties.load(localProps.inputStream())
-                }
-
                 defaultConfig {
                     targetSdk = libs.getVersion("targetSdk").requiredVersion.toInt()
                     versionCode = libs.getVersion("versionCode").requiredVersion.toInt()
                     versionName = libs.getVersion("versionName").requiredVersion
-                    buildConfigField(type = "String", name = "BASE_URL", value = properties.getProperty("base.url"))
                 }
 
                 dependencies{
