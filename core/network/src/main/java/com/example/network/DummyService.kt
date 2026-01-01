@@ -2,6 +2,7 @@ package com.example.network
 
 import com.example.network.NetworkConstants.API
 import com.example.network.NetworkConstants.VERSIONS
+import com.example.network.response.BaseResponse
 import com.example.network.response.DummyResponse
 import kotlinx.serialization.InternalSerializationApi
 import retrofit2.http.GET
