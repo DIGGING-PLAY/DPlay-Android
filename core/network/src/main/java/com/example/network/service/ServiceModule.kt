@@ -1,4 +1,4 @@
-package com.example.network
+package com.example.network.service
 
 import dagger.Module
 import dagger.Provides
