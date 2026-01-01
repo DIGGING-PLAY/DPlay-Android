@@ -10,6 +10,7 @@ import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.dependencies
+import java.util.Properties
 
 class AndroidApplicationConventionPlugin: Plugin<Project> {
     override fun apply(target: Project) {
@@ -24,10 +25,17 @@ class AndroidApplicationConventionPlugin: Plugin<Project> {
                 configureKotlinAndroid(this)
                 configureComposeAndroid(this)
 
+                val properties = Properties()
+                val localProps = rootProject.file("local.properties")
+                if (localProps.exists()) {
+                    properties.load(localProps.inputStream())
+                }
+
                 defaultConfig {
                     targetSdk = libs.getVersion("targetSdk").requiredVersion.toInt()
                     versionCode = libs.getVersion("versionCode").requiredVersion.toInt()
                     versionName = libs.getVersion("versionName").requiredVersion
+                    buildConfigField(type = "String", name = "BASE_URL", value = properties.getProperty("base.url"))
                 }
 
                 dependencies{
