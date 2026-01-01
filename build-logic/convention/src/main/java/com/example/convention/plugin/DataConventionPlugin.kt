@@ -17,9 +17,12 @@ class DataConventionPlugin: Plugin<Project> {
 
             dependencies {
                 val retrofitBom = libs.getLibrary("retrofit-bom")
+                val okhttpBom = libs.getLibrary("okhttp-bom")
                 add("implementation",platform(retrofitBom))
+                add("implementation",platform(okhttpBom))
                 add("implementation",libs.getLibrary("kotlinx.serialization.json"))
                 add("implementation",libs.getBundle("retrofit"))
+                add("implementation",libs.getBundle("okhttp"))
                 add("implementation",project(":core:network"))
             }
         }
