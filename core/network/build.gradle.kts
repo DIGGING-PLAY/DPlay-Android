@@ -1,5 +1,6 @@
 plugins {
-    alias(libs.plugins.dplay.android.library)
+    alias(libs.plugins.dplay.data)
+    alias(libs.plugins.dplay.hilt)
 }
 
 android {
