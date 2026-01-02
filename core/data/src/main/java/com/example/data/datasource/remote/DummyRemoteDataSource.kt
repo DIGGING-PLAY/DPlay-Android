@@ -8,9 +8,9 @@ import javax.inject.Inject
 
 @OptIn(InternalSerializationApi::class)
 class DummyRemoteDataSource
-@Inject
-constructor(
-    private val dummyService: DummyService,
-) {
-    suspend fun getDummy(dummyId: Long): BaseResponse<DummyResponse> = dummyService.getDummy(dummyId = dummyId)
-}
+    @Inject
+    constructor(
+        private val dummyService: DummyService,
+    ) {
+        suspend fun getDummy(dummyId: Long): BaseResponse<DummyResponse> = dummyService.getDummy(dummyId = dummyId)
+    }

@@ -35,30 +35,33 @@ object RetrofitModule {
     fun providesOkHttpClient(
         authInterceptor: Interceptor,
     ): OkHttpClient =
-        OkHttpClient.Builder().apply {
-            connectTimeout(10, TimeUnit.SECONDS)
-            writeTimeout(10, TimeUnit.SECONDS)
-            readTimeout(10, TimeUnit.SECONDS)
-            addInterceptor(authInterceptor)
-            if (BuildConfig.DEBUG) addInterceptor(
-                HttpLoggingInterceptor().apply {
-                    setLevel(HttpLoggingInterceptor.Level.BODY)
+        OkHttpClient
+            .Builder()
+            .apply {
+                connectTimeout(10, TimeUnit.SECONDS)
+                writeTimeout(10, TimeUnit.SECONDS)
+                readTimeout(10, TimeUnit.SECONDS)
+                addInterceptor(authInterceptor)
+                if (BuildConfig.DEBUG) {
+                    addInterceptor(
+                        HttpLoggingInterceptor().apply {
+                            setLevel(HttpLoggingInterceptor.Level.BODY)
+                        },
+                    )
                 }
-            )
-        }.build()
+            }.build()
 
     @Provides
     @Singleton
     fun providesRetrofit(
         okHttpClient: OkHttpClient,
         json: Json,
-    ): Retrofit {
-        return Retrofit.Builder()
+    ): Retrofit =
+        Retrofit
+            .Builder()
             .baseUrl(BuildConfig.BASE_URL)
             .client(okHttpClient)
             .addConverterFactory(
                 json.asConverterFactory("application/json".toMediaType()),
-            )
-            .build()
-    }
+            ).build()
 }

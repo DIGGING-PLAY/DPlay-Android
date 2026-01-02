@@ -9,13 +9,10 @@ import kotlinx.serialization.Serializable
 data class BaseResponse<T>(
     @SerialName("status")
     val status: Boolean,
-
     @SerialName("code")
     val code: Int,
-
     @SerialName("message")
     val message: String,
-
     @SerialName("data")
-    val data: T? = null
+    val data: T? = null,
 )

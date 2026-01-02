@@ -8,12 +8,12 @@ import javax.inject.Inject
 
 @OptIn(InternalSerializationApi::class)
 class DummyRepositoryImpl
-@Inject
-constructor(
-    private val dummyRemoteDataSource: DummyRemoteDataSource,
-) : DummyRepository {
-    override suspend fun getDummy(dummyId: Long): Result<Dummy> =
-        runCatching {
-            dummyRemoteDataSource.getDummy(dummyId = dummyId).data?.toDummyEntity() ?: throw Exception()
-        }
-}
+    @Inject
+    constructor(
+        private val dummyRemoteDataSource: DummyRemoteDataSource,
+    ) : DummyRepository {
+        override suspend fun getDummy(dummyId: Long): Result<Dummy> =
+            runCatching {
+                dummyRemoteDataSource.getDummy(dummyId = dummyId).data?.toDummyEntity() ?: throw Exception()
+            }
+    }

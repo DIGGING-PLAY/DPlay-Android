@@ -7,7 +7,7 @@ android {
     namespace = "com.dplay.data"
 }
 
-dependencies{
+dependencies {
     implementation(project.projects.core.network)
     implementation(project.projects.core.domain)
 }
