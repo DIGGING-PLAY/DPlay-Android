@@ -1,7 +1,6 @@
 package com.example.data.repository
 
 import com.example.data.datasource.remote.DummyRemoteDataSource
-import com.example.data.mapper.toDummyEntity
 import com.example.domain.model.Dummy
 import com.example.domain.repository.DummyRepository
 import kotlinx.serialization.InternalSerializationApi
