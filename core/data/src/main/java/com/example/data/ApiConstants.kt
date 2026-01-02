@@ -1,6 +1,6 @@
-package com.example.network
+package com.example.data
 
-object NetworkConstants {
+object ApiConstants {
     const val API = "api"
 
     const val VERSIONS = "v1"

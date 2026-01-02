@@ -1,5 +1,6 @@
-package com.example.network.service
+package com.example.data.di
 
+import com.example.data.service.DummyService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

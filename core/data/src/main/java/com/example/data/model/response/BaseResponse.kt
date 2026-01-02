@@ -1,4 +1,4 @@
-package com.example.network.response
+package com.example.data.model.response
 
 import kotlinx.serialization.InternalSerializationApi
 import kotlinx.serialization.SerialName
