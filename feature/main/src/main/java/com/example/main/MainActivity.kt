@@ -90,7 +90,7 @@ class MainActivity : ComponentActivity() {
                             },
                         ) { padding ->
                             NavDisplay(
-                                modifier = Modifier.background(color = DPlayTheme.colors.dplayWhite).padding(bottom = padding.calculateBottomPadding()),
+                                modifier = Modifier.fillMaxSize().background(color = DPlayTheme.colors.dplayWhite).padding(bottom = padding.calculateBottomPadding()),
                                 backStack = navigator.backStack,
                                 onBack = {
                                     navigator.navigateToBack()
