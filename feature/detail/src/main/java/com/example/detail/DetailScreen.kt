@@ -6,8 +6,11 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -19,7 +22,9 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.blur
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -127,111 +132,130 @@ private fun DetailScreen(
             else -> null
         }
 
-    Column {
-        DplayDualIconTitleTopAppBar(
-            modifier = Modifier.fillMaxWidth(),
-            title = state.date,
-            leftIconRes = R.drawable.ic_arrow_left_16,
-            rightIconRes = R.drawable.ic_more_24,
-            onLeftClick = onTopAppBarLeftIconClick,
-            onRightClick = onTopAppBarRightIconClick,
-        )
-        Spacer(modifier = Modifier.height(24.dp))
-
-        Box(Modifier.padding(horizontal = 97.dp)) {
-            DPlayMusicDiscItem(
-                imageUrl = postDetailData.track.coverImg,
-                isStreaming = false,
-            )
-            DPlayBookmarkButton(
-                isMarked = postDetailData.isScrapped,
-                onClick = onBookmarkClick,
-                modifier = Modifier.align(Alignment.TopEnd),
-            )
-            chipType
-                ?.let {
-                    DPlayChip(
-                        type = it,
-                        modifier = Modifier.align(Alignment.BottomCenter),
-                    )
-                }
-        }
-        Spacer(modifier = Modifier.height(20.dp))
-
-        Text(
-            text = postDetailData.track.songTitle,
-            modifier = Modifier.align(Alignment.CenterHorizontally),
-            style = typography.bodyBold20,
-            color = color.dplayBlack,
-        )
-        Spacer(modifier = Modifier.height(4.dp))
-        Text(
-            text = postDetailData.track.artistName,
-            modifier = Modifier.align(Alignment.CenterHorizontally),
-            style = typography.bodySemi14,
-            color = color.gray400,
-        )
-        Spacer(modifier = Modifier.height(20.dp))
-
-        Row(modifier = horizontalModifier) {
-            DPlayStreamingButton(
-                onClick = onStreamClick,
-                enabled = true,
-                modifier = Modifier.weight(1f),
-            )
-            Spacer(modifier = Modifier.width(8.dp))
-            DPlayLikeButton(
-                isLiked = postDetailData.like.isLiked,
-                likeCount = postDetailData.like.count,
-                onClick = onLikeClick,
-                modifier = Modifier.weight(1f),
-            )
-        }
-        Spacer(modifier = Modifier.height(16.dp))
-
-        Column(
+    Box(modifier = Modifier.fillMaxSize()) {
+        Box(
             modifier =
-                horizontalModifier
-                    .border(
-                        width = 1.dp,
-                        color = color.gray200,
-                        shape = RoundedCornerShape(12.dp),
-                    ).roundedBackgroundWithPadding(
-                        backgroundColor = color.dplayWhite,
-                        cornerRadius = 12.dp,
-                        padding = PaddingValues(horizontal = 12.dp, vertical = 16.dp),
-                    ),
+                Modifier.blur(
+                    radius = 20.dp,
+                ),
         ) {
-            Text(
-                text = postDetailData.content,
-                maxLines = 3,
-                overflow = TextOverflow.Ellipsis,
-                style = typography.bodySemi14,
-                color = color.dplayBlack,
-            )
-            Spacer(modifier = Modifier.height(12.dp))
-            Row(
+            AsyncImage(
+                model = postDetailData.track.coverImg,
+                contentDescription = null,
                 modifier =
                     Modifier
-                        .align(Alignment.CenterHorizontally)
-                        .noRippleClickable(onClick = onWriterProfileClick),
-                verticalAlignment = Alignment.CenterVertically,
+                        .fillMaxWidth()
+                        .aspectRatio(1f)
+                        .offset(y = (-80).dp),
+                contentScale = ContentScale.Crop,
+            )
+        }
+        Column {
+            DplayDualIconTitleTopAppBar(
+                modifier = Modifier.fillMaxWidth(),
+                title = state.date,
+                leftIconRes = R.drawable.ic_arrow_left_16,
+                rightIconRes = R.drawable.ic_more_24,
+                onLeftClick = onTopAppBarLeftIconClick,
+                onRightClick = onTopAppBarRightIconClick,
+            )
+            Spacer(modifier = Modifier.height(24.dp))
+
+            Box(Modifier.padding(horizontal = 97.dp)) {
+                DPlayMusicDiscItem(
+                    imageUrl = postDetailData.track.coverImg,
+                    isStreaming = false,
+                )
+                DPlayBookmarkButton(
+                    isMarked = postDetailData.isScrapped,
+                    onClick = onBookmarkClick,
+                    modifier = Modifier.align(Alignment.TopEnd),
+                )
+                chipType
+                    ?.let {
+                        DPlayChip(
+                            type = it,
+                            modifier = Modifier.align(Alignment.BottomCenter),
+                        )
+                    }
+            }
+            Spacer(modifier = Modifier.height(20.dp))
+
+            Text(
+                text = postDetailData.track.songTitle,
+                modifier = Modifier.align(Alignment.CenterHorizontally),
+                style = typography.bodyBold20,
+                color = color.dplayBlack,
+            )
+            Spacer(modifier = Modifier.height(4.dp))
+            Text(
+                text = postDetailData.track.artistName,
+                modifier = Modifier.align(Alignment.CenterHorizontally),
+                style = typography.bodySemi14,
+                color = color.gray400,
+            )
+            Spacer(modifier = Modifier.height(20.dp))
+
+            Row(modifier = horizontalModifier) {
+                DPlayStreamingButton(
+                    onClick = onStreamClick,
+                    enabled = true,
+                    modifier = Modifier.weight(1f),
+                )
+                Spacer(modifier = Modifier.width(8.dp))
+                DPlayLikeButton(
+                    isLiked = postDetailData.like.isLiked,
+                    likeCount = postDetailData.like.count,
+                    onClick = onLikeClick,
+                    modifier = Modifier.weight(1f),
+                )
+            }
+            Spacer(modifier = Modifier.height(16.dp))
+
+            Column(
+                modifier =
+                    horizontalModifier
+                        .border(
+                            width = 1.dp,
+                            color = color.gray200,
+                            shape = RoundedCornerShape(12.dp),
+                        ).roundedBackgroundWithPadding(
+                            backgroundColor = color.dplayWhite,
+                            cornerRadius = 12.dp,
+                            padding = PaddingValues(horizontal = 12.dp, vertical = 16.dp),
+                        ),
             ) {
-                AsyncImage(
-                    model = postDetailData.writer.profileImg,
-                    contentDescription = null,
+                Text(
+                    text = postDetailData.content,
+                    maxLines = 3,
+                    overflow = TextOverflow.Ellipsis,
+                    style = typography.bodySemi14,
+                    color = color.dplayBlack,
+                )
+                Spacer(modifier = Modifier.height(12.dp))
+                Row(
                     modifier =
                         Modifier
-                            .size(32.dp)
-                            .clip(CircleShape)
-                            .border(1.dp, color = color.gray200, shape = CircleShape),
-                )
-                Spacer(modifier = Modifier.width(6.dp))
-                Text(
-                    text = postDetailData.writer.nickname,
-                    style = typography.bodySemi14,
-                    color = color.gray400,
-                )
+                            .align(Alignment.CenterHorizontally)
+                            .noRippleClickable(onClick = onWriterProfileClick),
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    AsyncImage(
+                        model = postDetailData.writer.profileImg,
+                        contentDescription = null,
+                        modifier =
+                            Modifier
+                                .size(32.dp)
+                                .clip(CircleShape)
+                                .border(1.dp, color = color.gray200, shape = CircleShape),
+                    )
+                    Spacer(modifier = Modifier.width(6.dp))
+                    Text(
+                        text = postDetailData.writer.nickname,
+                        style = typography.bodySemi14,
+                        color = color.gray400,
+                    )
+                }
             }
         }
     }
