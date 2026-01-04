@@ -34,9 +34,12 @@ class RecordViewModel
 
         override fun handleIntent(intent: RecordContract.RecordIntent) {
             when (intent) {
-                RecordContract.RecordIntent.Initialize -> {}
+                is RecordContract.RecordIntent.Initialize -> {}
                 is RecordContract.RecordIntent.OnQuestionClick -> setQuestion(question = intent.question)
                 is RecordContract.RecordIntent.OnListBackButtonClick -> setQuestion(question = null)
+                is RecordContract.RecordIntent.OnMusicClick -> {
+                    setSideEffect(RecordContract.RecordSideEffect.NavigateToPostDetail(postId = intent.postId))
+                }
             }
         }
 

@@ -144,11 +144,19 @@ class RecordContract {
         ) : RecordIntent
 
         data object OnListBackButtonClick : RecordIntent
+
+        data class OnMusicClick(
+            val postId: Long,
+        ) : RecordIntent
     }
 
     sealed interface RecordSideEffect : BaseContract.SideEffect {
         data class ShowSnackBar(
             val message: String,
+        ) : RecordSideEffect
+
+        data class NavigateToPostDetail(
+            val postId: Long,
         ) : RecordSideEffect
     }
 }

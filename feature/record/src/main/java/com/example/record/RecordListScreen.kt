@@ -22,6 +22,7 @@ import com.example.designsystem.theme.DPlayTheme
 @Composable
 fun RecordListScreen(
     onBackButtonClick: () -> Unit,
+    onMusicClick: (postId: Long) -> Unit,
     modifier: Modifier = Modifier,
     uiState: RecordContract.RecordState = RecordContract.RecordState(),
 ) {
@@ -65,7 +66,7 @@ fun RecordListScreen(
                     musicContent = item.content,
                     onMoreClick = {},
                     isEditorPick = item.badges.isEditorPick,
-                    onClick = {},
+                    onClick = { onMusicClick(item.postId) },
                 )
             }
         }
@@ -78,6 +79,7 @@ private fun RecordListScreenPreview() {
     DPlayTheme {
         RecordListScreen(
             onBackButtonClick = {},
+            onMusicClick = {},
         )
     }
 }
