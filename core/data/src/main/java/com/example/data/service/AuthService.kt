@@ -9,17 +9,23 @@ import com.example.data.ApiConstants.SIGNUP
 import com.example.data.ApiConstants.TOKEN
 import com.example.data.ApiConstants.VERSIONS
 import com.example.data.ApiConstants.WITHDRAW
+import com.example.data.model.request.LoginRequest
 import com.example.data.model.response.BaseResponse
 import com.example.data.model.response.TokenResponse
 import kotlinx.serialization.InternalSerializationApi
+import retrofit2.http.Body
 import retrofit2.http.DELETE
+import retrofit2.http.Header
 import retrofit2.http.PATCH
 import retrofit2.http.POST
 
 @OptIn(InternalSerializationApi::class)
 interface AuthService {
     @POST("$API/$VERSIONS/$AUTH/$LOGIN")
-    suspend fun login(): BaseResponse<TokenResponse>
+    suspend fun login(
+        @Header("Authorization") accessToken: String,
+        @Body request: LoginRequest
+    ): BaseResponse<TokenResponse>
 
     @POST("$API/$VERSIONS/$AUTH/$SIGNUP")
     suspend fun signup(): BaseResponse<TokenResponse>
