@@ -29,7 +29,7 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
-        buildConfigField("String", "KAKAO_APP_KEY", "\"kakaoNativeKey\"")
+        buildConfigField("String", "KAKAO_APP_KEY", "\"$kakaoNativeKey\"")
         manifestPlaceholders["kakaoScheme"] = "kakao$kakaoNativeKey"
     }
 }
@@ -37,6 +37,7 @@ android {
 dependencies {
     implementation(projects.feature.main)
     implementation(projects.core.navigation)
+    implementation(projects.core.data)
     testImplementation(kotlin("test"))
     implementation(libs.kakao.user)
 }
