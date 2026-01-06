@@ -10,14 +10,18 @@ import com.example.data.ApiConstants.TOKEN
 import com.example.data.ApiConstants.VERSIONS
 import com.example.data.ApiConstants.WITHDRAW
 import com.example.data.model.request.LoginRequest
+import com.example.data.model.request.SignupRequest
 import com.example.data.model.response.BaseResponse
 import com.example.data.model.response.TokenResponse
 import kotlinx.serialization.InternalSerializationApi
+import okhttp3.MultipartBody
 import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.Header
+import retrofit2.http.Multipart
 import retrofit2.http.PATCH
 import retrofit2.http.POST
+import retrofit2.http.Part
 
 @OptIn(InternalSerializationApi::class)
 interface AuthService {
@@ -27,8 +31,12 @@ interface AuthService {
         @Body request: LoginRequest
     ): BaseResponse<TokenResponse>
 
+    @Multipart
     @POST("$API/$VERSIONS/$AUTH/$SIGNUP")
-    suspend fun signup(): BaseResponse<TokenResponse>
+    suspend fun signup(
+        @Part("profileImg") profileImg: MultipartBody.Part?,
+        @Part("signupRequest") request: SignupRequest
+    ): BaseResponse<TokenResponse>
 
     @PATCH("$API/$VERSIONS/$AUTH/$TOKEN/$REISSUE")
     suspend fun reissue(): BaseResponse<TokenResponse>
