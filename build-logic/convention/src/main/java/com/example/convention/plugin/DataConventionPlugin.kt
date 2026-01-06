@@ -23,6 +23,7 @@ class DataConventionPlugin: Plugin<Project> {
                 add("implementation",libs.getLibrary("kotlinx.serialization.json"))
                 add("implementation",libs.getBundle("retrofit"))
                 add("implementation",libs.getBundle("okhttp"))
+                add("implementation",libs.getLibrary("kakao.user"))
             }
         }
     }

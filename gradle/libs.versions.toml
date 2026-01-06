@@ -61,6 +61,9 @@ androidx-junit = "1.2.1"
 espresso-core = "3.6.1"
 material = "1.10.0"
 
+#kakao login
+kakao-user = "2.23.0"
+
 [libraries]
 # Androidx Core
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "androidx-core-ktx" }
@@ -108,6 +111,9 @@ retrofit-bom = { group = "com.squareup.retrofit2", name = "retrofit-bom", versio
 retrofit = { group = "com.squareup.retrofit2", name = "retrofit" }
 kotlinx-serialization-convertor = { group = "com.jakewharton.retrofit", name = "retrofit2-kotlinx-serialization-converter", version.ref = "kotlinx-serialization-converter" }
 retrofit-kotlinx-serialization = { group = "com.squareup.retrofit2", name = "converter-kotlinx-serialization" }
+
+# kako login
+kakao-user = { group = "com.kakao.sdk", name = "v2-user", version.ref = "kakao-user" }
 
 # Splash
 splash = { group = "androidx.core", name = "core-splashscreen", version.ref = "splash" }

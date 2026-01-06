@@ -1,3 +1,6 @@
+import java.io.StringReader
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.dplay.android.application)
     alias(libs.plugins.dplay.hilt)
@@ -18,4 +21,5 @@ dependencies {
     implementation(projects.feature.main)
     implementation(projects.core.navigation)
     testImplementation(kotlin("test"))
+    implementation(libs.kakao.user)
 }
