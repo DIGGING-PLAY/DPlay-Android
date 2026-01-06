@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
-class AuthLocalDataSource @Inject constructor(
+class TokenLocalDataSource @Inject constructor(
     private val dataStore: DataStore<Preferences>
 ) {
     val accessToken: Flow<String?> = dataStore.data.map { preferences ->
