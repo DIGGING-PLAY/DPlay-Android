@@ -1,5 +1,6 @@
 package com.example.data.repository
 
+import com.example.data.datasource.local.FileLocalDataSource
 import com.example.data.datasource.local.TokenLocalDataSource
 import com.example.data.datasource.remote.AuthRemoteDataSource
 import com.example.data.datasource.remote.KakaoLoginDataSource
@@ -8,7 +9,6 @@ import com.example.data.model.request.SignupRequest
 import com.example.domain.repository.AuthRepository
 import com.example.network.NetworkException
 import kotlinx.serialization.InternalSerializationApi
-import java.io.File
 import javax.inject.Inject
 
 @OptIn(InternalSerializationApi::class)
@@ -18,6 +18,7 @@ class AuthRepositoryImpl
         private val kakaoDataSource: KakaoLoginDataSource,
         private val authRemoteDataSource: AuthRemoteDataSource,
         private val tokenLocalDataSource: TokenLocalDataSource,
+        private val fileLocalDataSource: FileLocalDataSource,
     ): AuthRepository {
         override suspend fun kakaoLogin(): Result<String> = runCatching {
             val kakaoToken = kakaoDataSource.getKakaoAccessToken()
@@ -41,16 +42,22 @@ class AuthRepositoryImpl
         }
 
     override suspend fun signupWithKakao(
-        profileImage: File?,
+        kakaoAccessToken: String?,
+        profileImage: String?,
         nickname: String,
     ): Result<Unit> =
         runCatching{
+            val profileFile = fileLocalDataSource.getFileFromUri(profileImage)
+
             authRemoteDataSource.signup(
-                imageFile = profileImage,
+                kakaoAccessToken = kakaoAccessToken,
+                imageFile = profileFile,
                 signupRequest = SignupRequest(
                     platform = "KAKAO",
                     nickname = nickname,
                 )
             )
+
+            // 유저 정보 저장 구현
         }
 }

@@ -52,6 +52,7 @@ class OnboardingViewModel
                 OnboardingContract.OnboardingIntent.OnProfileScreenNextButtonClick -> {
                     viewModelScope.launch {
                         authRepository.signupWithKakao(
+                            kakaoAccessToken = currentState.kakaoAccessToken,
                             profileImage = currentState.profileImageUri.toString(),
                             nickname = currentState.nickname,
                         ).onSuccess {

@@ -4,6 +4,7 @@ interface AuthRepository {
     suspend fun kakaoLogin(): Result<String>
 
     suspend fun signupWithKakao(
+        kakaoAccessToken: String?,
         profileImage: String?,
         nickname: String,
     ): Result<Unit>

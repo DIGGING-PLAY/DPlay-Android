@@ -61,6 +61,7 @@ constructor(
     }
 
     suspend fun signup(
+        kakaoAccessToken: String?,
         imageFile: File?,
         signupRequest: SignupRequest
     ): TokenResponse {
@@ -76,6 +77,7 @@ constructor(
         val requestPart = jsonString.toRequestBody("application/json".toMediaType())
 
         val response = authService.signup(
+            accessToken = kakaoAccessToken ?: "",
             profileImg = imagePart,
             request = requestPart
         )
