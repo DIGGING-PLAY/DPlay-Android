@@ -27,7 +27,7 @@ class AuthRepositoryImpl
             } catch (e: NetworkException) {
 
                 if (e.code == 4041) {
-                    return Result.success("회원가입 필요")
+                    return Result.success(kakaoToken)
                 }
                 throw e
             }
@@ -37,7 +37,7 @@ class AuthRepositoryImpl
                 refreshToken = tokenData.refreshToken
             )
 
-            return Result.success("로그인 성공")
+            return Result.success("")
         }
 
     override suspend fun signupWithKakao(
