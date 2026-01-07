@@ -1,9 +1,9 @@
-package com.example.mypage
+package com.example.setting
 
 import androidx.navigation3.runtime.EntryProviderScope
 import androidx.navigation3.runtime.NavKey
-import com.example.navigation.MyPage
 import com.example.navigation.Navigator
+import com.example.navigation.Setting
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -12,15 +12,17 @@ import dagger.multibindings.IntoSet
 
 @Module
 @InstallIn(ActivityRetainedComponent::class)
-object MyPageNavigationModule {
+object SettingNavigationModule {
     @Provides
     @IntoSet
-    fun provideMyPageEntry(
+    fun provideSettingEntry(
         navigator: Navigator,
     ): EntryProviderScope<NavKey>.() -> Unit =
         {
-            entry<MyPage> {
-                MyPageRoute(navigator = navigator)
+            entry<Setting> {
+                SettingRoute(
+                    navigator = navigator,
+                )
             }
         }
 }

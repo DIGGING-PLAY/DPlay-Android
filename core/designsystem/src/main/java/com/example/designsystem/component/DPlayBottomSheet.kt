@@ -162,7 +162,12 @@ private fun DPlayBottomSheetPreview() {
                     .fillMaxSize()
                     .background(color = DPlayTheme.colors.dplayWhite),
         ) {
-            DPlayButtonBottomSheet(mainText = "앨범에서 선택하기", subText = "기본 이미지로 변경하기", mainOnClick = {}, subOnClick = {})
+            DPlayButtonBottomSheet(
+                mainText = stringResource(R.string.launch_album_bottomsheet_main_text),
+                subText = stringResource(R.string.launch_album_bottomsheet_sub_text),
+                mainOnClick = {},
+                subOnClick = {},
+            )
 
             DPlayButtonBottomSheet(
                 mainText = "삭제하기",
