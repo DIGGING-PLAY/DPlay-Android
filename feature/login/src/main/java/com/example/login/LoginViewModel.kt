@@ -23,16 +23,19 @@ class LoginViewModel
             }
         }
 
-    private fun kakaoLogin() {
-        viewModelScope.launch {
-            authRepository
-                .kakaoLogin()
-                .onSuccess { data ->
-                    if(data.isEmpty()) setSideEffect(LoginContract.LoginSideEffect.NavigateToHome)
-                    else setSideEffect(LoginContract.LoginSideEffect.NavigateToOnboarding(data))
-                }.onFailure {
-                    // 카카오 로그인 실패 처리
-                }
+        private fun kakaoLogin() {
+            viewModelScope.launch {
+                authRepository
+                    .kakaoLogin()
+                    .onSuccess { data ->
+                        if (data.isEmpty()) {
+                            setSideEffect(LoginContract.LoginSideEffect.NavigateToHome)
+                        } else {
+                            setSideEffect(LoginContract.LoginSideEffect.NavigateToOnboarding(data))
+                        }
+                    }.onFailure {
+                        // 카카오 로그인 실패 처리
+                    }
+            }
         }
     }
-}

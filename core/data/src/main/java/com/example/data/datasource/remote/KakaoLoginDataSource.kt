@@ -11,34 +11,37 @@ import javax.inject.Inject
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 
-class KakaoLoginDataSource @Inject constructor(
-    @ApplicationContext private val context: Context
-) {
-    suspend fun getKakaoAccessToken(): String = suspendCancellableCoroutine { continuation ->
-        if (UserApiClient.instance.isKakaoTalkLoginAvailable(context)) {
-            UserApiClient.instance.loginWithKakaoTalk(context) { token, error ->
-                if (error != null) {
-                    if (error is ClientError && error.reason == ClientErrorCause.Cancelled) {
-                        continuation.resumeWithException(error)
-                        return@loginWithKakaoTalk
+class KakaoLoginDataSource
+    @Inject
+    constructor(
+        @ApplicationContext private val context: Context,
+    ) {
+        suspend fun getKakaoAccessToken(): String =
+            suspendCancellableCoroutine { continuation ->
+                if (UserApiClient.instance.isKakaoTalkLoginAvailable(context)) {
+                    UserApiClient.instance.loginWithKakaoTalk(context) { token, error ->
+                        if (error != null) {
+                            if (error is ClientError && error.reason == ClientErrorCause.Cancelled) {
+                                continuation.resumeWithException(error)
+                                return@loginWithKakaoTalk
+                            }
+                            loginWithWebView(continuation)
+                        } else if (token != null) {
+                            continuation.resume(token.accessToken)
+                        }
                     }
+                } else {
                     loginWithWebView(continuation)
+                }
+            }
+
+        private fun loginWithWebView(continuation: CancellableContinuation<String>) {
+            UserApiClient.instance.loginWithKakaoAccount(context) { token, error ->
+                if (error != null) {
+                    continuation.resumeWithException(error)
                 } else if (token != null) {
                     continuation.resume(token.accessToken)
                 }
             }
-        } else {
-            loginWithWebView(continuation)
         }
     }
-
-    private fun loginWithWebView(continuation: CancellableContinuation<String>) {
-        UserApiClient.instance.loginWithKakaoAccount(context) { token, error ->
-            if (error != null) {
-                continuation.resumeWithException(error)
-            } else if (token != null) {
-                continuation.resume(token.accessToken)
-            }
-        }
-    }
-}

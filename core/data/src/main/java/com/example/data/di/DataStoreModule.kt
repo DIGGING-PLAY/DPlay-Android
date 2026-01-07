@@ -15,16 +15,14 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object DataStoreModule {
-
     private const val AUTH_PREFERENCES = "auth_preferences"
 
     @Provides
     @Singleton
     fun providePreferencesDataStore(
-        @ApplicationContext context: Context
-    ): DataStore<Preferences> {
-        return PreferenceDataStoreFactory.create(
-            produceFile = { context.preferencesDataStoreFile(AUTH_PREFERENCES) }
+        @ApplicationContext context: Context,
+    ): DataStore<Preferences> =
+        PreferenceDataStoreFactory.create(
+            produceFile = { context.preferencesDataStoreFile(AUTH_PREFERENCES) },
         )
-    }
 }

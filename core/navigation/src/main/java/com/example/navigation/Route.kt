@@ -31,7 +31,9 @@ data object Splash : NavKey
 
 data object Login : NavKey
 
-data class OnboardingGraph(val kakaoAccessToken: String) : NavKey {
+data class OnboardingGraph(
+    val kakaoAccessToken: String,
+) : NavKey {
     data object Terms : NavKey
 
     data object Profile : NavKey

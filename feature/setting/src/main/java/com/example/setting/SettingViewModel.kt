@@ -28,21 +28,22 @@ class SettingViewModel
                 }
                 SettingContract.SettingIntent.OnLogoutConfirm -> {
                     viewModelScope.launch {
-                        authRepository.logout()
-                        .onSuccess {
-                            setSideEffect(SettingContract.SettingSideEffect.NavigateToLogin)
-                        }.onFailure {
-                        }
+                        authRepository
+                            .logout()
+                            .onSuccess {
+                                setSideEffect(SettingContract.SettingSideEffect.NavigateToLogin)
+                            }.onFailure {
+                            }
                     }
                 }
                 SettingContract.SettingIntent.OnWithdrawConfirm -> {
                     viewModelScope.launch {
-                        authRepository.withdraw()
-                        .onSuccess {
-                            setSideEffect(SettingContract.SettingSideEffect.NavigateToLogin)
-                        }.onFailure {
-
-                        }
+                        authRepository
+                            .withdraw()
+                            .onSuccess {
+                                setSideEffect(SettingContract.SettingSideEffect.NavigateToLogin)
+                            }.onFailure {
+                            }
                     }
                 }
             }

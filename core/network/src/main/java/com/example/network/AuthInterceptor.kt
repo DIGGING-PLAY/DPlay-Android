@@ -8,7 +8,7 @@ import javax.inject.Inject
 class AuthInterceptor
     @Inject
     constructor(
-        private val tokenManager: TokenManager
+        private val tokenManager: TokenManager,
     ) : Interceptor {
         override fun intercept(chain: Interceptor.Chain): Response {
             val originalRequest = chain.request()

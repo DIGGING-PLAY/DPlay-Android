@@ -10,7 +10,6 @@ import com.example.data.ApiConstants.TOKEN
 import com.example.data.ApiConstants.VERSIONS
 import com.example.data.ApiConstants.WITHDRAW
 import com.example.data.model.request.LoginRequest
-import com.example.data.model.request.SignupRequest
 import com.example.data.model.response.BaseResponse
 import com.example.data.model.response.TokenResponse
 import kotlinx.serialization.InternalSerializationApi
@@ -29,7 +28,7 @@ interface AuthService {
     @POST("$API/$VERSIONS/$AUTH/$LOGIN")
     suspend fun login(
         @Header("Authorization") accessToken: String,
-        @Body request: LoginRequest
+        @Body request: LoginRequest,
     ): BaseResponse<TokenResponse>
 
     @Multipart
@@ -37,12 +36,12 @@ interface AuthService {
     suspend fun signup(
         @Header("Authorization") accessToken: String,
         @Part profileImg: MultipartBody.Part?,
-        @Part("signupRequest") request: RequestBody
+        @Part("signupRequest") request: RequestBody,
     ): BaseResponse<TokenResponse>
 
     @PATCH("$API/$VERSIONS/$AUTH/$TOKEN/$REISSUE")
     suspend fun reissue(
-        @Header("Authorization") refreshToken: String
+        @Header("Authorization") refreshToken: String,
     ): BaseResponse<TokenResponse>
 
     @DELETE("$API/$VERSIONS/$AUTH/$LOGOUT")

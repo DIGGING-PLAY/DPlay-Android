@@ -25,7 +25,9 @@ class OnboardingContract {
     }
 
     sealed interface OnboardingIntent : BaseContract.Intent {
-        data class Initialize(val kakaoAccessToken: String) : OnboardingIntent
+        data class Initialize(
+            val kakaoAccessToken: String,
+        ) : OnboardingIntent
 
         data object OnBackButtonClick : OnboardingIntent
 

@@ -34,7 +34,7 @@ object RetrofitModule {
     @Singleton
     fun providesOkHttpClient(
         authInterceptor: Interceptor,
-        authenticatorProvider: AuthenticatorProvider
+        authenticatorProvider: AuthenticatorProvider,
     ): OkHttpClient =
         OkHttpClient
             .Builder()

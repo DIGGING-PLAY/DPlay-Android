@@ -12,7 +12,9 @@ class LoginContract {
     }
 
     sealed interface LoginSideEffect : BaseContract.SideEffect {
-        data class NavigateToOnboarding(val kakaoAccessToken: String) : LoginSideEffect
+        data class NavigateToOnboarding(
+            val kakaoAccessToken: String,
+        ) : LoginSideEffect
 
         data object NavigateToHome : LoginSideEffect
     }

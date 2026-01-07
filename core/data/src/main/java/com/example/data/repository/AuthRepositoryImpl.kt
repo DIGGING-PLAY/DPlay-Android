@@ -19,57 +19,59 @@ class AuthRepositoryImpl
         private val authRemoteDataSource: AuthRemoteDataSource,
         private val tokenLocalDataSource: TokenLocalDataSource,
         private val fileLocalDataSource: FileLocalDataSource,
-    ): AuthRepository {
-        override suspend fun kakaoLogin(): Result<String> = runCatching {
-            val kakaoToken = kakaoDataSource.getKakaoAccessToken()
+    ) : AuthRepository {
+        override suspend fun kakaoLogin(): Result<String> =
+            runCatching {
+                val kakaoToken = kakaoDataSource.getKakaoAccessToken()
 
-            val tokenData = try {
-                authRemoteDataSource.login(kakaoToken, LoginRequest("KAKAO"))
-            } catch (e: NetworkException) {
+                val tokenData =
+                    try {
+                        authRemoteDataSource.login(kakaoToken, LoginRequest("KAKAO"))
+                    } catch (e: NetworkException) {
+                        if (e.code == 4041) {
+                            return Result.success(kakaoToken)
+                        }
+                        throw e
+                    }
 
-                if (e.code == 4041) {
-                    return Result.success(kakaoToken)
-                }
-                throw e
+                tokenLocalDataSource.saveTokens(
+                    accessToken = tokenData.accessToken,
+                    refreshToken = tokenData.refreshToken,
+                )
+
+                return Result.success("")
             }
 
-            tokenLocalDataSource.saveTokens(
-                accessToken = tokenData.accessToken,
-                refreshToken = tokenData.refreshToken
-            )
+        override suspend fun signupWithKakao(
+            kakaoAccessToken: String?,
+            profileImage: String?,
+            nickname: String,
+        ): Result<Unit> =
+            runCatching {
+                val profileFile = fileLocalDataSource.getFileFromUri(profileImage)
 
-            return Result.success("")
-        }
-
-    override suspend fun signupWithKakao(
-        kakaoAccessToken: String?,
-        profileImage: String?,
-        nickname: String,
-    ): Result<Unit> =
-        runCatching{
-            val profileFile = fileLocalDataSource.getFileFromUri(profileImage)
-
-            authRemoteDataSource.signup(
-                kakaoAccessToken = kakaoAccessToken,
-                imageFile = profileFile,
-                signupRequest = SignupRequest(
-                    platform = "KAKAO",
-                    nickname = nickname,
+                authRemoteDataSource.signup(
+                    kakaoAccessToken = kakaoAccessToken,
+                    imageFile = profileFile,
+                    signupRequest =
+                        SignupRequest(
+                            platform = "KAKAO",
+                            nickname = nickname,
+                        ),
                 )
-            )
 
-            // 유저 정보 저장 구현
-        }
+                // 유저 정보 저장 구현
+            }
 
-    override suspend fun withdraw(): Result<Unit> =
-        runCatching {
-            authRemoteDataSource.withdraw()
-            tokenLocalDataSource.clearTokens()
-        }
+        override suspend fun withdraw(): Result<Unit> =
+            runCatching {
+                authRemoteDataSource.withdraw()
+                tokenLocalDataSource.clearTokens()
+            }
 
-    override suspend fun logout(): Result<Unit> =
-        runCatching {
-            authRemoteDataSource.logout()
-            tokenLocalDataSource.clearTokens()
-        }
-}
+        override suspend fun logout(): Result<Unit> =
+            runCatching {
+                authRemoteDataSource.logout()
+                tokenLocalDataSource.clearTokens()
+            }
+    }

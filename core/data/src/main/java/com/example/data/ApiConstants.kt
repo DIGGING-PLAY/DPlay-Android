@@ -13,7 +13,6 @@ object ApiConstants {
     const val LOGOUT = "logout"
     const val WITHDRAW = "withdraw"
 
-
     const val USERS = "users"
     const val QUESTIONS = "questions"
     const val POSTS = "posts"

@@ -6,8 +6,10 @@ import okhttp3.Authenticator
 import javax.inject.Inject
 import javax.inject.Provider
 
-class AuthenticatorProviderImpl @Inject constructor(
-    private val tokenAuthenticator: Provider<TokenAuthenticator>
-) : AuthenticatorProvider {
-    override fun get(): Authenticator = tokenAuthenticator.get()
-}
+class AuthenticatorProviderImpl
+    @Inject
+    constructor(
+        private val tokenAuthenticator: Provider<TokenAuthenticator>,
+    ) : AuthenticatorProvider {
+        override fun get(): Authenticator = tokenAuthenticator.get()
+    }

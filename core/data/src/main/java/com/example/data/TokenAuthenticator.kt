@@ -41,12 +41,14 @@ class TokenAuthenticator
 
         private suspend fun tryWithExistingToken(response: Response): Request? {
             val currentToken = tokenManager.getAccessToken()
-            val requestToken = response.request
-                .header("Authorization")
-                ?.removePrefix("Bearer ")
+            val requestToken =
+                response.request
+                    .header("Authorization")
+                    ?.removePrefix("Bearer ")
 
             return if (currentToken != requestToken && currentToken != null) {
-                response.request.newBuilder()
+                response.request
+                    .newBuilder()
                     .header("Authorization", "Bearer $currentToken")
                     .build()
             } else {
@@ -61,7 +63,8 @@ class TokenAuthenticator
                 val newTokens = getNewTokens(refreshToken) ?: return null
                 tokenManager.saveTokens(newTokens.accessToken, newTokens.refreshToken)
 
-                response.request.newBuilder()
+                response.request
+                    .newBuilder()
                     .header("Authorization", "Bearer ${newTokens.accessToken}")
                     .build()
             } catch (e: Exception) {

@@ -9,5 +9,5 @@ import kotlinx.serialization.Serializable
 data class TokenResponse(
     @SerialName("accessToken") val accessToken: String,
     @SerialName("refreshToken") val refreshToken: String,
-    @SerialName("userId") val userId: Long
+    @SerialName("userId") val userId: Long,
 )

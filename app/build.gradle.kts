@@ -7,13 +7,15 @@ plugins {
     alias(libs.plugins.dplay.test)
 }
 
-val localProperties = providers.fileContents(isolated.rootProject.projectDirectory.file("local.properties"),)
-    .asText
-    .map { text ->
-        val props = Properties()
-        props.load(StringReader(text))
-        props
-    }
+val localProperties =
+    providers
+        .fileContents(isolated.rootProject.projectDirectory.file("local.properties"))
+        .asText
+        .map { text ->
+            val props = Properties()
+            props.load(StringReader(text))
+            props
+        }
 
 val kakaoNativeKey: String =
     providers.gradleProperty("KAKAO_APP_KEY").orNull
