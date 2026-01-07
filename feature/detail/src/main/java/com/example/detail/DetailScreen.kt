@@ -118,7 +118,6 @@ private fun DetailScreen(
 ) {
     val color = DPlayTheme.colors
     val typography = DPlayTheme.typography
-    val postDetailData = state.data
     val horizontalModifier =
         Modifier
             .fillMaxWidth()
@@ -126,9 +125,9 @@ private fun DetailScreen(
 
     val chipType: DPlayChipType? =
         when {
-            postDetailData.badges.isPopular -> DPlayChipType.BEST
-            postDetailData.badges.isEditorPick -> DPlayChipType.EDITOR
-            postDetailData.badges.isNew -> DPlayChipType.NEW
+            state.badges.isPopular -> DPlayChipType.BEST
+            state.badges.isEditorPick -> DPlayChipType.EDITOR
+            state.badges.isNew -> DPlayChipType.NEW
             else -> null
         }
 
@@ -140,7 +139,7 @@ private fun DetailScreen(
                 ),
         ) {
             AsyncImage(
-                model = postDetailData.track.coverImg,
+                model = state.track.coverImg,
                 contentDescription = null,
                 modifier =
                     Modifier
@@ -163,11 +162,11 @@ private fun DetailScreen(
 
             Box(Modifier.padding(horizontal = 97.dp)) {
                 DPlayMusicDiscItem(
-                    imageUrl = postDetailData.track.coverImg,
+                    imageUrl = state.track.coverImg,
                     isStreaming = false,
                 )
                 DPlayBookmarkButton(
-                    isMarked = postDetailData.isScrapped,
+                    isMarked = state.isScrapped,
                     onClick = onBookmarkClick,
                     modifier = Modifier.align(Alignment.TopEnd),
                 )
@@ -182,14 +181,14 @@ private fun DetailScreen(
             Spacer(modifier = Modifier.height(20.dp))
 
             Text(
-                text = postDetailData.track.songTitle,
+                text = state.track.songTitle,
                 modifier = Modifier.align(Alignment.CenterHorizontally),
                 style = typography.bodyBold20,
                 color = color.dplayBlack,
             )
             Spacer(modifier = Modifier.height(4.dp))
             Text(
-                text = postDetailData.track.artistName,
+                text = state.track.artistName,
                 modifier = Modifier.align(Alignment.CenterHorizontally),
                 style = typography.bodySemi14,
                 color = color.gray400,
@@ -204,8 +203,8 @@ private fun DetailScreen(
                 )
                 Spacer(modifier = Modifier.width(8.dp))
                 DPlayLikeButton(
-                    isLiked = postDetailData.like.isLiked,
-                    likeCount = postDetailData.like.count,
+                    isLiked = state.like.isLiked,
+                    likeCount = state.like.count,
                     onClick = onLikeClick,
                     modifier = Modifier.weight(1f),
                 )
@@ -226,9 +225,7 @@ private fun DetailScreen(
                         ),
             ) {
                 Text(
-                    text = postDetailData.content,
-                    maxLines = 3,
-                    overflow = TextOverflow.Ellipsis,
+                    text = state.content,
                     style = typography.bodySemi14,
                     color = color.dplayBlack,
                 )
@@ -241,7 +238,7 @@ private fun DetailScreen(
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
                     AsyncImage(
-                        model = postDetailData.writer.profileImg,
+                        model = state.writer.profileImg,
                         contentDescription = null,
                         modifier =
                             Modifier
@@ -251,7 +248,7 @@ private fun DetailScreen(
                     )
                     Spacer(modifier = Modifier.width(6.dp))
                     Text(
-                        text = postDetailData.writer.nickname,
+                        text = state.writer.nickname,
                         style = typography.bodySemi14,
                         color = color.gray400,
                     )

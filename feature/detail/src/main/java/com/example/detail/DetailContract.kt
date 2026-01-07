@@ -10,35 +10,29 @@ import com.example.ui.base.BaseContract
 
 class DetailContract {
     data class DetailState(
-        val data: FeedItem =
-            FeedItem(
-                postId = 111,
-                isScrapped = false,
-                content = "",
-                badges =
-                    Badges(
-                        isEditorPick = false,
-                        isPopular = false,
-                        isNew = false,
-                    ),
-                track =
-                    Track(
-                        trackId = "",
-                        songTitle = "",
-                        coverImg = "",
-                        artistName = "",
-                    ),
-                writer =
-                    Writer(
-                        userId = 0,
-                        nickname = "",
-                        profileImg = "",
-                    ),
-                like =
-                    Like(
-                        isLiked = false,
-                        count = 0,
-                    ),
+        val postId: Long = 0L,
+        val isScrapped: Boolean = false,
+        val content: String="",
+        val badges: Badges = Badges(
+            isEditorPick = false,
+            isPopular = false,
+            isNew = false,
+        ),
+        val track: Track = Track(
+            trackId = "",
+            songTitle = "",
+            coverImg = "",
+            artistName = "",
+        ),
+        val writer: Writer = Writer(
+            userId = 0,
+            nickname = "",
+            profileImg = "",
+        ),
+        val like: Like =
+            Like(
+                isLiked = false,
+                count = 0,
             ),
         val date: String = "2025-10-19",
     ) : BaseContract.State
