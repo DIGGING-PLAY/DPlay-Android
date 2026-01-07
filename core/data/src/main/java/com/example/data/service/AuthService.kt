@@ -41,7 +41,9 @@ interface AuthService {
     ): BaseResponse<TokenResponse>
 
     @PATCH("$API/$VERSIONS/$AUTH/$TOKEN/$REISSUE")
-    suspend fun reissue(): BaseResponse<TokenResponse>
+    suspend fun reissue(
+        @Header("Authorization") refreshToken: String
+    ): BaseResponse<TokenResponse>
 
     @DELETE("$API/$VERSIONS/$AUTH/$LOGOUT")
     suspend fun logout(): BaseResponse<Unit>
