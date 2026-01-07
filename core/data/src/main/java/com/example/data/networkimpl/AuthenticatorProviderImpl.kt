@@ -1,5 +1,6 @@
-package com.example.data
+package com.example.data.networkimpl
 
+import com.example.data.TokenAuthenticator
 import com.example.network.AuthenticatorProvider
 import okhttp3.Authenticator
 import javax.inject.Inject
