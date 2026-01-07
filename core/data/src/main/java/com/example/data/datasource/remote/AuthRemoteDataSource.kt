@@ -84,4 +84,8 @@ constructor(
 
         return response.data!!
     }
+
+    suspend fun logout() = authService.logout()
+
+    suspend fun withdraw() = authService.withdraw()
 }

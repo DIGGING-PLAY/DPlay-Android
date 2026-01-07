@@ -60,4 +60,16 @@ class AuthRepositoryImpl
 
             // 유저 정보 저장 구현
         }
+
+    override suspend fun withdraw(): Result<Unit> =
+        runCatching {
+            authRemoteDataSource.withdraw()
+            tokenLocalDataSource.clearTokens()
+        }
+
+    override suspend fun logout(): Result<Unit> =
+        runCatching {
+            authRemoteDataSource.logout()
+            tokenLocalDataSource.clearTokens()
+        }
 }

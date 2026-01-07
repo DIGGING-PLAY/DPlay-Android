@@ -8,4 +8,8 @@ interface AuthRepository {
         profileImage: String?,
         nickname: String,
     ): Result<Unit>
+
+    suspend fun logout(): Result<Unit>
+
+    suspend fun withdraw(): Result<Unit>
 }
