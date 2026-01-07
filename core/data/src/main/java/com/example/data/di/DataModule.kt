@@ -1,6 +1,8 @@
 package com.example.data.di
 
+import com.example.data.AuthenticatorProviderImpl
 import com.example.data.TokenManagerImpl
+import com.example.network.AuthenticatorProvider
 import com.example.network.TokenManager
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -17,4 +19,10 @@ abstract class DataModule {
     abstract fun bindTokenManager(
         tokenManagerImpl: TokenManagerImpl
     ): TokenManager
+
+    @Binds
+    @Singleton
+    abstract fun bindAuthenticatorProvider(
+        provider: AuthenticatorProviderImpl
+    ): AuthenticatorProvider
 }
