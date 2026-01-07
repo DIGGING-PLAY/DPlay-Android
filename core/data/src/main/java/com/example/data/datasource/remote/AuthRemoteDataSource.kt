@@ -55,7 +55,6 @@ constructor(
                     }
                 }
             }
-
             throw e
         }
     }
@@ -65,27 +64,50 @@ constructor(
         imageFile: File?,
         signupRequest: SignupRequest
     ): TokenResponse {
+        try {
+            val imagePart = if (imageFile != null) {
+                val requestFile = imageFile.asRequestBody("image/*".toMediaTypeOrNull())
+                MultipartBody.Part.createFormData("profileImg", imageFile.name, requestFile)
+            } else {
+                null
+            }
 
-        val imagePart = if (imageFile != null) {
-            val requestFile = imageFile.asRequestBody("image/*".toMediaTypeOrNull())
-            MultipartBody.Part.createFormData("profileImg", imageFile.name, requestFile)
-        } else {
-            null
+            val jsonString = json.encodeToString(signupRequest)
+            val requestPart = jsonString.toRequestBody("application/json".toMediaType())
+
+            val response = authService.signup(
+                accessToken = kakaoAccessToken ?: "",
+                profileImg = imagePart,
+                request = requestPart
+            )
+
+            return response.data?: throw Exception("Data is null")
+        } catch (e: Exception) {
+            throw e
         }
-
-        val jsonString = json.encodeToString(signupRequest)
-        val requestPart = jsonString.toRequestBody("application/json".toMediaType())
-
-        val response = authService.signup(
-            accessToken = kakaoAccessToken ?: "",
-            profileImg = imagePart,
-            request = requestPart
-        )
-
-        return response.data!!
     }
 
-    suspend fun logout() = authService.logout()
+    suspend fun logout() {
+        try {
+            authService.logout()
+        } catch (e: Exception) {
+            throw e
+        }
+    }
 
-    suspend fun withdraw() = authService.withdraw()
+    suspend fun withdraw() {
+        try {
+            authService.withdraw()
+        } catch (e: Exception){
+            throw e
+        }
+    }
+
+    suspend fun reissue(refreshToken: String) {
+        try {
+            authService.reissue(refreshToken = refreshToken)
+        } catch (e : Exception) {
+            throw e
+        }
+    }
 }
