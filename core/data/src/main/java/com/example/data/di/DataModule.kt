@@ -14,7 +14,7 @@ abstract class DataModule {
 
     @Binds
     @Singleton
-    abstract fun bindTokenProvider(
+    abstract fun bindTokenManager(
         tokenManagerImpl: TokenManagerImpl
     ): TokenManager
 }
