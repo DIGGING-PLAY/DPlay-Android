@@ -1,7 +1,7 @@
 package com.example.data.di
 
-import com.example.data.AuthenticatorProviderImpl
-import com.example.data.TokenManagerImpl
+import com.example.data.networkimpl.AuthenticatorProviderImpl
+import com.example.data.networkimpl.TokenManagerImpl
 import com.example.network.AuthenticatorProvider
 import com.example.network.TokenManager
 import dagger.Module
@@ -12,7 +12,7 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-abstract class DataModule {
+abstract class NetworkModule {
 
     @Binds
     @Singleton
