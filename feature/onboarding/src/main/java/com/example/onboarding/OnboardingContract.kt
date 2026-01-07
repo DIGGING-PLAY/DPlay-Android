@@ -7,6 +7,7 @@ import com.example.ui.base.BaseContract
 
 class OnboardingContract {
     data class OnboardingState(
+        val kakaoAccessToken: String? = null,
         val agreedTerms: Set<TermType> = emptySet(),
         val nickname: String = "",
         val profileImageUri: Uri? = null,
@@ -24,6 +25,8 @@ class OnboardingContract {
     }
 
     sealed interface OnboardingIntent : BaseContract.Intent {
+        data class Initialize(val kakaoAccessToken: String) : OnboardingIntent
+
         data object OnBackButtonClick : OnboardingIntent
 
         data class OnToggleTerm(

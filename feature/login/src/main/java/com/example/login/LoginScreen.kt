@@ -34,8 +34,8 @@ fun LoginRoute(
     LaunchedEffect(Unit) {
         viewModel.sideEffect.collectLatest { sideEffect ->
             when (sideEffect) {
-                LoginContract.LoginSideEffect.NavigateToOnboarding -> {
-                    navigator.navigateTo(OnboardingGraph)
+                is LoginContract.LoginSideEffect.NavigateToOnboarding -> {
+                    navigator.navigateTo(OnboardingGraph(sideEffect.kakaoAccessToken))
                 }
                 LoginContract.LoginSideEffect.NavigateToHome -> {
                     navigator.clearAndNavigateTo(Home)

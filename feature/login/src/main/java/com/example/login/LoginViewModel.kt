@@ -28,10 +28,8 @@ class LoginViewModel
             authRepository
                 .kakaoLogin()
                 .onSuccess { data ->
-                    when (data) {
-                        "로그인 성공" -> setSideEffect(LoginContract.LoginSideEffect.NavigateToHome)
-                        "회원가입 필요" -> setSideEffect(LoginContract.LoginSideEffect.NavigateToOnboarding)
-                    }
+                    if(data.isEmpty()) setSideEffect(LoginContract.LoginSideEffect.NavigateToHome)
+                    else setSideEffect(LoginContract.LoginSideEffect.NavigateToOnboarding(data))
                 }.onFailure {
                     // 카카오 로그인 실패 처리
                 }
