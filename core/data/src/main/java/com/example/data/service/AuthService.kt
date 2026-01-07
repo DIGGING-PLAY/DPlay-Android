@@ -15,6 +15,7 @@ import com.example.data.model.response.BaseResponse
 import com.example.data.model.response.TokenResponse
 import kotlinx.serialization.InternalSerializationApi
 import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.Header
@@ -35,7 +36,7 @@ interface AuthService {
     @POST("$API/$VERSIONS/$AUTH/$SIGNUP")
     suspend fun signup(
         @Part("profileImg") profileImg: MultipartBody.Part?,
-        @Part("signupRequest") request: SignupRequest
+        @Part("signupRequest") request: RequestBody
     ): BaseResponse<TokenResponse>
 
     @PATCH("$API/$VERSIONS/$AUTH/$TOKEN/$REISSUE")
