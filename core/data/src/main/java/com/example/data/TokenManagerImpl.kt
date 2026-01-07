@@ -12,4 +12,20 @@ class TokenManagerImpl @Inject constructor(
     override suspend fun getAccessToken(): String? {
         return tokenLocalDataSource.accessToken.first()
     }
+
+    override suspend fun getRefreshToken(): String? {
+        return tokenLocalDataSource.refreshToken.first()
+    }
+
+    override suspend fun updateAccessToken(newAccessToken: String) {
+        tokenLocalDataSource.updateAccessToken(newAccessToken)
+    }
+
+    override suspend fun saveTokens(accessToken: String, refreshToken: String) {
+        tokenLocalDataSource.saveTokens(accessToken, refreshToken)
+    }
+
+    override suspend fun clearAllTokens() {
+        tokenLocalDataSource.clearTokens()
+    }
 }
