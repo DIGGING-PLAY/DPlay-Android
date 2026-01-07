@@ -1,7 +1,6 @@
 package com.example.detail
 
 import com.example.common.model.Badges
-import com.example.common.model.FeedItem
 import com.example.common.model.Like
 import com.example.common.model.Track
 import com.example.common.model.Writer
@@ -73,7 +72,6 @@ class DetailViewModel
                     date = "2025-10-19",
                 )
             }
-
         }
 
         private fun toggleBookmark() {
@@ -89,8 +87,12 @@ class DetailViewModel
         }
 
         private fun toggleLike() {
-            val newCount = if (currentState.like.isLiked) currentState.like.count-1
-            else currentState.like.count+1
+            val newCount =
+                if (currentState.like.isLiked) {
+                    currentState.like.count - 1
+                } else {
+                    currentState.like.count + 1
+                }
             updateState { copy(like = Like(isLiked = !currentState.like.isLiked, count = newCount)) }
         }
 
