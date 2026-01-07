@@ -35,7 +35,7 @@ interface AuthService {
     @Multipart
     @POST("$API/$VERSIONS/$AUTH/$SIGNUP")
     suspend fun signup(
-        @Part("profileImg") profileImg: MultipartBody.Part?,
+        @Part profileImg: MultipartBody.Part?,
         @Part("signupRequest") request: RequestBody
     ): BaseResponse<TokenResponse>
 
