@@ -20,6 +20,7 @@ val SuitMedium = FontFamily(Font(R.font.suit_medium))
 @Immutable
 data class DPlayTypography(
     val titleBold24: TextStyle,
+    val bodyBold20: TextStyle,
     val titleBold18: TextStyle,
     val bodyBold16: TextStyle,
     val bodySemi16: TextStyle,
@@ -39,6 +40,14 @@ val defaultDPlayTypography =
                 fontSize = 24.sp,
                 lineHeight = (31.2).sp,
                 letterSpacing = 0.sp,
+            ),
+        bodyBold20 =
+            TextStyle(
+                fontFamily = SuitBold,
+                fontWeight = FontWeight.Bold,
+                fontSize = 20.sp,
+                lineHeight = 25.sp,
+                letterSpacing = (-0.03).sp,
             ),
         titleBold18 =
             TextStyle(

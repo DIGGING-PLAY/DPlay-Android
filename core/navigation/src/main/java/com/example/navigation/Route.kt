@@ -1,8 +1,10 @@
 package com.example.navigation
 
+import android.os.Parcelable
 import androidx.annotation.DrawableRes
 import androidx.navigation3.runtime.NavKey
 import com.dplay.designsystem.R
+import kotlinx.parcelize.Parcelize
 
 sealed interface TopLevelRoute {
     @get:DrawableRes
@@ -45,3 +47,9 @@ data object Recommend : NavKey
 data object Setting : NavKey
 
 data object EditProfile : NavKey
+
+@Parcelize
+data class Detail(
+    val postId: Long,
+) : NavKey,
+    Parcelable
