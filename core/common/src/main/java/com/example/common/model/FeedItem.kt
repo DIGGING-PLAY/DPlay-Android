@@ -20,7 +20,7 @@ data class Track(
     val trackId: String,
     val songTitle: String,
     val coverImg: String,
-    val artistNames: List<String>,
+    val artistName: String,
 )
 
 data class Writer(

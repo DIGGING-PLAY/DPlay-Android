@@ -32,11 +32,14 @@ import com.example.designsystem.component.chip.DPlayChip
 import com.example.designsystem.component.chip.type.DPlayChipType
 import com.example.designsystem.component.snackbar.LocalShowSnackBar
 import com.example.designsystem.theme.DPlayTheme
+import com.example.navigation.Detail
+import com.example.navigation.Navigator
 import kotlinx.coroutines.flow.collectLatest
 import kotlin.math.absoluteValue
 
 @Composable
 fun HomeRoute(
+    navigator: Navigator,
     viewModel: HomeViewModel = hiltViewModel(),
 ) {
     val state by viewModel.homeUiState.collectAsStateWithLifecycle()
@@ -53,12 +56,12 @@ fun HomeRoute(
                     // TODO
                 }
                 is HomeContract.HomeSideEffect.NavigateToPostDetail -> {
-                    // TODO
+                    navigator.navigateTo(Detail(it.postId))
                 }
                 is HomeContract.HomeSideEffect.NavigateToWriterProfile -> {
                     // TODO
                 }
-                is HomeContract.HomeSideEffect.ShowToast -> {
+                is HomeContract.HomeSideEffect.ShowSnackBar -> {
                     showSnackBar(it.snackBarType, it.action)
                 }
                 is HomeContract.HomeSideEffect.NavigateToMyPage -> {

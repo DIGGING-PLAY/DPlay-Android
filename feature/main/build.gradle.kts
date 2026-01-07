@@ -12,6 +12,7 @@ dependencies {
     implementation(projects.feature.splash)
     implementation(projects.feature.login)
     implementation(projects.feature.home)
+    implementation(projects.feature.detail)
     implementation(projects.feature.mypage)
     implementation(projects.feature.recommend)
     implementation(projects.feature.onboarding)
