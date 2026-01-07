@@ -4,9 +4,11 @@ import com.example.data.datasource.local.TokenLocalDataSource
 import com.example.data.datasource.remote.AuthRemoteDataSource
 import com.example.data.datasource.remote.KakaoLoginDataSource
 import com.example.data.model.request.LoginRequest
+import com.example.data.model.request.SignupRequest
 import com.example.domain.repository.AuthRepository
 import com.example.network.NetworkException
 import kotlinx.serialization.InternalSerializationApi
+import java.io.File
 import javax.inject.Inject
 
 @OptIn(InternalSerializationApi::class)
@@ -36,5 +38,19 @@ class AuthRepositoryImpl
             )
 
             return Result.success("로그인 성공")
+        }
+
+    override suspend fun signupWithKakao(
+        profileImage: File?,
+        nickname: String,
+    ): Result<Unit> =
+        runCatching{
+            authRemoteDataSource.signup(
+                imageFile = profileImage,
+                signupRequest = SignupRequest(
+                    platform = "KAKAO",
+                    nickname = nickname,
+                )
+            )
         }
 }
