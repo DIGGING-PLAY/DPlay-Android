@@ -23,7 +23,7 @@ class AuthRepositoryImpl
         private val authRemoteDataSource: AuthRemoteDataSource,
         private val tokenLocalDataSource: TokenLocalDataSource,
         private val fileLocalDataSource: FileLocalDataSource,
-        private val userLocalDataSource: UserLocalDataSource
+        private val userLocalDataSource: UserLocalDataSource,
     ) : AuthRepository {
         override suspend fun kakaoLogin(): Result<String> =
             runCatching {
@@ -55,22 +55,23 @@ class AuthRepositoryImpl
             runCatching {
                 val profileFile = fileLocalDataSource.getFileFromUri(profileImage)
 
-                val response = authRemoteDataSource.signup(
-                    kakaoAccessToken = kakaoAccessToken,
-                    imageFile = profileFile,
-                    signupRequest =
-                        SignupRequest(
-                            platform = KAKAO_PLATFORM,
-                            nickname = nickname,
-                        ),
-                )
+                val response =
+                    authRemoteDataSource.signup(
+                        kakaoAccessToken = kakaoAccessToken,
+                        imageFile = profileFile,
+                        signupRequest =
+                            SignupRequest(
+                                platform = KAKAO_PLATFORM,
+                                nickname = nickname,
+                            ),
+                    )
 
                 userLocalDataSource.saveUser(
                     User(
                         id = response.userId,
                         nickname = nickname,
                         profileImageUri = profileImage,
-                    )
+                    ),
                 )
             }
 

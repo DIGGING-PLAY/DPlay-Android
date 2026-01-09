@@ -65,17 +65,17 @@ class MyPageViewModel
             }
         }
 
-        private fun initializeUserInfo(){
-            userRepository.getUser()
+        private fun initializeUserInfo() {
+            userRepository
+                .getUser()
                 .onEach { user ->
                     updateState {
                         copy(
                             userNickname = user?.nickname ?: "",
-                            profileImageUri = user?.profileImageUri?.toUri()
+                            profileImageUri = user?.profileImageUri?.toUri(),
                         )
                     }
                     Timber.d("user: $user")
-                }
-                .launchIn(viewModelScope)
+                }.launchIn(viewModelScope)
         }
     }
