@@ -1,4 +1,4 @@
-package com.example.onboarding
+package com.example.editprofile
 
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -18,7 +18,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -34,7 +33,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil3.compose.AsyncImage
 import com.dplay.designsystem.R
 import com.example.designsystem.component.DPlayButtonBottomSheet
-import com.example.designsystem.component.DplayLeftIconTopAppBar
+import com.example.designsystem.component.DplayLeftIconTitleTopAppBar
 import com.example.designsystem.component.button.DPlayCircleButton
 import com.example.designsystem.component.button.DPlayLargePinkButton
 import com.example.designsystem.component.button.type.CircleButtonType
@@ -43,14 +42,13 @@ import com.example.designsystem.theme.DPlayTheme
 import com.example.designsystem.util.TextFieldConstant
 import com.example.designsystem.util.noRippleClickable
 import com.example.navigation.Navigator
-import com.example.navigation.OnboardingGraph
 import kotlinx.coroutines.flow.collectLatest
 
 @Composable
-fun OnboardingProfileRoute(
-    onboardingNavigator: Navigator,
+fun EditProfileRoute(
+    navigator: Navigator,
     modifier: Modifier = Modifier,
-    viewModel: OnboardingViewModel = hiltViewModel(),
+    viewModel: EditProfileViewModel = hiltViewModel(),
 ) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
 
@@ -59,7 +57,7 @@ fun OnboardingProfileRoute(
             contract = ActivityResultContracts.PickVisualMedia(),
             onResult = { uri ->
                 viewModel.handleIntent(
-                    OnboardingContract.OnboardingIntent.OnAlbumImageSelect(uri),
+                    EditProfileContract.EditProfileIntent.OnAlbumImageSelect(uri),
                 )
             },
         )
@@ -67,57 +65,54 @@ fun OnboardingProfileRoute(
     LaunchedEffect(Unit) {
         viewModel.sideEffect.collectLatest { sideEffect ->
             when (sideEffect) {
-                OnboardingContract.OnboardingSideEffect.NavigateToBack -> {
-                    onboardingNavigator.navigateToBack()
+                EditProfileContract.EditProfileSideEffect.NavigateToBack -> {
+                    navigator.navigateToBack()
                 }
-                OnboardingContract.OnboardingSideEffect.NavigateToOnboarding -> {
-                    onboardingNavigator.navigateTo(OnboardingGraph.Onboarding)
-                }
-                OnboardingContract.OnboardingSideEffect.LaunchAlbum -> {
+
+                EditProfileContract.EditProfileSideEffect.LaunchAlbum -> {
                     photoPickerLauncher.launch(
                         PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly),
                     )
                 }
-                else -> {}
             }
         }
     }
 
-    OnboardingProfileScreen(
+    EditProfileScreen(
         state = state,
         onNicknameChanged = {
-            viewModel.handleIntent(OnboardingContract.OnboardingIntent.OnNicknameChanged(it))
+            viewModel.handleIntent(EditProfileContract.EditProfileIntent.OnNicknameChanged(it))
         },
-        onNextButtonClick = {
-            viewModel.handleIntent(OnboardingContract.OnboardingIntent.OnProfileScreenNextButtonClick)
+        onEditButtonClick = {
+            viewModel.handleIntent(EditProfileContract.EditProfileIntent.OnEditButtonClick)
         },
         onProfileImageClick = {
-            viewModel.handleIntent(OnboardingContract.OnboardingIntent.OnProfileImageClick)
+            viewModel.handleIntent(EditProfileContract.EditProfileIntent.OnProfileImageClick)
         },
         onAlbumLauncherBottomSheetDismiss = {
-            viewModel.handleIntent(OnboardingContract.OnboardingIntent.OnAlbumLauncherBottomSheetDismiss)
+            viewModel.handleIntent(EditProfileContract.EditProfileIntent.OnAlbumLauncherBottomSheetDismiss)
         },
         onDefaultImageSelect = {
-            viewModel.handleIntent(OnboardingContract.OnboardingIntent.OnDefaultImageSelect)
+            viewModel.handleIntent(EditProfileContract.EditProfileIntent.OnDefaultImageSelect)
         },
         onBackButtonClick = {
-            viewModel.handleIntent(OnboardingContract.OnboardingIntent.OnBackButtonClick)
+            viewModel.handleIntent(EditProfileContract.EditProfileIntent.OnBackButtonClick)
         },
         onAlbumLauncherSelect = {
-            viewModel.handleIntent(OnboardingContract.OnboardingIntent.OnAlbumLauncherSelect)
+            viewModel.handleIntent(EditProfileContract.EditProfileIntent.OnAlbumLauncherSelect)
         },
     )
 }
 
 @Composable
-fun OnboardingProfileScreen(
-    state: OnboardingContract.OnboardingState,
+fun EditProfileScreen(
+    state: EditProfileContract.EditProfileState,
     modifier: Modifier = Modifier,
     onNicknameChanged: (String) -> Unit = {},
     onProfileImageClick: () -> Unit = {},
     onAlbumLauncherBottomSheetDismiss: () -> Unit = {},
     onDefaultImageSelect: () -> Unit = {},
-    onNextButtonClick: () -> Unit = {},
+    onEditButtonClick: () -> Unit = {},
     onBackButtonClick: () -> Unit = {},
     onAlbumLauncherSelect: () -> Unit = {},
 ) {
@@ -125,26 +120,21 @@ fun OnboardingProfileScreen(
 
     Box(
         modifier =
-            Modifier
+            modifier
                 .fillMaxSize(),
     ) {
         Column(
             modifier =
-                modifier
+                Modifier
                     .fillMaxSize()
                     .background(color = DPlayTheme.colors.dplayWhite)
                     .padding(bottom = 16.dp),
         ) {
-            DplayLeftIconTopAppBar { onBackButtonClick() }
+            DplayLeftIconTitleTopAppBar(
+                title = stringResource(com.dplay.editprofile.R.string.edit_profile_screen_title),
+            ) { onBackButtonClick() }
 
-            Text(
-                text = stringResource(com.dplay.onboarding.R.string.profile_screen_title),
-                modifier = Modifier.padding(start = 16.dp),
-                style = DPlayTheme.typography.titleBold24,
-                color = DPlayTheme.colors.dplayBlack,
-            )
-
-            Spacer(modifier = Modifier.height(28.dp))
+            Spacer(modifier = Modifier.height(24.dp))
 
             Box(
                 modifier =
@@ -194,13 +184,13 @@ fun OnboardingProfileScreen(
             Spacer(modifier = Modifier.weight(1f))
 
             DPlayLargePinkButton(
-                onClick = { onNextButtonClick() },
-                label = stringResource(R.string.next_button_label),
+                onClick = { onEditButtonClick() },
+                label = stringResource(R.string.modify_button_label),
                 modifier =
                     Modifier
                         .padding(horizontal = 16.dp)
                         .fillMaxWidth(),
-                enabled = state.isProfileScreenNextButtonEnabled,
+                enabled = state.isEditButtonEnabled,
             )
         }
 
@@ -240,10 +230,10 @@ fun OnboardingProfileScreen(
 
 @Preview
 @Composable
-private fun OnboardingProfileScreenPreview() {
+private fun EditProfileScreenPreview() {
     DPlayTheme {
-        OnboardingProfileScreen(
-            state = OnboardingContract.OnboardingState(),
+        EditProfileScreen(
+            state = EditProfileContract.EditProfileState(),
         )
     }
 }

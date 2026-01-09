@@ -38,6 +38,13 @@ fun DPlayMusicListItem(
     isEditorPick: Boolean = false,
     onClick: () -> Unit = {},
 ) {
+    val ellipsisMusicContent =
+        if (musicContent.length > 28) {
+            musicContent.take(28) + "..."
+        } else {
+            musicContent
+        }
+
     Box(
         modifier =
             modifier
@@ -78,7 +85,11 @@ fun DPlayMusicListItem(
                     Text(text = musicArtistName, style = DPlayTheme.typography.capMed12, color = DPlayTheme.colors.gray400)
                 }
                 Spacer(modifier = Modifier.height(4.dp))
-                Text(text = musicContent, style = DPlayTheme.typography.capMed12, color = DPlayTheme.colors.gray500)
+                Text(
+                    text = ellipsisMusicContent,
+                    style = DPlayTheme.typography.capMed12,
+                    color = DPlayTheme.colors.gray500,
+                )
             }
         }
         if (isEditorPick) {

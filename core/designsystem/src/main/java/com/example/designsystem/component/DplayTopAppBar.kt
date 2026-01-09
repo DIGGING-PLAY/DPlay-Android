@@ -24,7 +24,7 @@ import com.example.designsystem.util.noRippleClickable
 @Composable
 fun DplayTopAppBar(
     modifier: Modifier = Modifier,
-    containerColor: Color = DPlayTheme.colors.dplayWhite,
+    containerColor: Color = Color.Transparent,
     @DrawableRes leftIconRes: Int? = null,
     @DrawableRes rightIconRes: Int? = null,
     title: String? = null,

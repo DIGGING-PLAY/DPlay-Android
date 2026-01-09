@@ -1,8 +1,8 @@
-package com.example.mypage
+package com.example.editprofile
 
 import androidx.navigation3.runtime.EntryProviderScope
 import androidx.navigation3.runtime.NavKey
-import com.example.navigation.MyPage
+import com.example.navigation.EditProfile
 import com.example.navigation.Navigator
 import dagger.Module
 import dagger.Provides
@@ -12,15 +12,15 @@ import dagger.multibindings.IntoSet
 
 @Module
 @InstallIn(ActivityRetainedComponent::class)
-object MyPageNavigationModule {
+object EditProfileNavigationModule {
     @Provides
     @IntoSet
-    fun provideMyPageEntry(
+    fun provideEditProfileEntry(
         navigator: Navigator,
     ): EntryProviderScope<NavKey>.() -> Unit =
         {
-            entry<MyPage> {
-                MyPageRoute(navigator = navigator)
+            entry<EditProfile> {
+                EditProfileRoute(navigator = navigator)
             }
         }
 }
