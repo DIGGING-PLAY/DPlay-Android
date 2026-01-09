@@ -1,5 +1,6 @@
 package com.example.data.repository
 
+import com.example.data.constant.ApiConstants.KAKAO_PLATFORM
 import com.example.data.constant.ErrorCode
 import com.example.data.datasource.local.FileLocalDataSource
 import com.example.data.datasource.local.TokenLocalDataSource
@@ -27,7 +28,7 @@ class AuthRepositoryImpl
 
                 val tokenData =
                     try {
-                        authRemoteDataSource.login(kakaoToken, LoginRequest("KAKAO"))
+                        authRemoteDataSource.login(kakaoToken, LoginRequest(KAKAO_PLATFORM))
                     } catch (e: NetworkException) {
                         if (e.code == ErrorCode.EXPIRED_ACCESS_TOKEN) {
                             return Result.success(kakaoToken)
@@ -56,7 +57,7 @@ class AuthRepositoryImpl
                     imageFile = profileFile,
                     signupRequest =
                         SignupRequest(
-                            platform = "KAKAO",
+                            platform = KAKAO_PLATFORM,
                             nickname = nickname,
                         ),
                 )
