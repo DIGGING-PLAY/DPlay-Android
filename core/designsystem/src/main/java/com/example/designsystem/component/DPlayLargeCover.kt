@@ -72,12 +72,12 @@ fun DPlayLargeCover(
             }
         }
 
-    Box(modifier = modifier.fillMaxWidth()) {
+    Box(modifier = modifier.fillMaxWidth().clip(textCoverShape)) {
         Box(
             modifier =
                 Modifier
                     .fillMaxWidth()
-                    .then(if (isLocked) Modifier.clip(shape = textCoverShape).blur(20.dp) else Modifier)
+                    .then(if (isLocked) Modifier.blur(20.dp) else Modifier)
                     .noRippleClickable(onClick = onCoverClick),
         ) {
             DPlayMusicDiscItem(

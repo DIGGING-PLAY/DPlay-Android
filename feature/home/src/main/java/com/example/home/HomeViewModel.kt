@@ -46,7 +46,7 @@ class HomeViewModel
                 is HomeContract.HomeIntent.OnRefreshClick -> refreshTodayPosts()
                 is HomeContract.HomeIntent.OnStreamClick -> previewStreaming(intent.trackId)
                 is HomeContract.HomeIntent.OnListClick -> {
-                    setSideEffect(HomeContract.HomeSideEffect.NavigateToRecommend)
+                    setSideEffect(HomeContract.HomeSideEffect.NavigateToRecord)
                 }
                 is HomeContract.HomeIntent.OnWriterProfileClick -> {
                     setSideEffect(HomeContract.HomeSideEffect.NavigateToWriterProfile(writerUserId = intent.writerUserId))

@@ -48,6 +48,9 @@ data object Setting : NavKey
 data object EditProfile : NavKey
 
 @Serializable
+data object Record : NavKey
+
+@Serializable
 data class Detail(
     val postId: Long,
 ) : NavKey

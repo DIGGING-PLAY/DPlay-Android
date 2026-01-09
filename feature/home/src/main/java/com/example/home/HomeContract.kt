@@ -1,7 +1,7 @@
 package com.example.home
 
+import com.example.common.model.DailyQuestion
 import com.example.common.model.FeedItem
-import com.example.common.model.TodayQuestion
 import com.example.designsystem.component.snackbar.type.SnackBarType
 import com.example.ui.base.BaseContract
 import kotlinx.collections.immutable.ImmutableList
@@ -10,8 +10,8 @@ import kotlinx.collections.immutable.persistentListOf
 class HomeContract {
     data class HomeState(
         val isLoading: Boolean = true,
-        val todayQuestion: TodayQuestion =
-            TodayQuestion(
+        val todayQuestion: DailyQuestion =
+            DailyQuestion(
                 questionId = 12345,
                 title = "여행 갈 때 플레이리스트에 꼭 넣는 노래는?",
                 date = "2025-10-19",
@@ -59,7 +59,7 @@ class HomeContract {
             val postId: Long,
         ) : HomeSideEffect
 
-        data object NavigateToRecommend : HomeSideEffect
+        data object NavigateToRecord : HomeSideEffect
 
         data class ShowSnackBar(
             val snackBarType: SnackBarType,

@@ -1,5 +1,6 @@
 package com.example.designsystem.component
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -11,6 +12,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -53,9 +55,9 @@ fun DPlayMusicListItem(
             modifier =
                 Modifier
                     .fillMaxWidth()
-                    .border(width = 1.dp, shape = RoundedCornerShape(12.dp), color = DPlayTheme.colors.gray200)
+                    .border(width = 1.dp, shape = RoundedCornerShape(20.dp), color = DPlayTheme.colors.gray200)
                     .roundedBackgroundWithPadding(
-                        cornerRadius = 12.dp,
+                        cornerRadius = 20.dp,
                         backgroundColor = DPlayTheme.colors.dplayWhite,
                         padding = PaddingValues(12.dp),
                     ),
@@ -91,10 +93,23 @@ fun DPlayMusicListItem(
             }
         }
         if (isEditorPick) {
-            DplayBaseIcon(
-                iconRes = R.drawable.ic_editor_20,
-                modifier = Modifier.padding(start = 64.dp, top = 8.dp),
-            )
+            Box(
+                modifier =
+                    Modifier
+                        .padding(start = 64.dp, top = 8.dp)
+                        .clip(shape = CircleShape)
+                        .border(
+                            width = 1.dp,
+                            color = DPlayTheme.colors.dplayPink,
+                            shape = CircleShape,
+                        ).background(color = DPlayTheme.colors.dplayWhite)
+                        .padding(4.dp),
+            ) {
+                DplayBaseIcon(
+                    iconRes = R.drawable.ic_editor_20,
+                    modifier = Modifier.size(12.dp),
+                )
+            }
         }
     }
 }

@@ -34,6 +34,7 @@ import com.example.designsystem.component.snackbar.LocalShowSnackBar
 import com.example.designsystem.theme.DPlayTheme
 import com.example.navigation.Detail
 import com.example.navigation.Navigator
+import com.example.navigation.Record
 import kotlinx.coroutines.flow.collectLatest
 import kotlin.math.absoluteValue
 
@@ -52,18 +53,22 @@ fun HomeRoute(
     LaunchedEffect(viewModel.sideEffect) {
         viewModel.sideEffect.collectLatest {
             when (it) {
-                is HomeContract.HomeSideEffect.NavigateToRecommend -> {
-                    // TODO
+                is HomeContract.HomeSideEffect.NavigateToRecord -> {
+                    navigator.navigateTo(destination = Record)
                 }
+
                 is HomeContract.HomeSideEffect.NavigateToPostDetail -> {
                     navigator.navigateTo(Detail(it.postId))
                 }
+
                 is HomeContract.HomeSideEffect.NavigateToWriterProfile -> {
                     // TODO
                 }
+
                 is HomeContract.HomeSideEffect.ShowSnackBar -> {
                     showSnackBar(it.snackBarType, it.action)
                 }
+
                 is HomeContract.HomeSideEffect.NavigateToMyPage -> {
                     // TODO
                 }
@@ -120,7 +125,7 @@ private fun HomeScreen(
                     .padding(horizontal = 16.dp),
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            Text(text = uiState.todayQuestion.dateText, style = DPlayTheme.typography.titleBold18, color = DPlayTheme.colors.dplayBlack)
+            Text(text = uiState.todayQuestion.homeTitleDateText, style = DPlayTheme.typography.titleBold18, color = DPlayTheme.colors.dplayBlack)
             DplayClickableIcon(
                 iconRes = R.drawable.ic_refresh_20,
                 modifier = Modifier.padding(16.dp),

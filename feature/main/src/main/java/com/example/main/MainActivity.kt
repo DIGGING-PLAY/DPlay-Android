@@ -5,6 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.navigationBarsPadding
@@ -89,7 +90,7 @@ class MainActivity : ComponentActivity() {
                             },
                         ) { padding ->
                             NavDisplay(
-                                modifier = Modifier.padding(bottom = padding.calculateBottomPadding()),
+                                modifier = Modifier.fillMaxSize().background(color = DPlayTheme.colors.dplayWhite).padding(bottom = padding.calculateBottomPadding()),
                                 backStack = navigator.backStack,
                                 onBack = {
                                     navigator.navigateToBack()
