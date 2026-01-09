@@ -1,5 +1,6 @@
 package com.example.data.datasource.remote
 
+import com.example.data.constant.ErrorCode
 import com.example.data.model.request.LoginRequest
 import com.example.data.model.request.SignupRequest
 import com.example.data.model.response.BaseResponse
@@ -46,8 +47,8 @@ class AuthRemoteDataSource
                         try {
                             val errorResponse = json.decodeFromString<BaseResponse<String?>>(errorString)
 
-                            if (errorResponse.code == 4041) {
-                                throw NetworkException(4041, errorResponse.message)
+                            if (errorResponse.code == ErrorCode.EXPIRED_ACCESS_TOKEN) {
+                                throw NetworkException(ErrorCode.EXPIRED_ACCESS_TOKEN, errorResponse.message)
                             }
                         } catch (e: SerializationException) {
                             // JSON 형식이 잘못됨 (괄호 누락 등)
