@@ -82,7 +82,7 @@ fun DplayLogoTopAppBar(
     onListClick: (() -> Unit),
     modifier: Modifier = Modifier,
     containerColor: Color = DPlayTheme.colors.dplayWhite,
-    ) {
+) {
     val iconPaddingModifier = Modifier.padding(12.dp)
 
     CenterAlignedTopAppBar(
