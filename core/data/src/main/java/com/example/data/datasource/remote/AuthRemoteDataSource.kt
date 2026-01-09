@@ -16,6 +16,7 @@ import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import retrofit2.HttpException
 import java.io.File
+import java.net.HttpURLConnection
 import javax.inject.Inject
 
 @OptIn(InternalSerializationApi::class)
@@ -38,7 +39,7 @@ class AuthRemoteDataSource
 
                 return response.data ?: throw Exception("Data is null")
             } catch (e: HttpException) {
-                if (e.code() == 404) {
+                if (e.code() == HttpURLConnection.HTTP_NOT_FOUND) {
                     val errorString = e.response()?.errorBody()?.string()
 
                     if (errorString != null) {
