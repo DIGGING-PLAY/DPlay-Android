@@ -4,10 +4,12 @@ import com.example.data.constant.ApiConstants.KAKAO_PLATFORM
 import com.example.data.constant.ErrorCode
 import com.example.data.datasource.local.FileLocalDataSource
 import com.example.data.datasource.local.TokenLocalDataSource
+import com.example.data.datasource.local.UserLocalDataSource
 import com.example.data.datasource.remote.AuthRemoteDataSource
 import com.example.data.datasource.remote.KakaoLoginDataSource
 import com.example.data.model.request.LoginRequest
 import com.example.data.model.request.SignupRequest
+import com.example.domain.model.User
 import com.example.domain.repository.AuthRepository
 import com.example.network.NetworkException
 import kotlinx.serialization.InternalSerializationApi
@@ -21,6 +23,7 @@ class AuthRepositoryImpl
         private val authRemoteDataSource: AuthRemoteDataSource,
         private val tokenLocalDataSource: TokenLocalDataSource,
         private val fileLocalDataSource: FileLocalDataSource,
+        private val userLocalDataSource: UserLocalDataSource
     ) : AuthRepository {
         override suspend fun kakaoLogin(): Result<String> =
             runCatching {
@@ -52,7 +55,7 @@ class AuthRepositoryImpl
             runCatching {
                 val profileFile = fileLocalDataSource.getFileFromUri(profileImage)
 
-                authRemoteDataSource.signup(
+                val response = authRemoteDataSource.signup(
                     kakaoAccessToken = kakaoAccessToken,
                     imageFile = profileFile,
                     signupRequest =
@@ -62,7 +65,13 @@ class AuthRepositoryImpl
                         ),
                 )
 
-                // 유저 정보 저장 구현
+                userLocalDataSource.saveUser(
+                    User(
+                        id = response.userId,
+                        nickname = nickname,
+                        profileImageUri = profileImage,
+                    )
+                )
             }
 
         override suspend fun withdraw(): Result<Unit> =
