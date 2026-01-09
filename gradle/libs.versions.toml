@@ -39,6 +39,7 @@ kotlin = "2.2.20"
 kotlinx-serialization-json = "1.9.0"
 kotlinx-serialization-converter = "1.0.0"
 kotlinx-immutable = "0.4.0"
+kotlinx-coroutines-core = "1.10.2"
 
 ## Ksp
 ksp = "2.2.20-2.0.4"
@@ -104,6 +105,7 @@ javax-inject = { group = "javax.inject", name = "javax.inject", version.ref = "j
 # Kotlin
 kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinx-serialization-json" }
 kotlinx-immutable = { group = "org.jetbrains.kotlinx", name = "kotlinx-collections-immutable", version.ref = "kotlinx-immutable" }
+kotlinx-coroutines-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "kotlinx-coroutines-core" }
 
 # Network
 okhttp-bom = { group = "com.squareup.okhttp3", name = "okhttp-bom", version.ref = "okhttp" }

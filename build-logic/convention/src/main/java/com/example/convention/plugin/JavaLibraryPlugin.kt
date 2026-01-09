@@ -1,5 +1,6 @@
 package com.example.convention.plugin
 
+import com.example.convention.util.getLibrary
 import com.example.convention.util.getVersion
 import com.example.convention.util.libs
 import org.gradle.api.JavaVersion
@@ -28,7 +29,8 @@ class JavaLibraryPlugin : Plugin<Project> {
             }
 
             dependencies {
-                add("implementation", libs.findLibrary("javax.inject").get())
+                add("implementation", libs.getLibrary("javax.inject"))
+                add("implementation", libs.getLibrary("kotlinx.coroutines.core"))
             }
         }
     }
