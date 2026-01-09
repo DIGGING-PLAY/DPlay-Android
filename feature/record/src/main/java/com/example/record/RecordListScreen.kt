@@ -12,8 +12,10 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.dplay.record.R
 import com.example.designsystem.component.DPlayMusicListItem
 import com.example.designsystem.component.DPlaySubjectItem
 import com.example.designsystem.component.DplayLeftIconTitleTopAppBar
@@ -43,7 +45,7 @@ fun RecordListScreen(
         )
         Spacer(modifier = Modifier.height(12.dp))
 
-        Text(text = "총 ${uiState.recordList.size}개의 곡", modifier = Modifier.padding(start = 16.dp), style = DPlayTheme.typography.capMed12, color = DPlayTheme.colors.gray500)
+        Text(text = stringResource(R.string.music_list_count, uiState.recordList.size), modifier = Modifier.padding(start = 16.dp), style = DPlayTheme.typography.capMed12, color = DPlayTheme.colors.gray500)
         Spacer(modifier = Modifier.height(12.dp))
         LazyColumn(
             modifier =
