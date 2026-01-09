@@ -1,13 +1,12 @@
 plugins {
     alias(libs.plugins.dplay.feature)
     alias(libs.plugins.dplay.hilt)
-    alias(libs.plugins.dplay.test)
 }
 
 android {
-    namespace = "com.dplay.home"
+    namespace = "com.dplay.record"
 }
 
 dependencies {
-    implementation(projects.core.ui)
+    implementation(libs.coil.compose)
 }

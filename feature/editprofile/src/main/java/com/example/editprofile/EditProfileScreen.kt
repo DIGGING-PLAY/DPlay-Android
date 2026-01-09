@@ -120,12 +120,12 @@ fun EditProfileScreen(
 
     Box(
         modifier =
-            Modifier
+            modifier
                 .fillMaxSize(),
     ) {
         Column(
             modifier =
-                modifier
+                Modifier
                     .fillMaxSize()
                     .background(color = DPlayTheme.colors.dplayWhite)
                     .padding(bottom = 16.dp),
