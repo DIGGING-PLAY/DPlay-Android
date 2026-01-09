@@ -233,7 +233,7 @@ fun DplayTitleButtonTopAppBar(
         colors =
             TopAppBarDefaults.topAppBarColors().copy(
                 containerColor = containerColor,
-            )
+            ),
     )
 }
 
