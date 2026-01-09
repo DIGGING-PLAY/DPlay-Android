@@ -1,14 +1,14 @@
 package com.example.data.service
 
-import com.example.data.ApiConstants.API
-import com.example.data.ApiConstants.AUTH
-import com.example.data.ApiConstants.LOGIN
-import com.example.data.ApiConstants.LOGOUT
-import com.example.data.ApiConstants.REISSUE
-import com.example.data.ApiConstants.SIGNUP
-import com.example.data.ApiConstants.TOKEN
-import com.example.data.ApiConstants.VERSIONS
-import com.example.data.ApiConstants.WITHDRAW
+import com.example.data.constant.ApiConstants.API
+import com.example.data.constant.ApiConstants.AUTH
+import com.example.data.constant.ApiConstants.LOGIN
+import com.example.data.constant.ApiConstants.LOGOUT
+import com.example.data.constant.ApiConstants.REISSUE
+import com.example.data.constant.ApiConstants.SIGNUP
+import com.example.data.constant.ApiConstants.TOKEN
+import com.example.data.constant.ApiConstants.VERSIONS
+import com.example.data.constant.ApiConstants.WITHDRAW
 import com.example.data.model.request.LoginRequest
 import com.example.data.model.response.BaseResponse
 import com.example.data.model.response.TokenResponse

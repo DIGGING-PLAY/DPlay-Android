@@ -1,4 +1,4 @@
-package com.example.data
+package com.example.data.constant
 
 object ApiConstants {
     const val API = "api"
