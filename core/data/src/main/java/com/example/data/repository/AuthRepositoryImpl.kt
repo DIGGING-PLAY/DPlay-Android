@@ -1,5 +1,6 @@
 package com.example.data.repository
 
+import com.example.data.constant.ErrorCode
 import com.example.data.datasource.local.FileLocalDataSource
 import com.example.data.datasource.local.TokenLocalDataSource
 import com.example.data.datasource.remote.AuthRemoteDataSource
@@ -28,7 +29,7 @@ class AuthRepositoryImpl
                     try {
                         authRemoteDataSource.login(kakaoToken, LoginRequest("KAKAO"))
                     } catch (e: NetworkException) {
-                        if (e.code == 4041) {
+                        if (e.code == ErrorCode.EXPIRED_ACCESS_TOKEN) {
                             return Result.success(kakaoToken)
                         }
                         throw e
