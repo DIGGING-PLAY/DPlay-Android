@@ -1,7 +1,6 @@
 package com.example.designsystem.component
 
 import androidx.annotation.DrawableRes
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -81,12 +80,12 @@ fun DplayTopAppBar(
 fun DplayLogoTopAppBar(
     onListClick: (() -> Unit),
     modifier: Modifier = Modifier,
-    containerColor: Color = DPlayTheme.colors.dplayWhite,
+    containerColor: Color = Color.Transparent,
 ) {
     val iconPaddingModifier = Modifier.padding(12.dp)
 
     CenterAlignedTopAppBar(
-        modifier = modifier.background(color = containerColor),
+        modifier = modifier,
         navigationIcon = {
             DplayBaseIcon(
                 modifier = iconPaddingModifier.padding(start = 4.dp),
@@ -101,6 +100,10 @@ fun DplayLogoTopAppBar(
             )
         },
         title = {},
+        colors =
+            TopAppBarDefaults.topAppBarColors().copy(
+                containerColor = containerColor,
+            ),
     )
 }
 
@@ -187,6 +190,7 @@ fun DplayDualIconTitleTopAppBar(
 fun DplayTitleButtonTopAppBar(
     modifier: Modifier = Modifier,
     title: String = "",
+    containerColor: Color = Color.Transparent,
     @DrawableRes leftIconRes: Int = R.drawable.ic_arrow_left_16,
     @DrawableRes buttonIconRes: Int = R.drawable.ic_arrow_down,
     onLeftClick: (() -> Unit)? = null,
@@ -226,6 +230,10 @@ fun DplayTitleButtonTopAppBar(
                 )
             }
         },
+        colors =
+            TopAppBarDefaults.topAppBarColors().copy(
+                containerColor = containerColor,
+            ),
     )
 }
 
