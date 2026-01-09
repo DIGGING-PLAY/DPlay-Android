@@ -22,6 +22,8 @@ class MyPageContract {
     }
 
     sealed interface MyPageIntent : BaseContract.Intent {
+        data object Initialize : MyPageIntent
+
         data object OnSettingIconClick : MyPageIntent
 
         data object OnProfileClick : MyPageIntent
