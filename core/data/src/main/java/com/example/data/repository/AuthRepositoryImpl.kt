@@ -33,7 +33,7 @@ class AuthRepositoryImpl
                     try {
                         authRemoteDataSource.login(kakaoToken, LoginRequest(KAKAO_PLATFORM))
                     } catch (e: NetworkException) {
-                        if (e.code == ErrorCode.EXPIRED_ACCESS_TOKEN) {
+                        if (e.code == ErrorCode.USER_NOT_FOUND) {
                             return Result.success(kakaoToken)
                         }
                         throw e
