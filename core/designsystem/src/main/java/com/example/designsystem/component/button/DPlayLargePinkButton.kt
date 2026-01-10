@@ -70,6 +70,12 @@ fun DPlayLargePinkButtonPreview() {
             DPlayLargePinkButton(
                 onClick = {},
                 modifier = Modifier.fillMaxWidth(),
+                label = stringResource(R.string.register_button_label),
+            )
+
+            DPlayLargePinkButton(
+                onClick = {},
+                modifier = Modifier.fillMaxWidth(),
                 label = stringResource(R.string.enroll_button_label),
             )
 

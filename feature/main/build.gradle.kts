@@ -16,6 +16,8 @@ dependencies {
     implementation(projects.feature.mypage)
     implementation(projects.feature.recommend)
     implementation(projects.feature.record)
+    implementation(projects.feature.search)
+    implementation(projects.feature.comment)
     implementation(projects.feature.onboarding)
     implementation(projects.feature.setting)
     implementation(projects.feature.editprofile)

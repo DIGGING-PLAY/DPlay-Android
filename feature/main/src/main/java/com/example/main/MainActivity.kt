@@ -31,7 +31,7 @@ import com.example.designsystem.component.snackbar.LocalSnackBarState
 import com.example.designsystem.component.snackbar.type.SnackBarType
 import com.example.designsystem.theme.DPlayTheme
 import com.example.navigation.Navigator
-import com.example.navigation.Recommend
+import com.example.navigation.Search
 import com.example.ui.controller.LocalModalController
 import com.example.ui.controller.ModalController
 import com.example.ui.handler.AppTerminationHandler
@@ -84,7 +84,7 @@ class MainActivity : ComponentActivity() {
                                         navigator.navigateToTopLevelRoute(route)
                                     },
                                     onPlusButtonClick = {
-                                        navigator.navigateTo(Recommend)
+                                        navigator.navigateTo(Search)
                                     },
                                 )
                             },
