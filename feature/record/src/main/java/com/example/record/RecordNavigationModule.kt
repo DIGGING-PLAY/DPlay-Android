@@ -1,9 +1,9 @@
-package com.example.home
+package com.example.record
 
 import androidx.navigation3.runtime.EntryProviderScope
 import androidx.navigation3.runtime.NavKey
-import com.example.navigation.Home
 import com.example.navigation.Navigator
+import com.example.navigation.Record
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -12,15 +12,15 @@ import dagger.multibindings.IntoSet
 
 @Module
 @InstallIn(ActivityRetainedComponent::class)
-object HomeNavigationModule {
+object RecordNavigationModule {
     @Provides
     @IntoSet
-    fun provideHomeEntry(
+    fun provideRecordEntry(
         navigator: Navigator,
     ): EntryProviderScope<NavKey>.() -> Unit =
         {
-            entry<Home> {
-                HomeRoute(navigator = navigator)
+            entry<Record> {
+                RecordRoute(navigator = navigator)
             }
         }
 }
