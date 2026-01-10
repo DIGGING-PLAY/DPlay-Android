@@ -1,6 +1,5 @@
 package com.example.mypage
 
-import androidx.core.net.toUri
 import androidx.lifecycle.viewModelScope
 import com.example.domain.repository.UserRepository
 import com.example.ui.base.BaseViewModel

@@ -1,6 +1,5 @@
 package com.example.mypage
 
-import android.net.Uri
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border

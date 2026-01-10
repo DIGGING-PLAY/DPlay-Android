@@ -4,6 +4,7 @@ import androidx.annotation.DrawableRes
 import androidx.navigation3.runtime.NavKey
 import com.dplay.designsystem.R
 import com.example.ui.model.Music
+import kotlinx.serialization.Serializable
 
 sealed interface TopLevelRoute {
     @get:DrawableRes
@@ -54,3 +55,11 @@ data class Comment(
 data object Setting : NavKey
 
 data object EditProfile : NavKey
+
+@Serializable
+data object Record : NavKey
+
+@Serializable
+data class Detail(
+    val postId: Long,
+) : NavKey

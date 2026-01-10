@@ -33,11 +33,12 @@ class SplashViewModel
                 val refreshToken = userRepository.getRefreshToken().firstOrNull()
                 accessToken to refreshToken
             }.onSuccess { (accessToken, refreshToken) ->
-                val destination = if (accessToken.isNullOrEmpty() || refreshToken.isNullOrEmpty()) {
-                    SplashContract.SplashSideEffect.NavigateToLogin
-                } else {
-                    SplashContract.SplashSideEffect.NavigateToHome
-                }
+                val destination =
+                    if (accessToken.isNullOrEmpty() || refreshToken.isNullOrEmpty()) {
+                        SplashContract.SplashSideEffect.NavigateToLogin
+                    } else {
+                        SplashContract.SplashSideEffect.NavigateToHome
+                    }
                 setSideEffect(destination)
             }.onFailure {
                 setSideEffect(SplashContract.SplashSideEffect.NavigateToLogin)

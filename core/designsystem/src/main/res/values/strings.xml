@@ -4,9 +4,11 @@
     <string name="chip_editor">EDITOR</string>
     <string name="chip_new">NEW</string>
     <string name="chip_best">BEST</string>
+
     <!-- 스낵바 문자열 -->
     <string name="add_success_snackbar_description">보관함에 추가했어요</string>
     <string name="add_success_snackbar_action_label">보러가기</string>
+
     <!-- 모달 문자열 -->
     <string name="delete_modal_main_text">정말 삭제하시겠어요?</string>
     <string name="delete_modal_cancel_button_label">취소</string>
@@ -22,6 +24,7 @@
     <string name="recommend_prompt_modal_sub_text">오늘의 추천곡을 작성하면 볼 수 있어요!</string>
     <string name="recommend_prompt_modal_button_label">곡 추천하러가기</string>
     <string name="graphic_modal_close_icon_description">모달창 닫기</string>
+
     <!-- DPlayTextField -->
     <string name="text_input_clear_description">텍스트 지우기</string>
     <string name="text_field_character_counter">%d/%d</string>
@@ -96,5 +99,13 @@
     <string name="report_reason_copyright_violation">저작권을 침해하고 있어요.</string>
     <string name="launch_album_bottomsheet_main_text">앨범에서 선택하기</string>
     <string name="launch_album_bottomsheet_sub_text">기본 이미지로 변경하기</string>
+
+    <!-- DPlay Toast Message -->
+    <string name="snackbar_message_add_collection">보관함에 추가했어요</string>
+    <string name="snackbar_message_streaming_not_support">미리듣기가 제공되지 않는 곡이에요</string>
+    <string name="snackbar_action_message_navigate_collection">보러가기</string>
+
+
+
 
 </resources>

@@ -22,7 +22,7 @@ class UserLocalDataSource
             }
         }
 
-        suspend fun clearUser(){
+        suspend fun clearUser() {
             dataStore.edit { prefs ->
                 prefs.remove(USER_ID)
                 prefs.remove(NICKNAME)

@@ -23,7 +23,7 @@ import com.example.designsystem.util.noRippleClickable
 @Composable
 fun DplayTopAppBar(
     modifier: Modifier = Modifier,
-    containerColor: Color = DPlayTheme.colors.dplayWhite,
+    containerColor: Color = Color.Transparent,
     @DrawableRes leftIconRes: Int? = null,
     @DrawableRes rightIconRes: Int? = null,
     title: String? = null,
@@ -78,8 +78,9 @@ fun DplayTopAppBar(
 
 @Composable
 fun DplayLogoTopAppBar(
-    modifier: Modifier = Modifier,
     onListClick: (() -> Unit),
+    modifier: Modifier = Modifier,
+    containerColor: Color = Color.Transparent,
 ) {
     val iconPaddingModifier = Modifier.padding(12.dp)
 
@@ -99,6 +100,10 @@ fun DplayLogoTopAppBar(
             )
         },
         title = {},
+        colors =
+            TopAppBarDefaults.topAppBarColors().copy(
+                containerColor = containerColor,
+            ),
     )
 }
 
@@ -185,6 +190,7 @@ fun DplayDualIconTitleTopAppBar(
 fun DplayTitleButtonTopAppBar(
     modifier: Modifier = Modifier,
     title: String = "",
+    containerColor: Color = Color.Transparent,
     @DrawableRes leftIconRes: Int = R.drawable.ic_arrow_left_16,
     @DrawableRes buttonIconRes: Int = R.drawable.ic_arrow_down,
     onLeftClick: (() -> Unit)? = null,
@@ -194,6 +200,8 @@ fun DplayTitleButtonTopAppBar(
         Modifier.then(
             if (onButtonClick != null) Modifier.noRippleClickable(onClick = onButtonClick) else Modifier,
         )
+
+    val iconPaddingModifier = Modifier.padding(12.dp)
 
     CenterAlignedTopAppBar(
         modifier = modifier,
@@ -210,11 +218,22 @@ fun DplayTitleButtonTopAppBar(
         },
         navigationIcon = {
             if (onLeftClick != null) {
-                DplayClickableIcon(iconRes = leftIconRes, onClick = onLeftClick)
+                DplayClickableIcon(
+                    iconRes = leftIconRes,
+                    onClick = onLeftClick,
+                    modifier = iconPaddingModifier,
+                )
             } else {
-                DplayBaseIcon(iconRes = leftIconRes)
+                DplayBaseIcon(
+                    iconRes = leftIconRes,
+                    modifier = iconPaddingModifier,
+                )
             }
         },
+        colors =
+            TopAppBarDefaults.topAppBarColors().copy(
+                containerColor = containerColor,
+            ),
     )
 }
 

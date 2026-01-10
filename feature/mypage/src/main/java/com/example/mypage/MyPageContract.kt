@@ -1,6 +1,5 @@
 package com.example.mypage
 
-import android.net.Uri
 import com.example.ui.base.BaseContract
 import com.example.ui.model.BookmarkedMusic
 import com.example.ui.model.Music
