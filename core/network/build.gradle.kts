@@ -33,7 +33,8 @@ androidComponents {
         it.buildConfigFields!!.put(
             "BASE_URL",
             baseUrl.map { value ->
-                BuildConfigField(type = "String", value = "\"$value\"", comment = null)
+                val noQuoteValue = value.replace("\"", "")
+                BuildConfigField(type = "String", value = "\"$noQuoteValue\"", comment = null)
             },
         )
     }
