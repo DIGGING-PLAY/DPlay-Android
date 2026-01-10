@@ -75,13 +75,11 @@ fun DPlayButtonBottomSheet(
                             radius = 20.dp,
                             alpha = 0.15f,
                         ),
-                )
-                .clip(bottomSheetShape)
+                ).clip(bottomSheetShape)
                 .background(
                     color = DPlayTheme.colors.dplayWhite,
                     shape = bottomSheetShape,
-                )
-                .padding(16.dp),
+                ).padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Text(
@@ -101,7 +99,6 @@ fun DPlayButtonBottomSheet(
         )
     }
 }
-
 
 @Composable
 fun DPlayTitleButtonBottomSheet(
@@ -125,13 +122,11 @@ fun DPlayTitleButtonBottomSheet(
                             radius = 20.dp,
                             alpha = 0.15f,
                         ),
-                )
-                .clip(bottomSheetShape)
+                ).clip(bottomSheetShape)
                 .background(
                     color = DPlayTheme.colors.dplayWhite,
                     shape = bottomSheetShape,
-                )
-                .padding(top = 24.dp, bottom = 16.dp),
+                ).padding(top = 24.dp, bottom = 16.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Row(
@@ -201,7 +196,7 @@ fun DPlayReportBottomSheet(
 @Composable
 fun DPlayDatePickerBottomSheet(
     initialYear: Int,
-    initialMonth:Int,
+    initialMonth: Int,
     onApplyClick: (year: Int, month: Int) -> Unit,
     onCloseClick: () -> Unit,
     modifier: Modifier = Modifier,
@@ -228,6 +223,7 @@ fun DPlayDatePickerBottomSheet(
         Spacer(modifier = Modifier.height(24.dp))
     }
 }
+
 @Composable
 fun YearMonthWheelPicker(
     initialYear: Int,
@@ -251,7 +247,7 @@ fun YearMonthWheelPicker(
             text = "$date${if (isYear) "년" else "월"}",
             modifier = modifier.padding(horizontal = 12.dp, vertical = 10.dp),
             style = DPlayTheme.typography.bodySemi20,
-            color = if (isFocused) DPlayTheme.colors.dplayBlack else DPlayTheme.colors.gray200
+            color = if (isFocused) DPlayTheme.colors.dplayBlack else DPlayTheme.colors.gray200,
         )
     }
 
@@ -275,50 +271,53 @@ fun YearMonthWheelPicker(
         LaunchedEffect(listState.isScrollInProgress) {
             if (!listState.isScrollInProgress && itemHeight > 0) {
                 val offset = listState.firstVisibleItemScrollOffset
-                val targetIndex = if (offset > itemHeight / 2) {
-                    listState.firstVisibleItemIndex + 1
-                } else {
-                    listState.firstVisibleItemIndex
-                }
+                val targetIndex =
+                    if (offset > itemHeight / 2) {
+                        listState.firstVisibleItemIndex + 1
+                    } else {
+                        listState.firstVisibleItemIndex
+                    }
                 listState.animateScrollToItem(targetIndex.coerceIn(0, items.lastIndex))
                 onSelected(items[targetIndex.coerceIn(0, items.lastIndex)])
             }
         }
 
         SubcomposeLayout { constraints ->
-            val samplePlaceable = subcompose("sample") {
-                dateText(date = if (isYear) 2024 else 10, isYear = isYear)
-            }.first().measure(constraints)
+            val samplePlaceable =
+                subcompose("sample") {
+                    dateText(date = if (isYear) 2024 else 10, isYear = isYear)
+                }.first().measure(constraints)
 
             val itemWidth = samplePlaceable.width
             itemHeight = samplePlaceable.height
 
-            val boxPlaceable = subcompose("box") {
-                Box(
-                    modifier = Modifier.width(itemWidth.toDp()),
-                    contentAlignment = Alignment.Center
-                ) {
-                    LazyColumn(
-                        state = listState,
-                        modifier = Modifier.height((itemHeight * 3).toDp()),
-                        contentPadding = PaddingValues(vertical = itemHeight.toDp()),
-                        flingBehavior = rememberSnapFlingBehavior(listState)
+            val boxPlaceable =
+                subcompose("box") {
+                    Box(
+                        modifier = Modifier.width(itemWidth.toDp()),
+                        contentAlignment = Alignment.Center,
                     ) {
-                        itemsIndexed(items) { index, item ->
-                            dateText(
-                                date = item,
-                                isFocused = index == focusedIndex,
-                                isYear = isYear
-                            )
+                        LazyColumn(
+                            state = listState,
+                            modifier = Modifier.height((itemHeight * 3).toDp()),
+                            contentPadding = PaddingValues(vertical = itemHeight.toDp()),
+                            flingBehavior = rememberSnapFlingBehavior(listState),
+                        ) {
+                            itemsIndexed(items) { index, item ->
+                                dateText(
+                                    date = item,
+                                    isFocused = index == focusedIndex,
+                                    isYear = isYear,
+                                )
+                            }
+                        }
+                        Column {
+                            HorizontalDivider(thickness = 1.dp, color = DPlayTheme.colors.dplayBlack)
+                            Spacer(modifier = Modifier.height(itemHeight.toDp()))
+                            HorizontalDivider(thickness = 1.dp, color = DPlayTheme.colors.dplayBlack)
                         }
                     }
-                    Column {
-                        HorizontalDivider(thickness = 1.dp, color = DPlayTheme.colors.dplayBlack)
-                        Spacer(modifier = Modifier.height(itemHeight.toDp()))
-                        HorizontalDivider(thickness = 1.dp, color = DPlayTheme.colors.dplayBlack)
-                    }
-                }
-            }.first().measure(constraints)
+                }.first().measure(constraints)
 
             layout(boxPlaceable.width, boxPlaceable.height) {
                 boxPlaceable.placeRelative(0, 0)
@@ -331,7 +330,7 @@ fun YearMonthWheelPicker(
             items = years,
             initialIndex = years.indexOf(initialYear).coerceAtLeast(0),
             isYear = true,
-            onSelected = onYearSelected
+            onSelected = onYearSelected,
         )
 
         Spacer(modifier = Modifier.width(44.dp))
@@ -340,7 +339,7 @@ fun YearMonthWheelPicker(
             items = months,
             initialIndex = (initialMonth - 1).coerceAtLeast(0),
             isYear = false,
-            onSelected = onMonthSelected
+            onSelected = onMonthSelected,
         )
     }
 }
@@ -377,7 +376,6 @@ private fun DPlayBottomSheetPreview() {
             DPlayDatePickerBottomSheet(
                 onCloseClick = {},
                 onApplyClick = { year, month ->
-
                 },
                 initialYear = 2026,
                 initialMonth = 2,
