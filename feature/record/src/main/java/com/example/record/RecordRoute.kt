@@ -29,9 +29,17 @@ fun RecordRoute(
 
     when (uiState.selectedQuestion) {
         null ->
-            RecordSelectScreen(uiState = uiState, onQuestionClick = { question ->
-                viewModel.handleIntent(RecordContract.RecordIntent.OnQuestionClick(question))
-            })
+            RecordSelectScreen(
+                uiState = uiState,
+                onQuestionClick = { question ->
+                    viewModel.handleIntent(RecordContract.RecordIntent.OnQuestionClick(question))
+                },
+                changeDatePickerBottomSheetVisible = { viewModel.handleIntent(RecordContract.RecordIntent.ChangeBottomSheetVisible) },
+                onDateSelectClick = { year, month ->
+                    viewModel.handleIntent(RecordContract.RecordIntent.SelectDate(year = year, month = month))
+                },
+            )
+
         else ->
             RecordListScreen(
                 uiState = uiState,
