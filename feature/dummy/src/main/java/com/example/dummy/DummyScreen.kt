@@ -86,7 +86,5 @@ private fun DummyScreen(
 @Preview
 @Composable
 private fun DummyScreenPreview() {
-    DummyScreen(
-        viewModel = DummyViewModel(),
-    )
+    DummyScreen()
 }

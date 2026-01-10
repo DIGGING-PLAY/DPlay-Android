@@ -37,7 +37,7 @@ jobs:
         env:
           BASE_URL: ${{ secrets.BASE_URL }}
         run: |
-          echo "base.url=\"$BASE_URL\"" >> local.properties
+          echo "base.url=$BASE_URL" >> local.properties
 
       - name: Run Ktlint Check
         run: ./gradlew ktlintCheck
