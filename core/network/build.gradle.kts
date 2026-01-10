@@ -15,7 +15,7 @@ android {
     namespace = "com.dplay.network"
 }
 
-val baseUrl =
+val baseUrl = providers.environmentVariable("BASE_URL").orElse(
     providers
         .fileContents(
             isolated.rootProject.projectDirectory.file("local.properties"),
@@ -25,6 +25,7 @@ val baseUrl =
             properties.load(StringReader(text))
             properties.getProperty("base.url")
         }.orElse("http://example.com")
+)
 
 androidComponents {
     onVariants {
