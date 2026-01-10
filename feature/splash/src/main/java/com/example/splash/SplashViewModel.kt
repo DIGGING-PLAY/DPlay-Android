@@ -1,7 +1,6 @@
 package com.example.splash
 
 import androidx.lifecycle.viewModelScope
-import com.example.domain.repository.AuthRepository
 import com.example.domain.repository.UserRepository
 import com.example.ui.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel

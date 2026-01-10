@@ -84,6 +84,7 @@ class AuthRepositoryImpl
             runCatching {
                 authRemoteDataSource.withdraw()
                 tokenLocalDataSource.clearTokens()
+                userLocalDataSource.clearUser()
             }
 
         override suspend fun logout(): Result<Unit> =

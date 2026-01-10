@@ -22,6 +22,14 @@ class UserLocalDataSource
             }
         }
 
+        suspend fun clearUser(){
+            dataStore.edit { prefs ->
+                prefs.remove(USER_ID)
+                prefs.remove(NICKNAME)
+                prefs.remove(PROFILE_IMAGE)
+            }
+        }
+
         val userFlow: Flow<User?> =
             dataStore.data.map { prefs ->
                 val id = prefs[USER_ID] ?: return@map null
