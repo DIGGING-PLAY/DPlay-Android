@@ -36,8 +36,10 @@ jobs:
       - name: Access local properties
         env:
           BASE_URL: ${{ secrets.BASE_URL }}
+          KAKAO_APP_KEY: ${{ secrets.KAKAO_APP_KEY }}
         run: |
           echo "base.url=\"$BASE_URL\"" >> local.properties
+          echo "kakao.app.key=\"$KAKAO_APP_KEY\"" >> local.properties
 
       - name: Run Ktlint Check
         run: ./gradlew ktlintCheck
