@@ -18,7 +18,7 @@ class UserLocalDataSource
             dataStore.edit { prefs ->
                 prefs[USER_ID] = user.id.toString()
                 prefs[NICKNAME] = user.nickname
-                prefs[PROFILE_IMAGE] = user.profileImageUri.orEmpty()
+                prefs[PROFILE_IMAGE] = user.profileImagePath.orEmpty()
             }
         }
 
@@ -28,7 +28,7 @@ class UserLocalDataSource
                 User(
                     id = id.toLong(),
                     nickname = prefs[NICKNAME].orEmpty(),
-                    profileImageUri = prefs[PROFILE_IMAGE],
+                    profileImagePath = prefs[PROFILE_IMAGE],
                 )
             }
 

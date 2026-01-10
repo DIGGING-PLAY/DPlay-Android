@@ -12,7 +12,7 @@ class MyPageContract {
     data class MyPageState(
         val isLoading: Boolean = false,
         val userNickname: String = "디플레이",
-        val profileImageUri: Uri? = null,
+        val profileImagePath: String? = null,
         val selectedTabIndex: Int = 0,
         val registeredMusicList: ImmutableList<RegisteredMusic> = dummyRegisteredMusicList,
         val bookmarkedMusicList: ImmutableList<BookmarkedMusic> = dummyBookmarkedMusicList,

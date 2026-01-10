@@ -131,7 +131,7 @@ fun MyPageScreen(
         UserInformationRow(
             nickname = state.userNickname,
             registeredMusicCount = state.registeredMusicCount,
-            profileImageUri = state.profileImageUri,
+            profileImagePath = state.profileImagePath,
             onProfileImageClick = { onProfileImageClick() },
         )
 
@@ -150,7 +150,7 @@ fun MyPageScreen(
 private fun UserInformationRow(
     nickname: String,
     registeredMusicCount: Int,
-    profileImageUri: Uri?,
+    profileImagePath: String?,
     onProfileImageClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -198,7 +198,7 @@ private fun UserInformationRow(
                     ),
         ) {
             AsyncImage(
-                model = profileImageUri,
+                model = profileImagePath,
                 contentDescription = null,
                 modifier =
                     Modifier

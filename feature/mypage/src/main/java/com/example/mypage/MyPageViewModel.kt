@@ -72,7 +72,7 @@ class MyPageViewModel
                     updateState {
                         copy(
                             userNickname = user?.nickname ?: "",
-                            profileImageUri = user?.profileImageUri?.toUri(),
+                            profileImagePath = user?.profileImagePath,
                         )
                     }
                     Timber.d("user: $user")

@@ -53,7 +53,7 @@ class AuthRepositoryImpl
             nickname: String,
         ): Result<Unit> =
             runCatching {
-                val profileFile = fileLocalDataSource.getFileFromUri(profileImage)
+                val profileFile = fileLocalDataSource.createAndGetFile(profileImage)
 
                 val response =
                     authRemoteDataSource.signup(
@@ -75,7 +75,7 @@ class AuthRepositoryImpl
                     User(
                         id = response.userId,
                         nickname = nickname,
-                        profileImageUri = profileImage,
+                        profileImagePath = profileFile?.absolutePath,
                     ),
                 )
             }
