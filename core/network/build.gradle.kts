@@ -1,4 +1,5 @@
 import com.android.build.api.variant.BuildConfigField
+import java.io.StringReader
 import java.util.Properties
 
 plugins {
@@ -14,31 +15,16 @@ android {
     namespace = "com.dplay.network"
 }
 
-val baseUrl: Provider<String> =
-    providers.provider {
-        // 1. 환경 변수 우선 확인 (CI 환경)
-        val envUrl = System.getenv("BASE_URL")
-        if (!envUrl.isNullOrBlank()) {
-            return@provider envUrl
-        }
-
-        // 2. local.properties 확인 (로컬 환경)
-        val localPropertiesFile =
-            isolated.rootProject.projectDirectory
-                .file("local.properties")
-                .asFile
-        if (localPropertiesFile.exists()) {
+val baseUrl =
+    providers
+        .fileContents(
+            isolated.rootProject.projectDirectory.file("local.properties"),
+        ).asText
+        .map { text ->
             val properties = Properties()
-            properties.load(localPropertiesFile.inputStream())
-            val url = properties.getProperty("base.url")
-            if (!url.isNullOrBlank()) {
-                return@provider url
-            }
-        }
-
-        // 3. 기본값
-        "http://example.com"
-    }
+            properties.load(StringReader(text))
+            properties.getProperty("base.url")
+        }.orElse("http://example.com")
 
 androidComponents {
     onVariants {
