@@ -2,6 +2,7 @@ package com.example.data.di
 
 import com.example.data.service.AuthService
 import com.example.data.service.DummyService
+import com.example.data.service.UserService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -23,4 +24,10 @@ object ServiceModule {
     fun provideAuthService(
         retrofit: Retrofit,
     ): AuthService = retrofit.create(AuthService::class.java)
+
+    @Provides
+    @Singleton
+    fun provideUserService(
+        retrofit: Retrofit,
+    ): UserService = retrofit.create(UserService::class.java)
 }
