@@ -66,6 +66,11 @@ class AuthRepositoryImpl
                             ),
                     )
 
+                tokenLocalDataSource.saveTokens(
+                    accessToken = response.accessToken,
+                    refreshToken = response.refreshToken,
+                )
+
                 userLocalDataSource.saveUser(
                     User(
                         id = response.userId,
