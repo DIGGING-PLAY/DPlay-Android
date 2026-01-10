@@ -15,17 +15,18 @@ android {
     namespace = "com.dplay.network"
 }
 
-val baseUrl = providers.environmentVariable("BASE_URL").orElse(
-    providers
-        .fileContents(
-            isolated.rootProject.projectDirectory.file("local.properties"),
-        ).asText
-        .map { text ->
-            val properties = Properties()
-            properties.load(StringReader(text))
-            properties.getProperty("base.url")
-        }.orElse("http://example.com")
-)
+val baseUrl =
+    providers.environmentVariable("BASE_URL").orElse(
+        providers
+            .fileContents(
+                isolated.rootProject.projectDirectory.file("local.properties"),
+            ).asText
+            .map { text ->
+                val properties = Properties()
+                properties.load(StringReader(text))
+                properties.getProperty("base.url")
+            }.orElse("http://example.com"),
+    )
 
 androidComponents {
     onVariants {
