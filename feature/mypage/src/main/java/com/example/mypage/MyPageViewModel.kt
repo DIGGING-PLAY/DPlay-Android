@@ -17,16 +17,13 @@ class MyPageViewModel
     ) : BaseViewModel<MyPageContract.MyPageState, MyPageContract.MyPageIntent, MyPageContract.MyPageSideEffect>(
             MyPageContract.MyPageState(),
         ) {
-        private var isInitialized = false
+
+        init {
+            initializeUserInfo()
+        }
 
         override fun handleIntent(intent: MyPageContract.MyPageIntent) {
             when (intent) {
-                is MyPageContract.MyPageIntent.Initialize -> {
-                    if (!isInitialized) {
-                        isInitialized = true
-                        initializeUserInfo()
-                    }
-                }
                 MyPageContract.MyPageIntent.OnBottomSheetCancelClick -> {
                 }
 
