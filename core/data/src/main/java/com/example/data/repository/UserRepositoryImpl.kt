@@ -38,6 +38,10 @@ class UserRepositoryImpl
                 userRemoteDataSource.getNotificationEnabled()
             }
 
+        override suspend fun updateNotificationEnabled(enabled: Boolean): Result<Unit> = runCatching {
+
+        }
+
         override suspend fun updateProfile(
             nickname: String?,
             profileImageState: ProfileImageState

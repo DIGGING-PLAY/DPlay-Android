@@ -13,6 +13,8 @@ interface UserRepository {
 
     suspend fun getNotificationEnabled(): Result<Boolean>
 
+    suspend fun updateNotificationEnabled(enabled: Boolean): Result<Unit>
+
     suspend fun updateProfile(
         nickname: String?,
         profileImageState: ProfileImageState,

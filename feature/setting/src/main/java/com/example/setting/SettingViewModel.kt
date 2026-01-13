@@ -1,10 +1,13 @@
 package com.example.setting
 
+import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.example.domain.repository.AuthRepository
 import com.example.domain.repository.UserRepository
 import com.example.ui.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -21,6 +24,8 @@ class SettingViewModel
         init {
             initializeNotificationEnabled()
         }
+
+        private var debounceJob: Job? = null
 
         override fun handleIntent(intent: SettingContract.SettingIntent) {
             when (intent) {
@@ -56,11 +61,7 @@ class SettingViewModel
         private fun handleMenuClick(type: SettingMenuType) {
             when (type) {
                 SettingMenuType.PUSH_NOTIFICATION -> {
-                    updateState {
-                        copy(
-                            isPushNotificationEnabled = !this.isPushNotificationEnabled,
-                        )
-                    }
+                    toggleNotification(!currentState.isPushNotificationEnabled)
                 }
                 SettingMenuType.ANNOUNCEMENT -> {
                     // 공지사항 노션 링크로 연결
@@ -93,6 +94,26 @@ class SettingViewModel
                                 isPushNotificationEnabled = it
                             )
                         }
+                    }.onFailure {
+
+                    }
+            }
+        }
+
+        private fun toggleNotification(enabled: Boolean){
+            updateState {
+                copy(
+                    isPushNotificationEnabled = enabled,
+                )
+            }
+            debounceJob?.cancel()
+
+            debounceJob = viewModelScope.launch {
+                delay(500L)
+
+                userRepository.updateNotificationEnabled(enabled)
+                    .onSuccess {
+                        Log.d("notification", "notification $enabled")
                     }.onFailure {
 
                     }
