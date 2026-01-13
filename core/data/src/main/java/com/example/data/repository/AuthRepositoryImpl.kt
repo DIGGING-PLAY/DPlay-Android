@@ -91,5 +91,6 @@ class AuthRepositoryImpl
             runCatching {
                 authRemoteDataSource.logout()
                 tokenLocalDataSource.clearTokens()
+                userLocalDataSource.clearUser()
             }
     }
