@@ -10,6 +10,6 @@ android {
 dependencies {
     implementation(libs.kotlinx.serialization.json)
     implementation(projects.core.designsystem)
-    implementation(projects.core.ui)
     implementation(projects.core.common)
+    implementation(projects.core.ui)
 }
