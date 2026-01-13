@@ -15,6 +15,7 @@ object ApiConstants {
 
     const val USERS = "users"
     const val ME = "me"
+    const val NOTIFICATIONS = "notifications"
 
     const val QUESTIONS = "questions"
     const val POSTS = "posts"
