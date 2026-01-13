@@ -21,6 +21,6 @@ data class User(
     val userId: Long,
     @SerialName("nickname")
     val nickname: String,
-    @SerialName("image")
-    val image: String?,
+    @SerialName("profileImg")
+    val profileImg: String?,
 )
