@@ -2,13 +2,14 @@ package com.example.editprofile
 
 import android.net.Uri
 import com.example.designsystem.component.textfield.type.InputState
+import com.example.designsystem.component.textfield.type.NicknameInputState
 import com.example.domain.model.ProfileImageState
 import com.example.ui.base.BaseContract
 
 class EditProfileContract {
     data class EditProfileState(
         val nickname: String = "",
-        val nicknameInputState: InputState = InputState.Default,
+        val nicknameInputState: InputState = NicknameInputState.Success,
         val profileImagePath: String? = null,
         val profileImageState: ProfileImageState = ProfileImageState.Keep,
         val isAlbumLauncherBottomSheetVisible: Boolean = false,
