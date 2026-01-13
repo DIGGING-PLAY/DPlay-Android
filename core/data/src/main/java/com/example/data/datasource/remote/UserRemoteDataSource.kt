@@ -1,5 +1,6 @@
 package com.example.data.datasource.remote
 
+import com.example.data.model.request.NotificationRequest
 import com.example.data.model.response.UserResponse
 import com.example.data.service.UserService
 import kotlinx.serialization.InternalSerializationApi
@@ -55,6 +56,21 @@ class UserRemoteDataSource @Inject constructor(
         try {
             val response = userService.getNotificationEnabled()
             return response.data?.pushON ?: throw Exception("Data is null")
+        } catch (e: Exception) {
+            Timber.e(e)
+            throw e
+        }
+    }
+
+    suspend fun postNotificationEnabled(
+        enabled: Boolean,
+    ){
+        try {
+            userService.postNotificationEnabled(
+                request = NotificationRequest(
+                    pushOn = enabled
+                )
+            )
         } catch (e: Exception) {
             Timber.e(e)
             throw e

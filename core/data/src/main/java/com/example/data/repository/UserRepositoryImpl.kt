@@ -39,7 +39,7 @@ class UserRepositoryImpl
             }
 
         override suspend fun updateNotificationEnabled(enabled: Boolean): Result<Unit> = runCatching {
-
+            userRemoteDataSource.postNotificationEnabled(enabled)
         }
 
         override suspend fun updateProfile(

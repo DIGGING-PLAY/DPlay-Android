@@ -5,14 +5,17 @@ import com.example.data.constant.ApiConstants.ME
 import com.example.data.constant.ApiConstants.NOTIFICATIONS
 import com.example.data.constant.ApiConstants.USERS
 import com.example.data.constant.ApiConstants.VERSIONS
+import com.example.data.model.request.NotificationRequest
 import com.example.data.model.response.BaseResponse
 import com.example.data.model.response.NotificationResponse
 import com.example.data.model.response.UserResponse
 import kotlinx.serialization.InternalSerializationApi
 import okhttp3.MultipartBody
+import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Multipart
 import retrofit2.http.PATCH
+import retrofit2.http.POST
 import retrofit2.http.Part
 import retrofit2.http.Path
 
@@ -32,4 +35,9 @@ interface UserService {
 
     @GET("$API/$VERSIONS/$USERS/$ME/$NOTIFICATIONS")
     suspend fun getNotificationEnabled(): BaseResponse<NotificationResponse>
+
+    @POST("$API/$VERSIONS/$USERS/$ME/$NOTIFICATIONS")
+    suspend fun postNotificationEnabled(
+        @Body request: NotificationRequest,
+    ): BaseResponse<Unit>
 }

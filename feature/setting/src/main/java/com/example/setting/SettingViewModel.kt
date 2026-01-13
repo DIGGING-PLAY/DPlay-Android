@@ -115,7 +115,11 @@ class SettingViewModel
                     .onSuccess {
                         Log.d("notification", "notification $enabled")
                     }.onFailure {
-
+                        updateState {
+                            copy(
+                                isPushNotificationEnabled = !enabled,
+                            )
+                        }
                     }
             }
         }
