@@ -193,7 +193,7 @@ private fun UserInformationRow(
                     ),
         ) {
             AsyncImage(
-                model = profileImagePath,
+                model = profileImagePath ?: R.drawable.img_profile,
                 contentDescription = null,
                 modifier =
                     Modifier
