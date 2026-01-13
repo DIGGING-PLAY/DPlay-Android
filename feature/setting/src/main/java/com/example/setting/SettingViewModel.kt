@@ -24,9 +24,6 @@ class SettingViewModel
 
         override fun handleIntent(intent: SettingContract.SettingIntent) {
             when (intent) {
-                SettingContract.SettingIntent.Initialize -> {
-                    // 앱 버전, 알림 권한 초기화
-                }
                 is SettingContract.SettingIntent.OnMenuClick -> {
                     handleMenuClick(intent.type)
                 }
