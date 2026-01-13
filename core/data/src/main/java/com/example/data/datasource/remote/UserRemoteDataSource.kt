@@ -12,68 +12,72 @@ import java.io.File
 import javax.inject.Inject
 
 @OptIn(InternalSerializationApi::class)
-class UserRemoteDataSource @Inject constructor(
-    private val userService : UserService
-) {
-    suspend fun patchProfile(
-        nickname: String?,
-        imageFile: File?,
-    ){
-        try {
-            val imagePart =
-                if (imageFile != null) {
-                    val requestFile = imageFile.asRequestBody("image/*".toMediaTypeOrNull())
-                    MultipartBody.Part.createFormData("profileImg", imageFile.name, requestFile)
-                } else {
-                    null
-                }
+class UserRemoteDataSource
+    @Inject
+    constructor(
+        private val userService: UserService,
+    ) {
+        suspend fun patchProfile(
+            nickname: String?,
+            imageFile: File?,
+        ) {
+            try {
+                val imagePart =
+                    if (imageFile != null) {
+                        val requestFile = imageFile.asRequestBody("image/*".toMediaTypeOrNull())
+                        MultipartBody.Part.createFormData("profileImg", imageFile.name, requestFile)
+                    } else {
+                        null
+                    }
 
-            userService.patchProfile(
-                profileImg = imagePart,
-                request = nickname,
-            )
-        } catch (e: Exception) {
-            Timber.e(e)
-            throw e
-        }
-    }
-
-    suspend fun getUser(
-        userId: Long,
-    ): UserResponse {
-        try {
-            val response = userService.getUser(
-                userId = userId,
-            )
-            return response.data ?: throw Exception("Data is null")
-        } catch (e: Exception) {
-            Timber.e(e)
-            throw e
-        }
-    }
-
-    suspend fun getNotificationEnabled(): Boolean {
-        try {
-            val response = userService.getNotificationEnabled()
-            return response.data?.pushON ?: throw Exception("Data is null")
-        } catch (e: Exception) {
-            Timber.e(e)
-            throw e
-        }
-    }
-
-    suspend fun postNotificationEnabled(
-        enabled: Boolean,
-    ){
-        try {
-            userService.postNotificationEnabled(
-                request = NotificationRequest(
-                    pushOn = enabled
+                userService.patchProfile(
+                    profileImg = imagePart,
+                    request = nickname,
                 )
-            )
-        } catch (e: Exception) {
-            Timber.e(e)
-            throw e
+            } catch (e: Exception) {
+                Timber.e(e)
+                throw e
+            }
+        }
+
+        suspend fun getUser(
+            userId: Long,
+        ): UserResponse {
+            try {
+                val response =
+                    userService.getUser(
+                        userId = userId,
+                    )
+                return response.data ?: throw Exception("Data is null")
+            } catch (e: Exception) {
+                Timber.e(e)
+                throw e
+            }
+        }
+
+        suspend fun getNotificationEnabled(): Boolean {
+            try {
+                val response = userService.getNotificationEnabled()
+                return response.data?.pushON ?: throw Exception("Data is null")
+            } catch (e: Exception) {
+                Timber.e(e)
+                throw e
+            }
+        }
+
+        suspend fun postNotificationEnabled(
+            enabled: Boolean,
+        ) {
+            try {
+                userService.postNotificationEnabled(
+                    request =
+                        NotificationRequest(
+                            pushOn = enabled,
+                        ),
+                )
+            } catch (e: Exception) {
+                Timber.e(e)
+                throw e
+            }
         }
     }
-}

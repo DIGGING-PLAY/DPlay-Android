@@ -19,15 +19,16 @@ class UserRepositoryImpl
         private val userRemoteDataSource: UserRemoteDataSource,
         private val fileLocalDataSource: FileLocalDataSource,
     ) : UserRepository {
-        override fun getUser(): Flow<User?> = userLocalDataSource.userFlow.map{ user ->
-            user?.let{ validUser ->
-                if(validUser.profileImagePath?.isEmpty() == true){
-                    validUser.copy(profileImagePath = null)
-                }else{
-                    validUser
+        override fun getUser(): Flow<User?> =
+            userLocalDataSource.userFlow.map { user ->
+                user?.let { validUser ->
+                    if (validUser.profileImagePath?.isEmpty() == true) {
+                        validUser.copy(profileImagePath = null)
+                    } else {
+                        validUser
+                    }
                 }
             }
-        }
 
         override fun getAccessToken(): Flow<String?> = tokenLocalDataSource.accessToken
 
@@ -38,38 +39,40 @@ class UserRepositoryImpl
                 userRemoteDataSource.getNotificationEnabled()
             }
 
-        override suspend fun updateNotificationEnabled(enabled: Boolean): Result<Unit> = runCatching {
-            userRemoteDataSource.postNotificationEnabled(enabled)
-        }
+        override suspend fun updateNotificationEnabled(enabled: Boolean): Result<Unit> =
+            runCatching {
+                userRemoteDataSource.postNotificationEnabled(enabled)
+            }
 
         override suspend fun updateProfile(
             nickname: String?,
-            profileImageState: ProfileImageState
-        ): Result<Unit> = runCatching {
+            profileImageState: ProfileImageState,
+        ): Result<Unit> =
+            runCatching {
+                val profileFile =
+                    when (profileImageState) {
+                        is ProfileImageState.Keep -> null
+                        is ProfileImageState.Delete -> fileLocalDataSource.createEmptyFile()
+                        is ProfileImageState.Update -> fileLocalDataSource.createAndGetFile(profileImageState.imagePath)
+                    }
 
-            val profileFile = when(profileImageState){
-                is ProfileImageState.Keep -> null
-                is ProfileImageState.Delete -> fileLocalDataSource.createEmptyFile()
-                is ProfileImageState.Update -> fileLocalDataSource.createAndGetFile(profileImageState.imagePath)
-            }
+                userRemoteDataSource.patchProfile(
+                    imageFile = profileFile,
+                    nickname = nickname,
+                )
 
-            userRemoteDataSource.patchProfile(
-                imageFile = profileFile,
-                nickname = nickname,
-            )
+                userLocalDataSource.updateNickname(nickname.orEmpty())
 
-            userLocalDataSource.updateNickname(nickname.orEmpty())
-
-            when(profileImageState){
-                ProfileImageState.Delete -> {
-                    userLocalDataSource.removeProfileImage()
+                when (profileImageState) {
+                    ProfileImageState.Delete -> {
+                        userLocalDataSource.removeProfileImage()
+                    }
+                    is ProfileImageState.Update -> {
+                        userLocalDataSource.updateProfileImage(
+                            profileImagePath = profileFile?.absolutePath ?: "",
+                        )
+                    }
+                    ProfileImageState.Keep -> {}
                 }
-                is ProfileImageState.Update -> {
-                    userLocalDataSource.updateProfileImage(
-                        profileImagePath = profileFile?.absolutePath ?: ""
-                    )
-                }
-                ProfileImageState.Keep -> {}
             }
-        }
     }

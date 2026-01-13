@@ -1,7 +1,5 @@
 package com.example.editprofile
 
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewModelScope
 import com.example.domain.model.ProfileImageState
 import com.example.domain.repository.UserRepository
@@ -12,7 +10,6 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -24,7 +21,6 @@ class EditProfileViewModel
     ) : BaseViewModel<EditProfileContract.EditProfileState, EditProfileContract.EditProfileIntent, EditProfileContract.EditProfileSideEffect>(
             EditProfileContract.EditProfileState(),
         ) {
-
         init {
             initializeUserProfile()
         }
@@ -65,12 +61,13 @@ class EditProfileViewModel
                 }
                 EditProfileContract.EditProfileIntent.OnEditButtonClick -> {
                     viewModelScope.launch {
-                        userRepository.updateProfile(
-                            nickname = currentState.nickname,
-                            profileImageState = currentState.profileImageState
-                        ).onSuccess {
-                            setSideEffect(EditProfileContract.EditProfileSideEffect.NavigateToBack)
-                        }.onFailure {  }
+                        userRepository
+                            .updateProfile(
+                                nickname = currentState.nickname,
+                                profileImageState = currentState.profileImageState,
+                            ).onSuccess {
+                                setSideEffect(EditProfileContract.EditProfileSideEffect.NavigateToBack)
+                            }.onFailure { }
                     }
                 }
                 is EditProfileContract.EditProfileIntent.OnNicknameChanged -> {

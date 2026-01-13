@@ -20,7 +20,6 @@ class SettingViewModel
     ) : BaseViewModel<SettingContract.SettingState, SettingContract.SettingIntent, SettingContract.SettingSideEffect>(
             SettingContract.SettingState(),
         ) {
-
         init {
             initializeNotificationEnabled()
         }
@@ -85,22 +84,22 @@ class SettingViewModel
             }
         }
 
-        private fun initializeNotificationEnabled(){
+        private fun initializeNotificationEnabled() {
             viewModelScope.launch {
-                userRepository.getNotificationEnabled()
+                userRepository
+                    .getNotificationEnabled()
                     .onSuccess {
                         updateState {
                             copy(
-                                isPushNotificationEnabled = it
+                                isPushNotificationEnabled = it,
                             )
                         }
                     }.onFailure {
-
                     }
             }
         }
 
-        private fun toggleNotification(enabled: Boolean){
+        private fun toggleNotification(enabled: Boolean) {
             updateState {
                 copy(
                     isPushNotificationEnabled = enabled,
@@ -108,19 +107,21 @@ class SettingViewModel
             }
             debounceJob?.cancel()
 
-            debounceJob = viewModelScope.launch {
-                delay(500L)
+            debounceJob =
+                viewModelScope.launch {
+                    delay(500L)
 
-                userRepository.updateNotificationEnabled(enabled)
-                    .onSuccess {
-                        Log.d("notification", "notification $enabled")
-                    }.onFailure {
-                        updateState {
-                            copy(
-                                isPushNotificationEnabled = !enabled,
-                            )
+                    userRepository
+                        .updateNotificationEnabled(enabled)
+                        .onSuccess {
+                            Log.d("notification", "notification $enabled")
+                        }.onFailure {
+                            updateState {
+                                copy(
+                                    isPushNotificationEnabled = !enabled,
+                                )
+                            }
                         }
-                    }
-            }
+                }
         }
     }

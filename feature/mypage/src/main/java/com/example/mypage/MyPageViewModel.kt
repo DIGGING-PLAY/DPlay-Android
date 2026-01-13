@@ -17,7 +17,6 @@ class MyPageViewModel
     ) : BaseViewModel<MyPageContract.MyPageState, MyPageContract.MyPageIntent, MyPageContract.MyPageSideEffect>(
             MyPageContract.MyPageState(),
         ) {
-
         init {
             initializeUserInfo()
         }

@@ -46,16 +46,17 @@ class AuthRepositoryImpl
                     refreshToken = tokenData.refreshToken,
                 )
 
-                val userInfo = userRemoteDataSource.getUser(
-                    userId = tokenData.userId,
-                )
+                val userInfo =
+                    userRemoteDataSource.getUser(
+                        userId = tokenData.userId,
+                    )
 
                 userLocalDataSource.saveUser(
                     User(
                         id = tokenData.userId,
                         nickname = userInfo.user.nickname,
                         profileImagePath = userInfo.user.profileImg,
-                    )
+                    ),
                 )
 
                 return Result.success("")
