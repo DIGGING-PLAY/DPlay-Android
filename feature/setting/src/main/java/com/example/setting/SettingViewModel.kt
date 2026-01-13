@@ -2,6 +2,7 @@ package com.example.setting
 
 import androidx.lifecycle.viewModelScope
 import com.example.domain.repository.AuthRepository
+import com.example.domain.repository.UserRepository
 import com.example.ui.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -12,9 +13,15 @@ class SettingViewModel
     @Inject
     constructor(
         private val authRepository: AuthRepository,
+        private val userRepository: UserRepository,
     ) : BaseViewModel<SettingContract.SettingState, SettingContract.SettingIntent, SettingContract.SettingSideEffect>(
             SettingContract.SettingState(),
         ) {
+
+        init {
+            initializeNotificationEnabled()
+        }
+
         override fun handleIntent(intent: SettingContract.SettingIntent) {
             when (intent) {
                 SettingContract.SettingIntent.Initialize -> {
@@ -77,6 +84,21 @@ class SettingViewModel
                     setSideEffect(SettingContract.SettingSideEffect.ShowWithdrawWarningDialog)
                 }
                 SettingMenuType.VERSION -> { /* 동작없음 */ }
+            }
+        }
+
+        private fun initializeNotificationEnabled(){
+            viewModelScope.launch {
+                userRepository.getNotificationEnabled()
+                    .onSuccess {
+                        updateState {
+                            copy(
+                                isPushNotificationEnabled = it
+                            )
+                        }
+                    }.onFailure {
+
+                    }
             }
         }
     }
