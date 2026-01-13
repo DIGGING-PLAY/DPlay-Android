@@ -1,7 +1,7 @@
 package com.example.data.service
 
 import com.example.data.constant.ApiConstants.API
-import com.example.data.constant.ApiConstants.PATCH_PROFILE
+import com.example.data.constant.ApiConstants.ME
 import com.example.data.constant.ApiConstants.USERS
 import com.example.data.constant.ApiConstants.VERSIONS
 import com.example.data.model.response.BaseResponse
@@ -17,7 +17,7 @@ import retrofit2.http.Path
 @OptIn(InternalSerializationApi::class)
 interface UserService {
     @Multipart
-    @PATCH("$API/$VERSIONS/$USERS/$PATCH_PROFILE")
+    @PATCH("$API/$VERSIONS/$USERS/$ME")
     suspend fun patchProfile(
         @Part profileImg: MultipartBody.Part?,
         @Part("nickname") request: String?,

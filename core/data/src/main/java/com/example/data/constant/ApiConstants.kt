@@ -14,7 +14,7 @@ object ApiConstants {
     const val WITHDRAW = "withdraw"
 
     const val USERS = "users"
-    const val PATCH_PROFILE = "me"
+    const val ME = "me"
 
     const val QUESTIONS = "questions"
     const val POSTS = "posts"
