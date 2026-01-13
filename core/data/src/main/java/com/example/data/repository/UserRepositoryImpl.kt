@@ -48,7 +48,7 @@ class UserRepositoryImpl
                 }
                 is ProfileImageState.Update -> {
                     userLocalDataSource.updateProfileImage(
-                        profileImagePath = profileImageState.imagePath
+                        profileImagePath = profileFile?.absolutePath ?: ""
                     )
                 }
                 ProfileImageState.Keep -> {}
