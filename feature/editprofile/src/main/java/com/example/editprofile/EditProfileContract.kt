@@ -8,7 +8,7 @@ class EditProfileContract {
     data class EditProfileState(
         val nickname: String = "",
         val nicknameInputState: InputState = InputState.Default,
-        val profileImageUri: Uri? = null,
+        val profileImagePath: String? = null,
         val isAlbumLauncherBottomSheetVisible: Boolean = false,
     ) : BaseContract.State {
         val isEditButtonEnabled: Boolean
