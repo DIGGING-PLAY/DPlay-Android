@@ -11,6 +11,8 @@ interface UserRepository {
 
     fun getRefreshToken(): Flow<String?>
 
+    suspend fun getNotificationEnabled(): Result<Boolean>
+
     suspend fun updateProfile(
         nickname: String?,
         profileImageState: ProfileImageState,

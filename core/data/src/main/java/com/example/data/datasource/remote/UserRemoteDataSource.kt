@@ -50,4 +50,14 @@ class UserRemoteDataSource @Inject constructor(
             throw e
         }
     }
+
+    suspend fun getNotificationEnabled(): Boolean {
+        try {
+            val response = userService.getNotificationEnabled()
+            return response.data?.pushON ?: throw Exception("Data is null")
+        } catch (e: Exception) {
+            Timber.e(e)
+            throw e
+        }
+    }
 }

@@ -33,6 +33,11 @@ class UserRepositoryImpl
 
         override fun getRefreshToken(): Flow<String?> = tokenLocalDataSource.refreshToken
 
+        override suspend fun getNotificationEnabled(): Result<Boolean> =
+            runCatching {
+                userRemoteDataSource.getNotificationEnabled()
+            }
+
         override suspend fun updateProfile(
             nickname: String?,
             profileImageState: ProfileImageState
