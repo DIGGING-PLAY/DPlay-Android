@@ -1,5 +1,6 @@
 package com.example.data.datasource.remote
 
+import com.example.data.model.response.UserResponse
 import com.example.data.service.UserService
 import kotlinx.serialization.InternalSerializationApi
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -30,6 +31,20 @@ class UserRemoteDataSource @Inject constructor(
                 profileImg = imagePart,
                 request = nickname,
             )
+        } catch (e: Exception) {
+            Timber.e(e)
+            throw e
+        }
+    }
+
+    suspend fun getUser(
+        userId: Long,
+    ): UserResponse {
+        try {
+            val response = userService.getUser(
+                userId = userId,
+            )
+            return response.data ?: throw Exception("Data is null")
         } catch (e: Exception) {
             Timber.e(e)
             throw e
