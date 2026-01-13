@@ -22,6 +22,24 @@ class UserLocalDataSource
             }
         }
 
+        suspend fun updateNickname(nickname: String) {
+            dataStore.edit { prefs ->
+                prefs[NICKNAME] = nickname
+            }
+        }
+
+        suspend fun updateProfileImage(profileImagePath: String) {
+            dataStore.edit { prefs ->
+                prefs[PROFILE_IMAGE] = profileImagePath
+            }
+        }
+
+        suspend fun removeProfileImage() {
+            dataStore.edit { prefs ->
+                prefs.remove(PROFILE_IMAGE)
+            }
+        }
+
         suspend fun clearUser() {
             dataStore.edit { prefs ->
                 prefs.remove(USER_ID)
