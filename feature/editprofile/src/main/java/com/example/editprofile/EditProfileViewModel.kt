@@ -3,6 +3,7 @@ package com.example.editprofile
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewModelScope
+import com.example.domain.model.ProfileImageState
 import com.example.domain.repository.UserRepository
 import com.example.domain.usecase.ValidateNicknameUseCase
 import com.example.ui.base.BaseViewModel
@@ -10,6 +11,7 @@ import com.example.ui.mapper.toUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -30,9 +32,11 @@ class EditProfileViewModel
         override fun handleIntent(intent: EditProfileContract.EditProfileIntent) {
             when (intent) {
                 is EditProfileContract.EditProfileIntent.OnAlbumImageSelect -> {
+                    val imagePath = intent.uri.toString()
                     updateState {
                         copy(
-                            profileImagePath = intent.uri.toString(),
+                            profileImagePath = imagePath,
+                            profileImageState = ProfileImageState.Update(imagePath),
                             isAlbumLauncherBottomSheetVisible = false,
                         )
                     }
@@ -55,11 +59,19 @@ class EditProfileViewModel
                         copy(
                             profileImagePath = null,
                             isAlbumLauncherBottomSheetVisible = false,
+                            profileImageState = ProfileImageState.Delete,
                         )
                     }
                 }
                 EditProfileContract.EditProfileIntent.OnEditButtonClick -> {
-                    setSideEffect(EditProfileContract.EditProfileSideEffect.NavigateToBack)
+                    viewModelScope.launch {
+                        userRepository.updateProfile(
+                            nickname = currentState.nickname,
+                            profileImageState = currentState.profileImageState
+                        ).onSuccess {
+                            setSideEffect(EditProfileContract.EditProfileSideEffect.NavigateToBack)
+                        }.onFailure {  }
+                    }
                 }
                 is EditProfileContract.EditProfileIntent.OnNicknameChanged -> {
                     validateAndUpdateNickname(intent.input.trim())

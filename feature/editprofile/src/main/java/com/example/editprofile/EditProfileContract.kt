@@ -2,6 +2,7 @@ package com.example.editprofile
 
 import android.net.Uri
 import com.example.designsystem.component.textfield.type.InputState
+import com.example.domain.model.ProfileImageState
 import com.example.ui.base.BaseContract
 
 class EditProfileContract {
@@ -9,6 +10,7 @@ class EditProfileContract {
         val nickname: String = "",
         val nicknameInputState: InputState = InputState.Default,
         val profileImagePath: String? = null,
+        val profileImageState: ProfileImageState = ProfileImageState.Keep,
         val isAlbumLauncherBottomSheetVisible: Boolean = false,
     ) : BaseContract.State {
         val isEditButtonEnabled: Boolean
