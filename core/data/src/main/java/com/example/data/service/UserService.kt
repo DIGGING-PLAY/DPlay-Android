@@ -2,9 +2,11 @@ package com.example.data.service
 
 import com.example.data.constant.ApiConstants.API
 import com.example.data.constant.ApiConstants.ME
+import com.example.data.constant.ApiConstants.NOTIFICATIONS
 import com.example.data.constant.ApiConstants.USERS
 import com.example.data.constant.ApiConstants.VERSIONS
 import com.example.data.model.response.BaseResponse
+import com.example.data.model.response.NotificationResponse
 import com.example.data.model.response.UserResponse
 import kotlinx.serialization.InternalSerializationApi
 import okhttp3.MultipartBody
@@ -27,4 +29,7 @@ interface UserService {
     suspend fun getUser(
         @Path("userId") userId: Long,
     ): BaseResponse<UserResponse>
+
+    @GET("$API/$VERSIONS/$USERS/$ME/$NOTIFICATIONS")
+    suspend fun getNotificationEnabled(): BaseResponse<NotificationResponse>
 }
