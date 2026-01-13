@@ -1,10 +1,13 @@
 package com.example.onboarding
 
+import androidx.lifecycle.viewModelScope
 import com.example.common.type.TermType
+import com.example.domain.repository.AuthRepository
 import com.example.domain.usecase.ValidateNicknameUseCase
 import com.example.ui.base.BaseViewModel
 import com.example.ui.mapper.toUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -12,11 +15,20 @@ class OnboardingViewModel
     @Inject
     constructor(
         private val validateNicknameUseCase: ValidateNicknameUseCase,
+        private val authRepository: AuthRepository,
     ) : BaseViewModel<OnboardingContract.OnboardingState, OnboardingContract.OnboardingIntent, OnboardingContract.OnboardingSideEffect>(
             OnboardingContract.OnboardingState(),
         ) {
         override fun handleIntent(intent: OnboardingContract.OnboardingIntent) {
             when (intent) {
+                is OnboardingContract.OnboardingIntent.Initialize -> {
+                    updateState {
+                        copy(
+                            kakaoAccessToken = intent.kakaoAccessToken,
+                        )
+                    }
+                }
+
                 OnboardingContract.OnboardingIntent.OnBackButtonClick -> {
                     setSideEffect(OnboardingContract.OnboardingSideEffect.NavigateToBack)
                 }
@@ -38,8 +50,17 @@ class OnboardingViewModel
                 }
 
                 OnboardingContract.OnboardingIntent.OnProfileScreenNextButtonClick -> {
-                    // TODO 닉네임 검증(중복 검사, 금칙어 검사)
-                    setSideEffect(OnboardingContract.OnboardingSideEffect.NavigateToOnboarding)
+                    viewModelScope.launch {
+                        authRepository
+                            .signupWithKakao(
+                                kakaoAccessToken = currentState.kakaoAccessToken,
+                                profileImage = currentState.profileImageUri.toString(),
+                                nickname = currentState.nickname,
+                            ).onSuccess {
+                                setSideEffect(OnboardingContract.OnboardingSideEffect.NavigateToOnboarding)
+                            }.onFailure {
+                            }
+                    }
                 }
 
                 is OnboardingContract.OnboardingIntent.OnAlbumImageSelect -> {

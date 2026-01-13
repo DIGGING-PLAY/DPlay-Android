@@ -1,6 +1,5 @@
 package com.example.mypage
 
-import android.net.Uri
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -72,6 +71,10 @@ fun MyPageRoute(
     val state by viewModel.uiState.collectAsStateWithLifecycle()
 
     LaunchedEffect(Unit) {
+        viewModel.handleIntent(MyPageContract.MyPageIntent.Initialize)
+    }
+
+    LaunchedEffect(Unit) {
         viewModel.sideEffect.collectLatest { sideEffect ->
             when (sideEffect) {
                 is MyPageContract.MyPageSideEffect.NavigateToDetail -> TODO()
@@ -127,7 +130,7 @@ fun MyPageScreen(
         UserInformationRow(
             nickname = state.userNickname,
             registeredMusicCount = state.registeredMusicCount,
-            profileImageUri = state.profileImageUri,
+            profileImagePath = state.profileImagePath,
             onProfileImageClick = { onProfileImageClick() },
         )
 
@@ -146,7 +149,7 @@ fun MyPageScreen(
 private fun UserInformationRow(
     nickname: String,
     registeredMusicCount: Int,
-    profileImageUri: Uri?,
+    profileImagePath: String?,
     onProfileImageClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -194,7 +197,7 @@ private fun UserInformationRow(
                     ),
         ) {
             AsyncImage(
-                model = profileImageUri,
+                model = profileImagePath,
                 contentDescription = null,
                 modifier =
                     Modifier

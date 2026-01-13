@@ -19,8 +19,9 @@ object OnboardingNavigationModule {
         navigator: Navigator,
     ): EntryProviderScope<NavKey>.() -> Unit =
         {
-            entry<OnboardingGraph> {
+            entry<OnboardingGraph> { key ->
                 OnboardingNavDisplay(
+                    kakaoAccessToken = key.kakaoAccessToken,
                     globalNavigator = navigator,
                 )
             }

@@ -1,6 +1,7 @@
 package com.example.onboarding
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation3.runtime.entryProvider
@@ -10,10 +11,15 @@ import com.example.navigation.OnboardingGraph
 
 @Composable
 fun OnboardingNavDisplay(
+    kakaoAccessToken: String,
     globalNavigator: Navigator,
     viewModel: OnboardingViewModel = hiltViewModel(),
 ) {
     val onboardingNavigator = remember { Navigator(OnboardingGraph.Terms) }
+
+    LaunchedEffect(Unit) {
+        viewModel.handleIntent(OnboardingContract.OnboardingIntent.Initialize(kakaoAccessToken))
+    }
 
     NavDisplay(
         backStack = onboardingNavigator.backStack,

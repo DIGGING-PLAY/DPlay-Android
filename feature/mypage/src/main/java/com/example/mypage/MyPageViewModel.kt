@@ -1,17 +1,32 @@
 package com.example.mypage
 
+import androidx.lifecycle.viewModelScope
+import com.example.domain.repository.UserRepository
 import com.example.ui.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
 class MyPageViewModel
     @Inject
-    constructor() : BaseViewModel<MyPageContract.MyPageState, MyPageContract.MyPageIntent, MyPageContract.MyPageSideEffect>(
+    constructor(
+        private val userRepository: UserRepository,
+    ) : BaseViewModel<MyPageContract.MyPageState, MyPageContract.MyPageIntent, MyPageContract.MyPageSideEffect>(
             MyPageContract.MyPageState(),
         ) {
+        private var isInitialized = false
+
         override fun handleIntent(intent: MyPageContract.MyPageIntent) {
             when (intent) {
+                is MyPageContract.MyPageIntent.Initialize -> {
+                    if (!isInitialized) {
+                        isInitialized = true
+                        initializeUserInfo()
+                    }
+                }
                 MyPageContract.MyPageIntent.OnBottomSheetCancelClick -> {
                 }
 
@@ -47,5 +62,19 @@ class MyPageViewModel
                     }
                 }
             }
+        }
+
+        private fun initializeUserInfo() {
+            userRepository
+                .getUser()
+                .onEach { user ->
+                    updateState {
+                        copy(
+                            userNickname = user?.nickname ?: "",
+                            profileImagePath = user?.profileImagePath,
+                        )
+                    }
+                    Timber.d("user: $user")
+                }.launchIn(viewModelScope)
         }
     }

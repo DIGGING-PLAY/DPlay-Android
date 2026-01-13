@@ -17,6 +17,7 @@ androidx-activity-compose = "1.11.0"
 androidx-lifecycle-runtime-ktx = "2.9.4"
 androidx-hilt-navigation-compose = "1.3.0"
 androidx-lifecycle-navigation3 = "1.0.0"
+androidx-datastore-preferences = "1.2.0"
 
 # Compose
 compose-bom = "2025.10.00"
@@ -38,6 +39,7 @@ kotlin = "2.2.20"
 kotlinx-serialization-json = "1.9.0"
 kotlinx-serialization-converter = "1.0.0"
 kotlinx-immutable = "0.4.0"
+kotlinx-coroutines-core = "1.10.2"
 
 ## Ksp
 ksp = "2.2.20-2.0.4"
@@ -61,12 +63,16 @@ androidx-junit = "1.2.1"
 espresso-core = "3.6.1"
 material = "1.10.0"
 
+#kakao login
+kakao-user = "2.23.0"
+
 [libraries]
 # Androidx Core
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "androidx-core-ktx" }
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "androidx-appcompat" }
 androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "androidx-activity-compose" }
 androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "androidx-lifecycle-runtime-ktx" }
+androidx-datastore-preferences = { group = "androidx.datastore", name = "datastore-preferences", version.ref = "androidx-datastore-preferences" }
 
 # Coil
 coil-compose = { group = "io.coil-kt.coil3", name = "coil-compose", version.ref = "coil" }
@@ -99,6 +105,7 @@ javax-inject = { group = "javax.inject", name = "javax.inject", version.ref = "j
 # Kotlin
 kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinx-serialization-json" }
 kotlinx-immutable = { group = "org.jetbrains.kotlinx", name = "kotlinx-collections-immutable", version.ref = "kotlinx-immutable" }
+kotlinx-coroutines-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "kotlinx-coroutines-core" }
 
 # Network
 okhttp-bom = { group = "com.squareup.okhttp3", name = "okhttp-bom", version.ref = "okhttp" }
@@ -108,6 +115,9 @@ retrofit-bom = { group = "com.squareup.retrofit2", name = "retrofit-bom", versio
 retrofit = { group = "com.squareup.retrofit2", name = "retrofit" }
 kotlinx-serialization-convertor = { group = "com.jakewharton.retrofit", name = "retrofit2-kotlinx-serialization-converter", version.ref = "kotlinx-serialization-converter" }
 retrofit-kotlinx-serialization = { group = "com.squareup.retrofit2", name = "converter-kotlinx-serialization" }
+
+# kako login
+kakao-user = { group = "com.kakao.sdk", name = "v2-user", version.ref = "kakao-user" }
 
 # Splash
 splash = { group = "androidx.core", name = "core-splashscreen", version.ref = "splash" }

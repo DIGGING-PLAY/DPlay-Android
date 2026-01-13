@@ -1,12 +1,15 @@
 package com.example.network
 
+import kotlinx.coroutines.runBlocking
 import okhttp3.Interceptor
 import okhttp3.Response
 import javax.inject.Inject
 
 class AuthInterceptor
     @Inject
-    constructor() : Interceptor {
+    constructor(
+        private val tokenManager: TokenManager,
+    ) : Interceptor {
         override fun intercept(chain: Interceptor.Chain): Response {
             val originalRequest = chain.request()
 
@@ -14,8 +17,7 @@ class AuthInterceptor
                 return chain.proceed(originalRequest)
             }
 
-            // 로그인 구현 전까지 dummy 값으로
-            val accessToken = "여기에 Access Token 넣고 사용"
+            val accessToken = runBlocking { tokenManager.getAccessToken() }
 
             val newRequest =
                 originalRequest

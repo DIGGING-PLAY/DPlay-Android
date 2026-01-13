@@ -1,6 +1,5 @@
 package com.example.mypage
 
-import android.net.Uri
 import com.example.ui.base.BaseContract
 import com.example.ui.model.BookmarkedMusic
 import com.example.ui.model.Music
@@ -12,7 +11,7 @@ class MyPageContract {
     data class MyPageState(
         val isLoading: Boolean = false,
         val userNickname: String = "디플레이",
-        val profileImageUri: Uri? = null,
+        val profileImagePath: String? = null,
         val selectedTabIndex: Int = 0,
         val registeredMusicList: ImmutableList<RegisteredMusic> = dummyRegisteredMusicList,
         val bookmarkedMusicList: ImmutableList<BookmarkedMusic> = dummyBookmarkedMusicList,
@@ -22,6 +21,8 @@ class MyPageContract {
     }
 
     sealed interface MyPageIntent : BaseContract.Intent {
+        data object Initialize : MyPageIntent
+
         data object OnSettingIconClick : MyPageIntent
 
         data object OnProfileClick : MyPageIntent

@@ -1,6 +1,6 @@
 package com.example.data.service
 
-import com.example.data.ApiConstants
+import com.example.data.constant.ApiConstants
 import com.example.data.model.response.BaseResponse
 import com.example.data.model.response.DummyResponse
 import kotlinx.serialization.InternalSerializationApi

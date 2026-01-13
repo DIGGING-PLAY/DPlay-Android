@@ -1,13 +1,18 @@
 package com.example.setting
 
+import androidx.lifecycle.viewModelScope
+import com.example.domain.repository.AuthRepository
 import com.example.ui.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class SettingViewModel
     @Inject
-    constructor() : BaseViewModel<SettingContract.SettingState, SettingContract.SettingIntent, SettingContract.SettingSideEffect>(
+    constructor(
+        private val authRepository: AuthRepository,
+    ) : BaseViewModel<SettingContract.SettingState, SettingContract.SettingIntent, SettingContract.SettingSideEffect>(
             SettingContract.SettingState(),
         ) {
         override fun handleIntent(intent: SettingContract.SettingIntent) {
@@ -22,12 +27,24 @@ class SettingViewModel
                     setSideEffect(SettingContract.SettingSideEffect.NavigateToBack)
                 }
                 SettingContract.SettingIntent.OnLogoutConfirm -> {
-                    // 로그아웃 api
-                    setSideEffect(SettingContract.SettingSideEffect.NavigateToLogin)
+                    viewModelScope.launch {
+                        authRepository
+                            .logout()
+                            .onSuccess {
+                                setSideEffect(SettingContract.SettingSideEffect.NavigateToLogin)
+                            }.onFailure {
+                            }
+                    }
                 }
                 SettingContract.SettingIntent.OnWithdrawConfirm -> {
-                    // 회원탈퇴 api
-                    setSideEffect(SettingContract.SettingSideEffect.NavigateToLogin)
+                    viewModelScope.launch {
+                        authRepository
+                            .withdraw()
+                            .onSuccess {
+                                setSideEffect(SettingContract.SettingSideEffect.NavigateToLogin)
+                            }.onFailure {
+                            }
+                    }
                 }
             }
         }

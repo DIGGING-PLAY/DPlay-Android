@@ -34,6 +34,7 @@ object RetrofitModule {
     @Singleton
     fun providesOkHttpClient(
         authInterceptor: Interceptor,
+        authenticatorProvider: AuthenticatorProvider,
     ): OkHttpClient =
         OkHttpClient
             .Builder()
@@ -42,6 +43,7 @@ object RetrofitModule {
                 writeTimeout(10, TimeUnit.SECONDS)
                 readTimeout(10, TimeUnit.SECONDS)
                 addInterceptor(authInterceptor)
+                authenticator(authenticatorProvider.get())
                 if (BuildConfig.DEBUG) {
                     addInterceptor(
                         HttpLoggingInterceptor().apply {

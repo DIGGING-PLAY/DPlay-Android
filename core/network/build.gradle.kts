@@ -16,22 +16,24 @@ android {
 }
 
 val baseUrl =
-    providers
-        .fileContents(
-            isolated.rootProject.projectDirectory.file("local.properties"),
-        ).asText
-        .map { text ->
-            val properties = Properties()
-            properties.load(StringReader(text))
-            properties.getProperty("BASE_URL")
-        }.orElse("http://example.com")
+    providers.environmentVariable("BASE_URL").orElse(
+        providers
+            .fileContents(
+                isolated.rootProject.projectDirectory.file("local.properties"),
+            ).asText
+            .map { text ->
+                val properties = Properties()
+                properties.load(StringReader(text))
+                properties.getProperty("base.url")
+            }.orElse("http://example.com"),
+    )
 
 androidComponents {
     onVariants {
         it.buildConfigFields!!.put(
             "BASE_URL",
             baseUrl.map { value ->
-                BuildConfigField(type = "String", value = """"$value"""", comment = null)
+                BuildConfigField(type = "String", value = "\"$value\"", comment = null)
             },
         )
     }
