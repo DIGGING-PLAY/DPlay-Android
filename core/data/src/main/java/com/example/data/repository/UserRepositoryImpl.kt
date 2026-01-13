@@ -8,7 +8,7 @@ import com.example.domain.model.ProfileImageState
 import com.example.domain.model.User
 import com.example.domain.repository.UserRepository
 import kotlinx.coroutines.flow.Flow
-import timber.log.Timber
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class UserRepositoryImpl
@@ -19,7 +19,15 @@ class UserRepositoryImpl
         private val userRemoteDataSource: UserRemoteDataSource,
         private val fileLocalDataSource: FileLocalDataSource,
     ) : UserRepository {
-        override fun getUser(): Flow<User?> = userLocalDataSource.userFlow
+        override fun getUser(): Flow<User?> = userLocalDataSource.userFlow.map{ user ->
+            user?.let{ validUser ->
+                if(validUser.profileImagePath?.isEmpty() == true){
+                    validUser.copy(profileImagePath = null)
+                }else{
+                    validUser
+                }
+            }
+        }
 
         override fun getAccessToken(): Flow<String?> = tokenLocalDataSource.accessToken
 
@@ -42,6 +50,7 @@ class UserRepositoryImpl
             )
 
             userLocalDataSource.updateNickname(nickname.orEmpty())
+
             when(profileImageState){
                 ProfileImageState.Delete -> {
                     userLocalDataSource.removeProfileImage()
