@@ -7,6 +7,7 @@ import com.example.data.datasource.local.TokenLocalDataSource
 import com.example.data.datasource.local.UserLocalDataSource
 import com.example.data.datasource.remote.AuthRemoteDataSource
 import com.example.data.datasource.remote.KakaoLoginDataSource
+import com.example.data.datasource.remote.UserRemoteDataSource
 import com.example.data.model.request.LoginRequest
 import com.example.data.model.request.SignupRequest
 import com.example.domain.model.User
@@ -24,6 +25,7 @@ class AuthRepositoryImpl
         private val tokenLocalDataSource: TokenLocalDataSource,
         private val fileLocalDataSource: FileLocalDataSource,
         private val userLocalDataSource: UserLocalDataSource,
+        private val userRemoteDataSource: UserRemoteDataSource,
     ) : AuthRepository {
         override suspend fun kakaoLogin(): Result<String> =
             runCatching {
@@ -42,6 +44,18 @@ class AuthRepositoryImpl
                 tokenLocalDataSource.saveTokens(
                     accessToken = tokenData.accessToken,
                     refreshToken = tokenData.refreshToken,
+                )
+
+                val userInfo = userRemoteDataSource.getUser(
+                    userId = tokenData.userId,
+                )
+
+                userLocalDataSource.saveUser(
+                    User(
+                        id = tokenData.userId,
+                        nickname = userInfo.user.nickname,
+                        profileImagePath = userInfo.user.profileImg,
+                    )
                 )
 
                 return Result.success("")
