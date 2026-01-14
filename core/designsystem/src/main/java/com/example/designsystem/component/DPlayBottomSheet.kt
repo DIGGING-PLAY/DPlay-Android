@@ -258,30 +258,6 @@ fun YearMonthWheelPicker(
         isYear: Boolean,
         onSelected: (Int) -> Unit,
     ) {
-        var itemHeight by remember { mutableIntStateOf(0) }
-        val listState = rememberLazyListState(initialFirstVisibleItemIndex = initialIndex)
-        val focusedIndex by remember {
-            derivedStateOf {
-                val offset = listState.firstVisibleItemScrollOffset
-                val index = listState.firstVisibleItemIndex
-                if (offset > itemHeight / 2) index + 1 else index
-            }
-        }
-
-        LaunchedEffect(listState.isScrollInProgress) {
-            if (!listState.isScrollInProgress && itemHeight > 0) {
-                val offset = listState.firstVisibleItemScrollOffset
-                val targetIndex =
-                    if (offset > itemHeight / 2) {
-                        listState.firstVisibleItemIndex + 1
-                    } else {
-                        listState.firstVisibleItemIndex
-                    }
-                listState.animateScrollToItem(targetIndex.coerceIn(0, items.lastIndex))
-                onSelected(items[targetIndex.coerceIn(0, items.lastIndex)])
-            }
-        }
-
         SubcomposeLayout { constraints ->
             val samplePlaceable =
                 subcompose("sample") {
@@ -289,10 +265,34 @@ fun YearMonthWheelPicker(
                 }.first().measure(constraints)
 
             val itemWidth = samplePlaceable.width
-            itemHeight = samplePlaceable.height
+            val itemHeight = samplePlaceable.height
 
-            val boxPlaceable =
-                subcompose("box") {
+            val listPlaceable =
+                subcompose("list") {
+                    val listState = rememberLazyListState(initialFirstVisibleItemIndex = initialIndex)
+                    val focusedIndex by remember {
+                        derivedStateOf {
+                            if (itemHeight == 0) return@derivedStateOf -1
+                            val offset = listState.firstVisibleItemScrollOffset
+                            val index = listState.firstVisibleItemIndex
+                            if (offset > itemHeight / 2) index + 1 else index
+                        }
+                    }
+
+                    LaunchedEffect(listState.isScrollInProgress) {
+                        if (!listState.isScrollInProgress && itemHeight > 0) {
+                            val offset = listState.firstVisibleItemScrollOffset
+                            val targetIndex =
+                                if (offset > itemHeight / 2) {
+                                    listState.firstVisibleItemIndex + 1
+                                } else {
+                                    listState.firstVisibleItemIndex
+                                }
+                            listState.animateScrollToItem(targetIndex.coerceIn(0, items.lastIndex))
+                            onSelected(items[targetIndex.coerceIn(0, items.lastIndex)])
+                        }
+                    }
+
                     Box(
                         modifier = Modifier.width(itemWidth.toDp()),
                         contentAlignment = Alignment.Center,
@@ -319,8 +319,8 @@ fun YearMonthWheelPicker(
                     }
                 }.first().measure(constraints)
 
-            layout(boxPlaceable.width, boxPlaceable.height) {
-                boxPlaceable.placeRelative(0, 0)
+            layout(listPlaceable.width, listPlaceable.height) {
+                listPlaceable.placeRelative(0, 0)
             }
         }
     }
