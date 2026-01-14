@@ -14,7 +14,10 @@ class RecordContract {
     data class RecordState(
         val loading: Boolean = false,
         val questionList: ImmutableList<DailyQuestion> = persistentListOf(),
+        val year: Int = 2026,
+        val month: Int = 1,
         val selectedQuestion: DailyQuestion? = null,
+        val datePickerBottomSheetVisible: Boolean = false,
         val recordList: ImmutableList<FeedItem> =
             persistentListOf(
                 FeedItem(
@@ -145,8 +148,17 @@ class RecordContract {
 
         data object OnListBackButtonClick : RecordIntent
 
+        data class ChangeBottomSheetVisible(
+            val isVisible: Boolean,
+        ) : RecordIntent
+
         data class OnMusicClick(
             val postId: Long,
+        ) : RecordIntent
+
+        data class SelectDate(
+            val year: Int,
+            val month: Int,
         ) : RecordIntent
     }
 
