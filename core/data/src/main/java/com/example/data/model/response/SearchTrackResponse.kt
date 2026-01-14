@@ -1,23 +1,42 @@
 package com.example.data.model.response
 
+import com.example.domain.model.TrackInfo
 import kotlinx.serialization.InternalSerializationApi
+import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @OptIn(InternalSerializationApi::class)
 @Serializable
 data class SearchTrackResponse(
+    @SerialName("query")
     val query: String,
+    @SerialName("storefront")
     val storefront: String,
+    @SerialName("limit")
     val limit: Int,
+    @SerialName("nextCursor")
     val nextCursor: String?,
+    @SerialName("items")
     val items: List<Track>
 )
 
 @Serializable
 data class Track(
+    @SerialName("trackId")
     val trackId: String,
+    @SerialName("songTitle")
     val songTitle: String,
+    @SerialName("artistName")
     val artistName: String,
+    @SerialName("coverImg")
     val coverImg: String,
+    @SerialName("isrc")
     val isrc: String
-)
+){
+    fun toDomain() = TrackInfo(
+        trackId = trackId,
+        songTitle = songTitle,
+        artistName = artistName,
+        coverImg = coverImg,
+    )
+}
