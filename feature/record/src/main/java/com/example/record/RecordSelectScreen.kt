@@ -1,5 +1,6 @@
 package com.example.record
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -29,6 +30,11 @@ fun RecordSelectScreen(
     modifier: Modifier = Modifier,
     uiState: RecordContract.RecordState = RecordContract.RecordState(),
 ) {
+    if (uiState.datePickerBottomSheetVisible) {
+        BackHandler {
+            changeDatePickerBottomSheetVisible(false)
+        }
+    }
     Box(modifier = modifier.fillMaxSize()) {
         Column(modifier = Modifier.fillMaxSize()) {
             DplayTitleButtonTopAppBar(
