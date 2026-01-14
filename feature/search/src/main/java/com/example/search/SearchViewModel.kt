@@ -15,6 +15,7 @@ import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
@@ -31,12 +32,15 @@ class SearchViewModel
         val searchResults: Flow<PagingData<Music>> = uiState
             .map { it.searchInput }
             .distinctUntilChanged()
-            .filter { it.isNotBlank() }
             .debounce(300L)
             .flatMapLatest { query ->
-                trackRepository.searchTracks(query).map { pagingData ->
-                    pagingData.map { track ->
-                        track.toUiState()
+                if (query.isBlank()) {
+                    flowOf(PagingData.empty())
+                } else {
+                    trackRepository.searchTracks(query).map { pagingData ->
+                        pagingData.map { track ->
+                            track.toUiState()
+                        }
                     }
                 }
             }
