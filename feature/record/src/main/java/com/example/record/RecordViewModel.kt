@@ -13,9 +13,9 @@ class RecordViewModel
     constructor() : BaseViewModel<RecordContract.RecordState, RecordContract.RecordIntent, RecordContract.RecordSideEffect>(
             RecordContract.RecordState(),
         ) {
-        val now = YearMonth.now()
-
         init {
+            val now = YearMonth.now()
+
             updateState {
                 copy(
                     questionList =
@@ -51,7 +51,7 @@ class RecordViewModel
                 }
 
                 is RecordContract.RecordIntent.ChangeBottomSheetVisible -> {
-                    updateState { copy(datePickerBottomSheetVisible = !currentState.datePickerBottomSheetVisible) }
+                    updateState { copy(datePickerBottomSheetVisible = intent.isVisible) }
                 }
             }
         }

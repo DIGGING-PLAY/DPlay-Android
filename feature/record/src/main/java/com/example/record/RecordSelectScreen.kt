@@ -24,7 +24,7 @@ import com.example.designsystem.util.noRippleClickable
 @Composable
 fun RecordSelectScreen(
     onQuestionClick: (question: DailyQuestion) -> Unit,
-    changeDatePickerBottomSheetVisible: () -> Unit,
+    changeDatePickerBottomSheetVisible: (Boolean) -> Unit,
     onDateSelectClick: (year: Int, month: Int) -> Unit,
     modifier: Modifier = Modifier,
     uiState: RecordContract.RecordState = RecordContract.RecordState(),
@@ -35,7 +35,7 @@ fun RecordSelectScreen(
                 modifier = Modifier.fillMaxWidth(),
                 title = "${uiState.year}년 ${uiState.month}월",
                 onLeftClick = {},
-                onButtonClick = changeDatePickerBottomSheetVisible,
+                onButtonClick = { changeDatePickerBottomSheetVisible(true) },
             )
             LazyColumn(
                 modifier = Modifier.padding(horizontal = 16.dp),
@@ -67,7 +67,7 @@ fun RecordSelectScreen(
                     Modifier
                         .fillMaxSize()
                         .background(color = DPlayTheme.colors.dim40)
-                        .noRippleClickable(onClick = changeDatePickerBottomSheetVisible),
+                        .noRippleClickable { changeDatePickerBottomSheetVisible(false) },
             )
             DPlayDatePickerBottomSheet(
                 modifier =
@@ -75,10 +75,10 @@ fun RecordSelectScreen(
                         .fillMaxWidth()
                         .align(Alignment.BottomStart)
                         .noRippleClickable(),
-                onCloseClick = changeDatePickerBottomSheetVisible,
+                onCloseClick = { changeDatePickerBottomSheetVisible(false) },
                 onApplyClick = { year, month ->
                     onDateSelectClick(year, month)
-                    changeDatePickerBottomSheetVisible()
+                    changeDatePickerBottomSheetVisible(false)
                 },
                 initialYear = uiState.year,
                 initialMonth = uiState.month,

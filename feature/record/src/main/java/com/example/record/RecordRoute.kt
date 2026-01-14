@@ -34,7 +34,9 @@ fun RecordRoute(
                 onQuestionClick = { question ->
                     viewModel.handleIntent(RecordContract.RecordIntent.OnQuestionClick(question))
                 },
-                changeDatePickerBottomSheetVisible = { viewModel.handleIntent(RecordContract.RecordIntent.ChangeBottomSheetVisible) },
+                changeDatePickerBottomSheetVisible = { isVisible ->
+                    viewModel.handleIntent(RecordContract.RecordIntent.ChangeBottomSheetVisible(isVisible = isVisible))
+                },
                 onDateSelectClick = { year, month ->
                     viewModel.handleIntent(RecordContract.RecordIntent.SelectDate(year = year, month = month))
                 },
