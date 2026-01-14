@@ -342,9 +342,9 @@ private fun RegisteredMusicList(
             key = { it.postId },
         ) {
             DPlayMusicListItem(
-                musicImageUrl = it.music.thumbnailUrl ?: "",
-                musicName = it.music.musicTitle,
-                musicArtistName = it.music.artistName,
+                musicImageUrl = it.track.thumbnailUrl ?: "",
+                musicName = it.track.musicTitle,
+                musicArtistName = it.track.artistName,
                 musicContent = it.comment,
                 onMoreClick = {},
                 onClick = {},
@@ -370,9 +370,9 @@ private fun BookmarkedMusicList(
             key = { it.postId },
         ) {
             DPlayMusicGridItem(
-                musicImageUrl = it.music.thumbnailUrl ?: "",
-                musicName = it.music.musicTitle,
-                musicArtistName = it.music.artistName,
+                musicImageUrl = it.track.thumbnailUrl ?: "",
+                musicName = it.track.musicTitle,
+                musicArtistName = it.track.artistName,
                 onClick = {},
             )
         }
@@ -386,8 +386,8 @@ private fun MyPageScreenPreview() {
         mutableStateOf(
             MyPageContract.MyPageState(
                 userNickname = "디플레이",
-                registeredMusicList = dummyRegisteredMusicList,
-                bookmarkedMusicList = dummyBookmarkedMusicList,
+                registeredMusicList = dummyRegisteredTrackStateList,
+                bookmarkedMusicList = dummyBookmarkedTrackStateList,
             ),
         )
     }

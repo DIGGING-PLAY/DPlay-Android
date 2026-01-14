@@ -1,18 +1,18 @@
 package com.example.search
 
 import com.example.ui.base.BaseContract
-import com.example.ui.model.Music
+import com.example.ui.model.TrackState
 
 class SearchContract {
     data class SearchState(
         val searchInput: String = "",
-        val selectedMusic: Music? = null,
+        val selectedTrack: TrackState? = null,
     ) : BaseContract.State {
         val isSearchIconEnabled: Boolean
             get() = searchInput.isNotEmpty()
 
         val isNextButtonEnabled: Boolean
-            get() = selectedMusic != null
+            get() = selectedTrack != null
     }
 
     sealed interface SearchIntent : BaseContract.Intent {
@@ -25,7 +25,7 @@ class SearchContract {
         data object OnBackIconClick : SearchIntent
 
         data class OnMusicSelected(
-            val music: Music,
+            val track: TrackState,
         ) : SearchIntent
     }
 
@@ -33,7 +33,7 @@ class SearchContract {
         data object NavigateToBack : SearchSideEffect
 
         data class NavigateToComment(
-            val musicInfo: Music,
+            val track: TrackState,
         ) : SearchSideEffect
     }
 }

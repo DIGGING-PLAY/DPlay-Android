@@ -3,7 +3,7 @@ package com.example.navigation
 import androidx.annotation.DrawableRes
 import androidx.navigation3.runtime.NavKey
 import com.dplay.designsystem.R
-import com.example.ui.model.Music
+import com.example.ui.model.TrackState
 import kotlinx.serialization.Serializable
 
 sealed interface TopLevelRoute {
@@ -49,7 +49,7 @@ data object Recommend : NavKey
 data object Search : NavKey
 
 data class Comment(
-    val musicInfo: Music,
+    val track: TrackState,
 ) : NavKey
 
 data object Setting : NavKey

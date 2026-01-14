@@ -6,14 +6,13 @@ import androidx.paging.cachedIn
 import androidx.paging.map
 import com.example.domain.repository.TrackRepository
 import com.example.ui.base.BaseViewModel
-import com.example.ui.model.Music
+import com.example.ui.model.TrackState
 import com.example.ui.model.toUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
@@ -29,7 +28,7 @@ class SearchViewModel
         ) {
 
         @OptIn(FlowPreview::class)
-        val searchResults: Flow<PagingData<Music>> = uiState
+        val searchResults: Flow<PagingData<TrackState>> = uiState
             .map { it.searchInput }
             .distinctUntilChanged()
             .debounce(300L)
@@ -54,12 +53,12 @@ class SearchViewModel
                 is SearchContract.SearchIntent.OnMusicSelected -> {
                     updateState {
                         copy(
-                            selectedMusic = intent.music,
+                            selectedTrack = intent.track,
                         )
                     }
                 }
                 SearchContract.SearchIntent.OnNextButtonClick -> {
-                    setSideEffect(SearchContract.SearchSideEffect.NavigateToComment(uiState.value.selectedMusic!!))
+                    setSideEffect(SearchContract.SearchSideEffect.NavigateToComment(uiState.value.selectedTrack!!))
                 }
                 is SearchContract.SearchIntent.OnSearchInputChanged -> {
                     updateState {

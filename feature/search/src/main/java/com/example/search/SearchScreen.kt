@@ -31,7 +31,7 @@ import com.example.designsystem.theme.DPlayTheme
 import com.example.navigation.Comment
 import com.example.navigation.Navigator
 import com.example.ui.emptyLazyPagingItems
-import com.example.ui.model.Music
+import com.example.ui.model.TrackState
 
 @Composable
 fun SearchRoute(
@@ -50,7 +50,7 @@ fun SearchRoute(
                     navigator.navigateToBack()
                 }
                 is SearchContract.SearchSideEffect.NavigateToComment -> {
-                    navigator.navigateTo(Comment(sideEffect.musicInfo))
+                    navigator.navigateTo(Comment(sideEffect.track))
                 }
             }
         }
@@ -58,7 +58,7 @@ fun SearchRoute(
 
     SearchScreen(
         state = state,
-        searchedMusicList = pagingSearchedMusics,
+        searchedTrackList = pagingSearchedMusics,
         modifier = modifier,
         onBackIconClick = { viewModel.handleIntent(SearchContract.SearchIntent.OnBackIconClick) },
         onSearchInputChanged = { viewModel.handleIntent(SearchContract.SearchIntent.OnSearchInputChanged(it)) },
@@ -70,11 +70,11 @@ fun SearchRoute(
 @Composable
 fun SearchScreen(
     state: SearchContract.SearchState,
-    searchedMusicList: LazyPagingItems<Music>,
+    searchedTrackList: LazyPagingItems<TrackState>,
     modifier: Modifier = Modifier,
     onBackIconClick: () -> Unit = {},
     onSearchInputChanged: (String) -> Unit = {},
-    onMusicSelected: (Music) -> Unit = {},
+    onMusicSelected: (TrackState) -> Unit = {},
     onNextButtonClick: () -> Unit = {},
 ) {
     Column(
@@ -112,9 +112,9 @@ fun SearchScreen(
         Spacer(modifier = Modifier.height(20.dp))
 
         SearchedMusicList(
-            searchedMusicList = searchedMusicList,
+            searchedTrackList = searchedTrackList,
             onMusicSelected = { onMusicSelected(it) },
-            selectedTrackId = state.selectedMusic?.trackId,
+            selectedTrackId = state.selectedTrack?.trackId,
             modifier = Modifier.weight(1f),
         )
 
@@ -134,12 +134,12 @@ fun SearchScreen(
 
 @Composable
 private fun SearchedMusicList(
-    searchedMusicList: LazyPagingItems<Music>,
-    onMusicSelected: (Music) -> Unit,
+    searchedTrackList: LazyPagingItems<TrackState>,
+    onMusicSelected: (TrackState) -> Unit,
     modifier: Modifier = Modifier,
     selectedTrackId: String? = null,
 ) {
-    if (searchedMusicList.itemCount == 0) {
+    if (searchedTrackList.itemCount == 0) {
         Column(
             modifier = modifier.fillMaxWidth(),
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -157,11 +157,11 @@ private fun SearchedMusicList(
             modifier = modifier,
         ) {
             items(
-                count = searchedMusicList.itemCount,
-                key = searchedMusicList.itemKey { it.trackId }
+                count = searchedTrackList.itemCount,
+                key = searchedTrackList.itemKey { it.trackId }
             ) { index ->
 
-                val music = searchedMusicList[index]
+                val music = searchedTrackList[index]
                 if(music != null){
                     DPlayImageCheck(
                         imageUrl = music.thumbnailUrl ?: "",
@@ -184,7 +184,7 @@ fun SearchScreenPreview(modifier: Modifier = Modifier) {
     DPlayTheme {
         SearchScreen(
             state = SearchContract.SearchState(),
-            searchedMusicList = emptyLazyPagingItems(),
+            searchedTrackList = emptyLazyPagingItems(),
         )
     }
 }

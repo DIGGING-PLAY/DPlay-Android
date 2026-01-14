@@ -36,19 +36,19 @@ import com.example.designsystem.component.textfield.DPlayTextArea
 import com.example.designsystem.theme.DPlayTheme
 import com.example.navigation.Home
 import com.example.navigation.Navigator
-import com.example.ui.model.Music
+import com.example.ui.model.TrackState
 
 @Composable
 fun CommentRoute(
-    musicInfo: Music,
+    track: TrackState,
     navigator: Navigator,
     modifier: Modifier = Modifier,
     viewModel: CommentViewModel = hiltViewModel(),
 ) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
 
-    LaunchedEffect(musicInfo) {
-        viewModel.handleIntent(CommentContract.CommentIntent.Initialize(musicInfo))
+    LaunchedEffect(track) {
+        viewModel.handleIntent(CommentContract.CommentIntent.Initialize(track))
     }
 
     LaunchedEffect(Unit) {
@@ -114,9 +114,9 @@ fun CommentScreen(
         Spacer(modifier = Modifier.height(20.dp))
 
         DPlayMusicGridItem(
-            musicImageUrl = state.musicInfo?.thumbnailUrl ?: "",
-            musicName = state.musicInfo?.musicTitle ?: "",
-            musicArtistName = state.musicInfo?.artistName ?: "",
+            musicImageUrl = state.track?.thumbnailUrl ?: "",
+            musicName = state.track?.musicTitle ?: "",
+            musicArtistName = state.track?.artistName ?: "",
             modifier =
                 Modifier
                     .width(132.dp)

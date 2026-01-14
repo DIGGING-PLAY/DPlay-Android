@@ -3,5 +3,5 @@ package com.example.ui.model
 data class RegisteredMusic(
     val postId: Long,
     val comment: String,
-    val music: Music,
+    val track: TrackState,
 )

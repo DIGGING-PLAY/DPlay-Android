@@ -2,7 +2,7 @@ package com.example.mypage
 
 import com.example.ui.base.BaseContract
 import com.example.ui.model.BookmarkedMusic
-import com.example.ui.model.Music
+import com.example.ui.model.TrackState
 import com.example.ui.model.RegisteredMusic
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
@@ -13,8 +13,8 @@ class MyPageContract {
         val userNickname: String = "디플레이",
         val profileImagePath: String? = null,
         val selectedTabIndex: Int = 0,
-        val registeredMusicList: ImmutableList<RegisteredMusic> = dummyRegisteredMusicList,
-        val bookmarkedMusicList: ImmutableList<BookmarkedMusic> = dummyBookmarkedMusicList,
+        val registeredMusicList: ImmutableList<RegisteredMusic> = dummyRegisteredTrackStateList,
+        val bookmarkedMusicList: ImmutableList<BookmarkedMusic> = dummyBookmarkedTrackStateList,
     ) : BaseContract.State {
         val registeredMusicCount: Int
             get() = registeredMusicList.size
@@ -61,13 +61,13 @@ class MyPageContract {
     }
 }
 
-val dummyRegisteredMusicList =
+val dummyRegisteredTrackStateList =
     persistentListOf(
         RegisteredMusic(
             postId = 1L,
             comment = "운동할 때 들으면 힘나는 노래!",
-            music =
-                Music(
+            track =
+                TrackState(
                     trackId = "track_1",
                     musicTitle = "Supernova",
                     artistName = "aespa",
@@ -77,8 +77,8 @@ val dummyRegisteredMusicList =
         RegisteredMusic(
             postId = 2L,
             comment = "요즘 제일 많이 듣는 곡",
-            music =
-                Music(
+            track =
+                TrackState(
                     trackId = "track_2",
                     musicTitle = "Magnetic",
                     artistName = "ILLIT",
@@ -88,8 +88,8 @@ val dummyRegisteredMusicList =
         RegisteredMusic(
             postId = 3L,
             comment = "비트가 너무 좋음",
-            music =
-                Music(
+            track =
+                TrackState(
                     trackId = "track_3",
                     musicTitle = "SPOT! (feat. JENNIE)",
                     artistName = "지코 (ZICO)",
@@ -99,8 +99,8 @@ val dummyRegisteredMusicList =
         RegisteredMusic(
             postId = 4L,
             comment = "반복 재생 중...",
-            music =
-                Music(
+            track =
+                TrackState(
                     trackId = "track_4",
                     musicTitle = "해야 (HEYA)",
                     artistName = "IVE (아이브)",
@@ -110,8 +110,8 @@ val dummyRegisteredMusicList =
         RegisteredMusic(
             postId = 5L,
             comment = "선재 업고 튀어 OST",
-            music =
-                Music(
+            track =
+                TrackState(
                     trackId = "track_5",
                     musicTitle = "소나기",
                     artistName = "이클립스 (ECLIPSE)",
@@ -121,8 +121,8 @@ val dummyRegisteredMusicList =
         RegisteredMusic(
             postId = 6L,
             comment = "자기 전에 듣기 좋아요 자기 전에 듣기 좋아요 자기 전에 듣기 좋아요",
-            music =
-                Music(
+            track =
+                TrackState(
                     trackId = "track_6",
                     musicTitle = "Love wins all",
                     artistName = "아이유 (IU)",
@@ -131,12 +131,12 @@ val dummyRegisteredMusicList =
         ),
     )
 
-val dummyBookmarkedMusicList =
+val dummyBookmarkedTrackStateList =
     persistentListOf(
         BookmarkedMusic(
             postId = 101L,
-            music =
-                Music(
+            track =
+                TrackState(
                     trackId = "track_101",
                     musicTitle = "How Sweet",
                     artistName = "NewJeans",
@@ -145,8 +145,8 @@ val dummyBookmarkedMusicList =
         ),
         BookmarkedMusic(
             postId = 102L,
-            music =
-                Music(
+            track =
+                TrackState(
                     trackId = "track_102",
                     musicTitle = "Bubble Gum",
                     artistName = "NewJeans",
@@ -155,8 +155,8 @@ val dummyBookmarkedMusicList =
         ),
         BookmarkedMusic(
             postId = 103L,
-            music =
-                Music(
+            track =
+                TrackState(
                     trackId = "track_103",
                     musicTitle = "나는 아픈 건 딱 질색이니까",
                     artistName = "(여자)아이들",
@@ -165,8 +165,8 @@ val dummyBookmarkedMusicList =
         ),
         BookmarkedMusic(
             postId = 104L,
-            music =
-                Music(
+            track =
+                TrackState(
                     trackId = "track_104",
                     musicTitle = "첫 만남은 계획대로 되지 않아",
                     artistName = "TWS (투어스)",
@@ -175,8 +175,8 @@ val dummyBookmarkedMusicList =
         ),
         BookmarkedMusic(
             postId = 105L,
-            music =
-                Music(
+            track =
+                TrackState(
                     trackId = "track_105",
                     musicTitle = "밤양갱",
                     artistName = "비비 (BIBI)",
@@ -185,8 +185,8 @@ val dummyBookmarkedMusicList =
         ),
         BookmarkedMusic(
             postId = 106L,
-            music =
-                Music(
+            track =
+                TrackState(
                     trackId = "track_106",
                     musicTitle = "EASY",
                     artistName = "LE SSERAFIM",
@@ -195,8 +195,8 @@ val dummyBookmarkedMusicList =
         ),
         BookmarkedMusic(
             postId = 107L,
-            music =
-                Music(
+            track =
+                TrackState(
                     trackId = "track_107",
                     musicTitle = "Smart",
                     artistName = "LE SSERAFIM",
@@ -205,8 +205,8 @@ val dummyBookmarkedMusicList =
         ),
         BookmarkedMusic(
             postId = 108L,
-            music =
-                Music(
+            track =
+                TrackState(
                     trackId = "track_108",
                     musicTitle = "Drama",
                     artistName = "aespa",
@@ -215,8 +215,8 @@ val dummyBookmarkedMusicList =
         ),
         BookmarkedMusic(
             postId = 109L,
-            music =
-                Music(
+            track =
+                TrackState(
                     trackId = "track_109",
                     musicTitle = "To. X",
                     artistName = "태연 (TAEYEON)",
@@ -225,8 +225,8 @@ val dummyBookmarkedMusicList =
         ),
         BookmarkedMusic(
             postId = 110L,
-            music =
-                Music(
+            track =
+                TrackState(
                     trackId = "track_110",
                     musicTitle = "Perfect Night",
                     artistName = "LE SSERAFIM",
@@ -235,8 +235,8 @@ val dummyBookmarkedMusicList =
         ),
         BookmarkedMusic(
             postId = 111L,
-            music =
-                Music(
+            track =
+                TrackState(
                     trackId = "track_111",
                     musicTitle = "Love 119",
                     artistName = "RIIZE",
@@ -245,8 +245,8 @@ val dummyBookmarkedMusicList =
         ),
         BookmarkedMusic(
             postId = 112L,
-            music =
-                Music(
+            track =
+                TrackState(
                     trackId = "track_112",
                     musicTitle = "Get A Guitar",
                     artistName = "RIIZE",
@@ -255,8 +255,8 @@ val dummyBookmarkedMusicList =
         ),
         BookmarkedMusic(
             postId = 113L,
-            music =
-                Music(
+            track =
+                TrackState(
                     trackId = "track_113",
                     musicTitle = "Ditto",
                     artistName = "NewJeans",

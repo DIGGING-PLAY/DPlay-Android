@@ -1,7 +1,7 @@
 package com.example.comment
 
 import com.example.ui.base.BaseViewModel
-import com.example.ui.model.Music
+import com.example.ui.model.TrackState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
@@ -14,7 +14,7 @@ class CommentViewModel
         override fun handleIntent(intent: CommentContract.CommentIntent) {
             when (intent) {
                 is CommentContract.CommentIntent.Initialize -> {
-                    initializeMusicInfo(intent.music)
+                    initializeMusicInfo(intent.track)
                 }
                 CommentContract.CommentIntent.OnBackIconClick -> {
                     setSideEffect(CommentContract.CommentSideEffect.NavigateToBack)
@@ -45,9 +45,9 @@ class CommentViewModel
             }
         }
 
-        private fun initializeMusicInfo(music: Music) {
+        private fun initializeMusicInfo(trackState: TrackState) {
             updateState {
-                copy(musicInfo = music)
+                copy(track = trackState)
             }
         }
     }
