@@ -148,7 +148,9 @@ class RecordContract {
 
         data object OnListBackButtonClick : RecordIntent
 
-        data class ChangeBottomSheetVisible(val isVisible: Boolean) : RecordIntent
+        data class ChangeBottomSheetVisible(
+            val isVisible: Boolean,
+        ) : RecordIntent
 
         data class OnMusicClick(
             val postId: Long,
