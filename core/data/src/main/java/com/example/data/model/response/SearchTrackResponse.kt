@@ -1,6 +1,6 @@
 package com.example.data.model.response
 
-import com.example.domain.model.TrackInfo
+import com.example.domain.model.Track
 import kotlinx.serialization.InternalSerializationApi
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -33,7 +33,7 @@ data class TrackResponse(
     @SerialName("isrc")
     val isrc: String
 ){
-    fun toDomain() = TrackInfo(
+    fun toDomain() = Track(
         trackId = trackId,
         songTitle = songTitle,
         artistName = artistName,

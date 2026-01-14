@@ -1,6 +1,6 @@
 package com.example.ui.model
 
-import com.example.domain.model.TrackInfo
+import com.example.domain.model.Track
 
 data class Music(
     val trackId: String,
@@ -9,7 +9,7 @@ data class Music(
     val thumbnailUrl: String?,
 )
 
-fun TrackInfo.toUiState(): Music = Music(
+fun Track.toUiState(): Music = Music(
     trackId = trackId,
     musicTitle = songTitle,
     artistName = artistName,

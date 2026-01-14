@@ -1,9 +1,9 @@
 package com.example.domain.repository
 
 import androidx.paging.PagingData
-import com.example.domain.model.TrackInfo
+import com.example.domain.model.Track
 import kotlinx.coroutines.flow.Flow
 
 interface TrackRepository {
-    fun searchTracks(query: String): Flow<PagingData<TrackInfo>>
+    fun searchTracks(query: String): Flow<PagingData<Track>>
 }
