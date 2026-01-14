@@ -2,7 +2,7 @@ package com.example.data.datasource.remote
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.example.data.model.response.Track
+import com.example.data.model.response.TrackResponse
 import com.example.data.service.TrackService
 import kotlinx.serialization.InternalSerializationApi
 
@@ -10,12 +10,12 @@ import kotlinx.serialization.InternalSerializationApi
 class TrackPagingSource(
     private val trackService: TrackService,
     private val query: String,
-): PagingSource<String, Track>() {
-    override fun getRefreshKey(state: PagingState<String, Track>): String? {
+): PagingSource<String, TrackResponse>() {
+    override fun getRefreshKey(state: PagingState<String, TrackResponse>): String? {
         return null
     }
 
-    override suspend fun load(params: LoadParams<String>): LoadResult<String, Track> {
+    override suspend fun load(params: LoadParams<String>): LoadResult<String, TrackResponse> {
         return try {
             val currentCursor = params.key
 

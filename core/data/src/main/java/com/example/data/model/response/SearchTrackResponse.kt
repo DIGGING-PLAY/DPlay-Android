@@ -17,11 +17,11 @@ data class SearchTrackResponse(
     @SerialName("nextCursor")
     val nextCursor: String?,
     @SerialName("items")
-    val items: List<Track>
+    val items: List<TrackResponse>
 )
 
 @Serializable
-data class Track(
+data class TrackResponse(
     @SerialName("trackId")
     val trackId: String,
     @SerialName("songTitle")
