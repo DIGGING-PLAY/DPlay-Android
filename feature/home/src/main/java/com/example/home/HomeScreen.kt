@@ -23,7 +23,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.dplay.designsystem.R
-import com.example.common.model.FeedItem
+import com.example.domain.model.FeedItem
 import com.example.designsystem.component.DPlayLargeCover
 import com.example.designsystem.component.DPlaySubjectItem
 import com.example.designsystem.component.DplayClickableIcon

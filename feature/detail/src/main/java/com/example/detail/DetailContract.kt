@@ -1,10 +1,11 @@
 package com.example.detail
 
-import com.example.common.model.Badges
-import com.example.common.model.Like
-import com.example.common.model.Track
-import com.example.common.model.Writer
+
 import com.example.designsystem.component.snackbar.type.SnackBarType
+import com.example.domain.model.Badges
+import com.example.domain.model.Like
+import com.example.domain.model.Track
+import com.example.domain.model.Writer
 import com.example.ui.base.BaseContract
 
 class DetailContract {

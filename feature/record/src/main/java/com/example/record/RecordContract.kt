@@ -1,11 +1,11 @@
 package com.example.record
 
-import com.example.common.model.Badges
-import com.example.common.model.DailyQuestion
-import com.example.common.model.FeedItem
-import com.example.common.model.Like
-import com.example.common.model.Track
-import com.example.common.model.Writer
+import com.example.domain.model.Badges
+import com.example.domain.model.FeedItem
+import com.example.domain.model.Like
+import com.example.domain.model.Track
+import com.example.domain.model.Writer
+import com.example.domain.model.DailyQuestion
 import com.example.ui.base.BaseContract
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf

@@ -1,11 +1,11 @@
 package com.example.home
 
 import androidx.lifecycle.viewModelScope
-import com.example.common.model.Badges
-import com.example.common.model.FeedItem
-import com.example.common.model.Like
-import com.example.common.model.Track
-import com.example.common.model.Writer
+import com.example.domain.model.Badges
+import com.example.domain.model.FeedItem
+import com.example.domain.model.Like
+import com.example.domain.model.Track
+import com.example.domain.model.Writer
 import com.example.designsystem.component.snackbar.type.SnackBarType
 import com.example.ui.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel

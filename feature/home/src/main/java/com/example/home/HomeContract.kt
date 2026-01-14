@@ -1,7 +1,7 @@
 package com.example.home
 
-import com.example.common.model.DailyQuestion
-import com.example.common.model.FeedItem
+import com.example.domain.model.DailyQuestion
+import com.example.domain.model.FeedItem
 import com.example.designsystem.component.snackbar.type.SnackBarType
 import com.example.ui.base.BaseContract
 import kotlinx.collections.immutable.ImmutableList
