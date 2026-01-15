@@ -6,4 +6,6 @@ import kotlinx.coroutines.flow.Flow
 
 interface TrackRepository {
     fun searchTracks(query: String): Flow<PagingData<Track>>
+
+    suspend fun getTrack(trackId: String): Result<Track>
 }

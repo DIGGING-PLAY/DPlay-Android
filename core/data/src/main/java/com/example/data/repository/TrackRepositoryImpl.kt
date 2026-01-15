@@ -5,6 +5,7 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.map
 import com.example.data.datasource.remote.TrackPagingSource
+import com.example.data.datasource.remote.TrackRemoteDataSource
 import com.example.data.service.TrackService
 import com.example.domain.model.Track
 import com.example.domain.repository.TrackRepository
@@ -14,7 +15,8 @@ import javax.inject.Inject
 
 class TrackRepositoryImpl
 @Inject constructor(
-    private val trackService: TrackService
+    private val trackService: TrackService,
+    private val trackRemoteDataSource: TrackRemoteDataSource
 ): TrackRepository {
     override fun searchTracks(query: String): Flow<PagingData<Track>> {
         return Pager(
@@ -28,5 +30,9 @@ class TrackRepositoryImpl
                 track.toDomain()
             }
         }
+    }
+
+    override suspend fun getTrack(trackId: String): Result<Track> = runCatching {
+        trackRemoteDataSource.getTrack(trackId = trackId).toDomain()
     }
 }
