@@ -31,4 +31,7 @@ class PostRemoteDataSource
             postId: Long,
         ): BaseResponse<Unit> = postService.deletePostScrap(postId = postId)
 
+        suspend fun deletePost(
+            postId: Long,
+        ): BaseResponse<Unit> = postService.deletePost(postId = postId)
     }

@@ -124,6 +124,16 @@ constructor(
             }
         }
 
+        private fun deletePost() {
+            viewModelScope.launch {
+                postRepository
+                    .deletePost(postId = 2)
+                    .onSuccess {
+                        changeBottomSheetVisible(visible = false)
+                    }.onFailure { e ->
+                        changeBottomSheetVisible(visible = false)
+                        Timber.e(e)
+                    }
             }
         updateState { copy(like = Like(isLiked = !currentState.like.isLiked, count = newCount)) }
     }

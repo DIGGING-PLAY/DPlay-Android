@@ -21,4 +21,7 @@ interface PostRepository {
         postId: Long,
     ): Result<Unit>
 
+    suspend fun deletePost(
+        postId: Long,
+    ): Result<Unit>
 }

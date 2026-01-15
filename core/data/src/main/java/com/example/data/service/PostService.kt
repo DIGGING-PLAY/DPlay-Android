@@ -36,3 +36,8 @@ interface PostService {
         @Path("postId") postId: Long,
     ): BaseResponse<Unit>
 
+    @DELETE("$API/$VERSIONS/$POSTS/{postId}")
+    suspend fun deletePost(
+        @Path("postId") postId: Long,
+    ): BaseResponse<Unit>
+}

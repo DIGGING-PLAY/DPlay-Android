@@ -45,5 +45,9 @@ class PostRepositoryImpl
             runCatching {
                 postRemoteDataSource.deletePostScrap(postId = postId)
             }
+
+        override suspend fun deletePost(postId: Long): Result<Unit> =
+            runCatching {
+                postRemoteDataSource.deletePost(postId = postId)
             }
     }
