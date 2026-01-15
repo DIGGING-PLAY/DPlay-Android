@@ -6,7 +6,6 @@ import com.example.network.TokenManager
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
-import kotlinx.serialization.InternalSerializationApi
 import okhttp3.Authenticator
 import okhttp3.Request
 import okhttp3.Response
@@ -14,7 +13,6 @@ import okhttp3.Route
 import javax.inject.Inject
 import javax.inject.Provider
 
-@OptIn(InternalSerializationApi::class)
 class TokenAuthenticator
     @Inject
     constructor(

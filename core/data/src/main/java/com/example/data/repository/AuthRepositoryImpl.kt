@@ -12,10 +12,8 @@ import com.example.data.model.request.SignupRequest
 import com.example.domain.model.User
 import com.example.domain.repository.AuthRepository
 import com.example.network.NetworkException
-import kotlinx.serialization.InternalSerializationApi
 import javax.inject.Inject
 
-@OptIn(InternalSerializationApi::class)
 class AuthRepositoryImpl
     @Inject
     constructor(
