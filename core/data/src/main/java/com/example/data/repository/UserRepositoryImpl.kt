@@ -8,6 +8,7 @@ import com.example.data.datasource.local.FileLocalDataSource
 import com.example.data.datasource.local.TokenLocalDataSource
 import com.example.data.datasource.local.UserLocalDataSource
 import com.example.data.datasource.remote.RegisteredTracksPagingSource
+import com.example.data.datasource.remote.ScrappedTracksPagingSource
 import com.example.data.datasource.remote.TrackPagingSource
 import com.example.data.datasource.remote.UserRemoteDataSource
 import com.example.data.service.UserService
@@ -107,7 +108,24 @@ class UserRepositoryImpl
             }
         }
 
-        override fun getScrappedTracks(): Flow<PagingData<ScrappedTrack>> {
-            TODO("Not yet implemented")
+        override fun getScrappedTracks(
+            userId: Long,
+        ): Flow<PagingData<ScrappedTrack>> {
+            return Pager(
+                config = PagingConfig(
+                    pageSize = 20,
+                    enablePlaceholders = false,
+                ),
+                pagingSourceFactory = {
+                    ScrappedTracksPagingSource(
+                        userService = userService,
+                        userId = userId,
+                    )
+                }
+            ).flow.map { pagingData ->
+                pagingData.map { track ->
+                    track.toDomain()
+                }
+            }
         }
 }

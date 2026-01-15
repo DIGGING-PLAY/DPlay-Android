@@ -28,5 +28,7 @@ interface UserRepository {
         onTotalCountFetched: (Int) -> Unit
     ): Flow<PagingData<RegisteredTrack>>
 
-    fun getScrappedTracks(): Flow<PagingData<ScrappedTrack>>
+    fun getScrappedTracks(
+        userId: Long,
+    ): Flow<PagingData<ScrappedTrack>>
 }
