@@ -1,6 +1,6 @@
 package com.example.record
 
-import com.example.common.model.DailyQuestion
+import com.example.domain.model.DailyQuestion
 import com.example.ui.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.persistentListOf
