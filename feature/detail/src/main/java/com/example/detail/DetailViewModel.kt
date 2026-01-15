@@ -1,46 +1,51 @@
 package com.example.detail
 
-
 import androidx.lifecycle.viewModelScope
 import com.example.designsystem.component.snackbar.type.SnackBarType
 import com.example.detail.DetailContract.DetailSideEffect.NavigateToMyPage
 import com.example.detail.DetailContract.DetailSideEffect.ShowSnackBar
-import com.example.domain.model.Badges
 import com.example.domain.model.Like
-import com.example.domain.model.Track
-import com.example.domain.model.Writer
 import com.example.domain.repository.PostRepository
 import com.example.ui.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
 class DetailViewModel
-@Inject
-constructor(
-    private val postRepository: PostRepository,
-) : BaseViewModel<DetailContract.DetailState, DetailContract.DetailIntent, DetailContract.DetailSideEffect>(
-    DetailContract.DetailState(),
-) {
-    override fun handleIntent(intent: DetailContract.DetailIntent) {
-        when (intent) {
-            is DetailContract.DetailIntent.LoadData -> loadData(intent.postId)
-            is DetailContract.DetailIntent.OnBackButtonClick -> {
-                setSideEffect(DetailContract.DetailSideEffect.NavigateBackStack)
-            }
+    @Inject
+    constructor(
+        private val postRepository: PostRepository,
+    ) : BaseViewModel<DetailContract.DetailState, DetailContract.DetailIntent, DetailContract.DetailSideEffect>(
+            DetailContract.DetailState(),
+        ) {
+        override fun handleIntent(intent: DetailContract.DetailIntent) {
+            when (intent) {
+                is DetailContract.DetailIntent.LoadData -> loadData(intent.postId)
+                is DetailContract.DetailIntent.OnBackButtonClick -> {
+                    setSideEffect(DetailContract.DetailSideEffect.NavigateBackStack)
+                }
 
-            is DetailContract.DetailIntent.OnBookmarkClick -> toggleBookmark()
-            is DetailContract.DetailIntent.OnDeleteClick -> deletePost()
-            is DetailContract.DetailIntent.OnLikeClick -> toggleLike()
-            is DetailContract.DetailIntent.OnMeatBallsClick -> {
-                setSideEffect(DetailContract.DetailSideEffect.ShowBottomSheet)
-            }
+                is DetailContract.DetailIntent.OnBookmarkClick -> toggleBookmark()
+                is DetailContract.DetailIntent.OnDeleteClick -> deletePost()
+                is DetailContract.DetailIntent.OnLikeClick -> toggleLike()
+                is DetailContract.DetailIntent.OnMeatBallsClick -> {
+                    changeBottomSheetVisible(visible = true)
+                }
 
-            is DetailContract.DetailIntent.OnReportClick -> reportPost()
-            is DetailContract.DetailIntent.OnStreamClick -> streamTrack()
-            is DetailContract.DetailIntent.OnWriterProfileClick -> {
-                setSideEffect(DetailContract.DetailSideEffect.NavigateToWriterProfile)
+                is DetailContract.DetailIntent.OnReportClick -> reportPost()
+                is DetailContract.DetailIntent.OnStreamClick -> streamTrack()
+                is DetailContract.DetailIntent.OnWriterProfileClick -> {
+                    setSideEffect(DetailContract.DetailSideEffect.NavigateToWriterProfile)
+                }
+
+                is DetailContract.DetailIntent.ChangeBottomSheetVisible -> {
+                    changeBottomSheetVisible(visible = intent.visible)
+                }
+            }
+        }
+
         private fun loadData(postId: Long) {
             viewModelScope.launch {
                 postRepository
@@ -135,15 +140,15 @@ constructor(
                         Timber.e(e)
                     }
             }
-        updateState { copy(like = Like(isLiked = !currentState.like.isLiked, count = newCount)) }
-    }
+        }
 
-    private fun deletePost() {
-    }
+        private fun changeBottomSheetVisible(visible: Boolean) {
+            updateState { copy(bottomSheetVisible = visible) }
+        }
 
-    private fun reportPost() {
-    }
+        private fun reportPost() {
+        }
 
-    private fun streamTrack() {
+        private fun streamTrack() {
+        }
     }
-}

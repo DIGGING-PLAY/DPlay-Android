@@ -1,8 +1,6 @@
 package com.example.detail
 
-
 import com.example.designsystem.component.snackbar.type.SnackBarType
-import com.example.domain.model.Badges
 import com.example.domain.model.Like
 import com.example.domain.model.Track
 import com.example.domain.model.Writer
@@ -33,6 +31,7 @@ class DetailContract {
                 count = 0,
             ),
         val date: String = "2025-10-19",
+        val bottomSheetVisible: Boolean = false,
     ) : BaseContract.State
 
     sealed interface DetailIntent : BaseContract.Intent {
@@ -57,6 +56,10 @@ class DetailContract {
         ) : DetailIntent
 
         data object OnDeleteClick : DetailIntent
+
+        data class ChangeBottomSheetVisible(
+            val visible: Boolean,
+        ) : DetailIntent
     }
 
     sealed interface DetailSideEffect : BaseContract.SideEffect {

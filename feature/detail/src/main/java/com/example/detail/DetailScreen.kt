@@ -1,5 +1,6 @@
 package com.example.detail
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -31,7 +32,9 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil3.compose.AsyncImage
 import com.dplay.designsystem.R
+import com.example.designsystem.component.DPlayButtonBottomSheet
 import com.example.designsystem.component.DPlayMusicDiscItem
+import com.example.designsystem.component.DPlayReportBottomSheet
 import com.example.designsystem.component.DplayDualIconTitleTopAppBar
 import com.example.designsystem.component.button.DPlayBookmarkButton
 import com.example.designsystem.component.button.DPlayLikeButton
@@ -102,6 +105,12 @@ fun DetailRoute(
         onWriterProfileClick = {
             viewModel.handleIntent(DetailContract.DetailIntent.OnWriterProfileClick)
         },
+        changeBottomSheetVisible = { visible ->
+            viewModel.handleIntent(DetailContract.DetailIntent.ChangeBottomSheetVisible(visible))
+        },
+        onDeleteClick = {
+            viewModel.handleIntent(DetailContract.DetailIntent.OnDeleteClick)
+        },
     )
 }
 
@@ -113,6 +122,8 @@ private fun DetailScreen(
     onStreamClick: () -> Unit,
     onLikeClick: () -> Unit,
     onWriterProfileClick: () -> Unit,
+    onDeleteClick: () -> Unit,
+    changeBottomSheetVisible: (Boolean) -> Unit,
     state: DetailContract.DetailState = DetailContract.DetailState(),
 ) {
     val color = DPlayTheme.colors
@@ -122,136 +133,165 @@ private fun DetailScreen(
             .fillMaxWidth()
             .padding(horizontal = 16.dp)
 
-    val chipType: DPlayChipType? =
-        when {
-            state.badges.isPopular -> DPlayChipType.BEST
-            state.badges.isEditorPick -> DPlayChipType.EDITOR
-            state.badges.isNew -> DPlayChipType.NEW
-            else -> null
-        }
-
-    Box(modifier = Modifier.fillMaxSize()) {
-        Box(
-            modifier =
-                Modifier.blur(
-                    radius = 20.dp,
-                ),
-        ) {
-            AsyncImage(
-                model = state.track.coverImg,
-                contentDescription = null,
+    Box {
+        Box(modifier = Modifier.fillMaxSize()) {
+            Box(
                 modifier =
-                    Modifier
-                        .fillMaxWidth()
-                        .aspectRatio(1f)
-                        .offset(y = (-80).dp),
-                contentScale = ContentScale.Crop,
-            )
-        }
-        Column {
-            DplayDualIconTitleTopAppBar(
-                modifier = Modifier.fillMaxWidth(),
-                title = state.date,
-                leftIconRes = R.drawable.ic_arrow_left_16,
-                rightIconRes = R.drawable.ic_more_24,
-                onLeftClick = onTopAppBarLeftIconClick,
-                onRightClick = onTopAppBarRightIconClick,
-            )
-            Spacer(modifier = Modifier.height(24.dp))
+                    Modifier.blur(
+                        radius = 20.dp,
+                    ),
+            ) {
+                AsyncImage(
+                    model = state.track.coverImg,
+                    contentDescription = null,
+                    modifier =
+                        Modifier
+                            .fillMaxWidth()
+                            .aspectRatio(1f)
+                            .offset(y = (-80).dp),
+                    contentScale = ContentScale.Crop,
+                )
+            }
+            Column {
+                DplayDualIconTitleTopAppBar(
+                    modifier = Modifier.fillMaxWidth(),
+                    title = state.date,
+                    leftIconRes = R.drawable.ic_arrow_left_16,
+                    rightIconRes = R.drawable.ic_more_24,
+                    onLeftClick = onTopAppBarLeftIconClick,
+                    onRightClick = onTopAppBarRightIconClick,
+                )
+                Spacer(modifier = Modifier.height(24.dp))
 
-            Box(Modifier.padding(horizontal = 97.dp)) {
-                DPlayMusicDiscItem(
-                    imageUrl = state.track.coverImg,
-                    isStreaming = false,
-                )
-                DPlayBookmarkButton(
-                    isMarked = state.isScrapped,
-                    onClick = onBookmarkClick,
-                    modifier = Modifier.align(Alignment.TopEnd),
-                )
-                chipType
-                    ?.let {
+                Box(Modifier.padding(horizontal = 97.dp)) {
+                    DPlayMusicDiscItem(
+                        imageUrl = state.track.coverImg,
+                        isStreaming = false,
+                    )
+                    DPlayBookmarkButton(
+                        isMarked = state.isScrapped,
+                        onClick = onBookmarkClick,
+                        modifier = Modifier.align(Alignment.TopEnd),
+                    )
+                    if (state.isHost) {
                         DPlayChip(
-                            type = it,
+                            type = DPlayChipType.EDITOR,
                             modifier = Modifier.align(Alignment.BottomCenter),
                         )
                     }
-            }
-            Spacer(modifier = Modifier.height(20.dp))
+                }
+                Spacer(modifier = Modifier.height(20.dp))
 
-            Text(
-                text = state.track.songTitle,
-                modifier = Modifier.align(Alignment.CenterHorizontally),
-                style = typography.bodyBold20,
-                color = color.dplayBlack,
-            )
-            Spacer(modifier = Modifier.height(4.dp))
-            Text(
-                text = state.track.artistName,
-                modifier = Modifier.align(Alignment.CenterHorizontally),
-                style = typography.bodySemi14,
-                color = color.gray400,
-            )
-            Spacer(modifier = Modifier.height(20.dp))
-
-            Row(modifier = horizontalModifier) {
-                DPlayStreamingButton(
-                    onClick = onStreamClick,
-                    enabled = true,
-                    modifier = Modifier.weight(1f),
-                )
-                Spacer(modifier = Modifier.width(8.dp))
-                DPlayLikeButton(
-                    isLiked = state.like.isLiked,
-                    likeCount = state.like.count,
-                    onClick = onLikeClick,
-                    modifier = Modifier.weight(1f),
-                )
-            }
-            Spacer(modifier = Modifier.height(16.dp))
-
-            Column(
-                modifier =
-                    horizontalModifier
-                        .border(
-                            width = 1.dp,
-                            color = color.gray200,
-                            shape = RoundedCornerShape(12.dp),
-                        ).roundedBackgroundWithPadding(
-                            backgroundColor = color.dplayWhite,
-                            cornerRadius = 12.dp,
-                            padding = PaddingValues(horizontal = 12.dp, vertical = 16.dp),
-                        ),
-            ) {
                 Text(
-                    text = state.content,
-                    style = typography.bodySemi14,
+                    text = state.track.songTitle,
+                    modifier = Modifier.align(Alignment.CenterHorizontally),
+                    style = typography.bodyBold20,
                     color = color.dplayBlack,
                 )
-                Spacer(modifier = Modifier.height(12.dp))
-                Row(
-                    modifier =
-                        Modifier
-                            .align(Alignment.CenterHorizontally)
-                            .noRippleClickable(onClick = onWriterProfileClick),
-                    verticalAlignment = Alignment.CenterVertically,
-                ) {
-                    AsyncImage(
-                        model = state.writer.profileImg,
-                        contentDescription = null,
-                        modifier =
-                            Modifier
-                                .size(32.dp)
-                                .clip(CircleShape)
-                                .border(1.dp, color = color.gray200, shape = CircleShape),
+                Spacer(modifier = Modifier.height(4.dp))
+                Text(
+                    text = state.track.artistName,
+                    modifier = Modifier.align(Alignment.CenterHorizontally),
+                    style = typography.bodySemi14,
+                    color = color.gray400,
+                )
+                Spacer(modifier = Modifier.height(20.dp))
+
+                Row(modifier = horizontalModifier) {
+                    DPlayStreamingButton(
+                        onClick = onStreamClick,
+                        enabled = true,
+                        modifier = Modifier.weight(1f),
                     )
-                    Spacer(modifier = Modifier.width(6.dp))
-                    Text(
-                        text = state.writer.nickname,
-                        style = typography.bodySemi14,
-                        color = color.gray400,
+                    Spacer(modifier = Modifier.width(8.dp))
+                    DPlayLikeButton(
+                        isLiked = state.like.isLiked,
+                        likeCount = state.like.count,
+                        onClick = onLikeClick,
+                        modifier = Modifier.weight(1f),
                     )
                 }
+                Spacer(modifier = Modifier.height(16.dp))
+
+                Column(
+                    modifier =
+                        horizontalModifier
+                            .border(
+                                width = 1.dp,
+                                color = color.gray200,
+                                shape = RoundedCornerShape(12.dp),
+                            ).roundedBackgroundWithPadding(
+                                backgroundColor = color.dplayWhite,
+                                cornerRadius = 12.dp,
+                                padding = PaddingValues(horizontal = 12.dp, vertical = 16.dp),
+                            ),
+                ) {
+                    Text(
+                        text = state.content,
+                        style = typography.bodySemi14,
+                        color = color.dplayBlack,
+                    )
+                    Spacer(modifier = Modifier.height(12.dp))
+                    Row(
+                        modifier =
+                            Modifier
+                                .align(Alignment.CenterHorizontally)
+                                .noRippleClickable(onClick = onWriterProfileClick),
+                        verticalAlignment = Alignment.CenterVertically,
+                    ) {
+                        AsyncImage(
+                            model = state.writer.profileImg,
+                            contentDescription = null,
+                            modifier =
+                                Modifier
+                                    .size(32.dp)
+                                    .clip(CircleShape)
+                                    .border(1.dp, color = color.gray200, shape = CircleShape),
+                        )
+                        Spacer(modifier = Modifier.width(6.dp))
+                        Text(
+                            text = state.writer.nickname,
+                            style = typography.bodySemi14,
+                            color = color.gray400,
+                        )
+                    }
+                }
+            }
+        }
+        if (state.bottomSheetVisible) {
+            val bottomSheetModifier =
+                Modifier
+                    .fillMaxWidth()
+                    .align(Alignment.BottomStart)
+                    .noRippleClickable()
+
+            Box(
+                modifier =
+                    Modifier
+                        .fillMaxSize()
+                        .background(color = DPlayTheme.colors.dim40)
+                        .noRippleClickable { changeBottomSheetVisible(false) },
+            )
+
+            if (state.writer.userId == state.writer.userId) {
+//                if (state.writer.userId == 로컬 유저 아이디) {
+                DPlayButtonBottomSheet(
+                    mainText = "삭제하기",
+                    subText = "취소하기",
+                    mainOnClick = onDeleteClick,
+                    subOnClick = {
+                        changeBottomSheetVisible(false)
+                    },
+                    mainButtonColor = DPlayTheme.colors.dplayPink,
+                    modifier = bottomSheetModifier,
+                )
+            } else {
+                DPlayReportBottomSheet(
+                    onCloseClick = { changeBottomSheetVisible(false) },
+                    onButtonClick = { changeBottomSheetVisible(false) },
+                    onCheckClick = {},
+                    modifier = bottomSheetModifier,
+                )
             }
         }
     }
@@ -271,6 +311,8 @@ private fun DetailScreenPreview() {
             onStreamClick = {},
             onLikeClick = {},
             onWriterProfileClick = {},
+            changeBottomSheetVisible = {},
+            onDeleteClick = {},
         )
     }
 }
