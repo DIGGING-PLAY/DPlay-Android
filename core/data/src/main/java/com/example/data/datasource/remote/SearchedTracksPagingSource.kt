@@ -7,7 +7,7 @@ import com.example.data.service.TrackService
 import kotlinx.serialization.InternalSerializationApi
 
 @OptIn(InternalSerializationApi::class)
-class TrackPagingSource(
+class SearchedTracksPagingSource(
     private val trackService: TrackService,
     private val query: String,
 ): PagingSource<String, TrackResponse>() {

@@ -4,7 +4,7 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.map
-import com.example.data.datasource.remote.TrackPagingSource
+import com.example.data.datasource.remote.SearchedTracksPagingSource
 import com.example.data.datasource.remote.TrackRemoteDataSource
 import com.example.data.service.TrackService
 import com.example.domain.model.Track
@@ -24,7 +24,7 @@ class TrackRepositoryImpl
                 pageSize = 20,
                 enablePlaceholders = false,
             ),
-            pagingSourceFactory = { TrackPagingSource(trackService, query) }
+            pagingSourceFactory = { SearchedTracksPagingSource(trackService, query) }
         ).flow.map { pagingData ->
             pagingData.map { track ->
                 track.toDomain()
