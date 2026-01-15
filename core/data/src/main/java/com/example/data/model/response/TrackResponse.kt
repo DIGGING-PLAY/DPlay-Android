@@ -15,13 +15,13 @@ data class TrackResponse(
     @SerialName("coverImg")
     val coverImg: String,
     @SerialName("isrc")
-    val isrc: String
+    val isrc: String? = null
 ){
     fun toDomain() = Track(
         trackId = trackId,
         songTitle = songTitle,
         artistName = artistName,
         coverImg = coverImg,
-        isrc = isrc
+        isrc = isrc ?: ""
     )
 }
