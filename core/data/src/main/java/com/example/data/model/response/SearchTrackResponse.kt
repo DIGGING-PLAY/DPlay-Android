@@ -38,5 +38,6 @@ data class TrackResponse(
         songTitle = songTitle,
         artistName = artistName,
         coverImg = coverImg,
+        isrc = isrc
     )
 }

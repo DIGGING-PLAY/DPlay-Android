@@ -7,11 +7,13 @@ data class TrackState(
     val musicTitle: String,
     val artistName: String,
     val thumbnailUrl: String?,
+    val isrc: String,
 )
 
 fun Track.toUiState(): TrackState = TrackState(
     trackId = trackId,
     musicTitle = songTitle,
     artistName = artistName,
-    thumbnailUrl = coverImg
+    thumbnailUrl = coverImg,
+    isrc = isrc,
 )
