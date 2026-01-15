@@ -1,7 +1,7 @@
 package com.example.mypage
 
 import com.example.ui.base.BaseContract
-import com.example.ui.model.BookmarkedMusic
+import com.example.ui.model.ScrappedTrackState
 import com.example.ui.model.TrackState
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
@@ -13,7 +13,7 @@ class MyPageContract {
         val profileImagePath: String? = null,
         val selectedTabIndex: Int = 0,
         val registeredMusicCount: Int = 0,
-        val bookmarkedMusicList: ImmutableList<BookmarkedMusic> = dummyBookmarkedTrackStateList,
+        val scrappedTrackStateList: ImmutableList<ScrappedTrackState> = dummyBookmarkedTrackStateList,
     ) : BaseContract.State {
     }
 
@@ -60,7 +60,7 @@ class MyPageContract {
 
 val dummyBookmarkedTrackStateList =
     persistentListOf(
-        BookmarkedMusic(
+        ScrappedTrackState(
             postId = 101L,
             track =
                 TrackState(
