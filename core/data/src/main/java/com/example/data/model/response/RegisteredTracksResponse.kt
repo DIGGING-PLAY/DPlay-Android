@@ -15,7 +15,7 @@ data class RegisteredTracksResponse(
     @SerialName("items")
     val items: List<RegisteredTrackResponse>,
     @SerialName("isHost")
-    val isHost: Boolean
+    val isHost: Boolean,
 )
 
 @Serializable
@@ -26,10 +26,11 @@ data class RegisteredTrackResponse(
     val track: TrackResponse,
     @SerialName("content")
     val content: String,
-){
-    fun toDomain() = RegisteredTrack(
-        postId = postId,
-        track = track.toDomain(),
-        comment = content
-    )
+) {
+    fun toDomain() =
+        RegisteredTrack(
+            postId = postId,
+            track = track.toDomain(),
+            comment = content,
+        )
 }

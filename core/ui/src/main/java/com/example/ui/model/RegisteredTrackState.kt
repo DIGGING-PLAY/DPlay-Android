@@ -8,9 +8,9 @@ data class RegisteredTrackState(
     val track: TrackState,
 )
 
-fun RegisteredTrack.toUiState() = RegisteredTrackState(
-    postId = postId,
-    comment = comment,
-    track  = track.toUiState()
-)
-
+fun RegisteredTrack.toUiState() =
+    RegisteredTrackState(
+        postId = postId,
+        comment = comment,
+        track = track.toUiState(),
+    )

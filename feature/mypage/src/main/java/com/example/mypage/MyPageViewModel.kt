@@ -33,24 +33,26 @@ class MyPageViewModel
             initializeUserInfo()
         }
 
-        val registeredTracks: Flow<PagingData<RegisteredTrackState>> = getMyRegisteredTracksUseCase(
-            onTotalCountFetched = {
-                updateState {
-                    copy(registeredMusicCount = it)
+        val registeredTracks: Flow<PagingData<RegisteredTrackState>> =
+            getMyRegisteredTracksUseCase(
+                onTotalCountFetched = {
+                    updateState {
+                        copy(registeredMusicCount = it)
+                    }
+                },
+            ).map { pagingData ->
+                pagingData.map { registeredTrack ->
+                    registeredTrack.toUiState()
                 }
-            }
-        ).map { pagingData ->
-            pagingData.map { registeredTrack ->
-                registeredTrack.toUiState()
-            }
-        }.cachedIn(viewModelScope)
+            }.cachedIn(viewModelScope)
 
-        val scrappedTracks: Flow<PagingData<ScrappedTrackState>> = getMyScrappedTracksUseCase().map { pagingData ->
-            pagingData.map { scrappedTrack ->
-                scrappedTrack.toUiState()
-            }
-        }.cachedIn(viewModelScope)
-
+        val scrappedTracks: Flow<PagingData<ScrappedTrackState>> =
+            getMyScrappedTracksUseCase()
+                .map { pagingData ->
+                    pagingData.map { scrappedTrack ->
+                        scrappedTrack.toUiState()
+                    }
+                }.cachedIn(viewModelScope)
 
         override fun handleIntent(intent: MyPageContract.MyPageIntent) {
             when (intent) {

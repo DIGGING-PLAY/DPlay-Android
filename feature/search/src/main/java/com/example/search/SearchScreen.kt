@@ -158,11 +158,11 @@ private fun SearchedMusicList(
         ) {
             items(
                 count = searchedTrackList.itemCount,
-                key = searchedTrackList.itemKey { it.trackId }
+                key = searchedTrackList.itemKey { it.trackId },
             ) { index ->
 
                 val music = searchedTrackList[index]
-                if(music != null){
+                if (music != null) {
                     DPlayImageCheck(
                         imageUrl = music.thumbnailUrl,
                         musicName = music.musicTitle,
@@ -170,7 +170,7 @@ private fun SearchedMusicList(
                         isChecked = selectedTrackId == music.trackId,
                         onClick = { onMusicSelected(music) },
                     )
-                }else {
+                } else {
                     // 오류처리
                 }
             }

@@ -26,24 +26,23 @@ class SearchViewModel
     ) : BaseViewModel<SearchContract.SearchState, SearchContract.SearchIntent, SearchContract.SearchSideEffect>(
             SearchContract.SearchState(),
         ) {
-
         @OptIn(FlowPreview::class)
-        val searchResults: Flow<PagingData<TrackState>> = uiState
-            .map { it.searchInput }
-            .distinctUntilChanged()
-            .debounce(300L)
-            .flatMapLatest { query ->
-                if (query.isBlank()) {
-                    flowOf(PagingData.empty())
-                } else {
-                    trackRepository.searchTracks(query).map { pagingData ->
-                        pagingData.map { track ->
-                            track.toUiState()
+        val searchResults: Flow<PagingData<TrackState>> =
+            uiState
+                .map { it.searchInput }
+                .distinctUntilChanged()
+                .debounce(300L)
+                .flatMapLatest { query ->
+                    if (query.isBlank()) {
+                        flowOf(PagingData.empty())
+                    } else {
+                        trackRepository.searchTracks(query).map { pagingData ->
+                            pagingData.map { track ->
+                                track.toUiState()
+                            }
                         }
                     }
-                }
-            }
-            .cachedIn(viewModelScope)
+                }.cachedIn(viewModelScope)
 
         override fun handleIntent(intent: SearchContract.SearchIntent) {
             when (intent) {

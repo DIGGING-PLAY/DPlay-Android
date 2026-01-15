@@ -10,5 +10,5 @@ data class ScrappedTrackState(
 fun ScrappedTrack.toUiState() =
     ScrappedTrackState(
         postId = postId,
-        track = track.toUiState()
+        track = track.toUiState(),
     )

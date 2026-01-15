@@ -10,21 +10,20 @@ import kotlinx.serialization.InternalSerializationApi
 class RegisteredTracksPagingSource(
     private val userService: UserService,
     private val userId: Long,
-    private val onTotalCountFetched: (Int) -> Unit
-): PagingSource<String, RegisteredTrackResponse>() {
-    override fun getRefreshKey(state: PagingState<String, RegisteredTrackResponse>): String? {
-        return null
-    }
+    private val onTotalCountFetched: (Int) -> Unit,
+) : PagingSource<String, RegisteredTrackResponse>() {
+    override fun getRefreshKey(state: PagingState<String, RegisteredTrackResponse>): String? = null
 
-    override suspend fun load(params: LoadParams<String>): LoadResult<String, RegisteredTrackResponse> {
-        return try {
+    override suspend fun load(params: LoadParams<String>): LoadResult<String, RegisteredTrackResponse> =
+        try {
             val currentCursor = params.key
 
-            val response = userService.getRegisteredTracks(
-                userId = userId,
-                page = currentCursor,
-                size = params.loadSize
-            )
+            val response =
+                userService.getRegisteredTracks(
+                    userId = userId,
+                    page = currentCursor,
+                    size = params.loadSize,
+                )
 
             val data = response.data ?: throw Exception("data is null")
             if (params.key == null) {
@@ -36,10 +35,9 @@ class RegisteredTracksPagingSource(
             LoadResult.Page(
                 data = tracks,
                 prevKey = null,
-                nextKey = if (tracks.isEmpty()) null else nextCursor
+                nextKey = if (tracks.isEmpty()) null else nextCursor,
             )
-        }catch (e: Exception){
+        } catch (e: Exception) {
             LoadResult.Error(e)
         }
-    }
 }

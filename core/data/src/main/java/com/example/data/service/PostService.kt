@@ -14,6 +14,6 @@ import retrofit2.http.POST
 interface PostService {
     @POST("$API/$VERSIONS/$POSTS")
     suspend fun registerPost(
-        @Body request: RegisterPostRequest
+        @Body request: RegisterPostRequest,
     ): BaseResponse<PostResponse>
 }

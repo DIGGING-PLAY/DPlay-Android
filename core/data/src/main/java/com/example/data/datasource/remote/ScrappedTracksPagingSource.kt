@@ -11,20 +11,19 @@ import timber.log.Timber
 class ScrappedTracksPagingSource(
     private val userService: UserService,
     private val userId: Long,
-): PagingSource<String, ScrappedTrackResponse>() {
-    override fun getRefreshKey(state: PagingState<String, ScrappedTrackResponse>): String? {
-        return null
-    }
+) : PagingSource<String, ScrappedTrackResponse>() {
+    override fun getRefreshKey(state: PagingState<String, ScrappedTrackResponse>): String? = null
 
-    override suspend fun load(params: LoadParams<String>): LoadResult<String, ScrappedTrackResponse> {
-        return try {
+    override suspend fun load(params: LoadParams<String>): LoadResult<String, ScrappedTrackResponse> =
+        try {
             val currentCursor = params.key
 
-            val response = userService.getScrappedTracks(
-                userId = userId,
-                page = currentCursor,
-                size = params.loadSize
-            )
+            val response =
+                userService.getScrappedTracks(
+                    userId = userId,
+                    page = currentCursor,
+                    size = params.loadSize,
+                )
 
             val data = response.data ?: throw Exception("data is null")
             val tracks = data.items
@@ -33,11 +32,10 @@ class ScrappedTracksPagingSource(
             LoadResult.Page(
                 data = tracks,
                 prevKey = null,
-                nextKey = if (tracks.isEmpty()) null else nextCursor
+                nextKey = if (tracks.isEmpty()) null else nextCursor,
             )
-        }catch (e: Exception){
+        } catch (e: Exception) {
             Timber.e(e)
             LoadResult.Error(e)
         }
-    }
 }

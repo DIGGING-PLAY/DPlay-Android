@@ -88,43 +88,45 @@ class UserRepositoryImpl
 
         override fun getRegisteredTracks(
             userId: Long,
-            onTotalCountFetched: (Int) -> Unit
-        ): Flow<PagingData<RegisteredTrack>> {
-            return Pager(
-                config = PagingConfig(
-                    pageSize = 20,
-                    enablePlaceholders = false,
-                ),
-                pagingSourceFactory = { RegisteredTracksPagingSource(
-                    userService = userService,
-                    userId = userId,
-                    onTotalCountFetched = onTotalCountFetched
-                ) }
+            onTotalCountFetched: (Int) -> Unit,
+        ): Flow<PagingData<RegisteredTrack>> =
+            Pager(
+                config =
+                    PagingConfig(
+                        pageSize = 20,
+                        enablePlaceholders = false,
+                    ),
+                pagingSourceFactory = {
+                    RegisteredTracksPagingSource(
+                        userService = userService,
+                        userId = userId,
+                        onTotalCountFetched = onTotalCountFetched,
+                    )
+                },
             ).flow.map { pagingData ->
                 pagingData.map { track ->
                     track.toDomain()
                 }
             }
-        }
 
         override fun getScrappedTracks(
             userId: Long,
-        ): Flow<PagingData<ScrappedTrack>> {
-            return Pager(
-                config = PagingConfig(
-                    pageSize = 20,
-                    enablePlaceholders = false,
-                ),
+        ): Flow<PagingData<ScrappedTrack>> =
+            Pager(
+                config =
+                    PagingConfig(
+                        pageSize = 20,
+                        enablePlaceholders = false,
+                    ),
                 pagingSourceFactory = {
                     ScrappedTracksPagingSource(
                         userService = userService,
                         userId = userId,
                     )
-                }
+                },
             ).flow.map { pagingData ->
                 pagingData.map { track ->
                     track.toDomain()
                 }
             }
-        }
-}
+    }

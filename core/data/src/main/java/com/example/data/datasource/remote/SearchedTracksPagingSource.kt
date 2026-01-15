@@ -10,33 +10,31 @@ import kotlinx.serialization.InternalSerializationApi
 class SearchedTracksPagingSource(
     private val trackService: TrackService,
     private val query: String,
-): PagingSource<String, TrackResponse>() {
-    override fun getRefreshKey(state: PagingState<String, TrackResponse>): String? {
-        return null
-    }
+) : PagingSource<String, TrackResponse>() {
+    override fun getRefreshKey(state: PagingState<String, TrackResponse>): String? = null
 
-    override suspend fun load(params: LoadParams<String>): LoadResult<String, TrackResponse> {
-        return try {
+    override suspend fun load(params: LoadParams<String>): LoadResult<String, TrackResponse> =
+        try {
             val currentCursor = params.key
 
-            val response = trackService.searchTracks(
-                query = query,
-                limit = params.loadSize,
-                storefront = null,
-                cursor = currentCursor
-            )
+            val response =
+                trackService.searchTracks(
+                    query = query,
+                    limit = params.loadSize,
+                    storefront = null,
+                    cursor = currentCursor,
+                )
 
             val data = response.data ?: throw Exception("data is null")
             val tracks = data.items
             val nextCursor = data.nextCursor
-            
+
             LoadResult.Page(
                 data = tracks,
                 prevKey = null,
-                nextKey = if (tracks.isEmpty()) null else nextCursor
+                nextKey = if (tracks.isEmpty()) null else nextCursor,
             )
-        }catch (e: Exception){
+        } catch (e: Exception) {
             LoadResult.Error(e)
         }
-    }
 }

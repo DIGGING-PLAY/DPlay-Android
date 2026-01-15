@@ -49,14 +49,15 @@ class CommentViewModel
                     viewModelScope.launch {
                         val track = currentState.track?.toDomain() ?: return@launch
 
-                        postRepository.registerPost(
-                            track = track,
-                            comment = currentState.commentInput
-                        ).onSuccess {
-                            setSideEffect(CommentContract.CommentSideEffect.NavigateToBack)
-                        }.onFailure {
-                            Timber.e("registerPost 실패",it)
-                        }
+                        postRepository
+                            .registerPost(
+                                track = track,
+                                comment = currentState.commentInput,
+                            ).onSuccess {
+                                setSideEffect(CommentContract.CommentSideEffect.NavigateToBack)
+                            }.onFailure {
+                                Timber.e("registerPost 실패", it)
+                            }
                     }
                 }
             }

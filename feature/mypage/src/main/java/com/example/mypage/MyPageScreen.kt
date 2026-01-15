@@ -59,9 +59,8 @@ import com.example.navigation.EditProfile
 import com.example.navigation.Navigator
 import com.example.navigation.Setting
 import com.example.ui.emptyLazyPagingItems
-import com.example.ui.model.ScrappedTrackState
 import com.example.ui.model.RegisteredTrackState
-import kotlinx.collections.immutable.ImmutableList
+import com.example.ui.model.ScrappedTrackState
 import kotlinx.coroutines.flow.collectLatest
 
 @Composable
@@ -74,7 +73,6 @@ fun MyPageRoute(
 
     val registeredTracks = viewModel.registeredTracks.collectAsLazyPagingItems()
     val scrappedTracks = viewModel.scrappedTracks.collectAsLazyPagingItems()
-
 
     LaunchedEffect(Unit) {
         viewModel.sideEffect.collectLatest { sideEffect ->
@@ -294,8 +292,7 @@ private fun MyPageTabRow(
                                 .weight(1f)
                                 .noRippleClickable {
                                     onTabSelected(index)
-                                }
-                                .padding(vertical = 12.dp),
+                                }.padding(vertical = 12.dp),
                         contentAlignment = Alignment.Center,
                     ) {
                         Text(
@@ -354,7 +351,7 @@ private fun RegisteredMusicList(
         ) { index ->
             val registeredTrack = registeredTrackList[index]
 
-            if(registeredTrack != null) {
+            if (registeredTrack != null) {
                 DPlayMusicListItem(
                     musicImageUrl = registeredTrack.track.thumbnailUrl,
                     musicName = registeredTrack.track.musicTitle,
@@ -386,15 +383,14 @@ private fun BookmarkedMusicList(
         ) { index ->
             val scrappedTrack = scrappedTrackList[index]
 
-            if(scrappedTrack != null){
+            if (scrappedTrack != null) {
                 DPlayMusicGridItem(
                     musicImageUrl = scrappedTrack.track.thumbnailUrl,
                     musicName = scrappedTrack.track.musicTitle,
                     musicArtistName = scrappedTrack.track.artistName,
                     onClick = {},
                 )
-            }else{
-
+            } else {
             }
         }
     }

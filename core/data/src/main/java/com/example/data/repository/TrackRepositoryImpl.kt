@@ -14,25 +14,27 @@ import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class TrackRepositoryImpl
-@Inject constructor(
-    private val trackService: TrackService,
-    private val trackRemoteDataSource: TrackRemoteDataSource
-): TrackRepository {
-    override fun searchTracks(query: String): Flow<PagingData<Track>> {
-        return Pager(
-            config = PagingConfig(
-                pageSize = 20,
-                enablePlaceholders = false,
-            ),
-            pagingSourceFactory = { SearchedTracksPagingSource(trackService, query) }
-        ).flow.map { pagingData ->
-            pagingData.map { track ->
-                track.toDomain()
+    @Inject
+    constructor(
+        private val trackService: TrackService,
+        private val trackRemoteDataSource: TrackRemoteDataSource,
+    ) : TrackRepository {
+        override fun searchTracks(query: String): Flow<PagingData<Track>> =
+            Pager(
+                config =
+                    PagingConfig(
+                        pageSize = 20,
+                        enablePlaceholders = false,
+                    ),
+                pagingSourceFactory = { SearchedTracksPagingSource(trackService, query) },
+            ).flow.map { pagingData ->
+                pagingData.map { track ->
+                    track.toDomain()
+                }
             }
-        }
-    }
 
-    override suspend fun getTrack(trackId: String): Result<Track> = runCatching {
-        trackRemoteDataSource.getTrack(trackId = trackId).toDomain()
+        override suspend fun getTrack(trackId: String): Result<Track> =
+            runCatching {
+                trackRemoteDataSource.getTrack(trackId = trackId).toDomain()
+            }
     }
-}

@@ -16,5 +16,5 @@ data class SearchTrackResponse(
     @SerialName("nextCursor")
     val nextCursor: String?,
     @SerialName("items")
-    val items: List<TrackResponse>
+    val items: List<TrackResponse>,
 )

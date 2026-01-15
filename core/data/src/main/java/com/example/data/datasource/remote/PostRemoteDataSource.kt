@@ -8,20 +8,21 @@ import javax.inject.Inject
 
 @OptIn(InternalSerializationApi::class)
 class PostRemoteDataSource
-@Inject
-constructor(
-    private val postService: PostService,
-){
-    suspend fun registerPost(
-        request: RegisterPostRequest
-    ): PostResponse{
-        try{
-            val response = postService.registerPost(
-                request = request
-            )
-            return response.data ?: throw Exception("Data is null")
-        } catch(e: Exception){
-            throw e
+    @Inject
+    constructor(
+        private val postService: PostService,
+    ) {
+        suspend fun registerPost(
+            request: RegisterPostRequest,
+        ): PostResponse {
+            try {
+                val response =
+                    postService.registerPost(
+                        request = request,
+                    )
+                return response.data ?: throw Exception("Data is null")
+            } catch (e: Exception) {
+                throw e
+            }
         }
     }
-}

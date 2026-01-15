@@ -22,9 +22,10 @@ data class ScrappedTrackResponse(
     val postId: Long,
     @SerialName("track")
     val track: TrackResponse,
-){
-    fun toDomain() = ScrappedTrack(
-        postId = postId,
-        track = track.toDomain(),
-    )
+) {
+    fun toDomain() =
+        ScrappedTrack(
+            postId = postId,
+            track = track.toDomain(),
+        )
 }
