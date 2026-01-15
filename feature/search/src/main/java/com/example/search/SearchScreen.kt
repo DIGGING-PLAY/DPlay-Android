@@ -164,7 +164,7 @@ private fun SearchedMusicList(
                 val music = searchedTrackList[index]
                 if(music != null){
                     DPlayImageCheck(
-                        imageUrl = music.thumbnailUrl ?: "",
+                        imageUrl = music.thumbnailUrl,
                         musicName = music.musicTitle,
                         artistName = music.artistName,
                         isChecked = selectedTrackId == music.trackId,
