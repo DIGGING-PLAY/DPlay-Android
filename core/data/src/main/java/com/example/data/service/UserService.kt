@@ -3,11 +3,13 @@ package com.example.data.service
 import com.example.data.constant.ApiConstants.API
 import com.example.data.constant.ApiConstants.ME
 import com.example.data.constant.ApiConstants.NOTIFICATIONS
+import com.example.data.constant.ApiConstants.POSTS
 import com.example.data.constant.ApiConstants.USERS
 import com.example.data.constant.ApiConstants.VERSIONS
 import com.example.data.model.request.NotificationRequest
 import com.example.data.model.response.BaseResponse
 import com.example.data.model.response.NotificationResponse
+import com.example.data.model.response.RegisteredTracksResponse
 import com.example.data.model.response.UserResponse
 import kotlinx.serialization.InternalSerializationApi
 import okhttp3.MultipartBody
@@ -18,6 +20,7 @@ import retrofit2.http.PATCH
 import retrofit2.http.POST
 import retrofit2.http.Part
 import retrofit2.http.Path
+import retrofit2.http.Query
 
 @OptIn(InternalSerializationApi::class)
 interface UserService {
@@ -40,4 +43,11 @@ interface UserService {
     suspend fun postNotificationEnabled(
         @Body request: NotificationRequest,
     ): BaseResponse<Unit>
+
+    @GET("$API/$VERSIONS/$USERS/{userId}/$POSTS")
+    suspend fun getRegisteredTracks(
+        @Path("userId") userId: Long,
+        @Query("cursor") page: String?,
+        @Query("limit") size: Int?,
+    ): BaseResponse<RegisteredTracksResponse>
 }
