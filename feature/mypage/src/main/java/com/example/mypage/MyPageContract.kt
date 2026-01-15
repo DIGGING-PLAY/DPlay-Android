@@ -1,10 +1,6 @@
 package com.example.mypage
 
 import com.example.ui.base.BaseContract
-import com.example.ui.model.ScrappedTrackState
-import com.example.ui.model.TrackState
-import kotlinx.collections.immutable.ImmutableList
-import kotlinx.collections.immutable.persistentListOf
 
 class MyPageContract {
     data class MyPageState(
@@ -13,8 +9,7 @@ class MyPageContract {
         val profileImagePath: String? = null,
         val selectedTabIndex: Int = 0,
         val registeredMusicCount: Int = -1,
-    ) : BaseContract.State {
-    }
+    ) : BaseContract.State
 
     sealed interface MyPageIntent : BaseContract.Intent {
         data object OnSettingIconClick : MyPageIntent
