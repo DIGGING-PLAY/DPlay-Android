@@ -24,7 +24,7 @@ data class RegisteredTrackResponse(
     val postId: Long,
     @SerialName("track")
     val track: TrackResponse,
-    @SerialName("comment")
+    @SerialName("content")
     val content: String,
 ){
     fun toDomain() = RegisteredTrack(
