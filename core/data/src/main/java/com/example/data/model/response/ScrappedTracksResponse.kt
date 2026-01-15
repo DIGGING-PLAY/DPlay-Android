@@ -4,6 +4,7 @@ import com.example.domain.model.ScrappedTrack
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
+@Serializable
 data class ScrappedTracksResponse(
     @SerialName("visibleLimit")
     val visibleLimit: Int,
