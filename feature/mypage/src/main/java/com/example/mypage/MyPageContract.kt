@@ -12,8 +12,7 @@ class MyPageContract {
         val userNickname: String = "디플레이",
         val profileImagePath: String? = null,
         val selectedTabIndex: Int = 0,
-        val registeredMusicCount: Int = 0,
-        val scrappedTrackStateList: ImmutableList<ScrappedTrackState> = dummyBookmarkedTrackStateList,
+        val registeredMusicCount: Int = -1,
     ) : BaseContract.State {
     }
 
@@ -57,19 +56,3 @@ class MyPageContract {
         data object ShowDeleteDialogue : MyPageSideEffect
     }
 }
-
-val dummyBookmarkedTrackStateList =
-    persistentListOf(
-        ScrappedTrackState(
-            postId = 101L,
-            track =
-                TrackState(
-                    trackId = "track_101",
-                    musicTitle = "How Sweet",
-                    artistName = "NewJeans",
-                    thumbnailUrl = "",
-                    isrc = ""
-                ),
-        ),
-
-    )
