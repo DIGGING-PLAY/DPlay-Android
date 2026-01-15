@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOf
 import javax.inject.Inject
 
-class GetMyRegisteredTracksUseCase @Inject constructor(
+class GetMyScrappedTracksUseCase @Inject constructor(
     private val userRepository: UserRepository
 ) {
     @OptIn(ExperimentalCoroutinesApi::class)
