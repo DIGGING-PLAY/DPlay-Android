@@ -74,6 +74,8 @@ fun MyPageRoute(
     val state by viewModel.uiState.collectAsStateWithLifecycle()
 
     val registeredTracks = viewModel.registeredTracks.collectAsLazyPagingItems()
+    val scrappedTracks = viewModel.scrappedTracks.collectAsLazyPagingItems()
+
 
     LaunchedEffect(Unit) {
         viewModel.sideEffect.collectLatest { sideEffect ->
@@ -94,6 +96,7 @@ fun MyPageRoute(
     MyPageScreen(
         state = state,
         registeredTrackList = registeredTracks,
+        scrappedTrackList = scrappedTracks,
         modifier = modifier,
         onTabSelected = {
             viewModel.handleIntent(MyPageContract.MyPageIntent.OnTabClick(it))
@@ -111,6 +114,7 @@ fun MyPageRoute(
 fun MyPageScreen(
     state: MyPageContract.MyPageState,
     registeredTrackList: LazyPagingItems<RegisteredTrackState>,
+    scrappedTrackList: LazyPagingItems<ScrappedTrackState>,
     onTabSelected: (Int) -> Unit = {},
     onSettingIconClick: () -> Unit = {},
     onProfileImageClick: () -> Unit = {},
@@ -143,7 +147,7 @@ fun MyPageScreen(
             selectedTabIndex = state.selectedTabIndex,
             onTabSelected = onTabSelected,
             registeredTrackList = registeredTrackList,
-            scrappedTrackList = state.scrappedTrackStateList,
+            scrappedTrackList = scrappedTrackList,
         )
     }
 }
@@ -230,7 +234,7 @@ private fun UserInformationRow(
 private fun TabContent(
     selectedTabIndex: Int,
     registeredTrackList: LazyPagingItems<RegisteredTrackState>,
-    scrappedTrackList: ImmutableList<ScrappedTrackState>,
+    scrappedTrackList: LazyPagingItems<ScrappedTrackState>,
     onTabSelected: (Int) -> Unit,
 ) {
     Column {
@@ -367,7 +371,7 @@ private fun RegisteredMusicList(
 
 @Composable
 private fun BookmarkedMusicList(
-    scrappedTrackList: ImmutableList<ScrappedTrackState>,
+    scrappedTrackList: LazyPagingItems<ScrappedTrackState>,
     modifier: Modifier = Modifier,
 ) {
     LazyVerticalGrid(
@@ -378,15 +382,21 @@ private fun BookmarkedMusicList(
         verticalArrangement = Arrangement.spacedBy(12.dp),
     ) {
         items(
-            items = scrappedTrackList,
-            key = { it.postId },
-        ) {
-            DPlayMusicGridItem(
-                musicImageUrl = it.track.thumbnailUrl,
-                musicName = it.track.musicTitle,
-                musicArtistName = it.track.artistName,
-                onClick = {},
-            )
+            count = scrappedTrackList.itemCount,
+            key = scrappedTrackList.itemKey { it.postId },
+        ) { index ->
+            val scrappedTrack = scrappedTrackList[index]
+
+            if(scrappedTrack != null){
+                DPlayMusicGridItem(
+                    musicImageUrl = scrappedTrack.track.thumbnailUrl,
+                    musicName = scrappedTrack.track.musicTitle,
+                    musicArtistName = scrappedTrack.track.artistName,
+                    onClick = {},
+                )
+            }else{
+
+            }
         }
     }
 }
@@ -407,6 +417,7 @@ private fun MyPageScreenPreview() {
         MyPageScreen(
             state = uiState,
             registeredTrackList = emptyLazyPagingItems(),
+            scrappedTrackList = emptyLazyPagingItems(),
             onTabSelected = {
                 uiState = uiState.copy(selectedTabIndex = it)
             },

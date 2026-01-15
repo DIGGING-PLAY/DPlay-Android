@@ -3,11 +3,12 @@ package com.example.mypage
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.map
-import com.example.domain.model.RegisteredTrack
 import com.example.domain.repository.UserRepository
 import com.example.domain.usecase.GetMyRegisteredTracksUseCase
+import com.example.domain.usecase.GetMyScrappedTracksUseCase
 import com.example.ui.base.BaseViewModel
 import com.example.ui.model.RegisteredTrackState
+import com.example.ui.model.ScrappedTrackState
 import com.example.ui.model.toUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
@@ -23,6 +24,7 @@ class MyPageViewModel
     constructor(
         private val userRepository: UserRepository,
         private val getMyRegisteredTracksUseCase: GetMyRegisteredTracksUseCase,
+        private val getMyScrappedTracksUseCase: GetMyScrappedTracksUseCase,
     ) : BaseViewModel<MyPageContract.MyPageState, MyPageContract.MyPageIntent, MyPageContract.MyPageSideEffect>(
             MyPageContract.MyPageState(),
         ) {
@@ -39,6 +41,12 @@ class MyPageViewModel
         ).map { pagingData ->
             pagingData.map { registeredTrack ->
                 registeredTrack.toUiState()
+            }
+        }
+
+        val scrappedTracks: Flow<PagingData<ScrappedTrackState>> = getMyScrappedTracksUseCase().map { pagingData ->
+            pagingData.map { scrappedTrack ->
+                scrappedTrack.toUiState()
             }
         }
 

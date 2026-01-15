@@ -5,6 +5,7 @@ import androidx.paging.PagingState
 import com.example.data.model.response.ScrappedTrackResponse
 import com.example.data.service.UserService
 import kotlinx.serialization.InternalSerializationApi
+import timber.log.Timber
 
 @OptIn(InternalSerializationApi::class)
 class ScrappedTracksPagingSource(
@@ -35,6 +36,7 @@ class ScrappedTracksPagingSource(
                 nextKey = if (tracks.isEmpty()) null else nextCursor
             )
         }catch (e: Exception){
+            Timber.e(e)
             LoadResult.Error(e)
         }
     }
