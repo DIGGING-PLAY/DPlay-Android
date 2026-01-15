@@ -80,13 +80,35 @@ constructor(
             ),
         )
     }
+        private fun toggleLike() {
+            viewModelScope.launch {
+                val postId = currentState.postId
+                val isLiked = currentState.like.isLiked
 
-    private fun toggleLike() {
-        val newCount =
-            if (currentState.like.isLiked) {
-                currentState.like.count - 1
-            } else {
-                currentState.like.count + 1
+                val result =
+                    if (isLiked) {
+                        postRepository.deletePostLike(postId)
+                    } else {
+                        postRepository.postPostLike(postId)
+                    }
+
+                result
+                    .onSuccess { newCount ->
+                        updateState {
+                            copy(
+                                like =
+                                    Like(
+                                        isLiked = !isLiked,
+                                        count = newCount,
+                                    ),
+                            )
+                        }
+                    }.onFailure { e ->
+                        Timber.e(e)
+                    }
+            }
+        }
+
             }
         updateState { copy(like = Like(isLiked = !currentState.like.isLiked, count = newCount)) }
     }

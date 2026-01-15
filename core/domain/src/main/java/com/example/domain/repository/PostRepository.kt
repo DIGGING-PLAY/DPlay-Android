@@ -4,4 +4,13 @@ import com.example.domain.model.PostDetail
 
 interface PostRepository {
     suspend fun getPostDetail(postId: Long): Result<PostDetail>
+
+    suspend fun postPostLike(
+        postId: Long,
+    ): Result<Int>
+
+    suspend fun deletePostLike(
+        postId: Long,
+    ): Result<Int>
+
 }

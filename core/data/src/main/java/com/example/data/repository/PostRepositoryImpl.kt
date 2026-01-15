@@ -17,5 +17,23 @@ class PostRepositoryImpl
         override suspend fun getPostDetail(postId: Long): Result<PostDetail> =
             runCatching {
                 postRemoteDataSource.getPostDetail(postId=postId).data?.toDomain() ?: throw Exception()
+
+        override suspend fun postPostLike(postId: Long): Result<Int> =
+            runCatching {
+                postRemoteDataSource
+                    .postPostLike(postId = postId)
+                    .data
+                    ?.likeCount
+                    ?: error("likeCount is null")
+            }
+
+        override suspend fun deletePostLike(postId: Long): Result<Int> =
+            runCatching {
+                postRemoteDataSource
+                    .deletePostLike(postId = postId)
+                    .data
+                    ?.likeCount
+                    ?: error("likeCount is null")
+            }
             }
     }

@@ -16,3 +16,13 @@ interface PostService {
         @Path("postId") postId: Long,
     ): BaseResponse<PostDetailResponse>
 }
+    @POST("$API/$VERSIONS/$POSTS/{postId}/likes")
+    suspend fun postPostLike(
+        @Path("postId") postId: Long,
+    ): BaseResponse<PostLikeResponse>
+
+    @DELETE("$API/$VERSIONS/$POSTS/{postId}/likes")
+    suspend fun deletePostLike(
+        @Path("postId") postId: Long,
+    ): BaseResponse<PostLikeResponse>
+
