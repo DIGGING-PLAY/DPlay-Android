@@ -23,7 +23,7 @@ class ScrappedTracksPagingSource(
             val response = userService.getScrappedTracks(
                 userId = userId,
                 page = currentCursor,
-                size = null
+                size = params.loadSize
             )
 
             val data = response.data ?: throw Exception("data is null")

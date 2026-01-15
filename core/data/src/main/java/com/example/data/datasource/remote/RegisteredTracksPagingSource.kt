@@ -23,7 +23,7 @@ class RegisteredTracksPagingSource(
             val response = userService.getRegisteredTracks(
                 userId = userId,
                 page = currentCursor,
-                size = null
+                size = params.loadSize
             )
 
             val data = response.data ?: throw Exception("data is null")

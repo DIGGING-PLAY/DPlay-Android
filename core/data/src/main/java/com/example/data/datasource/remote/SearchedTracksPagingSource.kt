@@ -21,7 +21,7 @@ class SearchedTracksPagingSource(
 
             val response = trackService.searchTracks(
                 query = query,
-                limit = 25,
+                limit = params.loadSize,
                 storefront = null,
                 cursor = currentCursor
             )
