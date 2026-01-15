@@ -26,3 +26,13 @@ interface PostService {
         @Path("postId") postId: Long,
     ): BaseResponse<PostLikeResponse>
 
+    @POST("$API/$VERSIONS/$POSTS/{postId}/scraps")
+    suspend fun postPostScrap(
+        @Path("postId") postId: Long,
+    ): BaseResponse<Unit>
+
+    @DELETE("$API/$VERSIONS/$POSTS/{postId}/scraps")
+    suspend fun deletePostScrap(
+        @Path("postId") postId: Long,
+    ): BaseResponse<Unit>
+

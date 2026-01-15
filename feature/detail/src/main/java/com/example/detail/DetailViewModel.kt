@@ -66,20 +66,35 @@ constructor(
             }
         }
 
-        }
-    }
+        private fun toggleBookmark() {
+            viewModelScope.launch {
+                val postId = currentState.postId
+                val isScrapped = currentState.isScrapped
 
-    private fun toggleBookmark() {
-        updateState { copy(isScrapped = !currentState.isScrapped) }
-        setSideEffect(
-            ShowSnackBar(
-                snackBarType = SnackBarType.ADD,
-                action = {
-                    setSideEffect(NavigateToMyPage)
-                },
-            ),
-        )
-    }
+                val result =
+                    if (isScrapped) {
+                        postRepository.deletePostScrap(postId)
+                    } else {
+                        postRepository.postPostScrap(postId)
+                    }
+
+                result
+                    .onSuccess {
+                        updateState { copy(isScrapped = !isScrapped) }
+                        if (!isScrapped) {
+                            setSideEffect(
+                                ShowSnackBar(
+                                    snackBarType = SnackBarType.ADD,
+                                    action = { setSideEffect(NavigateToMyPage) },
+                                ),
+                            )
+                        }
+                    }.onFailure { e ->
+                        Timber.e(e)
+                    }
+            }
+        }
+
         private fun toggleLike() {
             viewModelScope.launch {
                 val postId = currentState.postId

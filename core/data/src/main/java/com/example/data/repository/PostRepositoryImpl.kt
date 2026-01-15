@@ -35,5 +35,15 @@ class PostRepositoryImpl
                     ?.likeCount
                     ?: error("likeCount is null")
             }
+
+        override suspend fun postPostScrap(postId: Long): Result<Unit> =
+            runCatching {
+                postRemoteDataSource.postPostScrap(postId = postId)
+            }
+
+        override suspend fun deletePostScrap(postId: Long): Result<Unit> =
+            runCatching {
+                postRemoteDataSource.deletePostScrap(postId = postId)
+            }
             }
     }

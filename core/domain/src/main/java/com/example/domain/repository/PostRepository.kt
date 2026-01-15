@@ -13,4 +13,12 @@ interface PostRepository {
         postId: Long,
     ): Result<Int>
 
+    suspend fun postPostScrap(
+        postId: Long,
+    ): Result<Unit>
+
+    suspend fun deletePostScrap(
+        postId: Long,
+    ): Result<Unit>
+
 }
