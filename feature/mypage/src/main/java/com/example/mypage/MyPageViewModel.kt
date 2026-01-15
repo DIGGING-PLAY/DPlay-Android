@@ -1,10 +1,18 @@
 package com.example.mypage
 
 import androidx.lifecycle.viewModelScope
+import androidx.paging.PagingData
+import androidx.paging.map
+import com.example.domain.model.RegisteredTrack
 import com.example.domain.repository.UserRepository
+import com.example.domain.usecase.GetMyRegisteredTracksUseCase
 import com.example.ui.base.BaseViewModel
+import com.example.ui.model.RegisteredTrackState
+import com.example.ui.model.toUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import timber.log.Timber
 import javax.inject.Inject
@@ -14,12 +22,26 @@ class MyPageViewModel
     @Inject
     constructor(
         private val userRepository: UserRepository,
+        private val getMyRegisteredTracksUseCase: GetMyRegisteredTracksUseCase,
     ) : BaseViewModel<MyPageContract.MyPageState, MyPageContract.MyPageIntent, MyPageContract.MyPageSideEffect>(
             MyPageContract.MyPageState(),
         ) {
         init {
             initializeUserInfo()
         }
+
+        val registeredTracks: Flow<PagingData<RegisteredTrackState>> = getMyRegisteredTracksUseCase(
+            onTotalCountFetched = {
+                updateState {
+                    copy(registeredMusicCount = it)
+                }
+            }
+        ).map { pagingData ->
+            pagingData.map { registeredTrack ->
+                registeredTrack.toUiState()
+            }
+        }
+
 
         override fun handleIntent(intent: MyPageContract.MyPageIntent) {
             when (intent) {

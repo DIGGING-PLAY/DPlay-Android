@@ -23,7 +23,10 @@ interface UserRepository {
         profileImageState: ProfileImageState,
     ): Result<Unit>
 
-    fun getRegisteredTracks(): Flow<PagingData<RegisteredTrack>>
+    fun getRegisteredTracks(
+        userId: Long,
+        onTotalCountFetched: (Int) -> Unit
+    ): Flow<PagingData<RegisteredTrack>>
 
     fun getScrappedTracks(): Flow<PagingData<ScrappedTrack>>
 }

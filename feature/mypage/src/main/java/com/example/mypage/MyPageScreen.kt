@@ -45,6 +45,9 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.paging.compose.LazyPagingItems
+import androidx.paging.compose.collectAsLazyPagingItems
+import androidx.paging.compose.itemKey
 import coil3.compose.AsyncImage
 import com.dplay.designsystem.R
 import com.example.designsystem.component.DPlayMusicGridItem
@@ -57,8 +60,9 @@ import com.example.designsystem.util.noRippleClickable
 import com.example.navigation.EditProfile
 import com.example.navigation.Navigator
 import com.example.navigation.Setting
+import com.example.ui.emptyLazyPagingItems
 import com.example.ui.model.BookmarkedMusic
-import com.example.ui.model.RegisteredMusic
+import com.example.ui.model.RegisteredTrackState
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.coroutines.flow.collectLatest
 
@@ -69,6 +73,8 @@ fun MyPageRoute(
     viewModel: MyPageViewModel = hiltViewModel(),
 ) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
+
+    val registeredTracks = viewModel.registeredTracks.collectAsLazyPagingItems()
 
     LaunchedEffect(Unit) {
         viewModel.sideEffect.collectLatest { sideEffect ->
@@ -88,6 +94,7 @@ fun MyPageRoute(
 
     MyPageScreen(
         state = state,
+        registeredTrackList = registeredTracks,
         modifier = modifier,
         onTabSelected = {
             viewModel.handleIntent(MyPageContract.MyPageIntent.OnTabClick(it))
@@ -104,6 +111,7 @@ fun MyPageRoute(
 @Composable
 fun MyPageScreen(
     state: MyPageContract.MyPageState,
+    registeredTrackList: LazyPagingItems<RegisteredTrackState>,
     onTabSelected: (Int) -> Unit = {},
     onSettingIconClick: () -> Unit = {},
     onProfileImageClick: () -> Unit = {},
@@ -135,7 +143,7 @@ fun MyPageScreen(
         TabContent(
             selectedTabIndex = state.selectedTabIndex,
             onTabSelected = onTabSelected,
-            registeredMusicList = state.registeredMusicList,
+            registeredTrackList = registeredTrackList,
             bookmarkedMusicList = state.bookmarkedMusicList,
         )
     }
@@ -222,7 +230,7 @@ private fun UserInformationRow(
 @Composable
 private fun TabContent(
     selectedTabIndex: Int,
-    registeredMusicList: ImmutableList<RegisteredMusic>,
+    registeredTrackList: LazyPagingItems<RegisteredTrackState>,
     bookmarkedMusicList: ImmutableList<BookmarkedMusic>,
     onTabSelected: (Int) -> Unit,
 ) {
@@ -241,7 +249,7 @@ private fun TabContent(
             when (selectedTabIndex) {
                 0 ->
                     RegisteredMusicList(
-                        registeredMusicList = registeredMusicList,
+                        registeredTrackList = registeredTrackList,
                     )
                 1 ->
                     BookmarkedMusicList(
@@ -284,7 +292,8 @@ private fun MyPageTabRow(
                                 .weight(1f)
                                 .noRippleClickable {
                                     onTabSelected(index)
-                                }.padding(vertical = 12.dp),
+                                }
+                                .padding(vertical = 12.dp),
                         contentAlignment = Alignment.Center,
                     ) {
                         Text(
@@ -330,7 +339,7 @@ private fun MyPageTabRow(
 
 @Composable
 private fun RegisteredMusicList(
-    registeredMusicList: ImmutableList<RegisteredMusic>,
+    registeredTrackList: LazyPagingItems<RegisteredTrackState>,
     modifier: Modifier = Modifier,
 ) {
     LazyColumn(
@@ -338,17 +347,21 @@ private fun RegisteredMusicList(
         verticalArrangement = Arrangement.spacedBy(12.dp),
     ) {
         items(
-            items = registeredMusicList,
-            key = { it.postId },
-        ) {
-            DPlayMusicListItem(
-                musicImageUrl = it.track.thumbnailUrl ?: "",
-                musicName = it.track.musicTitle,
-                musicArtistName = it.track.artistName,
-                musicContent = it.comment,
-                onMoreClick = {},
-                onClick = {},
-            )
+            count = registeredTrackList.itemCount,
+            key = registeredTrackList.itemKey { it.postId },
+        ) { index ->
+            val registeredTrack = registeredTrackList[index]
+
+            if(registeredTrack != null) {
+                DPlayMusicListItem(
+                    musicImageUrl = registeredTrack.track.thumbnailUrl,
+                    musicName = registeredTrack.track.musicTitle,
+                    musicArtistName = registeredTrack.track.artistName,
+                    musicContent = registeredTrack.comment,
+                    onMoreClick = {},
+                    onClick = {},
+                )
+            }
         }
     }
 }
@@ -386,7 +399,6 @@ private fun MyPageScreenPreview() {
         mutableStateOf(
             MyPageContract.MyPageState(
                 userNickname = "디플레이",
-                registeredMusicList = dummyRegisteredTrackStateList,
                 bookmarkedMusicList = dummyBookmarkedTrackStateList,
             ),
         )
@@ -395,6 +407,7 @@ private fun MyPageScreenPreview() {
     DPlayTheme {
         MyPageScreen(
             state = uiState,
+            registeredTrackList = emptyLazyPagingItems(),
             onTabSelected = {
                 uiState = uiState.copy(selectedTabIndex = it)
             },

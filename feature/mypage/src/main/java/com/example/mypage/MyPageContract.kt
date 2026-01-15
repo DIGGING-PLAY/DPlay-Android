@@ -3,7 +3,6 @@ package com.example.mypage
 import com.example.ui.base.BaseContract
 import com.example.ui.model.BookmarkedMusic
 import com.example.ui.model.TrackState
-import com.example.ui.model.RegisteredMusic
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 
@@ -13,11 +12,9 @@ class MyPageContract {
         val userNickname: String = "디플레이",
         val profileImagePath: String? = null,
         val selectedTabIndex: Int = 0,
-        val registeredMusicList: ImmutableList<RegisteredMusic> = dummyRegisteredTrackStateList,
+        val registeredMusicCount: Int = 0,
         val bookmarkedMusicList: ImmutableList<BookmarkedMusic> = dummyBookmarkedTrackStateList,
     ) : BaseContract.State {
-        val registeredMusicCount: Int
-            get() = registeredMusicList.size
     }
 
     sealed interface MyPageIntent : BaseContract.Intent {
@@ -60,22 +57,6 @@ class MyPageContract {
         data object ShowDeleteDialogue : MyPageSideEffect
     }
 }
-
-val dummyRegisteredTrackStateList =
-    persistentListOf(
-        RegisteredMusic(
-            postId = 1L,
-            comment = "운동할 때 들으면 힘나는 노래!",
-            track =
-                TrackState(
-                    trackId = "track_1",
-                    musicTitle = "Supernova",
-                    artistName = "aespa",
-                    thumbnailUrl = "",
-                    isrc = ""
-                ),
-        ),
-    )
 
 val dummyBookmarkedTrackStateList =
     persistentListOf(
