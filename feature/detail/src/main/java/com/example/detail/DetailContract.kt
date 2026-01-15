@@ -13,12 +13,7 @@ class DetailContract {
         val postId: Long = 0L,
         val isScrapped: Boolean = false,
         val content: String = "",
-        val badges: Badges =
-            Badges(
-                isEditorPick = false,
-                isPopular = false,
-                isNew = false,
-            ),
+        val isHost: Boolean = false,
         val track: Track =
             Track(
                 trackId = "",

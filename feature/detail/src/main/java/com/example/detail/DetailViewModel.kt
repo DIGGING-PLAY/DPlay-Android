@@ -41,35 +41,31 @@ constructor(
             is DetailContract.DetailIntent.OnStreamClick -> streamTrack()
             is DetailContract.DetailIntent.OnWriterProfileClick -> {
                 setSideEffect(DetailContract.DetailSideEffect.NavigateToWriterProfile)
+        private fun loadData(postId: Long) {
+            viewModelScope.launch {
+                postRepository
+                    .getPostDetail(postId = 1)
+                    .onSuccess { postDetail ->
+                        updateState {
+                            copy(
+                                postId = postDetail.postId,
+                                isScrapped = postDetail.isScrapped,
+                                content = postDetail.content,
+                                isHost = postDetail.isHost,
+                                track = postDetail.track,
+                                writer =
+                                    postDetail.writer,
+                                like =
+                                    postDetail.like,
+                                date = postDetail.date,
+                            )
+                        }
+                    }.onFailure { e ->
+                        Timber.e(e, "error")
+                    }
             }
         }
-    }
 
-    private fun loadData(postId: Long) {
-
-        viewModelScope.launch {
-            postRepository.getPostDetail(postId = postId).onSuccess { postDetail ->
-                updateState {
-                    copy(
-                        postId = postDetail.postId,
-                        isScrapped = postDetail.isScrapped,
-                        content = postDetail.content,
-                        badges =
-                            Badges(
-                                isEditorPick = false,
-                                isPopular = true,
-                                isNew = true,
-                            ),
-                        track =
-                            postDetail.track,
-                        writer =
-                            postDetail.writer,
-                        like =
-                            postDetail.like,
-                        date = "2025-10-19",
-                    )
-                }
-            }.onFailure { }
         }
     }
 
