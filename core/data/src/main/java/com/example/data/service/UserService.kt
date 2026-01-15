@@ -4,12 +4,14 @@ import com.example.data.constant.ApiConstants.API
 import com.example.data.constant.ApiConstants.ME
 import com.example.data.constant.ApiConstants.NOTIFICATIONS
 import com.example.data.constant.ApiConstants.POSTS
+import com.example.data.constant.ApiConstants.SCRAPS
 import com.example.data.constant.ApiConstants.USERS
 import com.example.data.constant.ApiConstants.VERSIONS
 import com.example.data.model.request.NotificationRequest
 import com.example.data.model.response.BaseResponse
 import com.example.data.model.response.NotificationResponse
 import com.example.data.model.response.RegisteredTracksResponse
+import com.example.data.model.response.ScrappedTracksResponse
 import com.example.data.model.response.UserResponse
 import kotlinx.serialization.InternalSerializationApi
 import okhttp3.MultipartBody
@@ -50,4 +52,11 @@ interface UserService {
         @Query("cursor") page: String?,
         @Query("limit") size: Int?,
     ): BaseResponse<RegisteredTracksResponse>
+
+    @GET("$API/$VERSIONS/$USERS/{userId}/$SCRAPS")
+    suspend fun getScrappedTracks(
+        @Path("userId") userId: Long,
+        @Query("cursor") page: String?,
+        @Query("limit") size: Int?,
+    ): BaseResponse<ScrappedTracksResponse>
 }
