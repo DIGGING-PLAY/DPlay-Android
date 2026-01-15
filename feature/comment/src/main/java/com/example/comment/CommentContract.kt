@@ -10,7 +10,7 @@ class CommentContract {
         val isGuideVisible: Boolean = false,
     ) : BaseContract.State {
         val isRegisterButtonEnabled: Boolean
-            get() = commentInput.isNotBlank()
+            get() = commentInput.isNotBlank() && track != null
     }
 
     sealed interface CommentIntent : BaseContract.Intent {
