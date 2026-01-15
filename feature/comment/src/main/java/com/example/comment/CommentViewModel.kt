@@ -1,14 +1,21 @@
 package com.example.comment
 
+import androidx.lifecycle.viewModelScope
+import com.example.domain.repository.PostRepository
 import com.example.ui.base.BaseViewModel
 import com.example.ui.model.TrackState
+import com.example.ui.model.toDomain
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
 class CommentViewModel
     @Inject
-    constructor() : BaseViewModel<CommentContract.CommentState, CommentContract.CommentIntent, CommentContract.CommentSideEffect>(
+    constructor(
+        private val postRepository: PostRepository,
+    ) : BaseViewModel<CommentContract.CommentState, CommentContract.CommentIntent, CommentContract.CommentSideEffect>(
             CommentContract.CommentState(),
         ) {
         override fun handleIntent(intent: CommentContract.CommentIntent) {
@@ -39,8 +46,18 @@ class CommentViewModel
                     // 가이드 노션으로 이동
                 }
                 CommentContract.CommentIntent.OnRegisterButtonClick -> {
-                    // 코멘트 등록 api 동작 후 Home으로 이동
-                    setSideEffect(CommentContract.CommentSideEffect.NavigateToHome)
+                    viewModelScope.launch {
+                        val track = currentState.track?.toDomain() ?: return@launch
+
+                        postRepository.registerPost(
+                            track = track,
+                            comment = currentState.commentInput
+                        ).onSuccess {
+                            setSideEffect(CommentContract.CommentSideEffect.NavigateToBack)
+                        }.onFailure {
+                            Timber.e("registerPost 실패",it)
+                        }
+                    }
                 }
             }
         }
