@@ -2,6 +2,7 @@ package com.example.mypage
 
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
+import androidx.paging.cachedIn
 import androidx.paging.map
 import com.example.domain.repository.UserRepository
 import com.example.domain.usecase.GetMyRegisteredTracksUseCase
@@ -42,13 +43,13 @@ class MyPageViewModel
             pagingData.map { registeredTrack ->
                 registeredTrack.toUiState()
             }
-        }
+        }.cachedIn(viewModelScope)
 
         val scrappedTracks: Flow<PagingData<ScrappedTrackState>> = getMyScrappedTracksUseCase().map { pagingData ->
             pagingData.map { scrappedTrack ->
                 scrappedTrack.toUiState()
             }
-        }
+        }.cachedIn(viewModelScope)
 
 
         override fun handleIntent(intent: MyPageContract.MyPageIntent) {
