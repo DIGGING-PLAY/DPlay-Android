@@ -21,7 +21,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -61,7 +60,7 @@ import com.example.navigation.EditProfile
 import com.example.navigation.Navigator
 import com.example.navigation.Setting
 import com.example.ui.emptyLazyPagingItems
-import com.example.ui.model.BookmarkedMusic
+import com.example.ui.model.ScrappedTrackState
 import com.example.ui.model.RegisteredTrackState
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.coroutines.flow.collectLatest
@@ -144,7 +143,7 @@ fun MyPageScreen(
             selectedTabIndex = state.selectedTabIndex,
             onTabSelected = onTabSelected,
             registeredTrackList = registeredTrackList,
-            bookmarkedMusicList = state.bookmarkedMusicList,
+            scrappedTrackList = state.scrappedTrackStateList,
         )
     }
 }
@@ -231,7 +230,7 @@ private fun UserInformationRow(
 private fun TabContent(
     selectedTabIndex: Int,
     registeredTrackList: LazyPagingItems<RegisteredTrackState>,
-    bookmarkedMusicList: ImmutableList<BookmarkedMusic>,
+    scrappedTrackList: ImmutableList<ScrappedTrackState>,
     onTabSelected: (Int) -> Unit,
 ) {
     Column {
@@ -253,7 +252,7 @@ private fun TabContent(
                     )
                 1 ->
                     BookmarkedMusicList(
-                        bookmarkedMusicList = bookmarkedMusicList,
+                        scrappedTrackList = scrappedTrackList,
                     )
             }
         }
@@ -368,7 +367,7 @@ private fun RegisteredMusicList(
 
 @Composable
 private fun BookmarkedMusicList(
-    bookmarkedMusicList: ImmutableList<BookmarkedMusic>,
+    scrappedTrackList: ImmutableList<ScrappedTrackState>,
     modifier: Modifier = Modifier,
 ) {
     LazyVerticalGrid(
@@ -379,11 +378,11 @@ private fun BookmarkedMusicList(
         verticalArrangement = Arrangement.spacedBy(12.dp),
     ) {
         items(
-            items = bookmarkedMusicList,
+            items = scrappedTrackList,
             key = { it.postId },
         ) {
             DPlayMusicGridItem(
-                musicImageUrl = it.track.thumbnailUrl ?: "",
+                musicImageUrl = it.track.thumbnailUrl,
                 musicName = it.track.musicTitle,
                 musicArtistName = it.track.artistName,
                 onClick = {},
@@ -399,7 +398,7 @@ private fun MyPageScreenPreview() {
         mutableStateOf(
             MyPageContract.MyPageState(
                 userNickname = "디플레이",
-                bookmarkedMusicList = dummyBookmarkedTrackStateList,
+                scrappedTrackStateList = dummyBookmarkedTrackStateList,
             ),
         )
     }
