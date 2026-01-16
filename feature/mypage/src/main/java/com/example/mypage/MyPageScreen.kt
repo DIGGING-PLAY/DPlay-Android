@@ -2,7 +2,6 @@ package com.example.mypage
 
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
@@ -20,7 +19,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -31,8 +29,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
@@ -46,10 +42,10 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemKey
-import coil3.compose.AsyncImage
 import com.dplay.designsystem.R
 import com.example.designsystem.component.DPlayMusicGridItem
 import com.example.designsystem.component.DPlayMusicListItem
+import com.example.designsystem.component.DPlayProfileImageArea
 import com.example.designsystem.component.DplayRightIconTitleTopAppBar
 import com.example.designsystem.component.button.DPlayCircleButton
 import com.example.designsystem.component.button.type.CircleButtonType
@@ -193,39 +189,22 @@ private fun UserInformationRow(
             )
         }
 
-        Box(
-            modifier =
-                Modifier
-                    .noRippleClickable(
-                        onClick = { onProfileImageClick() },
-                    ),
-        ) {
-            AsyncImage(
-                model = profileImagePath ?: R.drawable.img_profile,
-                contentDescription = null,
-                modifier =
-                    Modifier
-                        .size(80.dp)
-                        .clip(CircleShape)
-                        .border(
-                            width = 1.dp,
-                            color = DPlayTheme.colors.gray200,
-                            shape = CircleShape,
-                        ),
-                contentScale = ContentScale.Crop,
-            )
-
+        DPlayProfileImageArea(
+            onProfileImageClick = onProfileImageClick,
+            profileImagePath = profileImagePath,
+            modifier = Modifier.size(80.dp),
+        ){
             DPlayCircleButton(
                 circleButtonType =
                     CircleButtonType.SmallEdit(
                         R.string.edit_profile_image_button_icon_description,
                     ),
                 onClick = {},
-                modifier = Modifier.align(Alignment.BottomEnd),
             )
         }
     }
 }
+
 
 @Composable
 private fun TabContent(

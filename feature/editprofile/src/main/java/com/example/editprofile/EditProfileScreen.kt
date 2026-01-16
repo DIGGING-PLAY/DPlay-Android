@@ -33,6 +33,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil3.compose.AsyncImage
 import com.dplay.designsystem.R
 import com.example.designsystem.component.DPlayButtonBottomSheet
+import com.example.designsystem.component.DPlayProfileImageArea
 import com.example.designsystem.component.DplayLeftIconTitleTopAppBar
 import com.example.designsystem.component.button.DPlayCircleButton
 import com.example.designsystem.component.button.DPlayLargePinkButton
@@ -136,36 +137,19 @@ fun EditProfileScreen(
 
             Spacer(modifier = Modifier.height(24.dp))
 
-            Box(
-                modifier =
-                    Modifier
-                        .align(Alignment.CenterHorizontally)
-                        .noRippleClickable(
-                            onClick = { onProfileImageClick() },
-                        ),
-            ) {
-                AsyncImage(
-                    model = state.profileImagePath ?: R.drawable.img_profile,
-                    contentDescription = null,
-                    modifier =
-                        Modifier
-                            .size(116.dp)
-                            .clip(CircleShape)
-                            .border(
-                                width = 1.dp,
-                                color = DPlayTheme.colors.gray200,
-                                shape = CircleShape,
-                            ),
-                    contentScale = ContentScale.Crop,
-                )
-
+            DPlayProfileImageArea(
+                onProfileImageClick = onProfileImageClick,
+                profileImagePath = state.profileImagePath,
+                modifier = Modifier
+                    .size(116.dp)
+                    .align(Alignment.CenterHorizontally),
+            ){
                 DPlayCircleButton(
                     circleButtonType =
                         CircleButtonType.SmallPlus(
                             R.string.add_profile_image_button_icon_description,
                         ),
                     onClick = { onProfileImageClick() },
-                    modifier = Modifier.align(Alignment.BottomEnd),
                 )
             }
 
