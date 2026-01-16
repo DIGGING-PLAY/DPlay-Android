@@ -58,7 +58,10 @@ fun HomeRoute(
                 }
 
                 is HomeContract.HomeSideEffect.NavigateToPostDetail -> {
-                    navigator.navigateTo(Detail(it.postId))
+                    navigator.navigateTo(Detail(
+                        postId = it.postId,
+                        date = state.todayQuestion.recordMMDD,
+                        ))
                 }
 
                 is HomeContract.HomeSideEffect.NavigateToWriterProfile -> {

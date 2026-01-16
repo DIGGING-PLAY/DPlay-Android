@@ -12,7 +12,7 @@ import retrofit2.http.POST
 import retrofit2.http.Path
 
 interface PostService {
-    @GET("$API/$VERSIONS/$POSTS/{postId}")
+    @GET("$API/$VERSIONS/$POSTS/detail/{postId}")
     suspend fun getPostDetail(
         @Path("postId") postId: Long,
     ): BaseResponse<PostDetailResponse>

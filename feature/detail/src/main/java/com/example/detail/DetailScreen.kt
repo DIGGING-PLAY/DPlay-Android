@@ -51,12 +51,13 @@ import kotlinx.coroutines.flow.collectLatest
 fun DetailRoute(
     postId: Long,
     viewModel: DetailViewModel = hiltViewModel(),
-) {
+    date: String = "",
+    ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val showSnackBar = LocalShowSnackBar.current
 
     LaunchedEffect(Unit) {
-        viewModel.handleIntent(DetailContract.DetailIntent.LoadData(postId = postId))
+        viewModel.handleIntent(DetailContract.DetailIntent.LoadData(postId = postId,date = date))
     }
 
     LaunchedEffect(viewModel.sideEffect) {
@@ -220,7 +221,8 @@ private fun DetailScreen(
                                 width = 1.dp,
                                 color = color.gray200,
                                 shape = RoundedCornerShape(12.dp),
-                            ).roundedBackgroundWithPadding(
+                            )
+                            .roundedBackgroundWithPadding(
                                 backgroundColor = color.dplayWhite,
                                 cornerRadius = 12.dp,
                                 padding = PaddingValues(horizontal = 12.dp, vertical = 16.dp),
