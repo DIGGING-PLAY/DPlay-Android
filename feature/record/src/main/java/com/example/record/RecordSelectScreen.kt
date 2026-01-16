@@ -45,8 +45,9 @@ fun RecordSelectScreen(
                 onButtonClick = { changeDatePickerBottomSheetVisible(true) },
             )
             Box(
-                modifier = Modifier
-                    .fillMaxSize()
+                modifier =
+                    Modifier
+                        .fillMaxSize(),
             ) {
                 if (uiState.questionList.isEmpty()) {
                     Text(
@@ -57,9 +58,10 @@ fun RecordSelectScreen(
                     )
                 } else {
                     LazyColumn(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .padding(horizontal = 16.dp),
+                        modifier =
+                            Modifier
+                                .fillMaxSize()
+                                .padding(horizontal = 16.dp),
                         contentPadding = PaddingValues(vertical = 16.dp),
                         verticalArrangement = Arrangement.spacedBy(12.dp),
                     ) {
@@ -79,7 +81,6 @@ fun RecordSelectScreen(
                     }
                 }
             }
-
         }
         if (uiState.datePickerBottomSheetVisible) {
             Box(

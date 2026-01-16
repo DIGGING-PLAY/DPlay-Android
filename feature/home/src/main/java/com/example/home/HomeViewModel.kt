@@ -7,6 +7,7 @@ import com.example.domain.model.FeedItem
 import com.example.domain.model.Like
 import com.example.domain.model.Track
 import com.example.domain.model.Writer
+import com.example.domain.repository.QuestionRepository
 import com.example.ui.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.persistentListOf
@@ -15,12 +16,16 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel
     @Inject
-    constructor() : BaseViewModel<HomeContract.HomeState, HomeContract.HomeIntent, HomeContract.HomeSideEffect>(
+    constructor(
+        val questionRepository: QuestionRepository,
+    ) : BaseViewModel<HomeContract.HomeState, HomeContract.HomeIntent, HomeContract.HomeSideEffect>(
             HomeContract.HomeState(),
         ) {
         private val loadTrigger = MutableStateFlow(Unit)
@@ -59,6 +64,15 @@ class HomeViewModel
         }
 
         private fun getTodayPosts() {
+            viewModelScope.launch {
+                questionRepository
+                    .getTodayQuestion()
+                    .onSuccess { question ->
+                        updateState { copy(todayQuestion = question) }
+                    }.onFailure { e ->
+                        Timber.e(e)
+                    }
+            }
         }
 
         private fun previewStreaming(trackId: String) {

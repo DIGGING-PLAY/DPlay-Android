@@ -13,10 +13,8 @@ data class QuestionRecordResponse(
 data class QuestionItemResponse(
     @SerialName("day")
     val day: String,
-
     @SerialName("questionId")
     val questionId: Long,
-
     @SerialName("title")
     val title: String,
 )

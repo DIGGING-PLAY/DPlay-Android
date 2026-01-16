@@ -7,4 +7,6 @@ interface QuestionRepository {
         year: Int,
         month: Int,
     ): Result<List<DailyQuestion>>
+
+    suspend fun getTodayQuestion( ): Result<DailyQuestion>
 }
