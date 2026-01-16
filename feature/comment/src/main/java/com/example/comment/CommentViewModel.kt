@@ -46,23 +46,27 @@ class CommentViewModel
                     // 가이드 노션으로 이동
                 }
                 CommentContract.CommentIntent.OnRegisterButtonClick -> {
-                    viewModelScope.launch {
-                        val track = currentState.track?.toDomain() ?: return@launch
-
-                        postRepository
-                            .registerPost(
-                                track = track,
-                                comment = currentState.commentInput,
-                            ).onSuccess {
-                                setSideEffect(CommentContract.CommentSideEffect.NavigateToBack)
-                            }.onFailure {
-                            }
-                    }
+                    registerPost()
                 }
             }
         }
 
-        private fun initializeMusicInfo(trackState: TrackState) {
+    private fun registerPost() {
+        viewModelScope.launch {
+            val track = currentState.track?.toDomain() ?: return@launch
+
+            postRepository
+                .registerPost(
+                    track = track,
+                    comment = currentState.commentInput,
+                ).onSuccess {
+                    setSideEffect(CommentContract.CommentSideEffect.NavigateToBack)
+                }.onFailure {
+                }
+        }
+    }
+
+    private fun initializeMusicInfo(trackState: TrackState) {
             updateState {
                 copy(track = trackState)
             }

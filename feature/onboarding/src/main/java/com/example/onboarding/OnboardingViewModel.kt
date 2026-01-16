@@ -50,17 +50,7 @@ class OnboardingViewModel
                 }
 
                 OnboardingContract.OnboardingIntent.OnProfileScreenNextButtonClick -> {
-                    viewModelScope.launch {
-                        authRepository
-                            .signupWithKakao(
-                                kakaoAccessToken = currentState.kakaoAccessToken,
-                                profileImage = currentState.profileImageUri.toString(),
-                                nickname = currentState.nickname,
-                            ).onSuccess {
-                                setSideEffect(OnboardingContract.OnboardingSideEffect.NavigateToOnboarding)
-                            }.onFailure {
-                            }
-                    }
+                    signUpWithKakao()
                 }
 
                 is OnboardingContract.OnboardingIntent.OnAlbumImageSelect -> {
@@ -108,7 +98,21 @@ class OnboardingViewModel
             }
         }
 
-        private fun toggleAllTerms() {
+    private fun signUpWithKakao() {
+        viewModelScope.launch {
+            authRepository
+                .signupWithKakao(
+                    kakaoAccessToken = currentState.kakaoAccessToken,
+                    profileImage = currentState.profileImageUri.toString(),
+                    nickname = currentState.nickname,
+                ).onSuccess {
+                    setSideEffect(OnboardingContract.OnboardingSideEffect.NavigateToOnboarding)
+                }.onFailure {
+                }
+        }
+    }
+
+    private fun toggleAllTerms() {
             updateState {
                 val newAgreedTerms =
                     if (currentState.isAllTermsAgreed) {

@@ -60,15 +60,7 @@ class EditProfileViewModel
                     }
                 }
                 EditProfileContract.EditProfileIntent.OnEditButtonClick -> {
-                    viewModelScope.launch {
-                        userRepository
-                            .updateProfile(
-                                nickname = currentState.nickname,
-                                profileImageState = currentState.profileImageState,
-                            ).onSuccess {
-                                setSideEffect(EditProfileContract.EditProfileSideEffect.NavigateToBack)
-                            }.onFailure { }
-                    }
+                    editProfile()
                 }
                 is EditProfileContract.EditProfileIntent.OnNicknameChanged -> {
                     validateAndUpdateNickname(intent.input.trim())
@@ -81,7 +73,19 @@ class EditProfileViewModel
             }
         }
 
-        private fun validateAndUpdateNickname(nickname: String) {
+    private fun editProfile() {
+        viewModelScope.launch {
+            userRepository
+                .updateProfile(
+                    nickname = currentState.nickname,
+                    profileImageState = currentState.profileImageState,
+                ).onSuccess {
+                    setSideEffect(EditProfileContract.EditProfileSideEffect.NavigateToBack)
+                }.onFailure { }
+        }
+    }
+
+    private fun validateAndUpdateNickname(nickname: String) {
             val validationResult = validateNicknameUseCase(nickname)
             val inputState = validationResult.toUiState()
             updateState {

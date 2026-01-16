@@ -35,29 +35,37 @@ class SettingViewModel
                     setSideEffect(SettingContract.SettingSideEffect.NavigateToBack)
                 }
                 SettingContract.SettingIntent.OnLogoutConfirm -> {
-                    viewModelScope.launch {
-                        authRepository
-                            .logout()
-                            .onSuccess {
-                                setSideEffect(SettingContract.SettingSideEffect.NavigateToLogin)
-                            }.onFailure {
-                            }
-                    }
+                    logout()
                 }
                 SettingContract.SettingIntent.OnWithdrawConfirm -> {
-                    viewModelScope.launch {
-                        authRepository
-                            .withdraw()
-                            .onSuccess {
-                                setSideEffect(SettingContract.SettingSideEffect.NavigateToLogin)
-                            }.onFailure {
-                            }
-                    }
+                    withdraw()
                 }
             }
         }
 
-        private fun handleMenuClick(type: SettingMenuType) {
+    private fun withdraw() {
+        viewModelScope.launch {
+            authRepository
+                .withdraw()
+                .onSuccess {
+                    setSideEffect(SettingContract.SettingSideEffect.NavigateToLogin)
+                }.onFailure {
+                }
+        }
+    }
+
+    private fun logout() {
+        viewModelScope.launch {
+            authRepository
+                .logout()
+                .onSuccess {
+                    setSideEffect(SettingContract.SettingSideEffect.NavigateToLogin)
+                }.onFailure {
+                }
+        }
+    }
+
+    private fun handleMenuClick(type: SettingMenuType) {
             when (type) {
                 SettingMenuType.PUSH_NOTIFICATION -> {
                     toggleNotification(!currentState.isPushNotificationEnabled)
