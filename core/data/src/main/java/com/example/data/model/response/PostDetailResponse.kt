@@ -3,8 +3,8 @@ package com.example.data.model.response
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
- @Serializable
- data class PostDetailResponse(
+@Serializable
+data class PostDetailResponse(
     @SerialName("postId")
     val postId: Long,
     @SerialName("isHost")
@@ -19,7 +19,8 @@ import kotlinx.serialization.Serializable
     val user: UserResponse,
     @SerialName("like")
     val like: LikeResponse,
- )
+)
+
 @Serializable
 data class TrackResponse(
     @SerialName("trackId")

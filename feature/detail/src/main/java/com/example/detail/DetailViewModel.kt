@@ -22,7 +22,7 @@ class DetailViewModel
         ) {
         override fun handleIntent(intent: DetailContract.DetailIntent) {
             when (intent) {
-                is DetailContract.DetailIntent.LoadData -> loadData(intent.postId,intent.date)
+                is DetailContract.DetailIntent.LoadData -> loadData(intent.postId, intent.date)
                 is DetailContract.DetailIntent.OnBackButtonClick -> {
                     setSideEffect(DetailContract.DetailSideEffect.NavigateBackStack)
                 }
@@ -46,7 +46,10 @@ class DetailViewModel
             }
         }
 
-        private fun loadData(postId: Long,date:String) {
+        private fun loadData(
+            postId: Long,
+            date: String,
+        ) {
             viewModelScope.launch {
                 postRepository
                     .getPostDetail(postId = 1)

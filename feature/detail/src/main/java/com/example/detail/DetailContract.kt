@@ -37,7 +37,7 @@ class DetailContract {
     sealed interface DetailIntent : BaseContract.Intent {
         data class LoadData(
             val postId: Long,
-            val date:String=""
+            val date: String = "",
         ) : DetailIntent
 
         data object OnBookmarkClick : DetailIntent
