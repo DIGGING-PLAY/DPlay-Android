@@ -6,5 +6,5 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class NotificationResponse(
     @SerialName("pushOn")
-    val pushON: Boolean,
+    val pushOn: Boolean,
 )
