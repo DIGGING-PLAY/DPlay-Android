@@ -60,7 +60,7 @@ class OnboardingViewModel
                 is OnboardingContract.OnboardingIntent.OnAlbumImageSelect -> {
                     updateState {
                         copy(
-                            profileImageUri = intent.uri,
+                            profileImagePath = intent.uri.toString(),
                             isAlbumLauncherBottomSheetVisible = false,
                         )
                     }
@@ -73,7 +73,7 @@ class OnboardingViewModel
                 OnboardingContract.OnboardingIntent.OnDefaultImageSelect -> {
                     updateState {
                         copy(
-                            profileImageUri = null,
+                            profileImagePath = null,
                             isAlbumLauncherBottomSheetVisible = false,
                         )
                     }
@@ -107,7 +107,7 @@ class OnboardingViewModel
                 authRepository
                     .signupWithKakao(
                         kakaoAccessToken = currentState.kakaoAccessToken,
-                        profileImage = currentState.profileImageUri.toString(),
+                        profileImage = currentState.profileImagePath,
                         nickname = currentState.nickname,
                     ).onSuccess {
                         setSideEffect(OnboardingContract.OnboardingSideEffect.NavigateToOnboarding)

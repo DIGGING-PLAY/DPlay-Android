@@ -10,7 +10,7 @@ class OnboardingContract {
         val kakaoAccessToken: String? = null,
         val agreedTerms: Set<TermType> = emptySet(),
         val nickname: String = "",
-        val profileImageUri: Uri? = null,
+        val profileImagePath: String? = null,
         val nicknameInputState: InputState = InputState.Default,
         val isAlbumLauncherBottomSheetVisible: Boolean = false,
     ) : BaseContract.State {
