@@ -231,7 +231,7 @@ fun YearMonthWheelPicker(
     onYearSelected: (Int) -> Unit,
     onMonthSelected: (Int) -> Unit,
     modifier: Modifier = Modifier,
-    yearRange: IntRange = 2024..2026,
+    yearRange: IntRange = 2025..2026,
 ) {
     val years = yearRange.toList()
     val months = (1..12).toList()

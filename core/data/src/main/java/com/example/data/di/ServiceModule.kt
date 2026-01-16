@@ -3,6 +3,7 @@ package com.example.data.di
 import com.example.data.service.AuthService
 import com.example.data.service.DummyService
 import com.example.data.service.PostService
+import com.example.data.service.QuestionService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -30,4 +31,10 @@ object ServiceModule {
     fun providePostService(
         retrofit: Retrofit,
     ): PostService = retrofit.create(PostService::class.java)
+
+    @Provides
+    @Singleton
+    fun provideQuestionService(
+        retrofit: Retrofit,
+    ): QuestionService = retrofit.create(QuestionService::class.java)
 }

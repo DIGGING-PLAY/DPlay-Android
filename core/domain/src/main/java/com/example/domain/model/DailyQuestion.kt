@@ -10,7 +10,7 @@ data class DailyQuestion(
 ) {
     val homeTitleDateText: String = date.toDiscoveryTitleSafe()
 
-    val recordDay: Int = date.toRecordListDayTextSafe()
+    val recordDayText: String = date
 
     val recordMMDD: String = date.toMMDDText()
 }
