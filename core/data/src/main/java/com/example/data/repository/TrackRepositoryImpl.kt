@@ -23,7 +23,8 @@ class TrackRepositoryImpl
             Pager(
                 config =
                     PagingConfig(
-                        pageSize = 20,
+                        pageSize = LOAD_SIZE,
+                        initialLoadSize = LOAD_SIZE,
                         enablePlaceholders = false,
                     ),
                 pagingSourceFactory = { SearchedTracksPagingSource(trackService, query) },
@@ -37,4 +38,8 @@ class TrackRepositoryImpl
             runCatching {
                 trackRemoteDataSource.getTrack(trackId = trackId).toDomain()
             }
+
+        companion object{
+            const val LOAD_SIZE = 20
+        }
     }

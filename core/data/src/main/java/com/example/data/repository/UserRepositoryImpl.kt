@@ -93,7 +93,8 @@ class UserRepositoryImpl
             Pager(
                 config =
                     PagingConfig(
-                        pageSize = 20,
+                        pageSize = REGISTERED_TRACK_LOAD_SIZE,
+                        initialLoadSize = REGISTERED_TRACK_LOAD_SIZE,
                         enablePlaceholders = false,
                     ),
                 pagingSourceFactory = {
@@ -115,7 +116,8 @@ class UserRepositoryImpl
             Pager(
                 config =
                     PagingConfig(
-                        pageSize = 20,
+                        pageSize = SCRAPPED_TRACK_LOAD_SIZE,
+                        initialLoadSize = SCRAPPED_TRACK_LOAD_SIZE,
                         enablePlaceholders = false,
                     ),
                 pagingSourceFactory = {
@@ -129,4 +131,8 @@ class UserRepositoryImpl
                     track.toDomain()
                 }
             }
+        companion object{
+            const val SCRAPPED_TRACK_LOAD_SIZE = 20
+            const val REGISTERED_TRACK_LOAD_SIZE = 20
+        }
     }
