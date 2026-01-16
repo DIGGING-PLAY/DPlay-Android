@@ -155,7 +155,7 @@ fun OnboardingProfileScreen(
                         ),
             ) {
                 AsyncImage(
-                    model = state.profileImageUri ?: R.drawable.img_profile,
+                    model = state.profileImageUri ?: R.drawable.base_profile_image,
                     contentDescription = null,
                     modifier =
                         Modifier
