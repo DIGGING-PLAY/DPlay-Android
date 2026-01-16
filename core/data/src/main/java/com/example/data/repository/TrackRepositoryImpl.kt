@@ -39,7 +39,7 @@ class TrackRepositoryImpl
                 trackRemoteDataSource.getTrack(trackId = trackId).toDomain()
             }
 
-        companion object{
+        companion object {
             const val LOAD_SIZE = 20
         }
     }
