@@ -56,7 +56,6 @@ class CommentViewModel
                             ).onSuccess {
                                 setSideEffect(CommentContract.CommentSideEffect.NavigateToBack)
                             }.onFailure {
-                                Timber.e("registerPost 실패", it)
                             }
                     }
                 }
