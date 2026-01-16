@@ -39,6 +39,10 @@ class OnboardingContract {
 
         data object OnTermsScreenNextButtonClick : OnboardingIntent
 
+        data class OnTermsArrowClick(
+            val term: TermType
+        ): OnboardingIntent
+
         data class OnNicknameChanged(
             val input: String,
         ) : OnboardingIntent
@@ -80,5 +84,9 @@ class OnboardingContract {
         data object ShowPermissionDialog : OnboardingSideEffect
 
         data object LaunchAlbum : OnboardingSideEffect
+
+        data class OpenWebView(
+            val url: String,
+        ) : OnboardingSideEffect
     }
 }

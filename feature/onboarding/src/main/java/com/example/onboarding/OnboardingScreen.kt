@@ -28,6 +28,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.dplay.designsystem.R
+import com.dplay.onboarding.R.drawable
 import com.example.designsystem.component.DplayLeftIconTopAppBar
 import com.example.designsystem.component.button.DPlayLargePinkButton
 import com.example.designsystem.theme.DPlayTheme
@@ -145,6 +146,14 @@ private fun FirstOnboardingPage(
             color = DPlayTheme.colors.gray400,
             textAlign = TextAlign.Center,
         )
+
+        Spacer(modifier = Modifier.height(12.dp))
+
+        Image(
+            painter = painterResource(id = drawable.img_onboarding_1),
+            contentDescription = null,
+            modifier = Modifier.fillMaxWidth(),
+        )
     }
 }
 
@@ -170,6 +179,13 @@ private fun SecondOnboardingPage(modifier: Modifier = Modifier) {
             style = DPlayTheme.typography.bodyMed16,
             color = DPlayTheme.colors.gray400,
             textAlign = TextAlign.Center,
+        )
+
+        Spacer(modifier = Modifier.height(12.dp))
+
+        Image(
+            painter = painterResource(id = drawable.img_onboarding_2),
+            contentDescription = null,
         )
     }
 }
@@ -201,7 +217,7 @@ private fun ThirdOnboardingPage(modifier: Modifier = Modifier) {
         Spacer(modifier = Modifier.height(12.dp))
 
         Image(
-            painter = painterResource(id = R.drawable.img_onboarding_3),
+            painter = painterResource(id = drawable.img_onboarding_3),
             contentDescription = null,
         )
     }

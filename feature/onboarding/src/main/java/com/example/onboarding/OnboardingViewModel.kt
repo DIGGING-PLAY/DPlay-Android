@@ -41,6 +41,10 @@ class OnboardingViewModel
                     toggleAllTerms()
                 }
 
+                is OnboardingContract.OnboardingIntent.OnTermsArrowClick -> {
+                   setSideEffect(OnboardingContract.OnboardingSideEffect.OpenWebView(intent.term.url))
+                }
+
                 OnboardingContract.OnboardingIntent.OnTermsScreenNextButtonClick -> {
                     setSideEffect(OnboardingContract.OnboardingSideEffect.NavigateToProfile)
                 }
