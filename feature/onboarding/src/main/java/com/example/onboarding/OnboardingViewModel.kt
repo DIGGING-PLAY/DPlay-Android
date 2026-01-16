@@ -98,21 +98,21 @@ class OnboardingViewModel
             }
         }
 
-    private fun signUpWithKakao() {
-        viewModelScope.launch {
-            authRepository
-                .signupWithKakao(
-                    kakaoAccessToken = currentState.kakaoAccessToken,
-                    profileImage = currentState.profileImageUri.toString(),
-                    nickname = currentState.nickname,
-                ).onSuccess {
-                    setSideEffect(OnboardingContract.OnboardingSideEffect.NavigateToOnboarding)
-                }.onFailure {
-                }
+        private fun signUpWithKakao() {
+            viewModelScope.launch {
+                authRepository
+                    .signupWithKakao(
+                        kakaoAccessToken = currentState.kakaoAccessToken,
+                        profileImage = currentState.profileImageUri.toString(),
+                        nickname = currentState.nickname,
+                    ).onSuccess {
+                        setSideEffect(OnboardingContract.OnboardingSideEffect.NavigateToOnboarding)
+                    }.onFailure {
+                    }
+            }
         }
-    }
 
-    private fun toggleAllTerms() {
+        private fun toggleAllTerms() {
             updateState {
                 val newAgreedTerms =
                     if (currentState.isAllTermsAgreed) {

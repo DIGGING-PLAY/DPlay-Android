@@ -7,7 +7,6 @@ import com.example.ui.model.TrackState
 import com.example.ui.model.toDomain
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -51,22 +50,22 @@ class CommentViewModel
             }
         }
 
-    private fun registerPost() {
-        viewModelScope.launch {
-            val track = currentState.track?.toDomain() ?: return@launch
+        private fun registerPost() {
+            viewModelScope.launch {
+                val track = currentState.track?.toDomain() ?: return@launch
 
-            postRepository
-                .registerPost(
-                    track = track,
-                    comment = currentState.commentInput,
-                ).onSuccess {
-                    setSideEffect(CommentContract.CommentSideEffect.NavigateToBack)
-                }.onFailure {
-                }
+                postRepository
+                    .registerPost(
+                        track = track,
+                        comment = currentState.commentInput,
+                    ).onSuccess {
+                        setSideEffect(CommentContract.CommentSideEffect.NavigateToBack)
+                    }.onFailure {
+                    }
+            }
         }
-    }
 
-    private fun initializeMusicInfo(trackState: TrackState) {
+        private fun initializeMusicInfo(trackState: TrackState) {
             updateState {
                 copy(track = trackState)
             }

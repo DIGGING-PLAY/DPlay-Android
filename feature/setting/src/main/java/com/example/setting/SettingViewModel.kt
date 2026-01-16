@@ -1,6 +1,5 @@
 package com.example.setting
 
-import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.example.domain.repository.AuthRepository
 import com.example.domain.repository.UserRepository
@@ -43,29 +42,29 @@ class SettingViewModel
             }
         }
 
-    private fun withdraw() {
-        viewModelScope.launch {
-            authRepository
-                .withdraw()
-                .onSuccess {
-                    setSideEffect(SettingContract.SettingSideEffect.NavigateToLogin)
-                }.onFailure {
-                }
+        private fun withdraw() {
+            viewModelScope.launch {
+                authRepository
+                    .withdraw()
+                    .onSuccess {
+                        setSideEffect(SettingContract.SettingSideEffect.NavigateToLogin)
+                    }.onFailure {
+                    }
+            }
         }
-    }
 
-    private fun logout() {
-        viewModelScope.launch {
-            authRepository
-                .logout()
-                .onSuccess {
-                    setSideEffect(SettingContract.SettingSideEffect.NavigateToLogin)
-                }.onFailure {
-                }
+        private fun logout() {
+            viewModelScope.launch {
+                authRepository
+                    .logout()
+                    .onSuccess {
+                        setSideEffect(SettingContract.SettingSideEffect.NavigateToLogin)
+                    }.onFailure {
+                    }
+            }
         }
-    }
 
-    private fun handleMenuClick(type: SettingMenuType) {
+        private fun handleMenuClick(type: SettingMenuType) {
             when (type) {
                 SettingMenuType.PUSH_NOTIFICATION -> {
                     toggleNotification(!currentState.isPushNotificationEnabled)
@@ -122,7 +121,6 @@ class SettingViewModel
                     userRepository
                         .updateNotificationEnabled(enabled)
                         .onSuccess {
-
                         }.onFailure {
                             updateState {
                                 copy(
