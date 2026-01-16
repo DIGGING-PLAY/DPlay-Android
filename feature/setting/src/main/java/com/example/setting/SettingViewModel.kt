@@ -114,7 +114,7 @@ class SettingViewModel
                     userRepository
                         .updateNotificationEnabled(enabled)
                         .onSuccess {
-                            Log.d("notification", "notification $enabled")
+
                         }.onFailure {
                             updateState {
                                 copy(
