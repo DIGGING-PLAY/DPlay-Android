@@ -20,6 +20,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.layout
 import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -47,6 +48,8 @@ fun CommentRoute(
 ) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
 
+    val uriHandler = LocalUriHandler.current
+
     LaunchedEffect(track) {
         viewModel.handleIntent(CommentContract.CommentIntent.Initialize(track))
     }
@@ -59,6 +62,9 @@ fun CommentRoute(
                 }
                 CommentContract.CommentSideEffect.NavigateToHome -> {
                     navigator.clearAndNavigateTo(Home)
+                }
+                is CommentContract.CommentSideEffect.OpenWebView -> {
+                    uriHandler.openUri(sideEffect.url)
                 }
             }
         }

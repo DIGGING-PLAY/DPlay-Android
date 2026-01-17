@@ -1,6 +1,7 @@
 package com.example.comment
 
 import androidx.lifecycle.viewModelScope
+import com.example.common.constant.Url
 import com.example.domain.repository.PostRepository
 import com.example.ui.base.BaseViewModel
 import com.example.ui.model.TrackState
@@ -42,7 +43,7 @@ class CommentViewModel
                     }
                 }
                 CommentContract.CommentIntent.OnMoreGuideClick -> {
-                    // 가이드 노션으로 이동
+                    setSideEffect(CommentContract.CommentSideEffect.OpenWebView(Url.COMMUNITY_GUIDE))
                 }
                 CommentContract.CommentIntent.OnRegisterButtonClick -> {
                     registerPost()
