@@ -53,6 +53,9 @@ retrofit = "2.11.0"
 # Splash
 splash = "1.0.1"
 
+# Media3
+media3 = "1.6.0"
+
 # Timber
 timber = "5.0.1"
 
@@ -119,6 +122,10 @@ kakao-user = { group = "com.kakao.sdk", name = "v2-user", version.ref = "kakao-u
 
 # Splash
 splash = { group = "androidx.core", name = "core-splashscreen", version.ref = "splash" }
+
+# Media3
+media3-exoplayer = { group = "androidx.media3", name = "media3-exoplayer", version.ref = "media3" }
+media3-session = { group = "androidx.media3", name = "media3-session", version.ref = "media3" }
 
 # Timber
 timber = { group = "com.jakewharton.timber", name = "timber", version.ref = "timber" }

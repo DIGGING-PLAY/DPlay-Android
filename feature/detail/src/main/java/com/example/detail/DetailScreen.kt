@@ -167,7 +167,7 @@ private fun DetailScreen(
                 Box(Modifier.padding(horizontal = 97.dp)) {
                     DPlayMusicDiscItem(
                         imageUrl = state.track.coverImg,
-                        isStreaming = false,
+                        isStreaming = state.streamingTrackId == state.track.trackId,
                     )
                     DPlayBookmarkButton(
                         isMarked = state.isScrapped,

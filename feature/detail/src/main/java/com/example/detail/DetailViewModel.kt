@@ -1,13 +1,17 @@
 package com.example.detail
 
 import androidx.lifecycle.viewModelScope
+import com.example.common.audio.AudioPlayer
 import com.example.designsystem.component.snackbar.type.SnackBarType
 import com.example.detail.DetailContract.DetailSideEffect.NavigateToMyPage
 import com.example.detail.DetailContract.DetailSideEffect.ShowSnackBar
 import com.example.domain.model.Like
 import com.example.domain.repository.PostRepository
+import com.example.domain.repository.TrackRepository
 import com.example.ui.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
@@ -17,9 +21,31 @@ class DetailViewModel
     @Inject
     constructor(
         private val postRepository: PostRepository,
+        private val trackRepository: TrackRepository,
+        private val audioPlayer: AudioPlayer,
     ) : BaseViewModel<DetailContract.DetailState, DetailContract.DetailIntent, DetailContract.DetailSideEffect>(
             DetailContract.DetailState(),
         ) {
+
+        init {
+            observePlaybackState()
+        }
+
+        private fun observePlaybackState() {
+            audioPlayer.playbackState
+                .onEach { playbackState ->
+                    updateState {
+                        copy(
+                            streamingTrackId =
+                                if (playbackState.isPlaying) {
+                                    playbackState.currentTrackId
+                                } else {
+                                    null
+                                },
+                        )
+                    }
+                }.launchIn(viewModelScope)
+        }
         override fun handleIntent(intent: DetailContract.DetailIntent) {
             when (intent) {
                 is DetailContract.DetailIntent.LoadData -> loadData(intent.postId, intent.date)
@@ -153,5 +179,33 @@ class DetailViewModel
         }
 
         private fun streamTrack() {
+            val track = currentState.track
+            val trackId = track.trackId
+            val currentStreamingTrackId = audioPlayer.playbackState.value.currentTrackId
+
+            if (currentStreamingTrackId == trackId && audioPlayer.playbackState.value.isPlaying) {
+                audioPlayer.stop()
+                return
+            }
+
+            viewModelScope.launch {
+                trackRepository
+                    .getTrackPreview(trackId = trackId)
+                    .onSuccess { preview ->
+                        audioPlayer.play(
+                            url = preview.streamUrl,
+                            trackId = trackId,
+                            title = track.songTitle,
+                            artist = track.artistName,
+                        )
+                    }.onFailure { e ->
+                        Timber.e(e)
+                        setSideEffect(
+                            ShowSnackBar(
+                                snackBarType = SnackBarType.STREAMING_NOT_SUPPORT,
+                            ),
+                        )
+                    }
+            }
         }
     }

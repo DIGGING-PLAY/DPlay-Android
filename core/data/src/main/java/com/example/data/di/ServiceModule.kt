@@ -4,6 +4,7 @@ import com.example.data.service.AuthService
 import com.example.data.service.DummyService
 import com.example.data.service.PostService
 import com.example.data.service.QuestionService
+import com.example.data.service.TrackService
 import com.example.data.service.UserService
 import dagger.Module
 import dagger.Provides
@@ -44,4 +45,10 @@ object ServiceModule {
     fun provideQuestionService(
         retrofit: Retrofit,
     ): QuestionService = retrofit.create(QuestionService::class.java)
+
+    @Provides
+    @Singleton
+    fun provideTrackService(
+        retrofit: Retrofit,
+    ): TrackService = retrofit.create(TrackService::class.java)
 }

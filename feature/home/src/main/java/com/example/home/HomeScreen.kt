@@ -223,7 +223,7 @@ private fun HomePager(
                     onBookmarkClick = { onBookmarkClick(item.postId) },
                     onCoverClick = { onPostClick(item.postId) },
                     onWriterProfileClick = { onWriterProfileClick(item.writer.userId) },
-                    isStreaming = false,
+                    isStreaming = uiState.streamingTrackId == item.track.trackId,
                     bookmarkIconVisible = isCenter,
                 )
             }

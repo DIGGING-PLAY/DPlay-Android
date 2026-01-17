@@ -32,6 +32,7 @@ class DetailContract {
             ),
         val date: String = "2025-10-19",
         val bottomSheetVisible: Boolean = false,
+        val streamingTrackId: String? = null,
     ) : BaseContract.State
 
     sealed interface DetailIntent : BaseContract.Intent {
