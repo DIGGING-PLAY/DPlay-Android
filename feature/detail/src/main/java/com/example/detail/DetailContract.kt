@@ -68,8 +68,6 @@ class DetailContract {
     sealed interface DetailSideEffect : BaseContract.SideEffect {
         data object NavigateBackStack : DetailSideEffect
 
-        data object ShowBottomSheet : DetailSideEffect
-
         data object NavigateToWriterProfile : DetailSideEffect
 
         data class ShowSnackBar(

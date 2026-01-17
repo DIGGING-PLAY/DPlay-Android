@@ -161,9 +161,10 @@ class DetailViewModel
         private fun deletePost() {
             viewModelScope.launch {
                 postRepository
-                    .deletePost(postId = 2)
+                    .deletePost(postId = currentState.postId)
                     .onSuccess {
                         changeBottomSheetVisible(visible = false)
+                        setSideEffect(DetailContract.DetailSideEffect.NavigateBackStack)
                     }.onFailure { e ->
                         changeBottomSheetVisible(visible = false)
                         Timber.e(e)

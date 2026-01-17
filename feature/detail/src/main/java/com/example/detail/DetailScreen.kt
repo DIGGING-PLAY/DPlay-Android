@@ -45,11 +45,13 @@ import com.example.designsystem.component.snackbar.LocalShowSnackBar
 import com.example.designsystem.theme.DPlayTheme
 import com.example.designsystem.util.noRippleClickable
 import com.example.designsystem.util.roundedBackgroundWithPadding
+import com.example.navigation.Navigator
 import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun DetailRoute(
     postId: Long,
+    navigator: Navigator,
     viewModel: DetailViewModel = hiltViewModel(),
     date: String = "",
 ) {
@@ -68,14 +70,10 @@ fun DetailRoute(
                 }
 
                 is DetailContract.DetailSideEffect.NavigateBackStack -> {
-                    // TODO
+                    navigator.navigateToBack()
                 }
 
                 is DetailContract.DetailSideEffect.NavigateToWriterProfile -> {
-                    // TODO
-                }
-
-                is DetailContract.DetailSideEffect.ShowBottomSheet -> {
                     // TODO
                 }
 
