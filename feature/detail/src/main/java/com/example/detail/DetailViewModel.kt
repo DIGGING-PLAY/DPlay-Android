@@ -26,7 +26,6 @@ class DetailViewModel
     ) : BaseViewModel<DetailContract.DetailState, DetailContract.DetailIntent, DetailContract.DetailSideEffect>(
             DetailContract.DetailState(),
         ) {
-
         init {
             observePlaybackState()
         }
@@ -46,6 +45,7 @@ class DetailViewModel
                     }
                 }.launchIn(viewModelScope)
         }
+
         override fun handleIntent(intent: DetailContract.DetailIntent) {
             when (intent) {
                 is DetailContract.DetailIntent.LoadData -> loadData(intent.postId, intent.date)

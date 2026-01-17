@@ -98,13 +98,15 @@ class AudioPlayer
             currentController.clearMediaItems()
 
             val mediaMetadata =
-                MediaMetadata.Builder()
+                MediaMetadata
+                    .Builder()
                     .setTitle(title.ifEmpty { "DPlay" })
                     .setArtist(artist.ifEmpty { "미리듣기" })
                     .build()
 
             val mediaItem =
-                MediaItem.Builder()
+                MediaItem
+                    .Builder()
                     .setUri(url)
                     .setMediaId(trackId)
                     .setMediaMetadata(mediaMetadata)

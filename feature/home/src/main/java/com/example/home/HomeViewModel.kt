@@ -30,7 +30,6 @@ class HomeViewModel
     ) : BaseViewModel<HomeContract.HomeState, HomeContract.HomeIntent, HomeContract.HomeSideEffect>(
             HomeContract.HomeState(),
         ) {
-
         init {
             observePlaybackState()
         }
