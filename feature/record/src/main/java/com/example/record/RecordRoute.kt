@@ -42,6 +42,7 @@ fun RecordRoute(
                 onDateSelectClick = { year, month ->
                     viewModel.handleIntent(RecordContract.RecordIntent.SelectDate(year = year, month = month))
                 },
+                onBackButtonClick = { navigator.navigateToBack() },
             )
 
         else ->

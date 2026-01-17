@@ -28,6 +28,7 @@ fun RecordSelectScreen(
     onQuestionClick: (question: DailyQuestion) -> Unit,
     changeDatePickerBottomSheetVisible: (Boolean) -> Unit,
     onDateSelectClick: (year: Int, month: Int) -> Unit,
+    onBackButtonClick: () -> Unit,
     modifier: Modifier = Modifier,
     uiState: RecordContract.RecordState = RecordContract.RecordState(),
 ) {
@@ -41,7 +42,7 @@ fun RecordSelectScreen(
             DplayTitleButtonTopAppBar(
                 modifier = Modifier.fillMaxWidth(),
                 title = "${uiState.year}년 ${uiState.month}월",
-                onLeftClick = {},
+                onLeftClick = onBackButtonClick,
                 onButtonClick = { changeDatePickerBottomSheetVisible(true) },
             )
             Box(
@@ -116,6 +117,7 @@ private fun RecordSelectScreenPreview() {
             onQuestionClick = {},
             changeDatePickerBottomSheetVisible = {},
             onDateSelectClick = { _, _ -> },
+            onBackButtonClick = {},
         )
     }
 }
