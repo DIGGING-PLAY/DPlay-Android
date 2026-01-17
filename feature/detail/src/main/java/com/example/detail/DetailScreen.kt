@@ -51,12 +51,13 @@ import kotlinx.coroutines.flow.collectLatest
 fun DetailRoute(
     postId: Long,
     viewModel: DetailViewModel = hiltViewModel(),
+    date: String = "",
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val showSnackBar = LocalShowSnackBar.current
 
     LaunchedEffect(Unit) {
-        viewModel.handleIntent(DetailContract.DetailIntent.LoadData(postId = postId))
+        viewModel.handleIntent(DetailContract.DetailIntent.LoadData(postId = postId, date = date))
     }
 
     LaunchedEffect(viewModel.sideEffect) {

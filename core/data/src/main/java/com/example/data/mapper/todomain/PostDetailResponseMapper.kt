@@ -9,29 +9,16 @@ import com.example.domain.model.PostDetail
 import com.example.domain.model.Track
 import com.example.domain.model.Writer
 
-// fun PostDetailResponse.toDomain(): PostDetail = PostDetail(
-//    postId = this.postId,
-//    isHost = this.isHost,
-//    isScrapped = this.isScrapped,
-//    content = this.content,
-//    track = this.track.toDomain(),
-//    writer = this.user.toDomain(),
-//    like = this.like.toDomain()
-// )
-fun PostDetailResponse.toDomain(): PostDetail {
-    val post = items.first()
-
-    return PostDetail(
-        postId = post.postId,
-        isHost = post.isEditorPick,
-        date = this.date,
-        isScrapped = post.isScrapped,
-        content = post.content,
-        track = post.track.toDomain(),
-        writer = post.user.toDomain(),
-        like = post.like.toDomain(),
+fun PostDetailResponse.toDomain(): PostDetail =
+    PostDetail(
+        postId = this.postId,
+        isHost = this.isHost,
+        isScrapped = this.isScrapped,
+        content = this.content,
+        track = this.track.toDomain(),
+        writer = this.user.toDomain(),
+        like = this.like.toDomain(),
     )
-}
 
 private fun TrackResponse.toDomain(): Track =
     Track(

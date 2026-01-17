@@ -3,6 +3,7 @@ package com.example.home
 import androidx.lifecycle.viewModelScope
 import com.example.designsystem.component.snackbar.type.SnackBarType
 import com.example.domain.model.Badges
+import com.example.domain.model.DailyQuestion
 import com.example.domain.model.FeedItem
 import com.example.domain.model.Like
 import com.example.domain.model.Track
@@ -16,6 +17,8 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
@@ -36,6 +39,15 @@ class HomeViewModel
                     HomeContract.HomeState(
                         isLoading = false,
                         feedItems = dummyFeedItems,
+                        todayQuestion =
+                            DailyQuestion(
+                                questionId = 12345,
+                                title = "여행 갈 때 플레이리스트에 꼭 넣는 노래는?",
+                                date =
+                                    LocalDate.now().format(
+                                        DateTimeFormatter.ISO_DATE,
+                                    ),
+                            ),
                     )
                 }.stateIn(
                     scope = viewModelScope,
