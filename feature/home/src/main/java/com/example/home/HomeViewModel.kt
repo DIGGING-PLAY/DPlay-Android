@@ -80,9 +80,83 @@ class HomeViewModel
         }
 
         private fun toggleBookmark(postId: Long) {
+            viewModelScope.launch {
+                val feedItem = currentState.feedItems.find { it.postId == postId } ?: return@launch
+                val isScrapped = feedItem.isScrapped
+
+                val result =
+                    if (isScrapped) {
+                        postRepository.deletePostScrap(postId)
+                    } else {
+                        postRepository.postPostScrap(postId)
+                    }
+
+                result
+                    .onSuccess {
+                        updateState {
+                            copy(
+                                feedItems =
+                                    feedItems
+                                        .map { item ->
+                                            if (item.postId == postId) {
+                                                item.copy(isScrapped = !isScrapped)
+                                            } else {
+                                                item
+                                            }
+                                        }.toImmutableList(),
+                            )
+                        }
+                        if (!isScrapped) {
+                            setSideEffect(
+                                HomeContract.HomeSideEffect.ShowSnackBar(
+                                    snackBarType = SnackBarType.ADD,
+                                    action = { setSideEffect(HomeContract.HomeSideEffect.NavigateToMyPage) },
+                                ),
+                            )
+                        }
+                    }.onFailure { e ->
+                        Timber.e(e)
+                    }
+            }
         }
 
         private fun toggleLike(postId: Long) {
+            viewModelScope.launch {
+                val feedItem = currentState.feedItems.find { it.postId == postId } ?: return@launch
+                val isLiked = feedItem.like.isLiked
+
+                val result =
+                    if (isLiked) {
+                        postRepository.deletePostLike(postId)
+                    } else {
+                        postRepository.postPostLike(postId)
+                    }
+
+                result
+                    .onSuccess { newCount ->
+                        updateState {
+                            copy(
+                                feedItems =
+                                    feedItems
+                                        .map { item ->
+                                            if (item.postId == postId) {
+                                                item.copy(
+                                                    like =
+                                                        Like(
+                                                            isLiked = !isLiked,
+                                                            count = newCount,
+                                                        ),
+                                                )
+                                            } else {
+                                                item
+                                            }
+                                        }.toImmutableList(),
+                            )
+                        }
+                    }.onFailure { e ->
+                        Timber.e(e)
+                    }
+            }
         }
     }
 
