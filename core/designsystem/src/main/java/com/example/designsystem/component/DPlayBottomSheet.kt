@@ -191,11 +191,12 @@ fun DPlayReportBottomSheet(
                 text = stringResource(reason.stringResId),
                 isChecked = isChecked,
                 onClick = {
-                    selectedReasons = if (isChecked) {
-                        selectedReasons - reason
-                    } else {
-                        selectedReasons + reason
-                    }
+                    selectedReasons =
+                        if (isChecked) {
+                            selectedReasons - reason
+                        } else {
+                            selectedReasons + reason
+                        }
                     onCheckClick?.invoke(reason)
                 },
                 modifier = Modifier.fillMaxWidth(),
