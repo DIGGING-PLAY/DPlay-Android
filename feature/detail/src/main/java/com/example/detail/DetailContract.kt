@@ -34,7 +34,10 @@ class DetailContract {
         val date: String = "2025-10-19",
         val bottomSheetVisible: Boolean = false,
         val streamingTrackId: String? = null,
-    ) : BaseContract.State
+        val currentUserId: Long = 0L,
+    ) : BaseContract.State {
+        val isMyPost: Boolean get() = currentUserId != 0L && currentUserId == writer.userId
+    }
 
     sealed interface DetailIntent : BaseContract.Intent {
         data class LoadData(

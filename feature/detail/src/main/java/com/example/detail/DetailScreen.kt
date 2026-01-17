@@ -272,8 +272,7 @@ private fun DetailScreen(
                         .noRippleClickable { changeBottomSheetVisible(false) },
             )
 
-            if (state.writer.userId == state.writer.userId) {
-//                if (state.writer.userId == 로컬 유저 아이디) {
+            if (state.isMyPost) {
                 DPlayButtonBottomSheet(
                     mainText = "삭제하기",
                     subText = "취소하기",
@@ -288,7 +287,6 @@ private fun DetailScreen(
                 DPlayReportBottomSheet(
                     onCloseClick = { changeBottomSheetVisible(false) },
                     onButtonClick = { changeBottomSheetVisible(false) },
-                    onCheckClick = {},
                     modifier = bottomSheetModifier,
                 )
             }

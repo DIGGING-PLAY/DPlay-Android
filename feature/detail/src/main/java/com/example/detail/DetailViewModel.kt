@@ -8,8 +8,10 @@ import com.example.detail.DetailContract.DetailSideEffect.ShowSnackBar
 import com.example.domain.model.Like
 import com.example.domain.repository.PostRepository
 import com.example.domain.repository.TrackRepository
+import com.example.domain.repository.UserRepository
 import com.example.ui.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -23,6 +25,7 @@ class DetailViewModel
         private val postRepository: PostRepository,
         private val trackRepository: TrackRepository,
         private val audioPlayer: AudioPlayer,
+        private val userRepository: UserRepository,
     ) : BaseViewModel<DetailContract.DetailState, DetailContract.DetailIntent, DetailContract.DetailSideEffect>(
             DetailContract.DetailState(),
         ) {
@@ -77,6 +80,8 @@ class DetailViewModel
             date: String,
         ) {
             viewModelScope.launch {
+                val currentUserId = userRepository.getUser().first()?.id ?: 0L
+
                 postRepository
                     .getPostDetail(postId = postId)
                     .onSuccess { postDetail ->
@@ -87,11 +92,10 @@ class DetailViewModel
                                 content = postDetail.content,
                                 isHost = postDetail.isHost,
                                 track = postDetail.track,
-                                writer =
-                                    postDetail.writer,
-                                like =
-                                    postDetail.like,
+                                writer = postDetail.writer,
+                                like = postDetail.like,
                                 date = date,
+                                currentUserId = currentUserId,
                             )
                         }
                     }.onFailure { e ->
