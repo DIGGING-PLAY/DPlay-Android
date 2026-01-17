@@ -5,11 +5,11 @@ import com.example.data.constant.ApiConstants.POSTS
 import com.example.data.constant.ApiConstants.VERSIONS
 import com.example.data.model.request.RegisterPostRequest
 import com.example.data.model.response.BaseResponse
+import com.example.data.model.response.PostDetailResponse
+import com.example.data.model.response.PostLikeResponse
 import com.example.data.model.response.PostResponse
 import kotlinx.serialization.InternalSerializationApi
 import retrofit2.http.Body
-import com.example.data.model.response.PostDetailResponse
-import com.example.data.model.response.PostLikeResponse
 import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.POST
@@ -21,6 +21,7 @@ interface PostService {
     suspend fun registerPost(
         @Body request: RegisterPostRequest,
     ): BaseResponse<PostResponse>
+
     @GET("$API/$VERSIONS/$POSTS/detail/{postId}")
     suspend fun getPostDetail(
         @Path("postId") postId: Long,

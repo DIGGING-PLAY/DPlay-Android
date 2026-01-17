@@ -12,7 +12,6 @@ import com.example.data.model.response.BaseResponse
 import com.example.data.model.response.NotificationResponse
 import com.example.data.model.response.RegisteredTracksResponse
 import com.example.data.model.response.ScrappedTracksResponse
-import com.example.data.model.response.UserResponse
 import com.example.data.model.response.UserInfoResponse
 import kotlinx.serialization.InternalSerializationApi
 import okhttp3.MultipartBody
