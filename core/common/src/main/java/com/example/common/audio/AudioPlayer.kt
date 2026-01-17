@@ -89,11 +89,6 @@ class AudioPlayer
         ) {
             val currentController = controller ?: return
 
-            if (_playbackState.value.currentTrackId == trackId && _playbackState.value.isPlaying) {
-                stop()
-                return
-            }
-
             currentController.stop()
             currentController.clearMediaItems()
 
