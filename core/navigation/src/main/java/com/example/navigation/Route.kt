@@ -62,4 +62,5 @@ data object Record : NavKey
 @Serializable
 data class Detail(
     val postId: Long,
+    val date: String = "",
 ) : NavKey

@@ -8,7 +8,7 @@ import com.example.data.constant.ApiConstants.VERSIONS
 import com.example.data.model.request.NotificationRequest
 import com.example.data.model.response.BaseResponse
 import com.example.data.model.response.NotificationResponse
-import com.example.data.model.response.UserResponse
+import com.example.data.model.response.UserInfoResponse
 import kotlinx.serialization.InternalSerializationApi
 import okhttp3.MultipartBody
 import retrofit2.http.Body
@@ -31,7 +31,7 @@ interface UserService {
     @GET("$API/$VERSIONS/$USERS/{userId}")
     suspend fun getUser(
         @Path("userId") userId: Long,
-    ): BaseResponse<UserResponse>
+    ): BaseResponse<UserInfoResponse>
 
     @GET("$API/$VERSIONS/$USERS/$ME/$NOTIFICATIONS")
     suspend fun getNotificationEnabled(): BaseResponse<NotificationResponse>

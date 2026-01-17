@@ -1,11 +1,11 @@
 package com.example.record
 
-import com.example.common.model.Badges
-import com.example.common.model.DailyQuestion
-import com.example.common.model.FeedItem
-import com.example.common.model.Like
-import com.example.common.model.Track
-import com.example.common.model.Writer
+import com.example.domain.model.Badges
+import com.example.domain.model.DailyQuestion
+import com.example.domain.model.FeedItem
+import com.example.domain.model.Like
+import com.example.domain.model.Track
+import com.example.domain.model.Writer
 import com.example.ui.base.BaseContract
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
@@ -14,7 +14,10 @@ class RecordContract {
     data class RecordState(
         val loading: Boolean = false,
         val questionList: ImmutableList<DailyQuestion> = persistentListOf(),
+        val year: Int = 2026,
+        val month: Int = 1,
         val selectedQuestion: DailyQuestion? = null,
+        val datePickerBottomSheetVisible: Boolean = false,
         val recordList: ImmutableList<FeedItem> =
             persistentListOf(
                 FeedItem(
@@ -145,8 +148,17 @@ class RecordContract {
 
         data object OnListBackButtonClick : RecordIntent
 
+        data class ChangeBottomSheetVisible(
+            val isVisible: Boolean,
+        ) : RecordIntent
+
         data class OnMusicClick(
             val postId: Long,
+        ) : RecordIntent
+
+        data class SelectDate(
+            val year: Int,
+            val month: Int,
         ) : RecordIntent
     }
 

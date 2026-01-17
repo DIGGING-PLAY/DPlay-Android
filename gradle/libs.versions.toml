@@ -37,7 +37,6 @@ javaxInject = "1"
 # Kotlin
 kotlin = "2.2.20"
 kotlinx-serialization-json = "1.9.0"
-kotlinx-serialization-converter = "1.0.0"
 kotlinx-immutable = "0.4.0"
 kotlinx-coroutines-core = "1.10.2"
 
@@ -113,7 +112,6 @@ okhttp = { group = "com.squareup.okhttp3", name = "okhttp" }
 okhttp-logging-interceptor = { group = "com.squareup.okhttp3", name = "logging-interceptor" }
 retrofit-bom = { group = "com.squareup.retrofit2", name = "retrofit-bom", version.ref = "retrofit" }
 retrofit = { group = "com.squareup.retrofit2", name = "retrofit" }
-kotlinx-serialization-convertor = { group = "com.jakewharton.retrofit", name = "retrofit2-kotlinx-serialization-converter", version.ref = "kotlinx-serialization-converter" }
 retrofit-kotlinx-serialization = { group = "com.squareup.retrofit2", name = "converter-kotlinx-serialization" }
 
 # kako login
@@ -181,7 +179,6 @@ navigation = [
 # Network Libraries
 retrofit = [
     "retrofit-kotlinx-serialization",
-    "kotlinx-serialization-convertor",
     "retrofit"
 ]
 okhttp = [

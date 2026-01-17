@@ -57,7 +57,8 @@ internal fun Project.configureKotlinAndroid(commonExtension: CommonExtension<*, 
                         "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi",
                         "-opt-in=androidx.compose.material3.ExperimentalMaterial3Api",
                         "-opt-in=androidx.lifecycle.compose.ExperimentalLifecycleComposeApi",
-                    ),
+                        "-opt-in=kotlinx.serialization.InternalSerializationApi",
+                        ),
                 )
             }
         }
