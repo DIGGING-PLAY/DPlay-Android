@@ -3,22 +3,15 @@ package com.example.home
 import androidx.lifecycle.viewModelScope
 import com.example.designsystem.component.snackbar.type.SnackBarType
 import com.example.domain.model.Badges
-import com.example.domain.model.DailyQuestion
 import com.example.domain.model.FeedItem
 import com.example.domain.model.Like
 import com.example.domain.model.Track
 import com.example.domain.model.Writer
-import com.example.domain.repository.QuestionRepository
+import com.example.domain.repository.PostRepository
 import com.example.ui.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.persistentListOf
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.stateIn
-import java.time.LocalDate
-import java.time.format.DateTimeFormatter
+import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
@@ -27,34 +20,10 @@ import javax.inject.Inject
 class HomeViewModel
     @Inject
     constructor(
-        val questionRepository: QuestionRepository,
+        val postRepository: PostRepository,
     ) : BaseViewModel<HomeContract.HomeState, HomeContract.HomeIntent, HomeContract.HomeSideEffect>(
             HomeContract.HomeState(),
         ) {
-        private val loadTrigger = MutableStateFlow(Unit)
-
-        val homeUiState: StateFlow<HomeContract.HomeState> =
-            loadTrigger
-                .map {
-                    HomeContract.HomeState(
-                        isLoading = false,
-                        feedItems = dummyFeedItems,
-                        todayQuestion =
-                            DailyQuestion(
-                                questionId = 12345,
-                                title = "여행 갈 때 플레이리스트에 꼭 넣는 노래는?",
-                                date =
-                                    LocalDate.now().format(
-                                        DateTimeFormatter.ISO_DATE,
-                                    ),
-                            ),
-                    )
-                }.stateIn(
-                    scope = viewModelScope,
-                    started = SharingStarted.WhileSubscribed(5_000),
-                    initialValue = HomeContract.HomeState(isLoading = true),
-                )
-
         override fun handleIntent(intent: HomeContract.HomeIntent) {
             when (intent) {
                 is HomeContract.HomeIntent.LoadHomeData -> getTodayPosts()
@@ -65,6 +34,7 @@ class HomeViewModel
                 is HomeContract.HomeIntent.OnListClick -> {
                     setSideEffect(HomeContract.HomeSideEffect.NavigateToRecord)
                 }
+
                 is HomeContract.HomeIntent.OnWriterProfileClick -> {
                     setSideEffect(HomeContract.HomeSideEffect.NavigateToWriterProfile(writerUserId = intent.writerUserId))
                 }
@@ -77,10 +47,18 @@ class HomeViewModel
 
         private fun getTodayPosts() {
             viewModelScope.launch {
-                questionRepository
-                    .getTodayQuestion()
-                    .onSuccess { question ->
-                        updateState { copy(todayQuestion = question) }
+                postRepository
+                    .getTodayPosts()
+                    .onSuccess { data ->
+                        updateState {
+                            copy(
+                                todayQuestion = data.todayQuestion,
+                                hasPosted = data.hasPosted,
+                                locked = data.locked,
+                                totalCount = data.totalCount,
+                                feedItems = data.todayPosts.toImmutableList(),
+                            )
+                        }
                     }.onFailure { e ->
                         Timber.e(e)
                     }

@@ -6,6 +6,7 @@ import com.example.data.constant.ApiConstants.VERSIONS
 import com.example.data.model.response.BaseResponse
 import com.example.data.model.response.PostDetailResponse
 import com.example.data.model.response.PostLikeResponse
+import com.example.data.model.response.TodayPostsResponse
 import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.POST
@@ -41,4 +42,7 @@ interface PostService {
     suspend fun deletePost(
         @Path("postId") postId: Long,
     ): BaseResponse<Unit>
+
+    @GET("$API/$VERSIONS/$POSTS/today")
+    suspend fun getTodayPosts(): BaseResponse<TodayPostsResponse>
 }

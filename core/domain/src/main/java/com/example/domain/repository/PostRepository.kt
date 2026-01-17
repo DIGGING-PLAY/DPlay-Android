@@ -1,5 +1,6 @@
 package com.example.domain.repository
 
+import com.example.domain.model.HomeScreenData
 import com.example.domain.model.PostDetail
 
 interface PostRepository {
@@ -24,4 +25,7 @@ interface PostRepository {
     suspend fun deletePost(
         postId: Long,
     ): Result<Unit>
+
+    suspend fun getTodayPosts(
+    ): Result<HomeScreenData>
 }

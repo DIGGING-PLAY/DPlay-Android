@@ -1,7 +1,7 @@
 package com.example.record
 
-import com.example.domain.model.DailyQuestion
 import androidx.lifecycle.viewModelScope
+import com.example.domain.model.DailyQuestion
 import com.example.domain.model.QuestionError
 import com.example.domain.repository.QuestionRepository
 import com.example.ui.base.BaseViewModel

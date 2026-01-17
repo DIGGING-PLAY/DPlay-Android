@@ -3,11 +3,10 @@ package com.example.data.datasource.remote
 import com.example.data.model.response.BaseResponse
 import com.example.data.model.response.PostDetailResponse
 import com.example.data.model.response.PostLikeResponse
+import com.example.data.model.response.TodayPostsResponse
 import com.example.data.service.PostService
-import kotlinx.serialization.InternalSerializationApi
 import javax.inject.Inject
 
-@OptIn(InternalSerializationApi::class)
 class PostRemoteDataSource
     @Inject
     constructor(
@@ -34,4 +33,6 @@ class PostRemoteDataSource
         suspend fun deletePost(
             postId: Long,
         ): BaseResponse<Unit> = postService.deletePost(postId = postId)
+
+        suspend fun getTodayPosts(): BaseResponse<TodayPostsResponse> = postService.getTodayPosts()
     }
