@@ -50,19 +50,58 @@ class HomeViewModel
                 postRepository
                     .getTodayPosts()
                     .onSuccess { data ->
+                        val feedItems =
+                            if (data.locked) {
+                                data.todayPosts + lockedDummyFeedItem
+                            } else {
+                                data.todayPosts
+                            }
                         updateState {
                             copy(
                                 todayQuestion = data.todayQuestion,
                                 hasPosted = data.hasPosted,
                                 locked = data.locked,
                                 totalCount = data.totalCount,
-                                feedItems = data.todayPosts.toImmutableList(),
+                                feedItems = feedItems.toImmutableList(),
                             )
                         }
                     }.onFailure { e ->
                         Timber.e(e)
                     }
             }
+        }
+
+        companion object {
+            private val lockedDummyFeedItem =
+                FeedItem(
+                    postId = -1L,
+                    isScrapped = false,
+                    content = "",
+                    badges =
+                        Badges(
+                            isEditorPick = false,
+                            isPopular = false,
+                            isNew = false,
+                        ),
+                    track =
+                        Track(
+                            trackId = "",
+                            songTitle = "",
+                            coverImg = "",
+                            artistName = "",
+                        ),
+                    writer =
+                        Writer(
+                            userId = -1L,
+                            nickname = "",
+                            profileImg = "",
+                        ),
+                    like =
+                        Like(
+                            isLiked = false,
+                            count = 0,
+                        ),
+                )
         }
 
         private fun previewStreaming(trackId: String) {
