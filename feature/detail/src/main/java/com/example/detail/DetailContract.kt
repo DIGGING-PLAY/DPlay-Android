@@ -1,10 +1,9 @@
 package com.example.detail
 
-import com.example.common.model.Badges
-import com.example.common.model.Like
-import com.example.common.model.Track
-import com.example.common.model.Writer
 import com.example.designsystem.component.snackbar.type.SnackBarType
+import com.example.domain.model.Like
+import com.example.domain.model.Track
+import com.example.domain.model.Writer
 import com.example.ui.base.BaseContract
 
 class DetailContract {
@@ -12,12 +11,7 @@ class DetailContract {
         val postId: Long = 0L,
         val isScrapped: Boolean = false,
         val content: String = "",
-        val badges: Badges =
-            Badges(
-                isEditorPick = false,
-                isPopular = false,
-                isNew = false,
-            ),
+        val isHost: Boolean = false,
         val track: Track =
             Track(
                 trackId = "",
@@ -37,11 +31,13 @@ class DetailContract {
                 count = 0,
             ),
         val date: String = "2025-10-19",
+        val bottomSheetVisible: Boolean = false,
     ) : BaseContract.State
 
     sealed interface DetailIntent : BaseContract.Intent {
         data class LoadData(
             val postId: Long,
+            val date: String = "",
         ) : DetailIntent
 
         data object OnBookmarkClick : DetailIntent
@@ -61,6 +57,10 @@ class DetailContract {
         ) : DetailIntent
 
         data object OnDeleteClick : DetailIntent
+
+        data class ChangeBottomSheetVisible(
+            val visible: Boolean,
+        ) : DetailIntent
     }
 
     sealed interface DetailSideEffect : BaseContract.SideEffect {

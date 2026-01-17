@@ -15,12 +15,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.common.model.DailyQuestion
 import com.example.designsystem.component.DPlayDatePickerBottomSheet
 import com.example.designsystem.component.DPlayDayTopicItem
 import com.example.designsystem.component.DplayTitleButtonTopAppBar
 import com.example.designsystem.theme.DPlayTheme
 import com.example.designsystem.util.noRippleClickable
+import com.example.domain.model.DailyQuestion
 
 @Composable
 fun RecordSelectScreen(

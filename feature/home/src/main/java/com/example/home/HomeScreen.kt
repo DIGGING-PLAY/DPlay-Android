@@ -23,7 +23,6 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.dplay.designsystem.R
-import com.example.common.model.FeedItem
 import com.example.designsystem.component.DPlayLargeCover
 import com.example.designsystem.component.DPlaySubjectItem
 import com.example.designsystem.component.DplayClickableIcon
@@ -32,6 +31,7 @@ import com.example.designsystem.component.chip.DPlayChip
 import com.example.designsystem.component.chip.type.DPlayChipType
 import com.example.designsystem.component.snackbar.LocalShowSnackBar
 import com.example.designsystem.theme.DPlayTheme
+import com.example.domain.model.FeedItem
 import com.example.navigation.Detail
 import com.example.navigation.Navigator
 import com.example.navigation.Record
@@ -58,7 +58,12 @@ fun HomeRoute(
                 }
 
                 is HomeContract.HomeSideEffect.NavigateToPostDetail -> {
-                    navigator.navigateTo(Detail(it.postId))
+                    navigator.navigateTo(
+                        Detail(
+                            postId = it.postId,
+                            date = state.todayQuestion.recordMMDD,
+                        ),
+                    )
                 }
 
                 is HomeContract.HomeSideEffect.NavigateToWriterProfile -> {
