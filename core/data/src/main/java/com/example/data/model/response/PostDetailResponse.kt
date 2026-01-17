@@ -36,16 +36,6 @@ data class TrackResponse(
 )
 
 @Serializable
-data class UserResponse(
-    @SerialName("userId")
-    val userId: Long,
-    @SerialName("nickname")
-    val nickname: String,
-    @SerialName("profileImg")
-    val profileImg: String?,
-)
-
-@Serializable
 data class LikeResponse(
     @SerialName("isLiked")
     val isLiked: Boolean,

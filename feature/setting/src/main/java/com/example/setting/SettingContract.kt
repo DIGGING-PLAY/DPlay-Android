@@ -10,8 +10,6 @@ class SettingContract {
     ) : BaseContract.State
 
     sealed interface SettingIntent : BaseContract.Intent {
-        data object Initialize : SettingIntent
-
         data class OnMenuClick(
             val type: SettingMenuType,
         ) : SettingIntent

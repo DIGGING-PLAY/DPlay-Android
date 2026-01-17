@@ -145,7 +145,7 @@ fun EditProfileScreen(
                         ),
             ) {
                 AsyncImage(
-                    model = state.profileImageUri ?: R.drawable.img_profile,
+                    model = state.profileImagePath ?: R.drawable.img_profile,
                     contentDescription = null,
                     modifier =
                         Modifier

@@ -71,10 +71,6 @@ fun MyPageRoute(
     val state by viewModel.uiState.collectAsStateWithLifecycle()
 
     LaunchedEffect(Unit) {
-        viewModel.handleIntent(MyPageContract.MyPageIntent.Initialize)
-    }
-
-    LaunchedEffect(Unit) {
         viewModel.sideEffect.collectLatest { sideEffect ->
             when (sideEffect) {
                 is MyPageContract.MyPageSideEffect.NavigateToDetail -> TODO()
@@ -197,7 +193,7 @@ private fun UserInformationRow(
                     ),
         ) {
             AsyncImage(
-                model = profileImagePath,
+                model = profileImagePath ?: R.drawable.img_profile,
                 contentDescription = null,
                 modifier =
                     Modifier
