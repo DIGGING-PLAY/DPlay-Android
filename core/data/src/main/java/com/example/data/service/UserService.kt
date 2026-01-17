@@ -8,6 +8,7 @@ import com.example.data.constant.ApiConstants.SCRAPS
 import com.example.data.constant.ApiConstants.USERS
 import com.example.data.constant.ApiConstants.VERSIONS
 import com.example.data.model.request.NotificationRequest
+import com.example.data.model.request.PatchProfileRequest
 import com.example.data.model.response.BaseResponse
 import com.example.data.model.response.NotificationResponse
 import com.example.data.model.response.RegisteredTracksResponse
@@ -30,7 +31,7 @@ interface UserService {
     @PATCH("$API/$VERSIONS/$USERS/$ME")
     suspend fun patchProfile(
         @Part profileImg: MultipartBody.Part?,
-        @Part("nickname") request: String?,
+        @Part("changeProfileRequest") request: PatchProfileRequest,
     ): BaseResponse<Unit>
 
     @GET("$API/$VERSIONS/$USERS/{userId}")
