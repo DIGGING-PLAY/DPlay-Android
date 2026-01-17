@@ -32,4 +32,3 @@ interface TrackService {
         @Query("storefront") storefront: String? = null,
     ): BaseResponse<TrackPreviewResponse>
 }
-

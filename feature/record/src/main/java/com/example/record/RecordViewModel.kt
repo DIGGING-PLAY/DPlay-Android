@@ -35,18 +35,19 @@ class RecordViewModel
         private val selectedQuestionId = MutableStateFlow<Long?>(null)
 
         val questionPosts: Flow<PagingData<FeedItem>> =
-            selectedQuestionId.flatMapLatest { questionId ->
-                if (questionId != null) {
-                    postRepository.getPostsByQuestionId(
-                        questionId = questionId,
-                        onTotalCountFetched = { totalCount ->
-                            updateState { copy(recordListTotalCount = totalCount) }
-                        },
-                    )
-                } else {
-                    flowOf(PagingData.empty())
-                }
-            }.cachedIn(viewModelScope)
+            selectedQuestionId
+                .flatMapLatest { questionId ->
+                    if (questionId != null) {
+                        postRepository.getPostsByQuestionId(
+                            questionId = questionId,
+                            onTotalCountFetched = { totalCount ->
+                                updateState { copy(recordListTotalCount = totalCount) }
+                            },
+                        )
+                    } else {
+                        flowOf(PagingData.empty())
+                    }
+                }.cachedIn(viewModelScope)
 
         init {
             val now = YearMonth.now()

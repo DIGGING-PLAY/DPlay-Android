@@ -59,11 +59,12 @@ fun DPlayMusicDiscItem(
     }
     wasStreaming = isStreaming
 
-    val rotation = if (isStreaming) {
-        (animatedRotation - startOffset + 360f) % 360f
-    } else {
-        0f
-    }
+    val rotation =
+        if (isStreaming) {
+            (animatedRotation - startOffset + 360f) % 360f
+        } else {
+            0f
+        }
 
     Box(
         modifier =

@@ -10,7 +10,6 @@ import com.example.data.model.response.PostLikeResponse
 import com.example.data.model.response.PostResponse
 import com.example.data.model.response.QuestionPostsResponse
 import com.example.data.model.response.TodayPostsResponse
-import kotlinx.serialization.InternalSerializationApi
 import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET

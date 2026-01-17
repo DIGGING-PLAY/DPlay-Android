@@ -52,26 +52,30 @@ data class QuestionPostItemResponse(
             postId = postId,
             isScrapped = isScrapped,
             content = content,
-            badges = Badges(
-                isEditorPick = isEditorPick,
-                isPopular = false,
-                isNew = false,
-            ),
-            track = Track(
-                trackId = track.trackId,
-                songTitle = track.songTitle,
-                coverImg = track.coverImg,
-                artistName = track.artistName,
-                isrc = "",
-            ),
-            writer = Writer(
-                userId = user.userId,
-                nickname = user.nickname,
-                profileImg = user.profileImg.orEmpty(),
-            ),
-            like = Like(
-                isLiked = like.isLiked,
-                count = like.count,
-            ),
+            badges =
+                Badges(
+                    isEditorPick = isEditorPick,
+                    isPopular = false,
+                    isNew = false,
+                ),
+            track =
+                Track(
+                    trackId = track.trackId,
+                    songTitle = track.songTitle,
+                    coverImg = track.coverImg,
+                    artistName = track.artistName,
+                    isrc = "",
+                ),
+            writer =
+                Writer(
+                    userId = user.userId,
+                    nickname = user.nickname,
+                    profileImg = user.profileImg.orEmpty(),
+                ),
+            like =
+                Like(
+                    isLiked = like.isLiked,
+                    count = like.count,
+                ),
         )
 }

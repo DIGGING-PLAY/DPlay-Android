@@ -4,7 +4,6 @@ import com.example.data.model.response.BaseResponse
 import com.example.data.model.response.TrackPreviewResponse
 import com.example.data.model.response.TrackResponse
 import com.example.data.service.TrackService
-import kotlinx.serialization.InternalSerializationApi
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -30,8 +29,8 @@ class TrackRemoteDataSource
             }
         }
 
-    suspend fun getTrackPreview(
-        trackId: String,
-        storefront: String? = null,
-    ): BaseResponse<TrackPreviewResponse> = trackService.getTrackPreview(trackId = trackId, storefront = storefront)
+        suspend fun getTrackPreview(
+            trackId: String,
+            storefront: String? = null,
+        ): BaseResponse<TrackPreviewResponse> = trackService.getTrackPreview(trackId = trackId, storefront = storefront)
     }
