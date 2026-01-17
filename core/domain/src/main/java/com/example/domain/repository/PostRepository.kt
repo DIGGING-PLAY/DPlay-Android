@@ -1,8 +1,11 @@
 package com.example.domain.repository
 
+import androidx.paging.PagingData
+import com.example.domain.model.FeedItem
 import com.example.domain.model.HomeScreenData
-import com.example.domain.model.Track
 import com.example.domain.model.PostDetail
+import com.example.domain.model.Track
+import kotlinx.coroutines.flow.Flow
 
 interface PostRepository {
     suspend fun registerPost(
@@ -34,4 +37,9 @@ interface PostRepository {
 
     suspend fun getTodayPosts(
     ): Result<HomeScreenData>
+
+    fun getPostsByQuestionId(
+        questionId: Long,
+        onTotalCountFetched: (Int) -> Unit,
+    ): Flow<PagingData<FeedItem>>
 }

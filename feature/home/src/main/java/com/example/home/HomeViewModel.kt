@@ -115,6 +115,7 @@ class HomeViewModel
                             songTitle = "",
                             coverImg = "",
                             artistName = "",
+                            isrc = "",
                         ),
                     writer =
                         Writer(

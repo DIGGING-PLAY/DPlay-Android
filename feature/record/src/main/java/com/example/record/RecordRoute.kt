@@ -5,6 +5,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.paging.compose.collectAsLazyPagingItems
 import com.example.navigation.Detail
 import com.example.navigation.Navigator
 import kotlinx.coroutines.flow.collectLatest
@@ -15,6 +16,7 @@ fun RecordRoute(
     viewModel: RecordViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val questionPosts = viewModel.questionPosts.collectAsLazyPagingItems()
 
     LaunchedEffect(viewModel.sideEffect) {
         viewModel.sideEffect.collectLatest {
@@ -45,6 +47,7 @@ fun RecordRoute(
         else ->
             RecordListScreen(
                 uiState = uiState,
+                questionPosts = questionPosts,
                 onBackButtonClick = { viewModel.handleIntent(RecordContract.RecordIntent.OnListBackButtonClick) },
                 onMusicClick = { postId ->
                     viewModel.handleIntent(RecordContract.RecordIntent.OnMusicClick(postId = postId))

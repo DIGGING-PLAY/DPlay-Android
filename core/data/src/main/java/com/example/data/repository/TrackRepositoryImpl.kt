@@ -3,6 +3,7 @@ package com.example.data.repository
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
+import androidx.paging.map
 import com.example.data.datasource.remote.SearchedTracksPagingSource
 import com.example.data.datasource.remote.TrackRemoteDataSource
 import com.example.data.mapper.todomain.toDomain

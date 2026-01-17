@@ -221,7 +221,7 @@ private fun HomePager(
                     onStreamClick = { onStreamClick(item.track.trackId) },
                     onLikeClick = { onLikeClick(item.postId) },
                     onBookmarkClick = { onBookmarkClick(item.postId) },
-                    onCoverClick = { onPostClick(item.postId) },
+                    onCoverClick = { if (!isLockedPage) onPostClick(item.postId) },
                     onWriterProfileClick = { onWriterProfileClick(item.writer.userId) },
                     isStreaming = uiState.streamingTrackId == item.track.trackId,
                     bookmarkIconVisible = isCenter,

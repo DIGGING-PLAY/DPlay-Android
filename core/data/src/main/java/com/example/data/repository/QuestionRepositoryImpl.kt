@@ -23,7 +23,7 @@ class QuestionRepositoryImpl
                         .data
                         ?: throw QuestionError.Unknown
 
-                response.questions.map { it.toDomain() }
+                response.questions.map { it.toDomain(year, month) }
             }.recoverCatching { e ->
                 if (e is retrofit2.HttpException) {
                     throw when (e.code()) {

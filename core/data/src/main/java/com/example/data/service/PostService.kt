@@ -7,14 +7,16 @@ import com.example.data.model.request.RegisterPostRequest
 import com.example.data.model.response.BaseResponse
 import com.example.data.model.response.PostDetailResponse
 import com.example.data.model.response.PostLikeResponse
-import com.example.data.model.response.TodayPostsResponse
 import com.example.data.model.response.PostResponse
+import com.example.data.model.response.QuestionPostsResponse
+import com.example.data.model.response.TodayPostsResponse
 import kotlinx.serialization.InternalSerializationApi
 import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface PostService {
     @POST("$API/$VERSIONS/$POSTS")
@@ -54,4 +56,11 @@ interface PostService {
 
     @GET("$API/$VERSIONS/$POSTS/today")
     suspend fun getTodayPosts(): BaseResponse<TodayPostsResponse>
+
+    @GET("$API/$VERSIONS/$POSTS/{questionId}")
+    suspend fun getPostsByQuestionId(
+        @Path("questionId") questionId: Long,
+        @Query("cursor") cursor: String?,
+        @Query("limit") limit: Int,
+    ): BaseResponse<QuestionPostsResponse>
 }
