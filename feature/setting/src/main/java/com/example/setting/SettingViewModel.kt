@@ -1,6 +1,7 @@
 package com.example.setting
 
 import androidx.lifecycle.viewModelScope
+import com.example.common.constant.Url
 import com.example.domain.repository.AuthRepository
 import com.example.domain.repository.UserRepository
 import com.example.ui.base.BaseViewModel
@@ -70,16 +71,16 @@ class SettingViewModel
                     toggleNotification(!currentState.isPushNotificationEnabled)
                 }
                 SettingMenuType.ANNOUNCEMENT -> {
-                    // 공지사항 노션 링크로 연결
+                    setSideEffect(SettingContract.SettingSideEffect.OpenWebView(type.url?: Url.ERROR))
                 }
                 SettingMenuType.INQUIRY -> {
-                    // 문의/제안하기 구글폼 링크로 연결
+                    setSideEffect(SettingContract.SettingSideEffect.OpenWebView(type.url?: Url.ERROR))
                 }
                 SettingMenuType.TERMS -> {
-                    // 서비스 이용약관 노션 링크로 연결
+                    setSideEffect(SettingContract.SettingSideEffect.OpenWebView(type.url?: Url.ERROR))
                 }
                 SettingMenuType.PRIVACY -> {
-                    // 개인정보 처리방침 노션 링크로 연결
+                    setSideEffect(SettingContract.SettingSideEffect.OpenWebView(type.url?: Url.ERROR))
                 }
                 SettingMenuType.LOGOUT -> {
                     setSideEffect(SettingContract.SettingSideEffect.ShowLogoutWarningDialog)

@@ -11,4 +11,6 @@ object Url {
     const val COMMUNITY_GUIDE = "https://www.notion.so/2d13aeb558c980c7915bf540db799aac?source=copy_link"
     // 문의/제안하기
     const val INQUIRY = "https://forms.gle/reQb2nmhjSqXVvnq7"
+    // 에러 뷰
+    const val ERROR = ""
 }

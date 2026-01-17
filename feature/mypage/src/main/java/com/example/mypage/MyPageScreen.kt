@@ -320,25 +320,31 @@ private fun RegisteredMusicList(
     registeredTrackList: LazyPagingItems<RegisteredTrackState>,
     modifier: Modifier = Modifier,
 ) {
-    LazyColumn(
-        contentPadding = PaddingValues(16.dp),
-        verticalArrangement = Arrangement.spacedBy(12.dp),
-    ) {
-        items(
-            count = registeredTrackList.itemCount,
-            key = registeredTrackList.itemKey { it.postId },
-        ) { index ->
-            val registeredTrack = registeredTrackList[index]
+    if(registeredTrackList.itemCount == 0){
+        RegisteredMusicEmptyView()
+    }else{
+        Spacer(modifier = Modifier.height(12.dp))
 
-            if (registeredTrack != null) {
-                DPlayMusicListItem(
-                    musicImageUrl = registeredTrack.track.thumbnailUrl,
-                    musicName = registeredTrack.track.musicTitle,
-                    musicArtistName = registeredTrack.track.artistName,
-                    musicContent = registeredTrack.comment,
-                    onMoreClick = {},
-                    onClick = {},
-                )
+        LazyColumn(
+            contentPadding = PaddingValues(16.dp),
+            verticalArrangement = Arrangement.spacedBy(12.dp),
+        ) {
+            items(
+                count = registeredTrackList.itemCount,
+                key = registeredTrackList.itemKey { it.postId },
+            ) { index ->
+                val registeredTrack = registeredTrackList[index]
+
+                if (registeredTrack != null) {
+                    DPlayMusicListItem(
+                        musicImageUrl = registeredTrack.track.thumbnailUrl,
+                        musicName = registeredTrack.track.musicTitle,
+                        musicArtistName = registeredTrack.track.artistName,
+                        musicContent = registeredTrack.comment,
+                        onMoreClick = {},
+                        onClick = {},
+                    )
+                }
             }
         }
     }
@@ -349,29 +355,65 @@ private fun BookmarkedMusicList(
     scrappedTrackList: LazyPagingItems<ScrappedTrackState>,
     modifier: Modifier = Modifier,
 ) {
-    LazyVerticalGrid(
-        modifier = modifier,
-        columns = GridCells.Fixed(3),
-        contentPadding = PaddingValues(16.dp),
-        horizontalArrangement = Arrangement.spacedBy(12.dp),
-        verticalArrangement = Arrangement.spacedBy(12.dp),
-    ) {
-        items(
-            count = scrappedTrackList.itemCount,
-            key = scrappedTrackList.itemKey { it.postId },
-        ) { index ->
-            val scrappedTrack = scrappedTrackList[index]
+    if (scrappedTrackList.itemCount == 0){
+        ScrappedMusicEmptyView()
+    }else {
+        LazyVerticalGrid(
+            modifier = modifier,
+            columns = GridCells.Fixed(3),
+            contentPadding = PaddingValues(16.dp),
+            horizontalArrangement = Arrangement.spacedBy(12.dp),
+            verticalArrangement = Arrangement.spacedBy(12.dp),
+        ) {
+            items(
+                count = scrappedTrackList.itemCount,
+                key = scrappedTrackList.itemKey { it.postId },
+            ) { index ->
+                val scrappedTrack = scrappedTrackList[index]
 
-            if (scrappedTrack != null) {
-                DPlayMusicGridItem(
-                    musicImageUrl = scrappedTrack.track.thumbnailUrl,
-                    musicName = scrappedTrack.track.musicTitle,
-                    musicArtistName = scrappedTrack.track.artistName,
-                    onClick = {},
-                )
-            } else {
+                if (scrappedTrack != null) {
+                    DPlayMusicGridItem(
+                        musicImageUrl = scrappedTrack.track.thumbnailUrl,
+                        musicName = scrappedTrack.track.musicTitle,
+                        musicArtistName = scrappedTrack.track.artistName,
+                        onClick = {},
+                    )
+                } else {
+                }
             }
         }
+    }
+}
+
+@Composable
+private fun RegisteredMusicEmptyView() {
+    Column(
+        modifier = Modifier.fillMaxSize(),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Spacer(modifier = Modifier.height(184.dp))
+
+        Text(
+            text = "아직 등록한 곡이 없어요",
+            style = DPlayTheme.typography.bodySemi14,
+            color = DPlayTheme.colors.gray400
+        )
+    }
+}
+
+@Composable
+private fun ScrappedMusicEmptyView() {
+    Column(
+        modifier = Modifier.fillMaxSize(),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Spacer(modifier = Modifier.height(184.dp))
+
+        Text(
+            text = "아직 등록한 곡이 없어요",
+            style = DPlayTheme.typography.bodySemi14,
+            color = DPlayTheme.colors.gray400
+        )
     }
 }
 
