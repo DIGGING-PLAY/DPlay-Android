@@ -51,6 +51,7 @@ import com.example.designsystem.component.button.DPlayCircleButton
 import com.example.designsystem.component.button.type.CircleButtonType
 import com.example.designsystem.theme.DPlayTheme
 import com.example.designsystem.util.noRippleClickable
+import com.example.navigation.Detail
 import com.example.navigation.EditProfile
 import com.example.navigation.Navigator
 import com.example.navigation.Setting
@@ -73,7 +74,9 @@ fun MyPageRoute(
     LaunchedEffect(Unit) {
         viewModel.sideEffect.collectLatest { sideEffect ->
             when (sideEffect) {
-                is MyPageContract.MyPageSideEffect.NavigateToDetail -> TODO()
+                is MyPageContract.MyPageSideEffect.NavigateToDetail -> {
+                    navigator.navigateTo(destination = Detail(postId = sideEffect.musicId))
+                }
                 MyPageContract.MyPageSideEffect.NavigateToEditProfile -> {
                     navigator.navigateTo(destination = EditProfile)
                 }
@@ -100,6 +103,9 @@ fun MyPageRoute(
         onProfileImageClick = {
             viewModel.handleIntent(MyPageContract.MyPageIntent.OnProfileClick)
         },
+        onScrappedTrackClick = {
+            viewModel.handleIntent(MyPageContract.MyPageIntent.OnScrappedTrackClick(it))
+        }
     )
 }
 
@@ -108,10 +114,11 @@ fun MyPageScreen(
     state: MyPageContract.MyPageState,
     registeredTrackList: LazyPagingItems<RegisteredTrackState>,
     scrappedTrackList: LazyPagingItems<ScrappedTrackState>,
+    modifier: Modifier = Modifier,
     onTabSelected: (Int) -> Unit = {},
     onSettingIconClick: () -> Unit = {},
     onProfileImageClick: () -> Unit = {},
-    modifier: Modifier = Modifier,
+    onScrappedTrackClick: (Long) -> Unit = {},
 ) {
     Column(
         modifier =
@@ -212,6 +219,7 @@ private fun TabContent(
     registeredTrackList: LazyPagingItems<RegisteredTrackState>,
     scrappedTrackList: LazyPagingItems<ScrappedTrackState>,
     onTabSelected: (Int) -> Unit,
+    onScrappedTrackClick: (Long) -> Unit = {},
 ) {
     Column {
         MyPageTabRow(
@@ -242,8 +250,8 @@ private fun TabContent(
 @Composable
 private fun MyPageTabRow(
     selectedTabIndex: Int,
-    onTabSelected: (Int) -> Unit = {},
     modifier: Modifier = Modifier,
+    onTabSelected: (Int) -> Unit = {},
 ) {
     val tabs =
         listOf(
@@ -354,6 +362,7 @@ private fun RegisteredMusicList(
 private fun BookmarkedMusicList(
     scrappedTrackList: LazyPagingItems<ScrappedTrackState>,
     modifier: Modifier = Modifier,
+    onScrappedTrackClick: (Long) -> Unit = {},
 ) {
     if (scrappedTrackList.itemCount == 0){
         ScrappedMusicEmptyView()
@@ -376,7 +385,7 @@ private fun BookmarkedMusicList(
                         musicImageUrl = scrappedTrack.track.thumbnailUrl,
                         musicName = scrappedTrack.track.musicTitle,
                         musicArtistName = scrappedTrack.track.artistName,
-                        onClick = {},
+                        onClick = { onScrappedTrackClick(scrappedTrack.postId) },
                     )
                 } else {
                 }

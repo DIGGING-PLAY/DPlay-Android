@@ -20,8 +20,8 @@ class MyPageContract {
             val tabIndex: Int,
         ) : MyPageIntent
 
-        data class OnMusicItemClick(
-            val musicId: Long,
+        data class OnScrappedTrackClick(
+            val postId: Long,
         ) : MyPageIntent
 
         data class OnKebabIconClick(

@@ -73,8 +73,8 @@ class MyPageViewModel
                     setSideEffect(MyPageContract.MyPageSideEffect.ShowDeleteBottomSheet)
                 }
 
-                is MyPageContract.MyPageIntent.OnMusicItemClick -> {
-                    setSideEffect(MyPageContract.MyPageSideEffect.NavigateToDetail(intent.musicId))
+                is MyPageContract.MyPageIntent.OnScrappedTrackClick -> {
+                    setSideEffect(MyPageContract.MyPageSideEffect.NavigateToDetail(intent.postId))
                 }
 
                 MyPageContract.MyPageIntent.OnProfileClick -> {
