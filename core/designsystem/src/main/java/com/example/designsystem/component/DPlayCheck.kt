@@ -12,9 +12,15 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.onSizeChanged
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -31,6 +37,8 @@ fun DPlayCheck(
     modifier: Modifier = Modifier,
 ) {
     val backgroundColor = if (isChecked) DPlayTheme.colors.gray100 else Color.Transparent
+    val density = LocalDensity.current
+    var textHeightPx by remember { mutableIntStateOf(0) }
 
     Row(
         modifier =
@@ -45,9 +53,10 @@ fun DPlayCheck(
         verticalAlignment = Alignment.CenterVertically,
     ) {
         if (isChecked) {
+            val iconSize = with(density) { textHeightPx.toDp() }
             DplayBaseIcon(
                 iconRes = R.drawable.ic_check_circle_20,
-                modifier = Modifier.size(19.6.dp),
+                modifier = Modifier.size(iconSize),
             )
 
             Spacer(modifier = Modifier.width(10.dp))
@@ -57,7 +66,8 @@ fun DPlayCheck(
             text = text,
             style = DPlayTheme.typography.bodySemi14,
             color = DPlayTheme.colors.gray500,
-            textAlign = TextAlign.Start,
+            textAlign = TextAlign.Center,
+            modifier = Modifier.onSizeChanged { textHeightPx = it.height },
         )
     }
 }
