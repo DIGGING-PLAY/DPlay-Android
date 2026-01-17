@@ -1,6 +1,9 @@
 package com.example.domain.repository
 
+import androidx.paging.PagingData
 import com.example.domain.model.ProfileImageState
+import com.example.domain.model.RegisteredTrack
+import com.example.domain.model.ScrappedTrack
 import com.example.domain.model.User
 import kotlinx.coroutines.flow.Flow
 
@@ -19,4 +22,13 @@ interface UserRepository {
         nickname: String?,
         profileImageState: ProfileImageState,
     ): Result<Unit>
+
+    fun getRegisteredTracks(
+        userId: Long,
+        onTotalCountFetched: (Int) -> Unit
+    ): Flow<PagingData<RegisteredTrack>>
+
+    fun getScrappedTracks(
+        userId: Long,
+    ): Flow<PagingData<ScrappedTrack>>
 }

@@ -25,6 +25,7 @@ class DataConventionPlugin: Plugin<Project> {
                 add("implementation",libs.getBundle("okhttp"))
                 add("implementation",libs.getLibrary("kakao.user"))
                 add("implementation",libs.getLibrary("androidx.datastore.preferences"))
+                add("implementation",libs.getLibrary("androidx.paging.compose"))
             }
         }
     }

@@ -18,6 +18,7 @@ class DetailContract {
                 songTitle = "",
                 coverImg = "",
                 artistName = "",
+                isrc = "",
             ),
         val writer: Writer =
             Writer(

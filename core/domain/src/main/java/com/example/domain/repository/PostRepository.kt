@@ -1,9 +1,15 @@
 package com.example.domain.repository
 
 import com.example.domain.model.HomeScreenData
+import com.example.domain.model.Track
 import com.example.domain.model.PostDetail
 
 interface PostRepository {
+    suspend fun registerPost(
+        track: Track,
+        comment: String,
+    ): Result<Unit>
+
     suspend fun getPostDetail(postId: Long): Result<PostDetail>
 
     suspend fun postPostLike(

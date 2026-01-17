@@ -58,7 +58,7 @@ class UserRemoteDataSource
         suspend fun getNotificationEnabled(): Boolean {
             try {
                 val response = userService.getNotificationEnabled()
-                return response.data?.pushON ?: throw Exception("Data is null")
+                return response.data?.pushOn ?: throw Exception("Data is null")
             } catch (e: Exception) {
                 Timber.e(e)
                 throw e

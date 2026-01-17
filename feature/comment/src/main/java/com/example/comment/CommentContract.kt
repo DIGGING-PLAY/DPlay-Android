@@ -1,21 +1,21 @@
 package com.example.comment
 
 import com.example.ui.base.BaseContract
-import com.example.ui.model.Music
+import com.example.ui.model.TrackState
 
 class CommentContract {
     data class CommentState(
-        val musicInfo: Music? = null,
+        val track: TrackState? = null,
         val commentInput: String = "",
         val isGuideVisible: Boolean = false,
     ) : BaseContract.State {
         val isRegisterButtonEnabled: Boolean
-            get() = commentInput.isNotBlank()
+            get() = commentInput.isNotBlank() && track != null
     }
 
     sealed interface CommentIntent : BaseContract.Intent {
         data class Initialize(
-            val music: Music,
+            val track: TrackState,
         ) : CommentIntent
 
         data object OnBackIconClick : CommentIntent

@@ -21,7 +21,7 @@ object CommentNavigationModule {
         {
             entry<Comment> { key ->
                 CommentRoute(
-                    musicInfo = key.musicInfo,
+                    track = key.track,
                     navigator = navigator,
                 )
             }
