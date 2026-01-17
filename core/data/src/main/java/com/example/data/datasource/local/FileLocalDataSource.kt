@@ -37,4 +37,15 @@ class FileLocalDataSource
                 }
             }
         }
+
+        fun createEmptyFile(): File {
+            val emptyFile = File(context.cacheDir, "empty_profile_temp")
+
+            if (emptyFile.exists()) {
+                emptyFile.delete()
+            }
+            emptyFile.createNewFile()
+
+            return emptyFile
+        }
     }

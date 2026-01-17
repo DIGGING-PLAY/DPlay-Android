@@ -1,9 +1,13 @@
 package com.example.setting
 
+import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.example.domain.repository.AuthRepository
+import com.example.domain.repository.UserRepository
 import com.example.ui.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -12,14 +16,18 @@ class SettingViewModel
     @Inject
     constructor(
         private val authRepository: AuthRepository,
+        private val userRepository: UserRepository,
     ) : BaseViewModel<SettingContract.SettingState, SettingContract.SettingIntent, SettingContract.SettingSideEffect>(
             SettingContract.SettingState(),
         ) {
+        init {
+            initializeNotificationEnabled()
+        }
+
+        private var debounceJob: Job? = null
+
         override fun handleIntent(intent: SettingContract.SettingIntent) {
             when (intent) {
-                SettingContract.SettingIntent.Initialize -> {
-                    // 앱 버전, 알림 권한 초기화
-                }
                 is SettingContract.SettingIntent.OnMenuClick -> {
                     handleMenuClick(intent.type)
                 }
@@ -52,11 +60,7 @@ class SettingViewModel
         private fun handleMenuClick(type: SettingMenuType) {
             when (type) {
                 SettingMenuType.PUSH_NOTIFICATION -> {
-                    updateState {
-                        copy(
-                            isPushNotificationEnabled = !this.isPushNotificationEnabled,
-                        )
-                    }
+                    toggleNotification(!currentState.isPushNotificationEnabled)
                 }
                 SettingMenuType.ANNOUNCEMENT -> {
                     // 공지사항 노션 링크로 연결
@@ -78,5 +82,46 @@ class SettingViewModel
                 }
                 SettingMenuType.VERSION -> { /* 동작없음 */ }
             }
+        }
+
+        private fun initializeNotificationEnabled() {
+            viewModelScope.launch {
+                userRepository
+                    .getNotificationEnabled()
+                    .onSuccess {
+                        updateState {
+                            copy(
+                                isPushNotificationEnabled = it,
+                            )
+                        }
+                    }.onFailure {
+                    }
+            }
+        }
+
+        private fun toggleNotification(enabled: Boolean) {
+            updateState {
+                copy(
+                    isPushNotificationEnabled = enabled,
+                )
+            }
+            debounceJob?.cancel()
+
+            debounceJob =
+                viewModelScope.launch {
+                    delay(500L)
+
+                    userRepository
+                        .updateNotificationEnabled(enabled)
+                        .onSuccess {
+                            Log.d("notification", "notification $enabled")
+                        }.onFailure {
+                            updateState {
+                                copy(
+                                    isPushNotificationEnabled = !enabled,
+                                )
+                            }
+                        }
+                }
         }
     }
