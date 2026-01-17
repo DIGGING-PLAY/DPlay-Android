@@ -59,7 +59,7 @@ class CommentViewModel
                         track = track,
                         comment = currentState.commentInput,
                     ).onSuccess {
-                        setSideEffect(CommentContract.CommentSideEffect.NavigateToBack)
+                        setSideEffect(CommentContract.CommentSideEffect.NavigateToHome)
                     }.onFailure {
                     }
             }
