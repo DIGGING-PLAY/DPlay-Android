@@ -20,8 +20,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -45,6 +43,9 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.paging.compose.LazyPagingItems
+import androidx.paging.compose.collectAsLazyPagingItems
+import androidx.paging.compose.itemKey
 import coil3.compose.AsyncImage
 import com.dplay.designsystem.R
 import com.example.designsystem.component.DPlayMusicGridItem
@@ -57,9 +58,9 @@ import com.example.designsystem.util.noRippleClickable
 import com.example.navigation.EditProfile
 import com.example.navigation.Navigator
 import com.example.navigation.Setting
-import com.example.ui.model.BookmarkedMusic
-import com.example.ui.model.RegisteredMusic
-import kotlinx.collections.immutable.ImmutableList
+import com.example.ui.emptyLazyPagingItems
+import com.example.ui.model.RegisteredTrackState
+import com.example.ui.model.ScrappedTrackState
 import kotlinx.coroutines.flow.collectLatest
 
 @Composable
@@ -69,6 +70,9 @@ fun MyPageRoute(
     viewModel: MyPageViewModel = hiltViewModel(),
 ) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
+
+    val registeredTracks = viewModel.registeredTracks.collectAsLazyPagingItems()
+    val scrappedTracks = viewModel.scrappedTracks.collectAsLazyPagingItems()
 
     LaunchedEffect(Unit) {
         viewModel.sideEffect.collectLatest { sideEffect ->
@@ -88,6 +92,8 @@ fun MyPageRoute(
 
     MyPageScreen(
         state = state,
+        registeredTrackList = registeredTracks,
+        scrappedTrackList = scrappedTracks,
         modifier = modifier,
         onTabSelected = {
             viewModel.handleIntent(MyPageContract.MyPageIntent.OnTabClick(it))
@@ -104,6 +110,8 @@ fun MyPageRoute(
 @Composable
 fun MyPageScreen(
     state: MyPageContract.MyPageState,
+    registeredTrackList: LazyPagingItems<RegisteredTrackState>,
+    scrappedTrackList: LazyPagingItems<ScrappedTrackState>,
     onTabSelected: (Int) -> Unit = {},
     onSettingIconClick: () -> Unit = {},
     onProfileImageClick: () -> Unit = {},
@@ -135,8 +143,8 @@ fun MyPageScreen(
         TabContent(
             selectedTabIndex = state.selectedTabIndex,
             onTabSelected = onTabSelected,
-            registeredMusicList = state.registeredMusicList,
-            bookmarkedMusicList = state.bookmarkedMusicList,
+            registeredTrackList = registeredTrackList,
+            scrappedTrackList = scrappedTrackList,
         )
     }
 }
@@ -222,8 +230,8 @@ private fun UserInformationRow(
 @Composable
 private fun TabContent(
     selectedTabIndex: Int,
-    registeredMusicList: ImmutableList<RegisteredMusic>,
-    bookmarkedMusicList: ImmutableList<BookmarkedMusic>,
+    registeredTrackList: LazyPagingItems<RegisteredTrackState>,
+    scrappedTrackList: LazyPagingItems<ScrappedTrackState>,
     onTabSelected: (Int) -> Unit,
 ) {
     Column {
@@ -241,11 +249,11 @@ private fun TabContent(
             when (selectedTabIndex) {
                 0 ->
                     RegisteredMusicList(
-                        registeredMusicList = registeredMusicList,
+                        registeredTrackList = registeredTrackList,
                     )
                 1 ->
                     BookmarkedMusicList(
-                        bookmarkedMusicList = bookmarkedMusicList,
+                        scrappedTrackList = scrappedTrackList,
                     )
             }
         }
@@ -330,7 +338,7 @@ private fun MyPageTabRow(
 
 @Composable
 private fun RegisteredMusicList(
-    registeredMusicList: ImmutableList<RegisteredMusic>,
+    registeredTrackList: LazyPagingItems<RegisteredTrackState>,
     modifier: Modifier = Modifier,
 ) {
     LazyColumn(
@@ -338,24 +346,28 @@ private fun RegisteredMusicList(
         verticalArrangement = Arrangement.spacedBy(12.dp),
     ) {
         items(
-            items = registeredMusicList,
-            key = { it.postId },
-        ) {
-            DPlayMusicListItem(
-                musicImageUrl = it.music.thumbnailUrl ?: "",
-                musicName = it.music.musicTitle,
-                musicArtistName = it.music.artistName,
-                musicContent = it.comment,
-                onMoreClick = {},
-                onClick = {},
-            )
+            count = registeredTrackList.itemCount,
+            key = registeredTrackList.itemKey { it.postId },
+        ) { index ->
+            val registeredTrack = registeredTrackList[index]
+
+            if (registeredTrack != null) {
+                DPlayMusicListItem(
+                    musicImageUrl = registeredTrack.track.thumbnailUrl,
+                    musicName = registeredTrack.track.musicTitle,
+                    musicArtistName = registeredTrack.track.artistName,
+                    musicContent = registeredTrack.comment,
+                    onMoreClick = {},
+                    onClick = {},
+                )
+            }
         }
     }
 }
 
 @Composable
 private fun BookmarkedMusicList(
-    bookmarkedMusicList: ImmutableList<BookmarkedMusic>,
+    scrappedTrackList: LazyPagingItems<ScrappedTrackState>,
     modifier: Modifier = Modifier,
 ) {
     LazyVerticalGrid(
@@ -366,15 +378,20 @@ private fun BookmarkedMusicList(
         verticalArrangement = Arrangement.spacedBy(12.dp),
     ) {
         items(
-            items = bookmarkedMusicList,
-            key = { it.postId },
-        ) {
-            DPlayMusicGridItem(
-                musicImageUrl = it.music.thumbnailUrl ?: "",
-                musicName = it.music.musicTitle,
-                musicArtistName = it.music.artistName,
-                onClick = {},
-            )
+            count = scrappedTrackList.itemCount,
+            key = scrappedTrackList.itemKey { it.postId },
+        ) { index ->
+            val scrappedTrack = scrappedTrackList[index]
+
+            if (scrappedTrack != null) {
+                DPlayMusicGridItem(
+                    musicImageUrl = scrappedTrack.track.thumbnailUrl,
+                    musicName = scrappedTrack.track.musicTitle,
+                    musicArtistName = scrappedTrack.track.artistName,
+                    onClick = {},
+                )
+            } else {
+            }
         }
     }
 }
@@ -386,8 +403,6 @@ private fun MyPageScreenPreview() {
         mutableStateOf(
             MyPageContract.MyPageState(
                 userNickname = "디플레이",
-                registeredMusicList = dummyRegisteredMusicList,
-                bookmarkedMusicList = dummyBookmarkedMusicList,
             ),
         )
     }
@@ -395,6 +410,8 @@ private fun MyPageScreenPreview() {
     DPlayTheme {
         MyPageScreen(
             state = uiState,
+            registeredTrackList = emptyLazyPagingItems(),
+            scrappedTrackList = emptyLazyPagingItems(),
             onTabSelected = {
                 uiState = uiState.copy(selectedTabIndex = it)
             },

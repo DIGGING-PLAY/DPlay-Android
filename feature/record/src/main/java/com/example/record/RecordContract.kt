@@ -36,6 +36,7 @@ class RecordContract {
                             songTitle = "Blue Night",
                             coverImg = "https://picsum.photos/300/300?1",
                             artistName = "IU",
+                            isrc = "USUC1234567890",
                         ),
                     writer =
                         Writer(
@@ -65,6 +66,7 @@ class RecordContract {
                             songTitle = "Rain Drop",
                             coverImg = "https://picsum.photos/300/300?2",
                             artistName = "DEAN",
+                            isrc = "USUC1234567891",
                         ),
                     writer =
                         Writer(
@@ -94,6 +96,7 @@ class RecordContract {
                             songTitle = "Sunset Drive",
                             coverImg = "https://picsum.photos/300/300?3",
                             artistName = "Lauv",
+                            isrc = "USUC1234567892",
                         ),
                     writer =
                         Writer(
@@ -123,6 +126,7 @@ class RecordContract {
                             songTitle = "Midnight Walk",
                             coverImg = "https://picsum.photos/300/300?4",
                             artistName = "Joji",
+                            isrc = "USUC1234567893",
                         ),
                     writer =
                         Writer(

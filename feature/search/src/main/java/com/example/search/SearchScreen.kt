@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -20,6 +19,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.paging.compose.LazyPagingItems
+import androidx.paging.compose.collectAsLazyPagingItems
+import androidx.paging.compose.itemKey
 import com.dplay.designsystem.R
 import com.example.designsystem.component.DPlayImageCheck
 import com.example.designsystem.component.DplayLeftIconTitleTopAppBar
@@ -28,8 +30,8 @@ import com.example.designsystem.component.textfield.DPlayTextInput
 import com.example.designsystem.theme.DPlayTheme
 import com.example.navigation.Comment
 import com.example.navigation.Navigator
-import com.example.ui.model.Music
-import kotlinx.collections.immutable.ImmutableList
+import com.example.ui.emptyLazyPagingItems
+import com.example.ui.model.TrackState
 
 @Composable
 fun SearchRoute(
@@ -39,6 +41,8 @@ fun SearchRoute(
 ) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
 
+    val pagingSearchedMusics = viewModel.searchResults.collectAsLazyPagingItems()
+
     LaunchedEffect(Unit) {
         viewModel.sideEffect.collect { sideEffect ->
             when (sideEffect) {
@@ -46,7 +50,7 @@ fun SearchRoute(
                     navigator.navigateToBack()
                 }
                 is SearchContract.SearchSideEffect.NavigateToComment -> {
-                    navigator.navigateTo(Comment(sideEffect.musicInfo))
+                    navigator.navigateTo(Comment(sideEffect.track))
                 }
             }
         }
@@ -54,6 +58,7 @@ fun SearchRoute(
 
     SearchScreen(
         state = state,
+        searchedTrackList = pagingSearchedMusics,
         modifier = modifier,
         onBackIconClick = { viewModel.handleIntent(SearchContract.SearchIntent.OnBackIconClick) },
         onSearchInputChanged = { viewModel.handleIntent(SearchContract.SearchIntent.OnSearchInputChanged(it)) },
@@ -65,10 +70,11 @@ fun SearchRoute(
 @Composable
 fun SearchScreen(
     state: SearchContract.SearchState,
+    searchedTrackList: LazyPagingItems<TrackState>,
     modifier: Modifier = Modifier,
     onBackIconClick: () -> Unit = {},
     onSearchInputChanged: (String) -> Unit = {},
-    onMusicSelected: (Music) -> Unit = {},
+    onMusicSelected: (TrackState) -> Unit = {},
     onNextButtonClick: () -> Unit = {},
 ) {
     Column(
@@ -106,9 +112,9 @@ fun SearchScreen(
         Spacer(modifier = Modifier.height(20.dp))
 
         SearchedMusicList(
-            searchedMusicList = state.searchedMusicList,
+            searchedTrackList = searchedTrackList,
             onMusicSelected = { onMusicSelected(it) },
-            selectedTrackId = state.selectedMusic?.trackId,
+            selectedTrackId = state.selectedTrack?.trackId,
             modifier = Modifier.weight(1f),
         )
 
@@ -128,13 +134,12 @@ fun SearchScreen(
 
 @Composable
 private fun SearchedMusicList(
-    searchedMusicList: ImmutableList<Music>,
-    onMusicSelected: (Music) -> Unit,
+    searchedTrackList: LazyPagingItems<TrackState>,
+    onMusicSelected: (TrackState) -> Unit,
     modifier: Modifier = Modifier,
     selectedTrackId: String? = null,
 ) {
-    if (searchedMusicList.isEmpty()) {
-        // emptyView
+    if (searchedTrackList.itemCount == 0) {
         Column(
             modifier = modifier.fillMaxWidth(),
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -152,17 +157,22 @@ private fun SearchedMusicList(
             modifier = modifier,
         ) {
             items(
-                items = searchedMusicList,
-                key = { it.trackId },
-            ) { music ->
-                // url이 null로 왔을 때 기본 이미지 필요
-                DPlayImageCheck(
-                    imageUrl = music.thumbnailUrl ?: "",
-                    musicName = music.musicTitle,
-                    artistName = music.artistName,
-                    isChecked = selectedTrackId == music.trackId,
-                    onClick = { onMusicSelected(music) },
-                )
+                count = searchedTrackList.itemCount,
+                key = searchedTrackList.itemKey { it.trackId },
+            ) { index ->
+
+                val music = searchedTrackList[index]
+                if (music != null) {
+                    DPlayImageCheck(
+                        imageUrl = music.thumbnailUrl,
+                        musicName = music.musicTitle,
+                        artistName = music.artistName,
+                        isChecked = selectedTrackId == music.trackId,
+                        onClick = { onMusicSelected(music) },
+                    )
+                } else {
+                    // 오류처리
+                }
             }
         }
     }
@@ -173,10 +183,8 @@ private fun SearchedMusicList(
 fun SearchScreenPreview(modifier: Modifier = Modifier) {
     DPlayTheme {
         SearchScreen(
-            state =
-                SearchContract.SearchState(
-                    searchedMusicList = dummyMusicList,
-                ),
+            state = SearchContract.SearchState(),
+            searchedTrackList = emptyLazyPagingItems(),
         )
     }
 }

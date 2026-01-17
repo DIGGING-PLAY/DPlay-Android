@@ -20,6 +20,7 @@ object ApiConstants {
     const val QUESTIONS = "questions"
     const val POSTS = "posts"
     const val TRACKS = "tracks"
+    const val SCRAPS = "scraps"
 
     const val KAKAO_PLATFORM = "KAKAO"
 }

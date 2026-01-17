@@ -22,20 +22,6 @@ data class PostDetailResponse(
 )
 
 @Serializable
-data class TrackResponse(
-    @SerialName("trackId")
-    val trackId: String,
-    @SerialName("songTitle")
-    val songTitle: String,
-    @SerialName("artistName")
-    val artistName: String,
-    @SerialName("coverImg")
-    val coverImg: String,
-    @SerialName("isrc")
-    val isrc: String,
-)
-
-@Serializable
 data class LikeResponse(
     @SerialName("isLiked")
     val isLiked: Boolean,

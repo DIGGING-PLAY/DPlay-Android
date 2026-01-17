@@ -31,6 +31,7 @@ class JavaLibraryPlugin : Plugin<Project> {
             dependencies {
                 add("implementation", libs.getLibrary("javax.inject"))
                 add("implementation", libs.getLibrary("kotlinx.coroutines.core"))
+                add("implementation", libs.getLibrary("androidx.paging.common"))
             }
         }
     }

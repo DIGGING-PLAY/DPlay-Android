@@ -26,6 +26,7 @@ class AndroidComposeConventionPlugin: Plugin<Project> {
                 add("implementation",libs.getLibrary("kotlinx.immutable"))
                 add("implementation", libs.getLibrary("coil.compose"))
                 add("implementation", libs.getLibrary("coil.network.okhttp"))
+                add("implementation",libs.getLibrary("androidx.paging.compose"))
             }
         }
     }

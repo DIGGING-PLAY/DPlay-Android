@@ -3,6 +3,7 @@ package com.example.data.di
 import com.example.data.service.AuthService
 import com.example.data.service.DummyService
 import com.example.data.service.PostService
+import com.example.data.service.TrackService
 import com.example.data.service.UserService
 import dagger.Module
 import dagger.Provides
@@ -37,4 +38,10 @@ object ServiceModule {
     fun providePostService(
         retrofit: Retrofit,
     ): PostService = retrofit.create(PostService::class.java)
+
+    @Provides
+    @Singleton
+    fun provideTrackService(
+        retrofit: Retrofit,
+    ): TrackService = retrofit.create(TrackService::class.java)
 }
