@@ -35,13 +35,13 @@ object ServiceModule {
 
     @Provides
     @Singleton
-    fun provideTrackService(
-        retrofit: Retrofit,
-    ): TrackService = retrofit.create(TrackService::class.java)
-
-    @Provides
-    @Singleton
     fun providePostService(
         retrofit: Retrofit,
     ): PostService = retrofit.create(PostService::class.java)
+
+    @Provides
+    @Singleton
+    fun provideTrackService(
+        retrofit: Retrofit,
+    ): TrackService = retrofit.create(TrackService::class.java)
 }

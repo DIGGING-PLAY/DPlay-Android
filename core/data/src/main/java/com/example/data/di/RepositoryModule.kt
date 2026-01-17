@@ -33,9 +33,9 @@ abstract class RepositoryModule {
 
     @Binds
     @Singleton
-    abstract fun bindsTrackRepository(repositoryImpl: TrackRepositoryImpl): TrackRepository
+    abstract fun bindsPostRepository(repositoryImpl: PostRepositoryImpl): PostRepository
 
     @Binds
     @Singleton
-    abstract fun bindsPostRepository(repositoryImpl: PostRepositoryImpl): PostRepository
+    abstract fun bindsTrackRepository(repositoryImpl: TrackRepositoryImpl): TrackRepository
 }
