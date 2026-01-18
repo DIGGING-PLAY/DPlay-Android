@@ -9,6 +9,7 @@ class MyPageContract {
         val profileImagePath: String? = null,
         val selectedTabIndex: Int = 0,
         val registeredMusicCount: Int = -1,
+        val isDeleteBottomSheetVisible: Boolean = false,
     ) : BaseContract.State
 
     sealed interface MyPageIntent : BaseContract.Intent {

@@ -1,6 +1,9 @@
 package com.example.mypage
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -43,6 +46,7 @@ import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemKey
 import com.dplay.designsystem.R
+import com.example.designsystem.component.DPlayButtonBottomSheet
 import com.example.designsystem.component.DPlayMusicGridItem
 import com.example.designsystem.component.DPlayMusicListItem
 import com.example.designsystem.component.DPlayProfileImageArea
@@ -134,37 +138,71 @@ fun MyPageScreen(
     onScrappedTrackClick: (Long) -> Unit = {},
     onKebabIconClick: (Long) -> Unit = {},
 ) {
-    Column(
-        modifier =
-            modifier
-                .fillMaxSize()
-                .background(DPlayTheme.colors.dplayWhite),
+    Box(
+        modifier = Modifier.fillMaxSize()
     ) {
-        DplayRightIconTitleTopAppBar(
-            title = stringResource(com.dplay.mypage.R.string.mypage_screen_title),
+        Column(
+            modifier =
+                modifier
+                    .fillMaxSize()
+                    .background(DPlayTheme.colors.dplayWhite),
         ) {
-            onSettingIconClick()
+            DplayRightIconTitleTopAppBar(
+                title = stringResource(com.dplay.mypage.R.string.mypage_screen_title),
+            ) {
+                onSettingIconClick()
+            }
+
+            Spacer(modifier = Modifier.height(12.dp))
+
+            UserInformationRow(
+                nickname = state.userNickname,
+                registeredMusicCount = state.registeredMusicCount,
+                profileImagePath = state.profileImagePath,
+                onProfileImageClick = { onProfileImageClick() },
+            )
+
+            Spacer(modifier = Modifier.height(20.dp))
+
+            TabContent(
+                selectedTabIndex = state.selectedTabIndex,
+                onTabSelected = onTabSelected,
+                registeredTrackList = registeredTrackList,
+                scrappedTrackList = scrappedTrackList,
+                onScrappedTrackClick = onScrappedTrackClick,
+                onKebabIconClick = onKebabIconClick,
+            )
+        }
+        if (state.isDeleteBottomSheetVisible) {
+            Box(
+                modifier =
+                    Modifier
+                        .fillMaxSize()
+                        .background(color = DPlayTheme.colors.dim40)
+                        .noRippleClickable { },
+            )
         }
 
-        Spacer(modifier = Modifier.height(12.dp))
-
-        UserInformationRow(
-            nickname = state.userNickname,
-            registeredMusicCount = state.registeredMusicCount,
-            profileImagePath = state.profileImagePath,
-            onProfileImageClick = { onProfileImageClick() },
-        )
-
-        Spacer(modifier = Modifier.height(20.dp))
-
-        TabContent(
-            selectedTabIndex = state.selectedTabIndex,
-            onTabSelected = onTabSelected,
-            registeredTrackList = registeredTrackList,
-            scrappedTrackList = scrappedTrackList,
-            onScrappedTrackClick = onScrappedTrackClick,
-            onKebabIconClick = onKebabIconClick,
-        )
+        AnimatedVisibility(
+            visible = state.isDeleteBottomSheetVisible,
+            modifier = Modifier.align(Alignment.BottomCenter),
+            enter =
+                slideInVertically(
+                    initialOffsetY = { it },
+                ),
+            exit =
+                slideOutVertically(
+                    targetOffsetY = { it },
+                ),
+        ) {
+            DPlayButtonBottomSheet(
+                mainText = stringResource(R.string.launch_album_bottomsheet_main_text),
+                subText = stringResource(R.string.launch_album_bottomsheet_sub_text),
+                mainOnClick = {  },
+                subOnClick = {  },
+                modifier = Modifier.noRippleClickable(),
+            )
+        }
     }
 }
 
@@ -298,7 +336,8 @@ private fun MyPageTabRow(
                                 .weight(1f)
                                 .noRippleClickable {
                                     onTabSelected(index)
-                                }.padding(vertical = 12.dp),
+                                }
+                                .padding(vertical = 12.dp),
                         contentAlignment = Alignment.Center,
                     ) {
                         Text(

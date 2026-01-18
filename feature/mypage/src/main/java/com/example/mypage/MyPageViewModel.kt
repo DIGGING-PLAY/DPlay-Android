@@ -71,6 +71,11 @@ class MyPageViewModel
 
                 is MyPageContract.MyPageIntent.OnKebabIconClick -> {
                     setSideEffect(MyPageContract.MyPageSideEffect.HideBottomNavigation)
+                    updateState{
+                        copy(
+                            isDeleteBottomSheetVisible = true
+                        )
+                    }
                     setSideEffect(MyPageContract.MyPageSideEffect.ShowDeleteBottomSheet)
                 }
 
