@@ -87,23 +87,17 @@ class MainActivity : ComponentActivity() {
                             modifier =
                                 Modifier.navigationBarsPadding(),
                             bottomBar = {
-                                AnimatedVisibility(
-                                    visible = navigator.shouldShowBottomSheet && bottomNavigationController.bottomNavigationVisible,
-                                    enter = fadeIn(animationSpec = tween(100)),
-                                    exit = fadeOut(animationSpec = tween(100)),
-                                ) {
-                                    BottomNavigationBar(
-                                        isVisible = true, // AnimatedVisibility가 제어하므로 항상 true
-                                        topLevelRouteList = navigator.topLevelRoutes,
-                                        currentTab = navigator.currentScreen,
-                                        onBottomNavigationItemClick = { route ->
-                                            navigator.navigateToTopLevelRoute(route)
-                                        },
-                                        onPlusButtonClick = {
-                                            navigator.navigateTo(Search)
-                                        },
-                                    )
-                                }
+                                BottomNavigationBar(
+                                    isVisible = navigator.shouldShowBottomSheet && bottomNavigationController.bottomNavigationVisible,
+                                    topLevelRouteList = navigator.topLevelRoutes,
+                                    currentTab = navigator.currentScreen,
+                                    onBottomNavigationItemClick = { route ->
+                                        navigator.navigateToTopLevelRoute(route)
+                                    },
+                                    onPlusButtonClick = {
+                                        navigator.navigateTo(Search)
+                                    },
+                                )
                             },
                         ) { padding ->
                             val bottomPadding = if(navigator.shouldShowBottomSheet) padding.calculateBottomPadding() else 0.dp
@@ -111,7 +105,7 @@ class MainActivity : ComponentActivity() {
                                 modifier = Modifier
                                     .fillMaxSize()
                                     .background(color = DPlayTheme.colors.dplayWhite)
-                                    .padding(bottom = 0.dp),
+                                    .padding(bottom = bottomPadding),
                                 backStack = navigator.backStack,
                                 onBack = {
                                     navigator.navigateToBack()
