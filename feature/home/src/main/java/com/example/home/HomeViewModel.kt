@@ -162,6 +162,7 @@ class HomeViewModel
         }
 
         private fun refreshTodayPosts() {
+            getTodayPosts()
         }
 
         private fun toggleBookmark(postId: Long) {
