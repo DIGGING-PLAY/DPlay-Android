@@ -36,8 +36,6 @@ class PostRemoteDataSource
             postId: Long,
         ): BaseResponse<Unit> = postService.deletePost(postId = postId)
 
-        suspend fun getTodayPosts(): BaseResponse<TodayPostsResponse> = postService.getTodayPosts()
-
         suspend fun registerPost(
             request: RegisterPostRequest,
         ): PostResponse {
@@ -51,4 +49,6 @@ class PostRemoteDataSource
                 throw e
             }
         }
+
+        suspend fun getTodayPosts(): BaseResponse<TodayPostsResponse> = postService.getTodayPosts()
     }
