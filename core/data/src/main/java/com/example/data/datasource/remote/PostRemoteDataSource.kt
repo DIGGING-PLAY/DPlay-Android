@@ -5,11 +5,10 @@ import com.example.data.model.response.BaseResponse
 import com.example.data.model.response.PostDetailResponse
 import com.example.data.model.response.PostLikeResponse
 import com.example.data.model.response.PostResponse
+import com.example.data.model.response.TodayPostsResponse
 import com.example.data.service.PostService
-import kotlinx.serialization.InternalSerializationApi
 import javax.inject.Inject
 
-@OptIn(InternalSerializationApi::class)
 class PostRemoteDataSource
     @Inject
     constructor(
@@ -50,4 +49,6 @@ class PostRemoteDataSource
                 throw e
             }
         }
+
+        suspend fun getTodayPosts(): BaseResponse<TodayPostsResponse> = postService.getTodayPosts()
     }

@@ -8,14 +8,13 @@ import com.example.data.model.response.BaseResponse
 import com.example.data.model.response.PostDetailResponse
 import com.example.data.model.response.PostLikeResponse
 import com.example.data.model.response.PostResponse
-import kotlinx.serialization.InternalSerializationApi
+import com.example.data.model.response.TodayPostsResponse
 import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Path
 
-@OptIn(InternalSerializationApi::class)
 interface PostService {
     @POST("$API/$VERSIONS/$POSTS")
     suspend fun registerPost(
@@ -51,4 +50,7 @@ interface PostService {
     suspend fun deletePost(
         @Path("postId") postId: Long,
     ): BaseResponse<Unit>
+
+    @GET("$API/$VERSIONS/$POSTS/today")
+    suspend fun getTodayPosts(): BaseResponse<TodayPostsResponse>
 }

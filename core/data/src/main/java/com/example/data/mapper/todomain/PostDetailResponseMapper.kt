@@ -1,11 +1,9 @@
 package com.example.data.mapper.todomain
 
-import com.example.data.model.response.LikeResponse
 import com.example.data.model.response.PostDetailResponse
-import com.example.data.model.response.UserResponse
-import com.example.domain.model.Like
+import com.example.data.model.response.TrackResponse
 import com.example.domain.model.PostDetail
-import com.example.domain.model.Writer
+import com.example.domain.model.Track
 
 fun PostDetailResponse.toDomain(): PostDetail =
     PostDetail(
@@ -18,15 +16,11 @@ fun PostDetailResponse.toDomain(): PostDetail =
         like = this.like.toDomain(),
     )
 
-private fun UserResponse.toDomain(): Writer =
-    Writer(
-        userId = this.userId,
-        nickname = this.nickname,
-        profileImg = this.profileImg ?: "",
-    )
-
-private fun LikeResponse.toDomain(): Like =
-    Like(
-        isLiked = this.isLiked,
-        count = this.count,
+private fun TrackResponse.toDomain(): Track =
+    Track(
+        trackId = this.trackId,
+        songTitle = this.songTitle,
+        coverImg = this.coverImg,
+        artistName = this.artistName,
+        isrc = "",
     )

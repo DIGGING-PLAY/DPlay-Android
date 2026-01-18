@@ -3,13 +3,12 @@ package com.example.data.repository
 import com.example.data.datasource.remote.PostRemoteDataSource
 import com.example.data.mapper.todomain.toDomain
 import com.example.data.model.request.RegisterPostRequest
+import com.example.domain.model.HomeScreenData
 import com.example.domain.model.PostDetail
 import com.example.domain.model.Track
 import com.example.domain.repository.PostRepository
-import kotlinx.serialization.InternalSerializationApi
 import javax.inject.Inject
 
-@OptIn(InternalSerializationApi::class)
 class PostRepositoryImpl
     @Inject
     constructor(
@@ -69,5 +68,10 @@ class PostRepositoryImpl
         override suspend fun deletePost(postId: Long): Result<Unit> =
             runCatching {
                 postRemoteDataSource.deletePost(postId = postId)
+            }
+
+        override suspend fun getTodayPosts(): Result<HomeScreenData> =
+            runCatching {
+                postRemoteDataSource.getTodayPosts().data?.toDomain() ?: throw Exception()
             }
     }

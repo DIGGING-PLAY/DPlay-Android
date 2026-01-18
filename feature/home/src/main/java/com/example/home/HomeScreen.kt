@@ -43,7 +43,7 @@ fun HomeRoute(
     navigator: Navigator,
     viewModel: HomeViewModel = hiltViewModel(),
 ) {
-    val state by viewModel.homeUiState.collectAsStateWithLifecycle()
+    val state by viewModel.uiState.collectAsStateWithLifecycle()
     val showSnackBar = LocalShowSnackBar.current
 
     LaunchedEffect(Unit) {

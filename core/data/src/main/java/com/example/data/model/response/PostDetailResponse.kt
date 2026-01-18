@@ -20,11 +20,3 @@ data class PostDetailResponse(
     @SerialName("like")
     val like: LikeResponse,
 )
-
-@Serializable
-data class LikeResponse(
-    @SerialName("isLiked")
-    val isLiked: Boolean,
-    @SerialName("count")
-    val count: Int,
-)

@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -43,27 +44,41 @@ fun RecordSelectScreen(
                 onLeftClick = {},
                 onButtonClick = { changeDatePickerBottomSheetVisible(true) },
             )
-            LazyColumn(
-                modifier = Modifier.padding(horizontal = 16.dp),
-                contentPadding =
-                    PaddingValues(
-                        vertical = 16.dp,
-                    ),
-                verticalArrangement = Arrangement.spacedBy(12.dp),
+            Box(
+                modifier =
+                    Modifier
+                        .fillMaxSize(),
             ) {
-                items(
-                    count = uiState.questionList.size,
-                    key = { index -> uiState.questionList[index].questionId },
-                    contentType = { "question" },
-                ) { index ->
-                    val item = uiState.questionList[index]
-
-                    DPlayDayTopicItem(
-                        modifier = Modifier.fillMaxWidth(),
-                        day = item.recordDay,
-                        topic = item.title,
-                        onClick = { onQuestionClick(item) },
+                if (uiState.questionList.isEmpty()) {
+                    Text(
+                        text = "추천 기록이 없어요",
+                        modifier = Modifier.align(Alignment.Center),
+                        style = DPlayTheme.typography.bodyMed16,
+                        color = DPlayTheme.colors.gray400,
                     )
+                } else {
+                    LazyColumn(
+                        modifier =
+                            Modifier
+                                .fillMaxSize()
+                                .padding(horizontal = 16.dp),
+                        contentPadding = PaddingValues(vertical = 16.dp),
+                        verticalArrangement = Arrangement.spacedBy(12.dp),
+                    ) {
+                        items(
+                            count = uiState.questionList.size,
+                            key = { index -> uiState.questionList[index].questionId },
+                        ) { index ->
+                            val item = uiState.questionList[index]
+
+                            DPlayDayTopicItem(
+                                modifier = Modifier.fillMaxWidth(),
+                                dayText = item.recordDayText,
+                                topic = item.title,
+                                onClick = { onQuestionClick(item) },
+                            )
+                        }
+                    }
                 }
             }
         }

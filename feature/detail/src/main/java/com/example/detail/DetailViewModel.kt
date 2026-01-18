@@ -52,7 +52,7 @@ class DetailViewModel
         ) {
             viewModelScope.launch {
                 postRepository
-                    .getPostDetail(postId = 1)
+                    .getPostDetail(postId = postId)
                     .onSuccess { postDetail ->
                         updateState {
                             copy(
