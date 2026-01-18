@@ -22,4 +22,5 @@ private fun TrackResponse.toDomain(): Track =
         songTitle = this.songTitle,
         coverImg = this.coverImg,
         artistName = this.artistName,
+        isrc = ""
     )
