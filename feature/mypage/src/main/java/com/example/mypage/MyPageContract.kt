@@ -1,6 +1,8 @@
 package com.example.mypage
 
 import com.example.ui.base.BaseContract
+import kotlinx.collections.immutable.PersistentSet
+import kotlinx.collections.immutable.persistentSetOf
 
 class MyPageContract {
     data class MyPageState(
@@ -10,6 +12,8 @@ class MyPageContract {
         val selectedTabIndex: Int = 0,
         val registeredMusicCount: Int = -1,
         val isDeleteBottomSheetVisible: Boolean = false,
+        val selectedPostId: Long = -1,
+        val deletedTrackIds: PersistentSet<Long> = persistentSetOf()
     ) : BaseContract.State
 
     sealed interface MyPageIntent : BaseContract.Intent {
@@ -47,10 +51,10 @@ class MyPageContract {
             val musicId: Long,
         ) : MyPageSideEffect
 
-        data object ShowDeleteBottomSheet : MyPageSideEffect
-
         data object ShowDeleteDialogue : MyPageSideEffect
 
         data object HideBottomNavigation : MyPageSideEffect
+
+        data object ShowBottomNavigation : MyPageSideEffect
     }
 }

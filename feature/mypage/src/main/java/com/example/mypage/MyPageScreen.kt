@@ -32,6 +32,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
@@ -60,6 +61,7 @@ import com.example.navigation.EditProfile
 import com.example.navigation.Navigator
 import com.example.navigation.Setting
 import com.example.ui.controller.LocalBottomNavigationController
+import com.example.ui.controller.LocalModalController
 import com.example.ui.emptyLazyPagingItems
 import com.example.ui.model.RegisteredTrackState
 import com.example.ui.model.ScrappedTrackState
@@ -76,7 +78,9 @@ fun MyPageRoute(
     val registeredTracks = viewModel.registeredTracks.collectAsLazyPagingItems()
     val scrappedTracks = viewModel.scrappedTracks.collectAsLazyPagingItems()
 
+    val context = LocalContext.current
     val bottomNavigationController = LocalBottomNavigationController.current
+    val modalController = LocalModalController.current
 
     LaunchedEffect(Unit) {
         viewModel.sideEffect.collectLatest { sideEffect ->
@@ -93,11 +97,22 @@ fun MyPageRoute(
                 MyPageContract.MyPageSideEffect.HideBottomNavigation -> {
                     bottomNavigationController.hide()
                 }
-                MyPageContract.MyPageSideEffect.ShowDeleteBottomSheet -> {
-
+                MyPageContract.MyPageSideEffect.ShowBottomNavigation -> {
+                    bottomNavigationController.show()
                 }
                 MyPageContract.MyPageSideEffect.ShowDeleteDialogue -> {
-
+                    modalController.showWarningModal(
+                        mainText = "정말 삭제하시겠어요?",
+                        subText = null,
+                        onLeftButtonClick = { modalController.hideModal() },
+                        onRightButtonClick = {
+                            modalController.hideModal()
+                            viewModel.handleIntent(MyPageContract.MyPageIntent.OnDialogDeleteClick)
+                        },
+                        onDismiss = { modalController.hideModal() },
+                        leftButtonLabel = "취소",
+                        rightButtonLabel = "삭제하기",
+                    )
                 }
             }
         }
@@ -122,7 +137,13 @@ fun MyPageRoute(
         },
         onKebabIconClick = {
             viewModel.handleIntent(MyPageContract.MyPageIntent.OnKebabIconClick(it))
-        }
+        },
+        onBottomSheetCancelClick = {
+            viewModel.handleIntent(MyPageContract.MyPageIntent.OnBottomSheetCancelClick)
+        },
+        onBottomSheetDeleteClick = {
+            viewModel.handleIntent(MyPageContract.MyPageIntent.OnBottomSheetDeleteClick)
+        },
     )
 }
 
@@ -137,6 +158,8 @@ fun MyPageScreen(
     onProfileImageClick: () -> Unit = {},
     onScrappedTrackClick: (Long) -> Unit = {},
     onKebabIconClick: (Long) -> Unit = {},
+    onBottomSheetCancelClick: () -> Unit = {},
+    onBottomSheetDeleteClick: () -> Unit = {},
 ) {
     Box(
         modifier = Modifier.fillMaxSize()
@@ -179,7 +202,7 @@ fun MyPageScreen(
                     Modifier
                         .fillMaxSize()
                         .background(color = DPlayTheme.colors.dim40)
-                        .noRippleClickable { },
+                        .noRippleClickable { onBottomSheetCancelClick() },
             )
         }
 
@@ -192,14 +215,14 @@ fun MyPageScreen(
                 ),
             exit =
                 slideOutVertically(
-                    targetOffsetY = { it },
+                    targetOffsetY = { 0 },
                 ),
         ) {
             DPlayButtonBottomSheet(
                 mainText = "삭제하기",
                 subText = "취소하기",
-                mainOnClick = {  },
-                subOnClick = {  },
+                mainOnClick = { onBottomSheetDeleteClick() },
+                subOnClick = { onBottomSheetCancelClick() },
                 modifier = Modifier.noRippleClickable(),
                 mainButtonColor = DPlayTheme.colors.alertRed
             )
