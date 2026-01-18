@@ -40,7 +40,7 @@ fun DPlayLargeCover(
     isBookmarkChecked: Boolean,
     isLikeChecked: Boolean,
     likeCount: Int,
-    writerProfileImageUrl: String,
+    writerProfileImageUrl: String?,
     writerNickname: String,
     content: String,
     musicImageUrl: String,
@@ -130,7 +130,7 @@ fun DPlayLargeCover(
                     modifier = Modifier.noRippleClickable(onClick = onWriterProfileClick),
                 ) {
                     AsyncImage(
-                        model = writerProfileImageUrl,
+                        model = writerProfileImageUrl ?: R.drawable.base_profile_image,
                         contentDescription = null,
                         modifier =
                             Modifier

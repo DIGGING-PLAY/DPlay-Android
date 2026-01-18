@@ -7,5 +7,5 @@ fun UserResponse.toDomain(): Writer =
     Writer(
         userId = this.userId,
         nickname = this.nickname,
-        profileImg = this.profileImg ?: "",
+        profileImg = this.profileImg,
     )
