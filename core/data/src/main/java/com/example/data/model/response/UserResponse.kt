@@ -4,9 +4,9 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class UserResponse(
+data class UserInfoResponse(
     @SerialName("user")
-    val user: User,
+    val user: UserResponse,
     @SerialName("isHost")
     val isHost: Boolean,
     @SerialName("pushOn")
@@ -16,7 +16,7 @@ data class UserResponse(
 )
 
 @Serializable
-data class User(
+data class UserResponse(
     @SerialName("userId")
     val userId: Long,
     @SerialName("nickname")

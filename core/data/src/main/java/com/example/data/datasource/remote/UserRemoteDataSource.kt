@@ -3,6 +3,7 @@ package com.example.data.datasource.remote
 import com.example.data.model.request.NotificationRequest
 import com.example.data.model.request.PatchProfileRequest
 import com.example.data.model.response.UserResponse
+import com.example.data.model.response.UserInfoResponse
 import com.example.data.service.UserService
 import kotlinx.serialization.InternalSerializationApi
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -45,7 +46,7 @@ class UserRemoteDataSource
 
         suspend fun getUser(
             userId: Long,
-        ): UserResponse {
+        ): UserInfoResponse {
             try {
                 val response =
                     userService.getUser(

@@ -7,7 +7,6 @@ import com.example.data.model.response.BaseResponse
 import com.example.data.model.response.TokenResponse
 import com.example.data.service.AuthService
 import com.example.network.NetworkException
-import kotlinx.serialization.InternalSerializationApi
 import kotlinx.serialization.SerializationException
 import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType
@@ -20,7 +19,6 @@ import java.io.File
 import java.net.HttpURLConnection
 import javax.inject.Inject
 
-@OptIn(InternalSerializationApi::class)
 class AuthRemoteDataSource
     @Inject
     constructor(

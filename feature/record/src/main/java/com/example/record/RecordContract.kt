@@ -1,11 +1,11 @@
 package com.example.record
 
-import com.example.common.model.Badges
-import com.example.common.model.DailyQuestion
-import com.example.common.model.FeedItem
-import com.example.common.model.Like
-import com.example.common.model.Track
-import com.example.common.model.Writer
+import com.example.domain.model.Badges
+import com.example.domain.model.DailyQuestion
+import com.example.domain.model.FeedItem
+import com.example.domain.model.Like
+import com.example.domain.model.Track
+import com.example.domain.model.Writer
 import com.example.ui.base.BaseContract
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
@@ -14,7 +14,10 @@ class RecordContract {
     data class RecordState(
         val loading: Boolean = false,
         val questionList: ImmutableList<DailyQuestion> = persistentListOf(),
+        val year: Int = 2026,
+        val month: Int = 1,
         val selectedQuestion: DailyQuestion? = null,
+        val datePickerBottomSheetVisible: Boolean = false,
         val recordList: ImmutableList<FeedItem> =
             persistentListOf(
                 FeedItem(
@@ -33,6 +36,7 @@ class RecordContract {
                             songTitle = "Blue Night",
                             coverImg = "https://picsum.photos/300/300?1",
                             artistName = "IU",
+                            isrc = "USUC1234567890",
                         ),
                     writer =
                         Writer(
@@ -62,6 +66,7 @@ class RecordContract {
                             songTitle = "Rain Drop",
                             coverImg = "https://picsum.photos/300/300?2",
                             artistName = "DEAN",
+                            isrc = "USUC1234567891",
                         ),
                     writer =
                         Writer(
@@ -91,6 +96,7 @@ class RecordContract {
                             songTitle = "Sunset Drive",
                             coverImg = "https://picsum.photos/300/300?3",
                             artistName = "Lauv",
+                            isrc = "USUC1234567892",
                         ),
                     writer =
                         Writer(
@@ -120,6 +126,7 @@ class RecordContract {
                             songTitle = "Midnight Walk",
                             coverImg = "https://picsum.photos/300/300?4",
                             artistName = "Joji",
+                            isrc = "USUC1234567893",
                         ),
                     writer =
                         Writer(
@@ -145,8 +152,17 @@ class RecordContract {
 
         data object OnListBackButtonClick : RecordIntent
 
+        data class ChangeBottomSheetVisible(
+            val isVisible: Boolean,
+        ) : RecordIntent
+
         data class OnMusicClick(
             val postId: Long,
+        ) : RecordIntent
+
+        data class SelectDate(
+            val year: Int,
+            val month: Int,
         ) : RecordIntent
     }
 

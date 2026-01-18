@@ -1,12 +1,13 @@
 package com.example.home
 
 import androidx.lifecycle.viewModelScope
-import com.example.common.model.Badges
-import com.example.common.model.FeedItem
-import com.example.common.model.Like
-import com.example.common.model.Track
-import com.example.common.model.Writer
 import com.example.designsystem.component.snackbar.type.SnackBarType
+import com.example.domain.model.Badges
+import com.example.domain.model.DailyQuestion
+import com.example.domain.model.FeedItem
+import com.example.domain.model.Like
+import com.example.domain.model.Track
+import com.example.domain.model.Writer
 import com.example.ui.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.persistentListOf
@@ -15,6 +16,8 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 import javax.inject.Inject
 
 @HiltViewModel
@@ -31,6 +34,15 @@ class HomeViewModel
                     HomeContract.HomeState(
                         isLoading = false,
                         feedItems = dummyFeedItems,
+                        todayQuestion =
+                            DailyQuestion(
+                                questionId = 12345,
+                                title = "여행 갈 때 플레이리스트에 꼭 넣는 노래는?",
+                                date =
+                                    LocalDate.now().format(
+                                        DateTimeFormatter.ISO_DATE,
+                                    ),
+                            ),
                     )
                 }.stateIn(
                     scope = viewModelScope,
@@ -48,6 +60,7 @@ class HomeViewModel
                 is HomeContract.HomeIntent.OnListClick -> {
                     setSideEffect(HomeContract.HomeSideEffect.NavigateToRecord)
                 }
+
                 is HomeContract.HomeIntent.OnWriterProfileClick -> {
                     setSideEffect(HomeContract.HomeSideEffect.NavigateToWriterProfile(writerUserId = intent.writerUserId))
                 }
@@ -100,6 +113,7 @@ val dummyFeedItems =
                     songTitle = "Song Title 1",
                     coverImg = "https://picsum.photos/300",
                     artistName = "Artist1, Artist2",
+                    isrc = "USUC1234567890",
                 ),
             writer =
                 Writer(
@@ -129,6 +143,7 @@ val dummyFeedItems =
                     songTitle = "Song Title 2",
                     coverImg = "https://picsum.photos/310",
                     artistName = "Artist3",
+                    isrc = "USUC1234567891",
                 ),
             writer =
                 Writer(
@@ -158,6 +173,7 @@ val dummyFeedItems =
                     songTitle = "Song Title 3",
                     coverImg = "https://picsum.photos/320",
                     artistName = "Artist4",
+                    isrc = "USUC1234567892",
                 ),
             writer =
                 Writer(
@@ -187,6 +203,7 @@ val dummyFeedItems =
                     songTitle = "Song Title 3",
                     coverImg = "https://picsum.photos/320",
                     artistName = "Artist4",
+                    isrc = "USUC1234567893",
                 ),
             writer =
                 Writer(
@@ -216,6 +233,7 @@ val dummyFeedItems =
                     songTitle = "Song Title 3",
                     coverImg = "https://picsum.photos/320",
                     artistName = "Artist4",
+                    isrc = "USUC1234567894",
                 ),
             writer =
                 Writer(
@@ -245,6 +263,7 @@ val dummyFeedItems =
                     songTitle = "Song Title 3",
                     coverImg = "https://picsum.photos/320",
                     artistName = "Artist4",
+                    isrc = "USUC1234567895",
                 ),
             writer =
                 Writer(
