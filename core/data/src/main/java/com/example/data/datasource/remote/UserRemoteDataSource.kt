@@ -2,7 +2,6 @@ package com.example.data.datasource.remote
 
 import com.example.data.model.request.NotificationRequest
 import com.example.data.model.request.PatchProfileRequest
-import com.example.data.model.response.UserResponse
 import com.example.data.model.response.UserInfoResponse
 import com.example.data.service.UserService
 import kotlinx.serialization.InternalSerializationApi
@@ -34,9 +33,10 @@ class UserRemoteDataSource
 
                 userService.patchProfile(
                     profileImg = imagePart,
-                    request = PatchProfileRequest(
-                        nickname,
-                    )
+                    request =
+                        PatchProfileRequest(
+                            nickname,
+                        ),
                 )
             } catch (e: Exception) {
                 Timber.e(e)

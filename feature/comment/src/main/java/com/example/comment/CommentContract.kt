@@ -38,6 +38,8 @@ class CommentContract {
 
         data object NavigateToHome : CommentSideEffect
 
-        data class OpenWebView(val url: String) : CommentSideEffect
+        data class OpenWebView(
+            val url: String,
+        ) : CommentSideEffect
     }
 }

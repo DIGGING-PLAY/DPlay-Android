@@ -44,7 +44,7 @@ class OnboardingViewModel
                 }
 
                 is OnboardingContract.OnboardingIntent.OnTermsArrowClick -> {
-                   setSideEffect(OnboardingContract.OnboardingSideEffect.OpenWebView(intent.term.url))
+                    setSideEffect(OnboardingContract.OnboardingSideEffect.OpenWebView(intent.term.url))
                 }
 
                 OnboardingContract.OnboardingIntent.OnTermsScreenNextButtonClick -> {
@@ -100,7 +100,8 @@ class OnboardingViewModel
 
                 is OnboardingContract.OnboardingIntent.OnNotificationPermissionResult -> {
                     viewModelScope.launch {
-                        userRepository.updateNotificationEnabled(intent.isGranted)
+                        userRepository
+                            .updateNotificationEnabled(intent.isGranted)
                             .onSuccess {
                                 setSideEffect(OnboardingContract.OnboardingSideEffect.NavigateToHome)
                             }.onFailure {

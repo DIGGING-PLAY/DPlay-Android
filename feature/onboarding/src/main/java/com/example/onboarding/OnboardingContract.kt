@@ -40,8 +40,8 @@ class OnboardingContract {
         data object OnTermsScreenNextButtonClick : OnboardingIntent
 
         data class OnTermsArrowClick(
-            val term: TermType
-        ): OnboardingIntent
+            val term: TermType,
+        ) : OnboardingIntent
 
         data class OnNicknameChanged(
             val input: String,

@@ -49,7 +49,7 @@ fun OnboardingTermsRoute(
                     onboardingNavigator.navigateTo(OnboardingGraph.Profile)
                 }
                 is OnboardingContract.OnboardingSideEffect.OpenWebView -> {
-                   uriHandler.openUri(sideEffect.url)
+                    uriHandler.openUri(sideEffect.url)
                 }
                 else -> {}
             }
@@ -72,7 +72,7 @@ fun OnboardingTermsRoute(
         },
         onTermsArrowClick = {
             viewModel.handleIntent(OnboardingContract.OnboardingIntent.OnTermsArrowClick(it))
-        }
+        },
     )
 }
 

@@ -13,7 +13,7 @@ class MyPageContract {
         val registeredMusicCount: Int = -1,
         val isDeleteBottomSheetVisible: Boolean = false,
         val selectedPostId: Long = -1,
-        val deletedTrackIds: PersistentSet<Long> = persistentSetOf()
+        val deletedTrackIds: PersistentSet<Long> = persistentSetOf(),
     ) : BaseContract.State
 
     sealed interface MyPageIntent : BaseContract.Intent {
@@ -35,7 +35,7 @@ class MyPageContract {
 
         data class OnRegisteredTrackClick(
             val postId: Long,
-        ): MyPageIntent
+        ) : MyPageIntent
 
         data object OnBottomSheetDeleteClick : MyPageIntent
 

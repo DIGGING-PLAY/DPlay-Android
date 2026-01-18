@@ -18,6 +18,7 @@ class BottomNavigationController {
     }
 }
 
-val LocalBottomNavigationController = compositionLocalOf<BottomNavigationController> {
-    error("BottomNavigationController not provided")
-}
+val LocalBottomNavigationController =
+    compositionLocalOf<BottomNavigationController> {
+        error("BottomNavigationController not provided")
+    }

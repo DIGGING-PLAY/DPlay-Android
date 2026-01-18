@@ -146,7 +146,7 @@ fun MyPageRoute(
         },
         onRegisteredTrackClick = {
             viewModel.handleIntent(MyPageContract.MyPageIntent.OnRegisteredTrackClick(it))
-        }
+        },
     )
 }
 
@@ -166,7 +166,7 @@ fun MyPageScreen(
     onRegisteredTrackClick: (Long) -> Unit = {},
 ) {
     Box(
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier.fillMaxSize(),
     ) {
         Column(
             modifier =
@@ -229,7 +229,7 @@ fun MyPageScreen(
                 mainOnClick = { onBottomSheetDeleteClick() },
                 subOnClick = { onBottomSheetCancelClick() },
                 modifier = Modifier.noRippleClickable(),
-                mainButtonColor = DPlayTheme.colors.alertRed
+                mainButtonColor = DPlayTheme.colors.alertRed,
             )
         }
     }
@@ -283,7 +283,7 @@ private fun UserInformationRow(
             onProfileImageClick = onProfileImageClick,
             profileImagePath = profileImagePath,
             modifier = Modifier.size(80.dp),
-        ){
+        ) {
             DPlayCircleButton(
                 circleButtonType =
                     CircleButtonType.SmallEdit(
@@ -294,7 +294,6 @@ private fun UserInformationRow(
         }
     }
 }
-
 
 @Composable
 private fun TabContent(
@@ -367,8 +366,7 @@ private fun MyPageTabRow(
                                 .weight(1f)
                                 .noRippleClickable {
                                     onTabSelected(index)
-                                }
-                                .padding(vertical = 12.dp),
+                                }.padding(vertical = 12.dp),
                         contentAlignment = Alignment.Center,
                     ) {
                         Text(
@@ -419,9 +417,9 @@ private fun RegisteredMusicList(
     onKebabIconClick: (Long) -> Unit = {},
     onRegisteredTrackClick: (Long) -> Unit = {},
 ) {
-    if(registeredTrackList.itemCount == 0){
+    if (registeredTrackList.itemCount == 0) {
         RegisteredMusicEmptyView()
-    }else{
+    } else {
         Spacer(modifier = Modifier.height(12.dp))
 
         LazyColumn(
@@ -455,9 +453,9 @@ private fun BookmarkedMusicList(
     modifier: Modifier = Modifier,
     onScrappedTrackClick: (Long) -> Unit = {},
 ) {
-    if (scrappedTrackList.itemCount == 0){
+    if (scrappedTrackList.itemCount == 0) {
         ScrappedMusicEmptyView()
-    }else {
+    } else {
         LazyVerticalGrid(
             modifier = modifier,
             columns = GridCells.Fixed(3),
@@ -489,14 +487,14 @@ private fun BookmarkedMusicList(
 private fun RegisteredMusicEmptyView() {
     Column(
         modifier = Modifier.fillMaxSize(),
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Spacer(modifier = Modifier.height(184.dp))
 
         Text(
             text = "아직 등록한 곡이 없어요",
             style = DPlayTheme.typography.bodySemi14,
-            color = DPlayTheme.colors.gray400
+            color = DPlayTheme.colors.gray400,
         )
     }
 }
@@ -505,14 +503,14 @@ private fun RegisteredMusicEmptyView() {
 private fun ScrappedMusicEmptyView() {
     Column(
         modifier = Modifier.fillMaxSize(),
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Spacer(modifier = Modifier.height(184.dp))
 
         Text(
             text = "아직 등록한 곡이 없어요",
             style = DPlayTheme.typography.bodySemi14,
-            color = DPlayTheme.colors.gray400
+            color = DPlayTheme.colors.gray400,
         )
     }
 }

@@ -5,13 +5,9 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ContentTransform
 import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition
-import androidx.compose.animation.core.tween
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -100,12 +96,13 @@ class MainActivity : ComponentActivity() {
                                 )
                             },
                         ) { padding ->
-                            val bottomPadding = if(navigator.shouldShowBottomSheet) padding.calculateBottomPadding() else 0.dp
+                            val bottomPadding = if (navigator.shouldShowBottomSheet) padding.calculateBottomPadding() else 0.dp
                             NavDisplay(
-                                modifier = Modifier
-                                    .fillMaxSize()
-                                    .background(color = DPlayTheme.colors.dplayWhite)
-                                    .padding(bottom = bottomPadding),
+                                modifier =
+                                    Modifier
+                                        .fillMaxSize()
+                                        .background(color = DPlayTheme.colors.dplayWhite)
+                                        .padding(bottom = bottomPadding),
                                 backStack = navigator.backStack,
                                 onBack = {
                                     navigator.navigateToBack()

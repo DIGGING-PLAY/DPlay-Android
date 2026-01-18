@@ -71,16 +71,16 @@ class SettingViewModel
                     toggleNotification(!currentState.isPushNotificationEnabled)
                 }
                 SettingMenuType.ANNOUNCEMENT -> {
-                    setSideEffect(SettingContract.SettingSideEffect.OpenWebView(type.url?: Url.ERROR))
+                    setSideEffect(SettingContract.SettingSideEffect.OpenWebView(type.url ?: Url.ERROR))
                 }
                 SettingMenuType.INQUIRY -> {
-                    setSideEffect(SettingContract.SettingSideEffect.OpenWebView(type.url?: Url.ERROR))
+                    setSideEffect(SettingContract.SettingSideEffect.OpenWebView(type.url ?: Url.ERROR))
                 }
                 SettingMenuType.TERMS -> {
-                    setSideEffect(SettingContract.SettingSideEffect.OpenWebView(type.url?: Url.ERROR))
+                    setSideEffect(SettingContract.SettingSideEffect.OpenWebView(type.url ?: Url.ERROR))
                 }
                 SettingMenuType.PRIVACY -> {
-                    setSideEffect(SettingContract.SettingSideEffect.OpenWebView(type.url?: Url.ERROR))
+                    setSideEffect(SettingContract.SettingSideEffect.OpenWebView(type.url ?: Url.ERROR))
                 }
                 SettingMenuType.LOGOUT -> {
                     setSideEffect(SettingContract.SettingSideEffect.ShowLogoutWarningDialog)

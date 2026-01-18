@@ -14,7 +14,6 @@ import com.example.ui.model.RegisteredTrackState
 import com.example.ui.model.ScrappedTrackState
 import com.example.ui.model.toUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.collections.immutable.ImmutableSet
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.launchIn
@@ -51,9 +50,9 @@ class MyPageViewModel
                     registeredTrack.toUiState()
                 }
             }.cachedIn(viewModelScope)
-            .combine(uiState){ pagingData, state ->
-                pagingData.filter { !state.deletedTrackIds.contains(it.postId) }
-            }
+                .combine(uiState) { pagingData, state ->
+                    pagingData.filter { !state.deletedTrackIds.contains(it.postId) }
+                }
 
         val scrappedTracks: Flow<PagingData<ScrappedTrackState>> =
             getMyScrappedTracksUseCase()
@@ -66,7 +65,7 @@ class MyPageViewModel
         override fun handleIntent(intent: MyPageContract.MyPageIntent) {
             when (intent) {
                 MyPageContract.MyPageIntent.OnBottomSheetCancelClick -> {
-                    updateState{
+                    updateState {
                         copy(
                             isDeleteBottomSheetVisible = false,
                         )
@@ -76,7 +75,7 @@ class MyPageViewModel
 
                 MyPageContract.MyPageIntent.OnBottomSheetDeleteClick -> {
                     setSideEffect(MyPageContract.MyPageSideEffect.ShowBottomNavigation)
-                    updateState{
+                    updateState {
                         copy(
                             isDeleteBottomSheetVisible = false,
                         )
@@ -91,11 +90,12 @@ class MyPageViewModel
                 MyPageContract.MyPageIntent.OnDialogDeleteClick -> {
                     viewModelScope.launch {
                         val selectedPostId = currentState.selectedPostId
-                        postRepository.deletePost(selectedPostId)
+                        postRepository
+                            .deletePost(selectedPostId)
                             .onSuccess {
                                 updateState {
                                     copy(
-                                        deletedTrackIds = deletedTrackIds.add(selectedPostId)
+                                        deletedTrackIds = deletedTrackIds.add(selectedPostId),
                                     )
                                 }
                             }.onFailure {
@@ -106,10 +106,10 @@ class MyPageViewModel
 
                 is MyPageContract.MyPageIntent.OnKebabIconClick -> {
                     setSideEffect(MyPageContract.MyPageSideEffect.HideBottomNavigation)
-                    updateState{
+                    updateState {
                         copy(
                             isDeleteBottomSheetVisible = true,
-                            selectedPostId = intent.musicId
+                            selectedPostId = intent.musicId,
                         )
                     }
                 }

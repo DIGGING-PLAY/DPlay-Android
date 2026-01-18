@@ -34,6 +34,8 @@ class SettingContract {
 
         data object ShowWithdrawWarningDialog : SettingSideEffect
 
-        data class OpenWebView(val url: String) : SettingSideEffect
+        data class OpenWebView(
+            val url: String,
+        ) : SettingSideEffect
     }
 }
