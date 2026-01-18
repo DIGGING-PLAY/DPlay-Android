@@ -89,7 +89,7 @@ class HomeViewModel
                             songTitle = "",
                             coverImg = "",
                             artistName = "",
-                            isrc = ""
+                            isrc = "",
                         ),
                     writer =
                         Writer(

@@ -48,5 +48,5 @@ private fun TodayPostTrackResponse.toDomain(): Track =
         songTitle = songTitle,
         coverImg = coverImg,
         artistName = artistName,
-        isrc = ""
+        isrc = "",
     )

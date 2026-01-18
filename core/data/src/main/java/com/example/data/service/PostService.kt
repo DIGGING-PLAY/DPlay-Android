@@ -7,9 +7,8 @@ import com.example.data.model.request.RegisterPostRequest
 import com.example.data.model.response.BaseResponse
 import com.example.data.model.response.PostDetailResponse
 import com.example.data.model.response.PostLikeResponse
-import com.example.data.model.response.TodayPostsResponse
 import com.example.data.model.response.PostResponse
-import kotlinx.serialization.InternalSerializationApi
+import com.example.data.model.response.TodayPostsResponse
 import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
