@@ -33,7 +33,11 @@ class DetailContract {
             ),
         val date: String = "2025-10-19",
         val bottomSheetVisible: Boolean = false,
-    ) : BaseContract.State
+        val streamingTrackId: String? = null,
+        val currentUserId: Long = 0L,
+    ) : BaseContract.State {
+        val isMyPost: Boolean get() = currentUserId != 0L && currentUserId == writer.userId
+    }
 
     sealed interface DetailIntent : BaseContract.Intent {
         data class LoadData(
@@ -66,8 +70,6 @@ class DetailContract {
 
     sealed interface DetailSideEffect : BaseContract.SideEffect {
         data object NavigateBackStack : DetailSideEffect
-
-        data object ShowBottomSheet : DetailSideEffect
 
         data object NavigateToWriterProfile : DetailSideEffect
 

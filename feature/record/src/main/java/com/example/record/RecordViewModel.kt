@@ -1,40 +1,57 @@
 package com.example.record
 
+import androidx.lifecycle.viewModelScope
+import androidx.paging.PagingData
+import androidx.paging.cachedIn
 import com.example.domain.model.DailyQuestion
+import com.example.domain.model.FeedItem
+import com.example.domain.model.QuestionError
+import com.example.domain.repository.PostRepository
+import com.example.domain.repository.QuestionRepository
 import com.example.ui.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.persistentListOf
+import kotlinx.collections.immutable.toImmutableList
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.launch
+import timber.log.Timber
 import java.time.YearMonth
 import javax.inject.Inject
 
+@OptIn(ExperimentalCoroutinesApi::class)
 @HiltViewModel
 class RecordViewModel
     @Inject
-    constructor() : BaseViewModel<RecordContract.RecordState, RecordContract.RecordIntent, RecordContract.RecordSideEffect>(
+    constructor(
+        private val questionRepository: QuestionRepository,
+        private val postRepository: PostRepository,
+    ) : BaseViewModel<RecordContract.RecordState, RecordContract.RecordIntent, RecordContract.RecordSideEffect>(
             RecordContract.RecordState(),
         ) {
+        private val selectedQuestionId = MutableStateFlow<Long?>(null)
+
+        val questionPosts: Flow<PagingData<FeedItem>> =
+            selectedQuestionId
+                .flatMapLatest { questionId ->
+                    if (questionId != null) {
+                        postRepository.getPostsByQuestionId(
+                            questionId = questionId,
+                            onTotalCountFetched = { totalCount ->
+                                updateState { copy(recordListTotalCount = totalCount) }
+                            },
+                        )
+                    } else {
+                        flowOf(PagingData.empty())
+                    }
+                }.cachedIn(viewModelScope)
+
         init {
             val now = YearMonth.now()
-
-            updateState {
-                copy(
-                    questionList =
-                        persistentListOf(
-                            DailyQuestion(
-                                questionId = 0,
-                                title = "여행갈 때 플레이리스트에 넣는 노래는?",
-                                date = "2025-11-01",
-                            ),
-                            DailyQuestion(
-                                questionId = 1,
-                                title = "여행갈 때 플레이리스트에 넣는 노래는?",
-                                date = "2025-11-04",
-                            ),
-                        ),
-                    year = now.year,
-                    month = now.monthValue,
-                )
-            }
+            loadQuestions(year = now.year, month = now.month.value)
         }
 
         override fun handleIntent(intent: RecordContract.RecordIntent) {
@@ -56,14 +73,40 @@ class RecordViewModel
             }
         }
 
+        private fun loadQuestions(
+            year: Int,
+            month: Int,
+        ) {
+            viewModelScope.launch {
+                questionRepository
+                    .getQuestionRecord(year = year, month = month)
+                    .onSuccess { questions ->
+                        updateState { copy(questionList = questions.toImmutableList()) }
+                    }.onFailure { e ->
+                        when (e) {
+                            is QuestionError.NotFound -> {
+                                updateState { copy(questionList = persistentListOf()) }
+                            }
+
+                            else -> {
+                                Timber.e(e, "error = $e")
+                                updateState { copy(questionList = persistentListOf()) }
+                            }
+                        }
+                    }
+            }
+        }
+
         private fun setQuestion(question: DailyQuestion?) {
-            updateState { copy(selectedQuestion = question) }
+            selectedQuestionId.value = question?.questionId
+            updateState { copy(selectedQuestion = question, recordListTotalCount = 0) }
         }
 
         private fun setDate(
             year: Int,
             month: Int,
         ) {
+            loadQuestions(year = year, month = month)
             updateState { copy(year = year, month = month) }
         }
     }

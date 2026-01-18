@@ -1,54 +1,54 @@
 package com.example.home
 
 import androidx.lifecycle.viewModelScope
+import com.example.common.audio.AudioPlayer
 import com.example.designsystem.component.snackbar.type.SnackBarType
 import com.example.domain.model.Badges
-import com.example.domain.model.DailyQuestion
 import com.example.domain.model.FeedItem
 import com.example.domain.model.Like
 import com.example.domain.model.Track
 import com.example.domain.model.Writer
+import com.example.domain.repository.PostRepository
+import com.example.domain.repository.TrackRepository
 import com.example.ui.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.persistentListOf
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.stateIn
-import java.time.LocalDate
-import java.time.format.DateTimeFormatter
+import kotlinx.collections.immutable.toImmutableList
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel
     @Inject
-    constructor() : BaseViewModel<HomeContract.HomeState, HomeContract.HomeIntent, HomeContract.HomeSideEffect>(
+    constructor(
+        val postRepository: PostRepository,
+        private val trackRepository: TrackRepository,
+        private val audioPlayer: AudioPlayer,
+    ) : BaseViewModel<HomeContract.HomeState, HomeContract.HomeIntent, HomeContract.HomeSideEffect>(
             HomeContract.HomeState(),
         ) {
-        private val loadTrigger = MutableStateFlow(Unit)
+        init {
+            observePlaybackState()
+        }
 
-        val homeUiState: StateFlow<HomeContract.HomeState> =
-            loadTrigger
-                .map {
-                    HomeContract.HomeState(
-                        isLoading = false,
-                        feedItems = dummyFeedItems,
-                        todayQuestion =
-                            DailyQuestion(
-                                questionId = 12345,
-                                title = "여행 갈 때 플레이리스트에 꼭 넣는 노래는?",
-                                date =
-                                    LocalDate.now().format(
-                                        DateTimeFormatter.ISO_DATE,
-                                    ),
-                            ),
-                    )
-                }.stateIn(
-                    scope = viewModelScope,
-                    started = SharingStarted.WhileSubscribed(5_000),
-                    initialValue = HomeContract.HomeState(isLoading = true),
-                )
+        private fun observePlaybackState() {
+            audioPlayer.playbackState
+                .onEach { playbackState ->
+                    updateState {
+                        copy(
+                            streamingTrackId =
+                                if (playbackState.isPlaying) {
+                                    playbackState.currentTrackId
+                                } else {
+                                    null
+                                },
+                        )
+                    }
+                }.launchIn(viewModelScope)
+        }
 
         override fun handleIntent(intent: HomeContract.HomeIntent) {
             when (intent) {
@@ -72,26 +72,177 @@ class HomeViewModel
         }
 
         private fun getTodayPosts() {
+            viewModelScope.launch {
+                postRepository
+                    .getTodayPosts()
+                    .onSuccess { data ->
+                        val feedItems =
+                            if (data.locked && data.totalCount >= 4) {
+                                data.todayPosts + lockedDummyFeedItem
+                            } else {
+                                data.todayPosts
+                            }
+                        updateState {
+                            copy(
+                                todayQuestion = data.todayQuestion,
+                                hasPosted = data.hasPosted,
+                                locked = data.locked,
+                                totalCount = data.totalCount,
+                                feedItems = feedItems.toImmutableList(),
+                            )
+                        }
+                    }.onFailure { e ->
+                        Timber.e(e)
+                    }
+            }
+        }
+
+        companion object {
+            private val lockedDummyFeedItem =
+                FeedItem(
+                    postId = -1L,
+                    isScrapped = false,
+                    content = "",
+                    badges =
+                        Badges(
+                            isEditorPick = false,
+                            isPopular = false,
+                            isNew = false,
+                        ),
+                    track =
+                        Track(
+                            trackId = "",
+                            songTitle = "",
+                            coverImg = "",
+                            artistName = "",
+                            isrc = "",
+                        ),
+                    writer =
+                        Writer(
+                            userId = -1L,
+                            nickname = "",
+                            profileImg = "",
+                        ),
+                    like =
+                        Like(
+                            isLiked = false,
+                            count = 0,
+                        ),
+                )
         }
 
         private fun previewStreaming(trackId: String) {
-            if (true) { // TODO: 미리듣기 API 미제공 게시물일 경우
-                setSideEffect(
-                    effect =
-                        HomeContract.HomeSideEffect.ShowSnackBar(snackBarType = SnackBarType.STREAMING_NOT_SUPPORT, action = {
-                            setSideEffect(HomeContract.HomeSideEffect.NavigateToMyPage)
-                        }),
-                )
+            val currentStreamingTrackId = audioPlayer.playbackState.value.currentTrackId
+            if (currentStreamingTrackId == trackId && audioPlayer.playbackState.value.isPlaying) {
+                audioPlayer.stop()
+                return
+            }
+
+            val feedItem = currentState.feedItems.find { it.track.trackId == trackId }
+
+            viewModelScope.launch {
+                trackRepository
+                    .getTrackPreview(trackId = trackId)
+                    .onSuccess { preview ->
+                        audioPlayer.play(
+                            url = preview.streamUrl,
+                            trackId = trackId,
+                            title = feedItem?.track?.songTitle ?: "",
+                            artist = feedItem?.track?.artistName ?: "",
+                        )
+                    }.onFailure { e ->
+                        Timber.e(e)
+                        setSideEffect(
+                            HomeContract.HomeSideEffect.ShowSnackBar(
+                                snackBarType = SnackBarType.STREAMING_NOT_SUPPORT,
+                            ),
+                        )
+                    }
             }
         }
 
         private fun refreshTodayPosts() {
+            getTodayPosts()
         }
 
         private fun toggleBookmark(postId: Long) {
+            viewModelScope.launch {
+                val feedItem = currentState.feedItems.find { it.postId == postId } ?: return@launch
+                val isScrapped = feedItem.isScrapped
+
+                val result =
+                    if (isScrapped) {
+                        postRepository.deletePostScrap(postId)
+                    } else {
+                        postRepository.postPostScrap(postId)
+                    }
+
+                result
+                    .onSuccess {
+                        updateState {
+                            copy(
+                                feedItems =
+                                    feedItems
+                                        .map { item ->
+                                            if (item.postId == postId) {
+                                                item.copy(isScrapped = !isScrapped)
+                                            } else {
+                                                item
+                                            }
+                                        }.toImmutableList(),
+                            )
+                        }
+                        if (!isScrapped) {
+                            setSideEffect(
+                                HomeContract.HomeSideEffect.ShowSnackBar(
+                                    snackBarType = SnackBarType.ADD,
+                                    action = { setSideEffect(HomeContract.HomeSideEffect.NavigateToMyPage) },
+                                ),
+                            )
+                        }
+                    }.onFailure { e ->
+                        Timber.e(e)
+                    }
+            }
         }
 
         private fun toggleLike(postId: Long) {
+            viewModelScope.launch {
+                val feedItem = currentState.feedItems.find { it.postId == postId } ?: return@launch
+                val isLiked = feedItem.like.isLiked
+
+                val result =
+                    if (isLiked) {
+                        postRepository.deletePostLike(postId)
+                    } else {
+                        postRepository.postPostLike(postId)
+                    }
+
+                result
+                    .onSuccess { newCount ->
+                        updateState {
+                            copy(
+                                feedItems =
+                                    feedItems
+                                        .map { item ->
+                                            if (item.postId == postId) {
+                                                item.copy(
+                                                    like =
+                                                        Like(
+                                                            isLiked = !isLiked,
+                                                            count = newCount,
+                                                        ),
+                                                )
+                                            } else {
+                                                item
+                                            }
+                                        }.toImmutableList(),
+                            )
+                        }
+                    }.onFailure { e ->
+                        Timber.e(e)
+                    }
+            }
         }
     }
 

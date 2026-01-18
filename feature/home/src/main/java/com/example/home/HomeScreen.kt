@@ -1,6 +1,5 @@
 package com.example.home
 
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -43,7 +42,7 @@ fun HomeRoute(
     navigator: Navigator,
     viewModel: HomeViewModel = hiltViewModel(),
 ) {
-    val state by viewModel.homeUiState.collectAsStateWithLifecycle()
+    val state by viewModel.uiState.collectAsStateWithLifecycle()
     val showSnackBar = LocalShowSnackBar.current
 
     LaunchedEffect(Unit) {
@@ -122,7 +121,6 @@ private fun HomeScreen(
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         DplayLogoTopAppBar(onListClick = onListClick)
-        Spacer(modifier = Modifier.height(20.dp))
         Row(
             modifier =
                 Modifier
@@ -133,7 +131,7 @@ private fun HomeScreen(
             Text(text = uiState.todayQuestion.homeTitleDateText, style = DPlayTheme.typography.titleBold18, color = DPlayTheme.colors.dplayBlack)
             DplayClickableIcon(
                 iconRes = R.drawable.ic_refresh_20,
-                modifier = Modifier.padding(16.dp),
+                modifier = Modifier.padding(8.dp),
                 onClick = onRefresh,
             )
         }
@@ -158,7 +156,6 @@ private fun HomeScreen(
     }
 }
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 private fun HomePager(
     feedItems: List<FeedItem>,
@@ -171,43 +168,38 @@ private fun HomePager(
 ) {
     val pagerState = rememberPagerState(pageCount = { feedItems.size })
 
-    HorizontalPager(
-        state = pagerState,
-        modifier = Modifier.fillMaxWidth(),
-        contentPadding = PaddingValues(horizontal = 40.dp),
-        pageSpacing = 24.dp,
-    ) { page ->
-
-        val item = feedItems[page]
-
-        val pageOffset =
-            (
-                (pagerState.currentPage - page) +
-                    pagerState.currentPageOffsetFraction
-            ).absoluteValue
-
-        val isCenter = pageOffset < 0.2f
-
-        val isLockedPage = uiState.locked && page >= 3
-        val chipType: DPlayChipType? =
+    val currentItem = feedItems.getOrNull(pagerState.currentPage)
+    val isCurrentPageLocked = uiState.locked && pagerState.currentPage >= 3
+    val currentChipType: DPlayChipType? =
+        currentItem?.let {
             when {
-                item.badges.isPopular -> DPlayChipType.BEST
-                item.badges.isEditorPick -> DPlayChipType.EDITOR
-                item.badges.isNew -> DPlayChipType.NEW
+                it.badges.isPopular -> DPlayChipType.BEST
+                it.badges.isEditorPick -> DPlayChipType.EDITOR
+                it.badges.isNew -> DPlayChipType.NEW
                 else -> null
             }
+        }
 
-        Box {
-            chipType
-                ?.takeIf { !isLockedPage }
-                ?.let {
-                    DPlayChip(
-                        type = it,
-                        modifier = Modifier.align(Alignment.TopCenter),
-                    )
-                }
-            Column {
-                Spacer(modifier = Modifier.height(52.dp))
+    Box(modifier = Modifier.fillMaxWidth()) {
+        Column(modifier = Modifier.fillMaxWidth()) {
+            Spacer(modifier = Modifier.height(52.dp))
+            HorizontalPager(
+                state = pagerState,
+                modifier = Modifier.fillMaxWidth(),
+                contentPadding = PaddingValues(horizontal = 40.dp),
+                pageSpacing = 24.dp,
+            ) { page ->
+                val item = feedItems[page]
+
+                val pageOffset =
+                    (
+                        (pagerState.currentPage - page) +
+                            pagerState.currentPageOffsetFraction
+                    ).absoluteValue
+
+                val isCenter = pageOffset < 0.2f
+                val isLockedPage = uiState.locked && page >= 3
+
                 DPlayLargeCover(
                     modifier = Modifier.fillMaxWidth(),
                     isLocked = isLockedPage,
@@ -221,13 +213,22 @@ private fun HomePager(
                     onStreamClick = { onStreamClick(item.track.trackId) },
                     onLikeClick = { onLikeClick(item.postId) },
                     onBookmarkClick = { onBookmarkClick(item.postId) },
-                    onCoverClick = { onPostClick(item.postId) },
+                    onCoverClick = { if (!isLockedPage) onPostClick(item.postId) },
                     onWriterProfileClick = { onWriterProfileClick(item.writer.userId) },
-                    isStreaming = false,
+                    isStreaming = uiState.streamingTrackId == item.track.trackId,
                     bookmarkIconVisible = isCenter,
                 )
             }
         }
+
+        currentChipType
+            ?.takeIf { !isCurrentPageLocked }
+            ?.let {
+                DPlayChip(
+                    type = it,
+                    modifier = Modifier.align(Alignment.TopCenter),
+                )
+            }
     }
 }
 

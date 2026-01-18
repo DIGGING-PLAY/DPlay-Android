@@ -26,6 +26,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -169,24 +170,35 @@ fun DPlayTitleButtonBottomSheet(
 
 @Composable
 fun DPlayReportBottomSheet(
-    onButtonClick: () -> Unit,
+    onButtonClick: (selectedReasons: List<DPlayReportReason>) -> Unit,
     onCloseClick: () -> Unit,
-    onCheckClick: (DPlayReportReason) -> Unit,
     modifier: Modifier = Modifier,
+    onCheckClick: ((DPlayReportReason) -> Unit)? = null,
     reasons: List<DPlayReportReason> = DPlayReportReason.entries,
 ) {
+    var selectedReasons by remember { mutableStateOf(setOf<DPlayReportReason>()) }
+
     DPlayTitleButtonBottomSheet(
         titleText = stringResource(R.string.report_bottom_sheet_title),
         buttonText = "신고하기",
-        onButtonClick = onButtonClick,
+        onButtonClick = { onButtonClick(selectedReasons.toList()) },
         onCloseClick = onCloseClick,
         modifier = modifier,
     ) {
         reasons.forEach { reason ->
+            val isChecked = reason in selectedReasons
             DPlayCheck(
                 text = stringResource(reason.stringResId),
-                isChecked = false,
-                onClick = { onCheckClick(reason) },
+                isChecked = isChecked,
+                onClick = {
+                    selectedReasons =
+                        if (isChecked) {
+                            selectedReasons - reason
+                        } else {
+                            selectedReasons + reason
+                        }
+                    onCheckClick?.invoke(reason)
+                },
                 modifier = Modifier.fillMaxWidth(),
             )
         }
@@ -231,7 +243,7 @@ fun YearMonthWheelPicker(
     onYearSelected: (Int) -> Unit,
     onMonthSelected: (Int) -> Unit,
     modifier: Modifier = Modifier,
-    yearRange: IntRange = 2024..2026,
+    yearRange: IntRange = 2025..2026,
 ) {
     val years = yearRange.toList()
     val months = (1..12).toList()

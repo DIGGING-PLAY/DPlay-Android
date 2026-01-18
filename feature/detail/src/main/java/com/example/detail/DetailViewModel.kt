@@ -1,13 +1,19 @@
 package com.example.detail
 
 import androidx.lifecycle.viewModelScope
+import com.example.common.audio.AudioPlayer
 import com.example.designsystem.component.snackbar.type.SnackBarType
 import com.example.detail.DetailContract.DetailSideEffect.NavigateToMyPage
 import com.example.detail.DetailContract.DetailSideEffect.ShowSnackBar
 import com.example.domain.model.Like
 import com.example.domain.repository.PostRepository
+import com.example.domain.repository.TrackRepository
+import com.example.domain.repository.UserRepository
 import com.example.ui.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
@@ -17,9 +23,32 @@ class DetailViewModel
     @Inject
     constructor(
         private val postRepository: PostRepository,
+        private val trackRepository: TrackRepository,
+        private val audioPlayer: AudioPlayer,
+        private val userRepository: UserRepository,
     ) : BaseViewModel<DetailContract.DetailState, DetailContract.DetailIntent, DetailContract.DetailSideEffect>(
             DetailContract.DetailState(),
         ) {
+        init {
+            observePlaybackState()
+        }
+
+        private fun observePlaybackState() {
+            audioPlayer.playbackState
+                .onEach { playbackState ->
+                    updateState {
+                        copy(
+                            streamingTrackId =
+                                if (playbackState.isPlaying) {
+                                    playbackState.currentTrackId
+                                } else {
+                                    null
+                                },
+                        )
+                    }
+                }.launchIn(viewModelScope)
+        }
+
         override fun handleIntent(intent: DetailContract.DetailIntent) {
             when (intent) {
                 is DetailContract.DetailIntent.LoadData -> loadData(intent.postId, intent.date)
@@ -51,8 +80,10 @@ class DetailViewModel
             date: String,
         ) {
             viewModelScope.launch {
+                val currentUserId = userRepository.getUser().first()?.id ?: 0L
+
                 postRepository
-                    .getPostDetail(postId = 1)
+                    .getPostDetail(postId = postId)
                     .onSuccess { postDetail ->
                         updateState {
                             copy(
@@ -61,11 +92,10 @@ class DetailViewModel
                                 content = postDetail.content,
                                 isHost = postDetail.isHost,
                                 track = postDetail.track,
-                                writer =
-                                    postDetail.writer,
-                                like =
-                                    postDetail.like,
+                                writer = postDetail.writer,
+                                like = postDetail.like,
                                 date = date,
+                                currentUserId = currentUserId,
                             )
                         }
                     }.onFailure { e ->
@@ -135,9 +165,10 @@ class DetailViewModel
         private fun deletePost() {
             viewModelScope.launch {
                 postRepository
-                    .deletePost(postId = 2)
+                    .deletePost(postId = currentState.postId)
                     .onSuccess {
                         changeBottomSheetVisible(visible = false)
+                        setSideEffect(DetailContract.DetailSideEffect.NavigateBackStack)
                     }.onFailure { e ->
                         changeBottomSheetVisible(visible = false)
                         Timber.e(e)
@@ -153,5 +184,33 @@ class DetailViewModel
         }
 
         private fun streamTrack() {
+            val track = currentState.track
+            val trackId = track.trackId
+            val currentStreamingTrackId = audioPlayer.playbackState.value.currentTrackId
+
+            if (currentStreamingTrackId == trackId && audioPlayer.playbackState.value.isPlaying) {
+                audioPlayer.stop()
+                return
+            }
+
+            viewModelScope.launch {
+                trackRepository
+                    .getTrackPreview(trackId = trackId)
+                    .onSuccess { preview ->
+                        audioPlayer.play(
+                            url = preview.streamUrl,
+                            trackId = trackId,
+                            title = track.songTitle,
+                            artist = track.artistName,
+                        )
+                    }.onFailure { e ->
+                        Timber.e(e)
+                        setSideEffect(
+                            ShowSnackBar(
+                                snackBarType = SnackBarType.STREAMING_NOT_SUPPORT,
+                            ),
+                        )
+                    }
+            }
         }
     }

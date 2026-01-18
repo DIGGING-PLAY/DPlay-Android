@@ -3,11 +3,13 @@ package com.example.data.di
 import com.example.data.repository.AuthRepositoryImpl
 import com.example.data.repository.DummyRepositoryImpl
 import com.example.data.repository.PostRepositoryImpl
+import com.example.data.repository.QuestionRepositoryImpl
 import com.example.data.repository.TrackRepositoryImpl
 import com.example.data.repository.UserRepositoryImpl
 import com.example.domain.repository.AuthRepository
 import com.example.domain.repository.DummyRepository
 import com.example.domain.repository.PostRepository
+import com.example.domain.repository.QuestionRepository
 import com.example.domain.repository.TrackRepository
 import com.example.domain.repository.UserRepository
 import dagger.Binds
@@ -34,6 +36,10 @@ abstract class RepositoryModule {
     @Binds
     @Singleton
     abstract fun bindsPostRepository(repositoryImpl: PostRepositoryImpl): PostRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindsQuestionRepository(repositoryImpl: QuestionRepositoryImpl): QuestionRepository
 
     @Binds
     @Singleton
