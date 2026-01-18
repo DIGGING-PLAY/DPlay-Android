@@ -405,6 +405,14 @@ private fun MyPageTabRow(
                             .height(2.dp)
                             .background(color = DPlayTheme.colors.dplayBlack),
                 )
+
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(1.dp)
+                        .background(color = DPlayTheme.colors.gray200)
+                        .align(Alignment.BottomCenter)
+                )
             }
         }
     }
