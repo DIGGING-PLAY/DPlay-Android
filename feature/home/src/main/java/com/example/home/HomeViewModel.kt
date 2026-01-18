@@ -217,6 +217,7 @@ val dummyFeedItems =
                     songTitle = "Song Title 1",
                     coverImg = "https://picsum.photos/300",
                     artistName = "Artist1, Artist2",
+                    isrc = "USUC1234567890",
                 ),
             writer =
                 Writer(
@@ -246,6 +247,7 @@ val dummyFeedItems =
                     songTitle = "Song Title 2",
                     coverImg = "https://picsum.photos/310",
                     artistName = "Artist3",
+                    isrc = "USUC1234567891",
                 ),
             writer =
                 Writer(
@@ -275,6 +277,7 @@ val dummyFeedItems =
                     songTitle = "Song Title 3",
                     coverImg = "https://picsum.photos/320",
                     artistName = "Artist4",
+                    isrc = "USUC1234567892",
                 ),
             writer =
                 Writer(
@@ -304,6 +307,7 @@ val dummyFeedItems =
                     songTitle = "Song Title 3",
                     coverImg = "https://picsum.photos/320",
                     artistName = "Artist4",
+                    isrc = "USUC1234567893",
                 ),
             writer =
                 Writer(
@@ -333,6 +337,7 @@ val dummyFeedItems =
                     songTitle = "Song Title 3",
                     coverImg = "https://picsum.photos/320",
                     artistName = "Artist4",
+                    isrc = "USUC1234567894",
                 ),
             writer =
                 Writer(
@@ -362,6 +367,7 @@ val dummyFeedItems =
                     songTitle = "Song Title 3",
                     coverImg = "https://picsum.photos/320",
                     artistName = "Artist4",
+                    isrc = "USUC1234567895",
                 ),
             writer =
                 Writer(

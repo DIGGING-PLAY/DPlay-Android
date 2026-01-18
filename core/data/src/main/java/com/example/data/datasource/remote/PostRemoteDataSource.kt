@@ -1,9 +1,11 @@
 package com.example.data.datasource.remote
 
+import com.example.data.model.request.RegisterPostRequest
 import com.example.data.model.response.BaseResponse
 import com.example.data.model.response.PostDetailResponse
 import com.example.data.model.response.PostLikeResponse
 import com.example.data.model.response.TodayPostsResponse
+import com.example.data.model.response.PostResponse
 import com.example.data.service.PostService
 import javax.inject.Inject
 
@@ -33,6 +35,20 @@ class PostRemoteDataSource
         suspend fun deletePost(
             postId: Long,
         ): BaseResponse<Unit> = postService.deletePost(postId = postId)
+
+        suspend fun registerPost(
+            request: RegisterPostRequest,
+        ): PostResponse {
+            try {
+                val response =
+                    postService.registerPost(
+                        request = request,
+                    )
+                return response.data ?: throw Exception("Data is null")
+            } catch (e: Exception) {
+                throw e
+            }
+        }
 
         suspend fun getTodayPosts(): BaseResponse<TodayPostsResponse> = postService.getTodayPosts()
     }

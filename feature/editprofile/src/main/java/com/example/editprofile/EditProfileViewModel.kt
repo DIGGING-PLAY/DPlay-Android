@@ -60,15 +60,7 @@ class EditProfileViewModel
                     }
                 }
                 EditProfileContract.EditProfileIntent.OnEditButtonClick -> {
-                    viewModelScope.launch {
-                        userRepository
-                            .updateProfile(
-                                nickname = currentState.nickname,
-                                profileImageState = currentState.profileImageState,
-                            ).onSuccess {
-                                setSideEffect(EditProfileContract.EditProfileSideEffect.NavigateToBack)
-                            }.onFailure { }
-                    }
+                    editProfile()
                 }
                 is EditProfileContract.EditProfileIntent.OnNicknameChanged -> {
                     validateAndUpdateNickname(intent.input.trim())
@@ -78,6 +70,18 @@ class EditProfileViewModel
                         copy(isAlbumLauncherBottomSheetVisible = true)
                     }
                 }
+            }
+        }
+
+        private fun editProfile() {
+            viewModelScope.launch {
+                userRepository
+                    .updateProfile(
+                        nickname = currentState.nickname,
+                        profileImageState = currentState.profileImageState,
+                    ).onSuccess {
+                        setSideEffect(EditProfileContract.EditProfileSideEffect.NavigateToBack)
+                    }.onFailure { }
             }
         }
 

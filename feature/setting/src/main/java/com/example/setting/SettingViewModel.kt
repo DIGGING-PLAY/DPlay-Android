@@ -1,6 +1,5 @@
 package com.example.setting
 
-import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.example.domain.repository.AuthRepository
 import com.example.domain.repository.UserRepository
@@ -35,25 +34,33 @@ class SettingViewModel
                     setSideEffect(SettingContract.SettingSideEffect.NavigateToBack)
                 }
                 SettingContract.SettingIntent.OnLogoutConfirm -> {
-                    viewModelScope.launch {
-                        authRepository
-                            .logout()
-                            .onSuccess {
-                                setSideEffect(SettingContract.SettingSideEffect.NavigateToLogin)
-                            }.onFailure {
-                            }
-                    }
+                    logout()
                 }
                 SettingContract.SettingIntent.OnWithdrawConfirm -> {
-                    viewModelScope.launch {
-                        authRepository
-                            .withdraw()
-                            .onSuccess {
-                                setSideEffect(SettingContract.SettingSideEffect.NavigateToLogin)
-                            }.onFailure {
-                            }
-                    }
+                    withdraw()
                 }
+            }
+        }
+
+        private fun withdraw() {
+            viewModelScope.launch {
+                authRepository
+                    .withdraw()
+                    .onSuccess {
+                        setSideEffect(SettingContract.SettingSideEffect.NavigateToLogin)
+                    }.onFailure {
+                    }
+            }
+        }
+
+        private fun logout() {
+            viewModelScope.launch {
+                authRepository
+                    .logout()
+                    .onSuccess {
+                        setSideEffect(SettingContract.SettingSideEffect.NavigateToLogin)
+                    }.onFailure {
+                    }
             }
         }
 
@@ -114,7 +121,6 @@ class SettingViewModel
                     userRepository
                         .updateNotificationEnabled(enabled)
                         .onSuccess {
-                            Log.d("notification", "notification $enabled")
                         }.onFailure {
                             updateState {
                                 copy(
