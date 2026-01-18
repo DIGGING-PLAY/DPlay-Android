@@ -32,6 +32,8 @@ import com.example.designsystem.component.snackbar.type.SnackBarType
 import com.example.designsystem.theme.DPlayTheme
 import com.example.navigation.Navigator
 import com.example.navigation.Search
+import com.example.ui.controller.BottomNavigationController
+import com.example.ui.controller.LocalBottomNavigationController
 import com.example.ui.controller.LocalModalController
 import com.example.ui.controller.ModalController
 import com.example.ui.handler.AppTerminationHandler
@@ -52,12 +54,14 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             val modalController = remember { ModalController() }
+            val bottomNavigationController = remember { BottomNavigationController() }
             val appTerminationHandler = remember(this) { AppTerminationHandler(this) }
             var snackBarType by remember { mutableStateOf<SnackBarType?>(null) }
             var snackBarAction by remember { mutableStateOf<(() -> Unit)?>(null) }
 
             CompositionLocalProvider(
                 LocalModalController provides modalController,
+                LocalBottomNavigationController provides bottomNavigationController,
                 LocalSnackBarState provides snackBarType,
                 LocalShowSnackBar provides { type, action ->
                     snackBarType = type
@@ -77,7 +81,7 @@ class MainActivity : ComponentActivity() {
                                 Modifier.navigationBarsPadding(),
                             bottomBar = {
                                 BottomNavigationBar(
-                                    isVisible = navigator.shouldShowBottomSheet,
+                                    isVisible = navigator.shouldShowBottomSheet && bottomNavigationController.bottomNavigationVisible,
                                     topLevelRouteList = navigator.topLevelRoutes,
                                     currentTab = navigator.currentScreen,
                                     onBottomNavigationItemClick = { route ->

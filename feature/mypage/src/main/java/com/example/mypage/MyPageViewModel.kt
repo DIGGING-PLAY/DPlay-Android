@@ -70,6 +70,7 @@ class MyPageViewModel
                 }
 
                 is MyPageContract.MyPageIntent.OnKebabIconClick -> {
+                    setSideEffect(MyPageContract.MyPageSideEffect.HideBottomNavigation)
                     setSideEffect(MyPageContract.MyPageSideEffect.ShowDeleteBottomSheet)
                 }
 

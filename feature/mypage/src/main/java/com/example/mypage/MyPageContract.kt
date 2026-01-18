@@ -49,5 +49,7 @@ class MyPageContract {
         data object ShowDeleteBottomSheet : MyPageSideEffect
 
         data object ShowDeleteDialogue : MyPageSideEffect
+
+        data object HideBottomNavigation : MyPageSideEffect
     }
 }

@@ -55,6 +55,7 @@ import com.example.navigation.Detail
 import com.example.navigation.EditProfile
 import com.example.navigation.Navigator
 import com.example.navigation.Setting
+import com.example.ui.controller.LocalBottomNavigationController
 import com.example.ui.emptyLazyPagingItems
 import com.example.ui.model.RegisteredTrackState
 import com.example.ui.model.ScrappedTrackState
@@ -71,6 +72,8 @@ fun MyPageRoute(
     val registeredTracks = viewModel.registeredTracks.collectAsLazyPagingItems()
     val scrappedTracks = viewModel.scrappedTracks.collectAsLazyPagingItems()
 
+    val bottomNavigationController = LocalBottomNavigationController.current
+
     LaunchedEffect(Unit) {
         viewModel.sideEffect.collectLatest { sideEffect ->
             when (sideEffect) {
@@ -83,8 +86,15 @@ fun MyPageRoute(
                 MyPageContract.MyPageSideEffect.NavigateToSettings -> {
                     navigator.navigateTo(destination = Setting)
                 }
-                MyPageContract.MyPageSideEffect.ShowDeleteBottomSheet -> TODO()
-                MyPageContract.MyPageSideEffect.ShowDeleteDialogue -> TODO()
+                MyPageContract.MyPageSideEffect.HideBottomNavigation -> {
+                    bottomNavigationController.hide()
+                }
+                MyPageContract.MyPageSideEffect.ShowDeleteBottomSheet -> {
+
+                }
+                MyPageContract.MyPageSideEffect.ShowDeleteDialogue -> {
+
+                }
             }
         }
     }
@@ -105,6 +115,9 @@ fun MyPageRoute(
         },
         onScrappedTrackClick = {
             viewModel.handleIntent(MyPageContract.MyPageIntent.OnScrappedTrackClick(it))
+        },
+        onKebabIconClick = {
+            viewModel.handleIntent(MyPageContract.MyPageIntent.OnKebabIconClick(it))
         }
     )
 }
@@ -119,6 +132,7 @@ fun MyPageScreen(
     onSettingIconClick: () -> Unit = {},
     onProfileImageClick: () -> Unit = {},
     onScrappedTrackClick: (Long) -> Unit = {},
+    onKebabIconClick: (Long) -> Unit = {},
 ) {
     Column(
         modifier =
@@ -148,6 +162,8 @@ fun MyPageScreen(
             onTabSelected = onTabSelected,
             registeredTrackList = registeredTrackList,
             scrappedTrackList = scrappedTrackList,
+            onScrappedTrackClick = onScrappedTrackClick,
+            onKebabIconClick = onKebabIconClick,
         )
     }
 }
@@ -220,6 +236,7 @@ private fun TabContent(
     scrappedTrackList: LazyPagingItems<ScrappedTrackState>,
     onTabSelected: (Int) -> Unit,
     onScrappedTrackClick: (Long) -> Unit = {},
+    onKebabIconClick: (Long) -> Unit = {},
 ) {
     Column {
         MyPageTabRow(
@@ -237,10 +254,12 @@ private fun TabContent(
                 0 ->
                     RegisteredMusicList(
                         registeredTrackList = registeredTrackList,
+                        onKebabIconClick = onKebabIconClick,
                     )
                 1 ->
                     BookmarkedMusicList(
                         scrappedTrackList = scrappedTrackList,
+                        onScrappedTrackClick = onScrappedTrackClick,
                     )
             }
         }
@@ -327,6 +346,7 @@ private fun MyPageTabRow(
 private fun RegisteredMusicList(
     registeredTrackList: LazyPagingItems<RegisteredTrackState>,
     modifier: Modifier = Modifier,
+    onKebabIconClick: (Long) -> Unit = {},
 ) {
     if(registeredTrackList.itemCount == 0){
         RegisteredMusicEmptyView()
@@ -349,7 +369,7 @@ private fun RegisteredMusicList(
                         musicName = registeredTrack.track.musicTitle,
                         musicArtistName = registeredTrack.track.artistName,
                         musicContent = registeredTrack.comment,
-                        onMoreClick = {},
+                        onMoreClick = { onKebabIconClick(registeredTrack.postId) },
                         onClick = {},
                     )
                 }
