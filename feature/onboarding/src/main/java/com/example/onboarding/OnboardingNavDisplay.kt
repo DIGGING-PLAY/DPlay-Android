@@ -1,5 +1,8 @@
 package com.example.onboarding
 
+import androidx.compose.animation.ContentTransform
+import androidx.compose.animation.EnterTransition
+import androidx.compose.animation.ExitTransition
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
@@ -29,6 +32,18 @@ fun OnboardingNavDisplay(
             } else {
                 globalNavigator.navigateToBack()
             }
+        },
+        transitionSpec = {
+            ContentTransform(
+                targetContentEnter = EnterTransition.None,
+                initialContentExit = ExitTransition.None,
+            )
+        },
+        popTransitionSpec = {
+            ContentTransform(
+                targetContentEnter = EnterTransition.None,
+                initialContentExit = ExitTransition.None,
+            )
         },
         entryProvider =
             entryProvider {

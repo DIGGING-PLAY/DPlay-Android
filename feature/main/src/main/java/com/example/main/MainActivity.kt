@@ -5,6 +5,13 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.ContentTransform
+import androidx.compose.animation.EnterTransition
+import androidx.compose.animation.ExitTransition
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -80,21 +87,31 @@ class MainActivity : ComponentActivity() {
                             modifier =
                                 Modifier.navigationBarsPadding(),
                             bottomBar = {
-                                BottomNavigationBar(
-                                    isVisible = navigator.shouldShowBottomSheet && bottomNavigationController.bottomNavigationVisible,
-                                    topLevelRouteList = navigator.topLevelRoutes,
-                                    currentTab = navigator.currentScreen,
-                                    onBottomNavigationItemClick = { route ->
-                                        navigator.navigateToTopLevelRoute(route)
-                                    },
-                                    onPlusButtonClick = {
-                                        navigator.navigateTo(Search)
-                                    },
-                                )
+                                AnimatedVisibility(
+                                    visible = navigator.shouldShowBottomSheet && bottomNavigationController.bottomNavigationVisible,
+                                    enter = fadeIn(animationSpec = tween(100)),
+                                    exit = fadeOut(animationSpec = tween(100)),
+                                ) {
+                                    BottomNavigationBar(
+                                        isVisible = true, // AnimatedVisibility가 제어하므로 항상 true
+                                        topLevelRouteList = navigator.topLevelRoutes,
+                                        currentTab = navigator.currentScreen,
+                                        onBottomNavigationItemClick = { route ->
+                                            navigator.navigateToTopLevelRoute(route)
+                                        },
+                                        onPlusButtonClick = {
+                                            navigator.navigateTo(Search)
+                                        },
+                                    )
+                                }
                             },
                         ) { padding ->
+                            val bottomPadding = if(navigator.shouldShowBottomSheet) padding.calculateBottomPadding() else 0.dp
                             NavDisplay(
-                                modifier = Modifier.fillMaxSize().background(color = DPlayTheme.colors.dplayWhite).padding(bottom = padding.calculateBottomPadding()),
+                                modifier = Modifier
+                                    .fillMaxSize()
+                                    .background(color = DPlayTheme.colors.dplayWhite)
+                                    .padding(bottom = 0.dp),
                                 backStack = navigator.backStack,
                                 onBack = {
                                     navigator.navigateToBack()
@@ -104,6 +121,18 @@ class MainActivity : ComponentActivity() {
                                         rememberSaveableStateHolderNavEntryDecorator(),
                                         rememberViewModelStoreNavEntryDecorator(),
                                     ),
+                                transitionSpec = {
+                                    ContentTransform(
+                                        targetContentEnter = EnterTransition.None,
+                                        initialContentExit = ExitTransition.None,
+                                    )
+                                },
+                                popTransitionSpec = {
+                                    ContentTransform(
+                                        targetContentEnter = EnterTransition.None,
+                                        initialContentExit = ExitTransition.None,
+                                    )
+                                },
                                 entryProvider =
                                     entryProvider {
                                         entryProviders.forEach { installer ->
