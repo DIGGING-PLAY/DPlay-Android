@@ -1,6 +1,7 @@
 package com.example.home
 
 import androidx.lifecycle.viewModelScope
+import com.example.common.audio.AudioPlayer
 import com.example.designsystem.component.snackbar.type.SnackBarType
 import com.example.domain.model.Badges
 import com.example.domain.model.FeedItem
@@ -8,10 +9,13 @@ import com.example.domain.model.Like
 import com.example.domain.model.Track
 import com.example.domain.model.Writer
 import com.example.domain.repository.PostRepository
+import com.example.domain.repository.TrackRepository
 import com.example.ui.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
@@ -21,9 +25,31 @@ class HomeViewModel
     @Inject
     constructor(
         val postRepository: PostRepository,
+        private val trackRepository: TrackRepository,
+        private val audioPlayer: AudioPlayer,
     ) : BaseViewModel<HomeContract.HomeState, HomeContract.HomeIntent, HomeContract.HomeSideEffect>(
             HomeContract.HomeState(),
         ) {
+        init {
+            observePlaybackState()
+        }
+
+        private fun observePlaybackState() {
+            audioPlayer.playbackState
+                .onEach { playbackState ->
+                    updateState {
+                        copy(
+                            streamingTrackId =
+                                if (playbackState.isPlaying) {
+                                    playbackState.currentTrackId
+                                } else {
+                                    null
+                                },
+                        )
+                    }
+                }.launchIn(viewModelScope)
+        }
+
         override fun handleIntent(intent: HomeContract.HomeIntent) {
             when (intent) {
                 is HomeContract.HomeIntent.LoadHomeData -> getTodayPosts()
@@ -106,17 +132,37 @@ class HomeViewModel
         }
 
         private fun previewStreaming(trackId: String) {
-            if (true) { // TODO: 미리듣기 API 미제공 게시물일 경우
-                setSideEffect(
-                    effect =
-                        HomeContract.HomeSideEffect.ShowSnackBar(snackBarType = SnackBarType.STREAMING_NOT_SUPPORT, action = {
-                            setSideEffect(HomeContract.HomeSideEffect.NavigateToMyPage)
-                        }),
-                )
+            val currentStreamingTrackId = audioPlayer.playbackState.value.currentTrackId
+            if (currentStreamingTrackId == trackId && audioPlayer.playbackState.value.isPlaying) {
+                audioPlayer.stop()
+                return
+            }
+
+            val feedItem = currentState.feedItems.find { it.track.trackId == trackId }
+
+            viewModelScope.launch {
+                trackRepository
+                    .getTrackPreview(trackId = trackId)
+                    .onSuccess { preview ->
+                        audioPlayer.play(
+                            url = preview.streamUrl,
+                            trackId = trackId,
+                            title = feedItem?.track?.songTitle ?: "",
+                            artist = feedItem?.track?.artistName ?: "",
+                        )
+                    }.onFailure { e ->
+                        Timber.e(e)
+                        setSideEffect(
+                            HomeContract.HomeSideEffect.ShowSnackBar(
+                                snackBarType = SnackBarType.STREAMING_NOT_SUPPORT,
+                            ),
+                        )
+                    }
             }
         }
 
         private fun refreshTodayPosts() {
+            getTodayPosts()
         }
 
         private fun toggleBookmark(postId: Long) {

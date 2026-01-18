@@ -15,11 +15,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.paging.compose.LazyPagingItems
 import com.dplay.record.R
 import com.example.designsystem.component.DPlayMusicListItem
 import com.example.designsystem.component.DPlaySubjectItem
 import com.example.designsystem.component.DplayLeftIconTitleTopAppBar
 import com.example.designsystem.theme.DPlayTheme
+import com.example.domain.model.FeedItem
+import com.example.ui.emptyLazyPagingItems
 
 @Composable
 fun RecordListScreen(
@@ -27,6 +30,7 @@ fun RecordListScreen(
     onMusicClick: (postId: Long) -> Unit,
     modifier: Modifier = Modifier,
     uiState: RecordContract.RecordState = RecordContract.RecordState(),
+    questionPosts: LazyPagingItems<FeedItem> = emptyLazyPagingItems(),
 ) {
     Column(modifier = modifier.fillMaxSize()) {
         DplayLeftIconTitleTopAppBar(
@@ -45,7 +49,7 @@ fun RecordListScreen(
         )
         Spacer(modifier = Modifier.height(12.dp))
 
-        Text(text = stringResource(R.string.music_list_count, uiState.recordList.size), modifier = Modifier.padding(start = 16.dp), style = DPlayTheme.typography.capMed12, color = DPlayTheme.colors.gray500)
+        Text(text = stringResource(R.string.music_list_count, uiState.recordListTotalCount), modifier = Modifier.padding(start = 16.dp), style = DPlayTheme.typography.capMed12, color = DPlayTheme.colors.gray500)
         Spacer(modifier = Modifier.height(12.dp))
         LazyColumn(
             modifier =
@@ -56,11 +60,11 @@ fun RecordListScreen(
             verticalArrangement = Arrangement.spacedBy(12.dp),
         ) {
             items(
-                count = uiState.recordList.size,
-                key = { index -> uiState.recordList[index].postId },
+                count = questionPosts.itemCount,
+                key = { index -> questionPosts[index]?.postId ?: index },
                 contentType = { "record-item" },
             ) { index ->
-                val item = uiState.recordList[index]
+                val item = questionPosts[index] ?: return@items
                 DPlayMusicListItem(
                     musicImageUrl = item.track.coverImg,
                     musicName = item.track.songTitle,

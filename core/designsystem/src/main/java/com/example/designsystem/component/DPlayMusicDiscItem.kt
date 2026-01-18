@@ -13,7 +13,9 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawWithContent
@@ -37,20 +39,32 @@ fun DPlayMusicDiscItem(
     isStreaming: Boolean = false,
 ) {
     val grayBorderColor = DPlayTheme.colors.gray200
-    val infiniteTransition = rememberInfiniteTransition()
+    val infiniteTransition = rememberInfiniteTransition(label = "disc_rotation")
 
-    val rotation by if (isStreaming) {
-        infiniteTransition.animateFloat(
-            initialValue = 0f,
-            targetValue = 360f,
-            animationSpec =
-                infiniteRepeatable(
-                    animation = tween(durationMillis = DISC_ROTATION_DURATION_MILLIS, easing = LinearEasing),
-                ),
-        )
-    } else {
-        remember { mutableFloatStateOf(0f) }
+    val animatedRotation by infiniteTransition.animateFloat(
+        initialValue = 0f,
+        targetValue = 360f,
+        animationSpec =
+            infiniteRepeatable(
+                animation = tween(durationMillis = DISC_ROTATION_DURATION_MILLIS, easing = LinearEasing),
+            ),
+        label = "rotation",
+    )
+
+    var startOffset by remember { mutableFloatStateOf(animatedRotation) }
+    var wasStreaming by remember { mutableStateOf(false) }
+
+    if (isStreaming && !wasStreaming) {
+        startOffset = animatedRotation
     }
+    wasStreaming = isStreaming
+
+    val rotation =
+        if (isStreaming) {
+            (animatedRotation - startOffset + 360f) % 360f
+        } else {
+            0f
+        }
 
     Box(
         modifier =

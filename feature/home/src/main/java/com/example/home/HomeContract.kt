@@ -20,6 +20,7 @@ class HomeContract {
         val locked: Boolean = true,
         val totalCount: Int = 257,
         val feedItems: ImmutableList<FeedItem> = persistentListOf(),
+        val streamingTrackId: String? = null,
     ) : BaseContract.State
 
     sealed interface HomeIntent : BaseContract.Intent {

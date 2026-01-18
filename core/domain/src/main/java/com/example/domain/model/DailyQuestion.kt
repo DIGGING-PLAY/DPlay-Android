@@ -7,12 +7,23 @@ data class DailyQuestion(
     val questionId: Long,
     val title: String,
     private val date: String,
+    val year: Int = 0,
+    val month: Int = 0,
 ) {
     val homeTitleDateText: String = date.toDiscoveryTitleSafe()
 
     val recordDayText: String = date
 
-    val recordMMDD: String = date.toMMDDText()
+    val recordMMDD: String = if (year > 0 && month > 0) {
+        val dayNum = date.filter { it.isDigit() }.toIntOrNull()
+        if (dayNum != null) {
+            "${month}월 ${dayNum}일"
+        } else {
+            "${month}월 ${date}"
+        }
+    } else {
+        date.toMMDDText()
+    }
 }
 
 private fun String.toDiscoveryTitleSafe(): String =

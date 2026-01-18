@@ -45,11 +45,13 @@ import com.example.designsystem.component.snackbar.LocalShowSnackBar
 import com.example.designsystem.theme.DPlayTheme
 import com.example.designsystem.util.noRippleClickable
 import com.example.designsystem.util.roundedBackgroundWithPadding
+import com.example.navigation.Navigator
 import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun DetailRoute(
     postId: Long,
+    navigator: Navigator,
     viewModel: DetailViewModel = hiltViewModel(),
     date: String = "",
 ) {
@@ -68,14 +70,10 @@ fun DetailRoute(
                 }
 
                 is DetailContract.DetailSideEffect.NavigateBackStack -> {
-                    // TODO
+                    navigator.navigateToBack()
                 }
 
                 is DetailContract.DetailSideEffect.NavigateToWriterProfile -> {
-                    // TODO
-                }
-
-                is DetailContract.DetailSideEffect.ShowBottomSheet -> {
                     // TODO
                 }
 
@@ -167,7 +165,7 @@ private fun DetailScreen(
                 Box(Modifier.padding(horizontal = 97.dp)) {
                     DPlayMusicDiscItem(
                         imageUrl = state.track.coverImg,
-                        isStreaming = false,
+                        isStreaming = state.streamingTrackId == state.track.trackId,
                     )
                     DPlayBookmarkButton(
                         isMarked = state.isScrapped,
@@ -274,8 +272,7 @@ private fun DetailScreen(
                         .noRippleClickable { changeBottomSheetVisible(false) },
             )
 
-            if (state.writer.userId == state.writer.userId) {
-//                if (state.writer.userId == 로컬 유저 아이디) {
+            if (state.isMyPost) {
                 DPlayButtonBottomSheet(
                     mainText = "삭제하기",
                     subText = "취소하기",
@@ -290,7 +287,6 @@ private fun DetailScreen(
                 DPlayReportBottomSheet(
                     onCloseClick = { changeBottomSheetVisible(false) },
                     onButtonClick = { changeBottomSheetVisible(false) },
-                    onCheckClick = {},
                     modifier = bottomSheetModifier,
                 )
             }
