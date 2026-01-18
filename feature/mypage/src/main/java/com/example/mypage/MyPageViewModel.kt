@@ -84,7 +84,8 @@ class MyPageViewModel
                     setSideEffect(MyPageContract.MyPageSideEffect.ShowDeleteDialogue)
                 }
 
-                MyPageContract.MyPageIntent.OnDialogCancelClick -> {
+                is MyPageContract.MyPageIntent.OnRegisteredTrackClick -> {
+                    setSideEffect(MyPageContract.MyPageSideEffect.NavigateToDetail(intent.postId))
                 }
 
                 MyPageContract.MyPageIntent.OnDialogDeleteClick -> {

@@ -86,7 +86,7 @@ fun MyPageRoute(
         viewModel.sideEffect.collectLatest { sideEffect ->
             when (sideEffect) {
                 is MyPageContract.MyPageSideEffect.NavigateToDetail -> {
-                    navigator.navigateTo(destination = Detail(postId = sideEffect.musicId))
+                    navigator.navigateTo(destination = Detail(postId = sideEffect.postId))
                 }
                 MyPageContract.MyPageSideEffect.NavigateToEditProfile -> {
                     navigator.navigateTo(destination = EditProfile)
@@ -144,6 +144,9 @@ fun MyPageRoute(
         onBottomSheetDeleteClick = {
             viewModel.handleIntent(MyPageContract.MyPageIntent.OnBottomSheetDeleteClick)
         },
+        onRegisteredTrackClick = {
+            viewModel.handleIntent(MyPageContract.MyPageIntent.OnRegisteredTrackClick(it))
+        }
     )
 }
 
@@ -160,6 +163,7 @@ fun MyPageScreen(
     onKebabIconClick: (Long) -> Unit = {},
     onBottomSheetCancelClick: () -> Unit = {},
     onBottomSheetDeleteClick: () -> Unit = {},
+    onRegisteredTrackClick: (Long) -> Unit = {},
 ) {
     Box(
         modifier = Modifier.fillMaxSize()
@@ -194,6 +198,7 @@ fun MyPageScreen(
                 scrappedTrackList = scrappedTrackList,
                 onScrappedTrackClick = onScrappedTrackClick,
                 onKebabIconClick = onKebabIconClick,
+                onRegisteredTrackClick = onRegisteredTrackClick,
             )
         }
         if (state.isDeleteBottomSheetVisible) {
@@ -299,6 +304,7 @@ private fun TabContent(
     onTabSelected: (Int) -> Unit,
     onScrappedTrackClick: (Long) -> Unit = {},
     onKebabIconClick: (Long) -> Unit = {},
+    onRegisteredTrackClick: (Long) -> Unit = {},
 ) {
     Column {
         MyPageTabRow(
@@ -317,6 +323,7 @@ private fun TabContent(
                     RegisteredMusicList(
                         registeredTrackList = registeredTrackList,
                         onKebabIconClick = onKebabIconClick,
+                        onRegisteredTrackClick = onRegisteredTrackClick,
                     )
                 1 ->
                     BookmarkedMusicList(
@@ -410,6 +417,7 @@ private fun RegisteredMusicList(
     registeredTrackList: LazyPagingItems<RegisteredTrackState>,
     modifier: Modifier = Modifier,
     onKebabIconClick: (Long) -> Unit = {},
+    onRegisteredTrackClick: (Long) -> Unit = {},
 ) {
     if(registeredTrackList.itemCount == 0){
         RegisteredMusicEmptyView()
@@ -433,7 +441,7 @@ private fun RegisteredMusicList(
                         musicArtistName = registeredTrack.track.artistName,
                         musicContent = registeredTrack.comment,
                         onMoreClick = { onKebabIconClick(registeredTrack.postId) },
-                        onClick = {},
+                        onClick = { onRegisteredTrackClick(registeredTrack.postId) },
                     )
                 }
             }

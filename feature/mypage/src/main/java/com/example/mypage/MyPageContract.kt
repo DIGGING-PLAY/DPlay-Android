@@ -33,13 +33,15 @@ class MyPageContract {
             val musicId: Long,
         ) : MyPageIntent
 
+        data class OnRegisteredTrackClick(
+            val postId: Long,
+        ): MyPageIntent
+
         data object OnBottomSheetDeleteClick : MyPageIntent
 
         data object OnBottomSheetCancelClick : MyPageIntent
 
         data object OnDialogDeleteClick : MyPageIntent
-
-        data object OnDialogCancelClick : MyPageIntent
     }
 
     sealed interface MyPageSideEffect : BaseContract.SideEffect {
@@ -48,7 +50,7 @@ class MyPageContract {
         data object NavigateToEditProfile : MyPageSideEffect
 
         data class NavigateToDetail(
-            val musicId: Long,
+            val postId: Long,
         ) : MyPageSideEffect
 
         data object ShowDeleteDialogue : MyPageSideEffect
