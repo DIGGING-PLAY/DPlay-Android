@@ -196,11 +196,12 @@ fun MyPageScreen(
                 ),
         ) {
             DPlayButtonBottomSheet(
-                mainText = stringResource(R.string.launch_album_bottomsheet_main_text),
-                subText = stringResource(R.string.launch_album_bottomsheet_sub_text),
+                mainText = "삭제하기",
+                subText = "취소하기",
                 mainOnClick = {  },
                 subOnClick = {  },
                 modifier = Modifier.noRippleClickable(),
+                mainButtonColor = DPlayTheme.colors.alertRed
             )
         }
     }
