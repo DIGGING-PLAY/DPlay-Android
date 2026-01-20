@@ -407,11 +407,12 @@ private fun MyPageTabRow(
                 )
 
                 Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(1.dp)
-                        .background(color = DPlayTheme.colors.gray200)
-                        .align(Alignment.BottomCenter)
+                    modifier =
+                        Modifier
+                            .fillMaxWidth()
+                            .height(1.dp)
+                            .background(color = DPlayTheme.colors.gray200)
+                            .align(Alignment.BottomCenter),
                 )
             }
         }
