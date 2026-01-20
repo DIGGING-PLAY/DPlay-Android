@@ -9,4 +9,5 @@ fun NicknameValidationResult.toUiState(): InputState =
         NicknameValidationResult.Success -> NicknameInputState.Success
         NicknameValidationResult.Error.TooShort -> NicknameInputState.Error.NotEnoughLength
         NicknameValidationResult.Error.InvalidFormat -> NicknameInputState.Error.InvalidFormat
+        NicknameValidationResult.Error.Duplicated -> NicknameInputState.Error.AlreadyExists
     }

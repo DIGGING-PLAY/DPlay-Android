@@ -6,5 +6,6 @@ sealed interface NicknameValidationResult {
     sealed interface Error : NicknameValidationResult {
         data object TooShort : Error
         data object InvalidFormat : Error
+        data object Duplicated : Error
     }
 }

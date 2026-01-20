@@ -2,6 +2,7 @@ package com.example.onboarding
 
 import androidx.lifecycle.viewModelScope
 import com.example.common.type.TermType
+import com.example.domain.model.NicknameValidationResult
 import com.example.domain.repository.AuthRepository
 import com.example.domain.repository.UserRepository
 import com.example.domain.usecase.ValidateNicknameUseCase
@@ -118,8 +119,16 @@ class OnboardingViewModel
                         kakaoAccessToken = currentState.kakaoAccessToken,
                         profileImage = currentState.profileImagePath,
                         nickname = currentState.nickname,
-                    ).onSuccess {
-                        setSideEffect(OnboardingContract.OnboardingSideEffect.NavigateToOnboarding)
+                    ).onSuccess { validationResult ->
+                        if (validationResult is NicknameValidationResult.Error.Duplicated) {
+                            updateState {
+                                copy(
+                                    nicknameInputState = NicknameValidationResult.Error.Duplicated.toUiState()
+                                )
+                            }
+                        } else if(validationResult is NicknameValidationResult.Success){
+                            setSideEffect(OnboardingContract.OnboardingSideEffect.NavigateToOnboarding)
+                        }
                     }.onFailure {
                     }
             }

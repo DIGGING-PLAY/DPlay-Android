@@ -10,9 +10,11 @@ import com.example.data.datasource.remote.KakaoLoginDataSource
 import com.example.data.datasource.remote.UserRemoteDataSource
 import com.example.data.model.request.LoginRequest
 import com.example.data.model.request.SignupRequest
+import com.example.domain.model.NicknameValidationResult
 import com.example.domain.model.User
 import com.example.domain.repository.AuthRepository
 import com.example.network.NetworkException
+import timber.log.Timber
 import javax.inject.Inject
 
 class AuthRepositoryImpl
@@ -64,21 +66,27 @@ class AuthRepositoryImpl
             kakaoAccessToken: String?,
             profileImage: String?,
             nickname: String,
-        ): Result<Unit> =
+        ): Result<NicknameValidationResult> =
             runCatching {
                 val profileFile = fileLocalDataSource.createAndGetFile(profileImage)
 
                 val response =
-                    authRemoteDataSource.signup(
-                        kakaoAccessToken = kakaoAccessToken,
-                        imageFile = profileFile,
-                        signupRequest =
-                            SignupRequest(
-                                platform = KAKAO_PLATFORM,
-                                nickname = nickname,
-                            ),
-                    )
-
+                    try {
+                        authRemoteDataSource.signup(
+                            kakaoAccessToken = kakaoAccessToken,
+                            imageFile = profileFile,
+                            signupRequest =
+                                SignupRequest(
+                                    platform = KAKAO_PLATFORM,
+                                    nickname = nickname,
+                                ),
+                        )
+                    } catch(e: NetworkException){
+                        if (e.code == ErrorCode.DUPLICATED_NICKNAME) {
+                            return Result.success(NicknameValidationResult.Error.Duplicated)
+                        }
+                        throw e
+                    }
                 tokenLocalDataSource.saveTokens(
                     accessToken = response.accessToken,
                     refreshToken = response.refreshToken,
@@ -91,6 +99,8 @@ class AuthRepositoryImpl
                         profileImagePath = profileFile?.absolutePath,
                     ),
                 )
+
+                return Result.success(NicknameValidationResult.Success)
             }
 
         override suspend fun withdraw(): Result<Unit> =
