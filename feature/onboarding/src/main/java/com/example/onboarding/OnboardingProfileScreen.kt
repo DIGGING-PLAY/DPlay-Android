@@ -54,9 +54,11 @@ fun OnboardingProfileRoute(
         rememberLauncherForActivityResult(
             contract = ActivityResultContracts.PickVisualMedia(),
             onResult = { uri ->
-                viewModel.handleIntent(
-                    OnboardingContract.OnboardingIntent.OnAlbumImageSelect(uri),
-                )
+                uri?.let {
+                    viewModel.handleIntent(
+                        OnboardingContract.OnboardingIntent.OnAlbumImageSelect(uri),
+                    )
+                }
             },
         )
 

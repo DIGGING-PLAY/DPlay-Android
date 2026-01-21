@@ -39,6 +39,7 @@ import com.example.designsystem.util.TextFieldConstant
 import com.example.designsystem.util.noRippleClickable
 import com.example.navigation.Navigator
 import kotlinx.coroutines.flow.collectLatest
+import timber.log.Timber
 
 @Composable
 fun EditProfileRoute(
@@ -52,9 +53,11 @@ fun EditProfileRoute(
         rememberLauncherForActivityResult(
             contract = ActivityResultContracts.PickVisualMedia(),
             onResult = { uri ->
-                viewModel.handleIntent(
-                    EditProfileContract.EditProfileIntent.OnAlbumImageSelect(uri),
-                )
+                uri?.let {
+                    viewModel.handleIntent(
+                        EditProfileContract.EditProfileIntent.OnAlbumImageSelect(it),
+                    )
+                }
             },
         )
 
@@ -148,6 +151,7 @@ fun EditProfileScreen(
                     onClick = { onProfileImageClick() },
                 )
             }
+            Timber.d("state.profileImagePath : ${state.profileImagePath}")
 
             Spacer(modifier = Modifier.height(24.dp))
 
