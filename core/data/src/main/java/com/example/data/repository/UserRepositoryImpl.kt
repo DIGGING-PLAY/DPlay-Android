@@ -74,7 +74,7 @@ class UserRepositoryImpl
                         imageFile = profileFile,
                         nickname = nickname,
                     )
-                } catch (e: NetworkException){
+                } catch (e: NetworkException) {
                     if (e.code == ErrorCode.DUPLICATED_NICKNAME) {
                         return Result.success(NicknameValidationResult.Error.Duplicated)
                     }

@@ -84,7 +84,7 @@ fun DPlayMusicListItem(
                             color = DPlayTheme.colors.dplayBlack,
                             maxLines = 1,
                             overflow = TextOverflow.Ellipsis,
-                            modifier = Modifier.widthIn(max = maxTitleWidth)
+                            modifier = Modifier.widthIn(max = maxTitleWidth),
                         )
 
                         Spacer(modifier = Modifier.width(6.dp))
@@ -95,7 +95,7 @@ fun DPlayMusicListItem(
                             color = DPlayTheme.colors.gray400,
                             maxLines = 1,
                             overflow = TextOverflow.Ellipsis,
-                            modifier = Modifier.weight(1f)
+                            modifier = Modifier.weight(1f),
                         )
                     }
                 }
@@ -105,7 +105,7 @@ fun DPlayMusicListItem(
                     style = DPlayTheme.typography.capMed12,
                     color = DPlayTheme.colors.gray500,
                     maxLines = 1,
-                    overflow = TextOverflow.Ellipsis
+                    overflow = TextOverflow.Ellipsis,
                 )
             }
         }
