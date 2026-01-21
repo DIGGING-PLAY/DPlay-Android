@@ -91,6 +91,10 @@ class OnboardingViewModel
                     setSideEffect(OnboardingContract.OnboardingSideEffect.LaunchAlbum)
                 }
 
+                OnboardingContract.OnboardingIntent.OnBackGestureAfterSignup -> {
+                    setSideEffect(OnboardingContract.OnboardingSideEffect.NavigateToLogin)
+                }
+
                 OnboardingContract.OnboardingIntent.OnStartButtonClick -> {
                     setSideEffect(OnboardingContract.OnboardingSideEffect.NavigateToPermission)
                 }

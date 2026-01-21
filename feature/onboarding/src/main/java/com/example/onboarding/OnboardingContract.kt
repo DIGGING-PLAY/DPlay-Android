@@ -63,6 +63,8 @@ class OnboardingContract {
 
         data object OnStartButtonClick : OnboardingIntent
 
+        data object OnBackGestureAfterSignup : OnboardingIntent
+
         data object OnPermissionConfirmButtonClick : OnboardingIntent
 
         data class OnNotificationPermissionResult(
@@ -80,6 +82,8 @@ class OnboardingContract {
         data object NavigateToPermission : OnboardingSideEffect
 
         data object NavigateToHome : OnboardingSideEffect
+
+        data object NavigateToLogin : OnboardingSideEffect
 
         data object ShowPermissionDialog : OnboardingSideEffect
 
