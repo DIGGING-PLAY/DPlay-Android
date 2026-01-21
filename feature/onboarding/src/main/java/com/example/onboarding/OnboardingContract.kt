@@ -10,7 +10,7 @@ class OnboardingContract {
         val kakaoAccessToken: String? = null,
         val agreedTerms: Set<TermType> = emptySet(),
         val nickname: String = "",
-        val profileImageUri: Uri? = null,
+        val profileImagePath: String? = null,
         val nicknameInputState: InputState = InputState.Default,
         val isAlbumLauncherBottomSheetVisible: Boolean = false,
     ) : BaseContract.State {
@@ -38,6 +38,10 @@ class OnboardingContract {
         data object OnToggleAllTerms : OnboardingIntent
 
         data object OnTermsScreenNextButtonClick : OnboardingIntent
+
+        data class OnTermsArrowClick(
+            val term: TermType,
+        ) : OnboardingIntent
 
         data class OnNicknameChanged(
             val input: String,
@@ -80,5 +84,9 @@ class OnboardingContract {
         data object ShowPermissionDialog : OnboardingSideEffect
 
         data object LaunchAlbum : OnboardingSideEffect
+
+        data class OpenWebView(
+            val url: String,
+        ) : OnboardingSideEffect
     }
 }

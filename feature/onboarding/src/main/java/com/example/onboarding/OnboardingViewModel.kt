@@ -3,6 +3,7 @@ package com.example.onboarding
 import androidx.lifecycle.viewModelScope
 import com.example.common.type.TermType
 import com.example.domain.repository.AuthRepository
+import com.example.domain.repository.UserRepository
 import com.example.domain.usecase.ValidateNicknameUseCase
 import com.example.ui.base.BaseViewModel
 import com.example.ui.mapper.toUiState
@@ -16,6 +17,7 @@ class OnboardingViewModel
     constructor(
         private val validateNicknameUseCase: ValidateNicknameUseCase,
         private val authRepository: AuthRepository,
+        private val userRepository: UserRepository,
     ) : BaseViewModel<OnboardingContract.OnboardingState, OnboardingContract.OnboardingIntent, OnboardingContract.OnboardingSideEffect>(
             OnboardingContract.OnboardingState(),
         ) {
@@ -41,6 +43,10 @@ class OnboardingViewModel
                     toggleAllTerms()
                 }
 
+                is OnboardingContract.OnboardingIntent.OnTermsArrowClick -> {
+                    setSideEffect(OnboardingContract.OnboardingSideEffect.OpenWebView(intent.term.url))
+                }
+
                 OnboardingContract.OnboardingIntent.OnTermsScreenNextButtonClick -> {
                     setSideEffect(OnboardingContract.OnboardingSideEffect.NavigateToProfile)
                 }
@@ -56,7 +62,7 @@ class OnboardingViewModel
                 is OnboardingContract.OnboardingIntent.OnAlbumImageSelect -> {
                     updateState {
                         copy(
-                            profileImageUri = intent.uri,
+                            profileImagePath = intent.uri.toString(),
                             isAlbumLauncherBottomSheetVisible = false,
                         )
                     }
@@ -69,7 +75,7 @@ class OnboardingViewModel
                 OnboardingContract.OnboardingIntent.OnDefaultImageSelect -> {
                     updateState {
                         copy(
-                            profileImageUri = null,
+                            profileImagePath = null,
                             isAlbumLauncherBottomSheetVisible = false,
                         )
                     }
@@ -93,7 +99,14 @@ class OnboardingViewModel
                 }
 
                 is OnboardingContract.OnboardingIntent.OnNotificationPermissionResult -> {
-                    setSideEffect(OnboardingContract.OnboardingSideEffect.NavigateToHome)
+                    viewModelScope.launch {
+                        userRepository
+                            .updateNotificationEnabled(intent.isGranted)
+                            .onSuccess {
+                                setSideEffect(OnboardingContract.OnboardingSideEffect.NavigateToHome)
+                            }.onFailure {
+                            }
+                    }
                 }
             }
         }
@@ -103,7 +116,7 @@ class OnboardingViewModel
                 authRepository
                     .signupWithKakao(
                         kakaoAccessToken = currentState.kakaoAccessToken,
-                        profileImage = currentState.profileImageUri.toString(),
+                        profileImage = currentState.profileImagePath,
                         nickname = currentState.nickname,
                     ).onSuccess {
                         setSideEffect(OnboardingContract.OnboardingSideEffect.NavigateToOnboarding)

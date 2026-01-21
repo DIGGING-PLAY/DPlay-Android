@@ -12,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -35,6 +36,7 @@ fun OnboardingTermsRoute(
     modifier: Modifier = Modifier,
     viewModel: OnboardingViewModel = hiltViewModel(),
 ) {
+    val uriHandler = LocalUriHandler.current
     val state by viewModel.uiState.collectAsStateWithLifecycle()
 
     LaunchedEffect(Unit) {
@@ -45,6 +47,9 @@ fun OnboardingTermsRoute(
                 }
                 OnboardingContract.OnboardingSideEffect.NavigateToProfile -> {
                     onboardingNavigator.navigateTo(OnboardingGraph.Profile)
+                }
+                is OnboardingContract.OnboardingSideEffect.OpenWebView -> {
+                    uriHandler.openUri(sideEffect.url)
                 }
                 else -> {}
             }
@@ -65,6 +70,9 @@ fun OnboardingTermsRoute(
         onBackButtonClick = {
             viewModel.handleIntent(OnboardingContract.OnboardingIntent.OnBackButtonClick)
         },
+        onTermsArrowClick = {
+            viewModel.handleIntent(OnboardingContract.OnboardingIntent.OnTermsArrowClick(it))
+        },
     )
 }
 
@@ -73,6 +81,7 @@ fun OnboardingTermsScreen(
     state: OnboardingContract.OnboardingState,
     modifier: Modifier = Modifier,
     onToggleTerm: (TermType) -> Unit = {},
+    onTermsArrowClick: (TermType) -> Unit = {},
     onToggleAllTerms: () -> Unit = {},
     onNextButtonClick: () -> Unit = {},
     onBackButtonClick: () -> Unit = {},
@@ -110,7 +119,7 @@ fun OnboardingTermsScreen(
             DPlayCheckArrow(
                 text = stringResource(id = R.string.terms_service_required),
                 isChecked = state.agreedTerms.contains(TermType.TERMS_OF_SERVICE),
-                onArrowClick = {},
+                onArrowClick = { onTermsArrowClick(TermType.TERMS_OF_SERVICE) },
                 onCheckBoxClick = { onToggleTerm(TermType.TERMS_OF_SERVICE) },
                 modifier = Modifier.fillMaxWidth(),
             )
@@ -118,7 +127,7 @@ fun OnboardingTermsScreen(
             DPlayCheckArrow(
                 text = stringResource(id = R.string.privacy_policy_required),
                 isChecked = state.agreedTerms.contains(TermType.PRIVACY_POLICY),
-                onArrowClick = {},
+                onArrowClick = { onTermsArrowClick(TermType.PRIVACY_POLICY) },
                 onCheckBoxClick = { onToggleTerm(TermType.PRIVACY_POLICY) },
                 modifier = Modifier.fillMaxWidth(),
             )

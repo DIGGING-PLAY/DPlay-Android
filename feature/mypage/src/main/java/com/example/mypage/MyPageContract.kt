@@ -1,6 +1,8 @@
 package com.example.mypage
 
 import com.example.ui.base.BaseContract
+import kotlinx.collections.immutable.PersistentSet
+import kotlinx.collections.immutable.persistentSetOf
 
 class MyPageContract {
     data class MyPageState(
@@ -9,6 +11,9 @@ class MyPageContract {
         val profileImagePath: String? = null,
         val selectedTabIndex: Int = 0,
         val registeredMusicCount: Int = -1,
+        val isDeleteBottomSheetVisible: Boolean = false,
+        val selectedPostId: Long = -1,
+        val deletedTrackIds: PersistentSet<Long> = persistentSetOf(),
     ) : BaseContract.State
 
     sealed interface MyPageIntent : BaseContract.Intent {
@@ -20,12 +25,16 @@ class MyPageContract {
             val tabIndex: Int,
         ) : MyPageIntent
 
-        data class OnMusicItemClick(
-            val musicId: Long,
+        data class OnScrappedTrackClick(
+            val postId: Long,
         ) : MyPageIntent
 
         data class OnKebabIconClick(
             val musicId: Long,
+        ) : MyPageIntent
+
+        data class OnRegisteredTrackClick(
+            val postId: Long,
         ) : MyPageIntent
 
         data object OnBottomSheetDeleteClick : MyPageIntent
@@ -33,8 +42,6 @@ class MyPageContract {
         data object OnBottomSheetCancelClick : MyPageIntent
 
         data object OnDialogDeleteClick : MyPageIntent
-
-        data object OnDialogCancelClick : MyPageIntent
     }
 
     sealed interface MyPageSideEffect : BaseContract.SideEffect {
@@ -43,11 +50,13 @@ class MyPageContract {
         data object NavigateToEditProfile : MyPageSideEffect
 
         data class NavigateToDetail(
-            val musicId: Long,
+            val postId: Long,
         ) : MyPageSideEffect
 
-        data object ShowDeleteBottomSheet : MyPageSideEffect
-
         data object ShowDeleteDialogue : MyPageSideEffect
+
+        data object HideBottomNavigation : MyPageSideEffect
+
+        data object ShowBottomNavigation : MyPageSideEffect
     }
 }

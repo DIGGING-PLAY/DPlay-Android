@@ -41,7 +41,9 @@ fun BottomNavigationBar(
 ) {
     if (isVisible) {
         Box(
-            modifier = modifier.fillMaxWidth(),
+            modifier =
+                modifier
+                    .fillMaxWidth(),
         ) {
             Row(
                 modifier =

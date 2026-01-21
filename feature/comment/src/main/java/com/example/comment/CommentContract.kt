@@ -37,5 +37,9 @@ class CommentContract {
         data object NavigateToBack : CommentSideEffect
 
         data object NavigateToHome : CommentSideEffect
+
+        data class OpenWebView(
+            val url: String,
+        ) : CommentSideEffect
     }
 }

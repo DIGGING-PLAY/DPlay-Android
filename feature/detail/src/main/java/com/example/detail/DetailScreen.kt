@@ -239,7 +239,7 @@ private fun DetailScreen(
                         verticalAlignment = Alignment.CenterVertically,
                     ) {
                         AsyncImage(
-                            model = state.writer.profileImg,
+                            model = state.writer.profileImg ?: R.drawable.base_profile_image,
                             contentDescription = null,
                             modifier =
                                 Modifier
