@@ -10,7 +10,7 @@ class MyPageContract {
         val userNickname: String = "디플레이",
         val profileImagePath: String? = null,
         val selectedTabIndex: Int = 0,
-        val registeredMusicCount: Int = -1,
+        val registeredMusicCount: Int = 0,
         val isDeleteBottomSheetVisible: Boolean = false,
         val selectedPostId: Long = -1,
         val deletedTrackIds: PersistentSet<Long> = persistentSetOf(),
