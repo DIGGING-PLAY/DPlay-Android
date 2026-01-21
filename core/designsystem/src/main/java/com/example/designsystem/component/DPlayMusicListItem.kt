@@ -3,6 +3,7 @@ package com.example.designsystem.component
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -12,6 +13,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
@@ -72,26 +74,30 @@ fun DPlayMusicListItem(
                     onClick = onMoreClick,
                     modifier = Modifier.align(Alignment.End),
                 )
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Text(
-                        text = musicName,
-                        style = DPlayTheme.typography.bodyBold16,
-                        color = DPlayTheme.colors.dplayBlack,
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis,
-                        modifier = Modifier.weight(0.5f)
-                    )
+                BoxWithConstraints {
+                    val maxTitleWidth = maxWidth * 0.5f
 
-                    Spacer(modifier = Modifier.width(6.dp))
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Text(
+                            text = musicName,
+                            style = DPlayTheme.typography.bodyBold16,
+                            color = DPlayTheme.colors.dplayBlack,
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis,
+                            modifier = Modifier.widthIn(max = maxTitleWidth)
+                        )
 
-                    Text(
-                        text = musicArtistName,
-                        style = DPlayTheme.typography.capMed12,
-                        color = DPlayTheme.colors.gray400,
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis,
-                        modifier = Modifier.weight(0.5f)
-                    )
+                        Spacer(modifier = Modifier.width(6.dp))
+
+                        Text(
+                            text = musicArtistName,
+                            style = DPlayTheme.typography.capMed12,
+                            color = DPlayTheme.colors.gray400,
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis,
+                            modifier = Modifier.weight(1f)
+                        )
+                    }
                 }
                 Spacer(modifier = Modifier.height(4.dp))
                 Text(
