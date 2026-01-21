@@ -289,7 +289,7 @@ private fun UserInformationRow(
                     CircleButtonType.SmallEdit(
                         R.string.edit_profile_image_button_icon_description,
                     ),
-                onClick = {},
+                onClick = { onProfileImageClick() },
             )
         }
     }
