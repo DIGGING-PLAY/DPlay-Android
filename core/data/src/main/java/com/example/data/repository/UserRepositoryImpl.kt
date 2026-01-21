@@ -4,6 +4,7 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.map
+import com.example.data.constant.ErrorCode
 import com.example.data.datasource.local.FileLocalDataSource
 import com.example.data.datasource.local.TokenLocalDataSource
 import com.example.data.datasource.local.UserLocalDataSource
@@ -11,11 +12,13 @@ import com.example.data.datasource.remote.RegisteredTracksPagingSource
 import com.example.data.datasource.remote.ScrappedTracksPagingSource
 import com.example.data.datasource.remote.UserRemoteDataSource
 import com.example.data.service.UserService
+import com.example.domain.model.NicknameValidationResult
 import com.example.domain.model.ProfileImageState
 import com.example.domain.model.RegisteredTrack
 import com.example.domain.model.ScrappedTrack
 import com.example.domain.model.User
 import com.example.domain.repository.UserRepository
+import com.example.network.NetworkException
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
@@ -57,7 +60,7 @@ class UserRepositoryImpl
         override suspend fun updateProfile(
             nickname: String?,
             profileImageState: ProfileImageState,
-        ): Result<Unit> =
+        ): Result<NicknameValidationResult> =
             runCatching {
                 val profileFile =
                     when (profileImageState) {
@@ -66,10 +69,17 @@ class UserRepositoryImpl
                         is ProfileImageState.Update -> fileLocalDataSource.createAndGetFile(profileImageState.imagePath)
                     }
 
-                userRemoteDataSource.patchProfile(
-                    imageFile = profileFile,
-                    nickname = nickname,
-                )
+                try {
+                    userRemoteDataSource.patchProfile(
+                        imageFile = profileFile,
+                        nickname = nickname,
+                    )
+                } catch (e: NetworkException) {
+                    if (e.code == ErrorCode.DUPLICATED_NICKNAME) {
+                        return Result.success(NicknameValidationResult.Error.Duplicated)
+                    }
+                    throw e
+                }
 
                 userLocalDataSource.updateNickname(nickname.orEmpty())
 
@@ -84,6 +94,8 @@ class UserRepositoryImpl
                     }
                     ProfileImageState.Keep -> {}
                 }
+
+                return Result.success(NicknameValidationResult.Success)
             }
 
         override fun getRegisteredTracks(

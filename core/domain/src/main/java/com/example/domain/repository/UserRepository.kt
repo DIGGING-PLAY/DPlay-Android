@@ -1,6 +1,7 @@
 package com.example.domain.repository
 
 import androidx.paging.PagingData
+import com.example.domain.model.NicknameValidationResult
 import com.example.domain.model.ProfileImageState
 import com.example.domain.model.RegisteredTrack
 import com.example.domain.model.ScrappedTrack
@@ -21,7 +22,7 @@ interface UserRepository {
     suspend fun updateProfile(
         nickname: String?,
         profileImageState: ProfileImageState,
-    ): Result<Unit>
+    ): Result<NicknameValidationResult>
 
     fun getRegisteredTracks(
         userId: Long,

@@ -6,7 +6,7 @@ class SettingContract {
     data class SettingState(
         val isLoading: Boolean = false,
         val isPushNotificationEnabled: Boolean = false,
-        val appVersion: String = "1.0.0",
+        val appVersion: String = "v1.0.0",
     ) : BaseContract.State
 
     sealed interface SettingIntent : BaseContract.Intent {

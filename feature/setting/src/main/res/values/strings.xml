@@ -12,7 +12,7 @@
     <string name="logout_warning_left_button_label">취소</string>
     <string name="logout_warning_right_button_label">로그아웃</string>
     <string name="withdraw_warning_main_text">정말 탈퇴하시겠어요?</string>
-    <string name="withdraw_warning_sub_text">작성하신 글, 좋아요한 글, 저장한 글 등 모든 기록이 삭제되며 복구가 불가능해요.</string>
+    <string name="withdraw_warning_sub_text">작성하신 글, 좋아요한 글, 저장한 글 등\n모든 기록이 삭제되며 복구가 불가능해요.</string>
     <string name="withdraw_warning_left_button_label">탈퇴하기</string>
     <string name="withdraw_warning_right_button_label">머무르기</string>
     <string name="setting_screen_title">설정</string>

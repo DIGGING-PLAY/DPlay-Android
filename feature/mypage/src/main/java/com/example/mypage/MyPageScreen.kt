@@ -289,7 +289,7 @@ private fun UserInformationRow(
                     CircleButtonType.SmallEdit(
                         R.string.edit_profile_image_button_icon_description,
                     ),
-                onClick = {},
+                onClick = { onProfileImageClick() },
             )
         }
     }
@@ -517,7 +517,7 @@ private fun ScrappedMusicEmptyView() {
         Spacer(modifier = Modifier.height(184.dp))
 
         Text(
-            text = "아직 등록한 곡이 없어요",
+            text = "아직 저장한 곡이 없어요",
             style = DPlayTheme.typography.bodySemi14,
             color = DPlayTheme.colors.gray400,
         )
