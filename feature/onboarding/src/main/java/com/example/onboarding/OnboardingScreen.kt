@@ -1,5 +1,6 @@
 package com.example.onboarding
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -29,15 +30,17 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.dplay.designsystem.R
 import com.dplay.onboarding.R.drawable
-import com.example.designsystem.component.DplayLeftIconTopAppBar
+import com.example.designsystem.component.DplayTopAppBar
 import com.example.designsystem.component.button.DPlayLargePinkButton
 import com.example.designsystem.theme.DPlayTheme
+import com.example.navigation.Login
 import com.example.navigation.Navigator
 import com.example.navigation.OnboardingGraph
 import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun OnboardingRoute(
+    globalNavigator: Navigator,
     onboardingNavigator: Navigator,
     modifier: Modifier = Modifier,
     viewModel: OnboardingViewModel = hiltViewModel(),
@@ -51,6 +54,9 @@ fun OnboardingRoute(
                 OnboardingContract.OnboardingSideEffect.NavigateToPermission -> {
                     onboardingNavigator.navigateTo(OnboardingGraph.Permission)
                 }
+                OnboardingContract.OnboardingSideEffect.NavigateToLogin -> {
+                    globalNavigator.clearAndNavigateTo(Login)
+                }
                 else -> {}
             }
         }
@@ -60,8 +66,8 @@ fun OnboardingRoute(
         onStartButtonClick = {
             viewModel.handleIntent(OnboardingContract.OnboardingIntent.OnStartButtonClick)
         },
-        onBackButtonClick = {
-            viewModel.handleIntent(OnboardingContract.OnboardingIntent.OnBackButtonClick)
+        onBackGesture = {
+            viewModel.handleIntent(OnboardingContract.OnboardingIntent.OnBackGestureAfterSignup)
         },
     )
 }
@@ -70,8 +76,13 @@ fun OnboardingRoute(
 fun OnboardingScreen(
     modifier: Modifier = Modifier,
     onStartButtonClick: () -> Unit = {},
-    onBackButtonClick: () -> Unit = {},
+    onBackGesture: () -> Unit = {},
 ) {
+    BackHandler(
+        enabled = true,
+        onBack = onBackGesture,
+    )
+
     val pagerState = rememberPagerState(pageCount = { 3 })
 
     Column(
@@ -81,9 +92,7 @@ fun OnboardingScreen(
                 .background(color = DPlayTheme.colors.dplayWhite)
                 .padding(bottom = 16.dp),
     ) {
-        DplayLeftIconTopAppBar {
-            onBackButtonClick()
-        }
+        DplayTopAppBar { }
 
         Spacer(modifier = Modifier.height(40.dp))
 

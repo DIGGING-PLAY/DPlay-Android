@@ -66,6 +66,7 @@ fun OnboardingNavDisplay(
                 entry<OnboardingGraph.Onboarding> {
                     OnboardingRoute(
                         onboardingNavigator = onboardingNavigator,
+                        globalNavigator = globalNavigator,
                     )
                 }
 

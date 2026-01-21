@@ -15,6 +15,7 @@ import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import retrofit2.HttpException
+import timber.log.Timber
 import java.io.File
 import java.net.HttpURLConnection
 import javax.inject.Inject
@@ -84,7 +85,25 @@ class AuthRemoteDataSource
                     )
 
                 return response.data ?: throw Exception("Data is null")
-            } catch (e: Exception) {
+            } catch (e: HttpException) {
+                if (e.code() == HttpURLConnection.HTTP_CONFLICT) {
+                    val errorString = e.response()?.errorBody()?.string()
+                    Timber.d("errorString : $errorString")
+
+                    if (errorString != null) {
+                        try {
+                            val errorResponse = json.decodeFromString<BaseResponse<String?>>(errorString)
+                            Timber.d("errorResponse : $errorResponse")
+                            if (errorResponse.code == ErrorCode.DUPLICATED_NICKNAME) {
+                                throw NetworkException(ErrorCode.DUPLICATED_NICKNAME, errorResponse.message)
+                            }
+                        } catch (e: SerializationException) {
+                            // JSON 형식이 잘못됨 (괄호 누락 등)
+                        } catch (e: IllegalArgumentException) {
+                            // 데이터 타입 불일치
+                        }
+                    }
+                }
                 throw e
             }
         }

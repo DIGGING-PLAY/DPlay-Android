@@ -133,6 +133,8 @@ fun OnboardingProfileScreen(
         ) {
             DplayLeftIconTopAppBar { onBackButtonClick() }
 
+            Spacer(Modifier.height(20.dp))
+
             Text(
                 text = stringResource(com.dplay.onboarding.R.string.profile_screen_title),
                 modifier = Modifier.padding(start = 16.dp),
@@ -175,7 +177,7 @@ fun OnboardingProfileScreen(
 
             DPlayLargePinkButton(
                 onClick = { onNextButtonClick() },
-                label = stringResource(R.string.next_button_label),
+                label = stringResource(R.string.enroll_button_label),
                 modifier =
                     Modifier
                         .padding(horizontal = 16.dp)

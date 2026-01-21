@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Text
@@ -67,6 +68,8 @@ fun LoginScreen(
             text = stringResource(com.dplay.login.R.string.login_title),
             style = DPlayTheme.typography.bodyBold16,
         )
+
+        Spacer(modifier = Modifier.height(8.dp))
 
         Image(
             painter = painterResource(R.drawable.img_wordmark_pink),
