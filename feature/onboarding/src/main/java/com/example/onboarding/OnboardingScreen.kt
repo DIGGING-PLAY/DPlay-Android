@@ -92,7 +92,7 @@ fun OnboardingScreen(
                 .background(color = DPlayTheme.colors.dplayWhite)
                 .padding(bottom = 16.dp),
     ) {
-        DplayTopAppBar {  }
+        DplayTopAppBar { }
 
         Spacer(modifier = Modifier.height(40.dp))
 

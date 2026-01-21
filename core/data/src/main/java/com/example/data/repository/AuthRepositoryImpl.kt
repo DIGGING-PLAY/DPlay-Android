@@ -14,7 +14,6 @@ import com.example.domain.model.NicknameValidationResult
 import com.example.domain.model.User
 import com.example.domain.repository.AuthRepository
 import com.example.network.NetworkException
-import timber.log.Timber
 import javax.inject.Inject
 
 class AuthRepositoryImpl
@@ -81,7 +80,7 @@ class AuthRepositoryImpl
                                     nickname = nickname,
                                 ),
                         )
-                    } catch(e: NetworkException){
+                    } catch (e: NetworkException) {
                         if (e.code == ErrorCode.DUPLICATED_NICKNAME) {
                             return Result.success(NicknameValidationResult.Error.Duplicated)
                         }

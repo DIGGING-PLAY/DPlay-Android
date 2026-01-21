@@ -127,10 +127,10 @@ class OnboardingViewModel
                         if (validationResult is NicknameValidationResult.Error.Duplicated) {
                             updateState {
                                 copy(
-                                    nicknameInputState = NicknameValidationResult.Error.Duplicated.toUiState()
+                                    nicknameInputState = NicknameValidationResult.Error.Duplicated.toUiState(),
                                 )
                             }
-                        } else if(validationResult is NicknameValidationResult.Success){
+                        } else if (validationResult is NicknameValidationResult.Success) {
                             setSideEffect(OnboardingContract.OnboardingSideEffect.NavigateToOnboarding)
                         }
                     }.onFailure {

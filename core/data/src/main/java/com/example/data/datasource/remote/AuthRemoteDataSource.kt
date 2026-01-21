@@ -86,7 +86,7 @@ class AuthRemoteDataSource
 
                 return response.data ?: throw Exception("Data is null")
             } catch (e: HttpException) {
-                if(e.code() == HttpURLConnection.HTTP_CONFLICT){
+                if (e.code() == HttpURLConnection.HTTP_CONFLICT) {
                     val errorString = e.response()?.errorBody()?.string()
                     Timber.d("errorString : $errorString")
 
