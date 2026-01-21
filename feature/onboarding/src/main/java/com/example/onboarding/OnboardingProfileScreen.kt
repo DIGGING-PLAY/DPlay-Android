@@ -177,7 +177,7 @@ fun OnboardingProfileScreen(
 
             DPlayLargePinkButton(
                 onClick = { onNextButtonClick() },
-                label = stringResource(R.string.next_button_label),
+                label = stringResource(R.string.enroll_button_label),
                 modifier =
                     Modifier
                         .padding(horizontal = 16.dp)
