@@ -48,9 +48,12 @@ class HomeContract {
         data class OnCoverClick(
             val postId: Long,
         ) : HomeIntent
+
+        data object OnLockedCoverClick : HomeIntent
     }
 
     sealed interface HomeSideEffect : BaseContract.SideEffect {
+        data object ShowLockedModal : HomeSideEffect
         data class NavigateToWriterProfile(
             val writerUserId: Long,
         ) : HomeSideEffect

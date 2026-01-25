@@ -15,8 +15,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
@@ -33,10 +35,13 @@ import com.example.designsystem.component.snackbar.LocalShowSnackBar
 import com.example.designsystem.theme.DPlayTheme
 import com.example.domain.model.BADGE
 import com.example.domain.model.FeedItem
+import com.example.ui.controller.LocalModalController
 import com.example.navigation.Detail
 import com.example.navigation.Navigator
 import com.example.navigation.Record
+import com.example.navigation.Search
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.filter
 
 @Composable
 fun HomeRoute(
@@ -45,6 +50,11 @@ fun HomeRoute(
 ) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
     val showSnackBar = LocalShowSnackBar.current
+    val modalController = LocalModalController.current
+
+    val lockedModalMainText = stringResource(R.string.recommend_prompt_modal_main_text)
+    val lockedModalSubText = stringResource(R.string.recommend_prompt_modal_sub_text)
+    val lockedModalButtonLabel = stringResource(R.string.recommend_prompt_modal_button_label)
 
     LaunchedEffect(viewModel.sideEffect) {
         viewModel.sideEffect.collectLatest {
@@ -73,6 +83,21 @@ fun HomeRoute(
                 is HomeContract.HomeSideEffect.NavigateToMyPage -> {
                     // TODO
                 }
+
+                is HomeContract.HomeSideEffect.ShowLockedModal -> {
+                    modalController.showGraphicModal(
+                        mainText = lockedModalMainText,
+                        subText = lockedModalSubText,
+                        buttonLabel = lockedModalButtonLabel,
+                        onButtonClick = {
+                            modalController.hideModal()
+                            navigator.navigateTo(destination = Search)
+                        },
+                        onDismiss = {
+                            modalController.hideModal()
+                        },
+                    )
+                }
             }
         }
     }
@@ -99,6 +124,9 @@ fun HomeRoute(
         onListClick = {
             viewModel.handleIntent(HomeContract.HomeIntent.OnListClick)
         },
+        onLockedCoverClick = {
+            viewModel.handleIntent(HomeContract.HomeIntent.OnLockedCoverClick)
+        },
     )
 }
 
@@ -112,6 +140,7 @@ private fun HomeScreen(
     onLikeClick: (postId: Long) -> Unit,
     onWriterProfileClick: (Long) -> Unit,
     onListClick: () -> Unit,
+    onLockedCoverClick: () -> Unit,
 ) {
     Column(
         modifier = Modifier.fillMaxSize(),
@@ -148,6 +177,7 @@ private fun HomeScreen(
             onStreamClick = onStreamClick,
             onLikeClick = onLikeClick,
             onWriterProfileClick = onWriterProfileClick,
+            onLockedCoverClick = onLockedCoverClick,
             uiState = uiState,
         )
     }
@@ -161,6 +191,7 @@ private fun HomePager(
     onStreamClick: (trackId: String) -> Unit,
     onLikeClick: (postId: Long) -> Unit,
     onWriterProfileClick: (Long) -> Unit,
+    onLockedCoverClick: () -> Unit,
     uiState: HomeContract.HomeState,
 ) {
     val pagerState = rememberPagerState(pageCount = { feedItems.size })
@@ -199,7 +230,13 @@ private fun HomePager(
                     musicImageUrl = item.track.coverImg,
                     onStreamClick = { onStreamClick(item.track.trackId) },
                     onLikeClick = { onLikeClick(item.postId) },
-                    onCoverClick = { if (!isLockedPage) onPostClick(item.postId) },
+                    onCoverClick = {
+                        if (isLockedPage) {
+                            onLockedCoverClick()
+                        } else {
+                            onPostClick(item.postId)
+                        }
+                    },
                     onWriterProfileClick = { onWriterProfileClick(item.writer.userId) },
                     isStreaming = uiState.streamingTrackId == item.track.trackId,
                 )
@@ -245,6 +282,7 @@ private fun HomePreview() {
             onWriterProfileClick = {},
             onRefresh = {},
             onListClick = {},
+            onLockedCoverClick = {},
         )
     }
 }

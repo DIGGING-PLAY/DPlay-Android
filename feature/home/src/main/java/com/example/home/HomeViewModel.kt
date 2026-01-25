@@ -69,6 +69,10 @@ class HomeViewModel
                     val badge = currentState.feedItems.find { it.postId == intent.postId }?.badge
                     setSideEffect(HomeContract.HomeSideEffect.NavigateToPostDetail(postId = intent.postId, badge = badge))
                 }
+
+                is HomeContract.HomeIntent.OnLockedCoverClick -> {
+                    setSideEffect(HomeContract.HomeSideEffect.ShowLockedModal)
+                }
             }
         }
 
