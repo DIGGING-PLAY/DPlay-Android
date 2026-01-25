@@ -204,7 +204,6 @@ private fun HomePager(
     onLockedCoverClick: () -> Unit,
     uiState: HomeContract.HomeState,
 ) {
-
     val currentItem = feedItems.getOrNull(pagerState.currentPage)
     val isCurrentPageLocked = uiState.locked && pagerState.currentPage >= 3
     val currentChipType: DPlayChipType? =

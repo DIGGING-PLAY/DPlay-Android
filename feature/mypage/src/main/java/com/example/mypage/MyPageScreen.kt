@@ -72,8 +72,8 @@ import kotlinx.coroutines.flow.collectLatest
 @Composable
 fun MyPageRoute(
     navigator: Navigator,
-    initialTab: MyPageTab = MyPageTab.REGISTERED,
     modifier: Modifier = Modifier,
+    initialTab: MyPageTab = MyPageTab.REGISTERED,
     viewModel: MyPageViewModel = hiltViewModel(),
 ) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
