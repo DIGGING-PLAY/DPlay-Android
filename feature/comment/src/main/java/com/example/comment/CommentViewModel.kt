@@ -2,6 +2,7 @@ package com.example.comment
 
 import androidx.lifecycle.viewModelScope
 import com.example.common.constant.Url
+import com.example.common.event.HomeRefreshTrigger
 import com.example.domain.repository.PostRepository
 import com.example.ui.base.BaseViewModel
 import com.example.ui.model.TrackState
@@ -15,6 +16,7 @@ class CommentViewModel
     @Inject
     constructor(
         private val postRepository: PostRepository,
+        private val homeRefreshTrigger: HomeRefreshTrigger,
     ) : BaseViewModel<CommentContract.CommentState, CommentContract.CommentIntent, CommentContract.CommentSideEffect>(
             CommentContract.CommentState(),
         ) {
@@ -60,6 +62,7 @@ class CommentViewModel
                         track = track,
                         comment = currentState.commentInput,
                     ).onSuccess {
+                        homeRefreshTrigger.refresh()
                         setSideEffect(CommentContract.CommentSideEffect.NavigateToHome)
                     }.onFailure {
                     }

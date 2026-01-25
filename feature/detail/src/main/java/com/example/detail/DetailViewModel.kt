@@ -2,6 +2,7 @@ package com.example.detail
 
 import androidx.lifecycle.viewModelScope
 import com.example.common.audio.AudioPlayer
+import com.example.common.event.HomeRefreshTrigger
 import com.example.designsystem.component.snackbar.type.SnackBarType
 import com.example.detail.DetailContract.DetailSideEffect.NavigateToMyPage
 import com.example.detail.DetailContract.DetailSideEffect.ShowSnackBar
@@ -24,6 +25,7 @@ class DetailViewModel
         private val postRepository: PostRepository,
         private val trackRepository: TrackRepository,
         private val audioPlayer: AudioPlayer,
+        private val homeRefreshTrigger: HomeRefreshTrigger,
     ) : BaseViewModel<DetailContract.DetailState, DetailContract.DetailIntent, DetailContract.DetailSideEffect>(
             DetailContract.DetailState(),
         ) {
@@ -168,6 +170,7 @@ class DetailViewModel
                 postRepository
                     .deletePost(postId = currentState.postId)
                     .onSuccess {
+                        homeRefreshTrigger.refresh()
                         setSideEffect(DetailContract.DetailSideEffect.NavigateBackStack)
                     }.onFailure { e ->
                         Timber.e(e)

@@ -2,6 +2,7 @@ package com.example.home
 
 import androidx.lifecycle.viewModelScope
 import com.example.common.audio.AudioPlayer
+import com.example.common.event.HomeRefreshTrigger
 import com.example.designsystem.component.snackbar.type.SnackBarType
 import com.example.domain.model.BADGE
 import com.example.domain.model.FeedItem
@@ -27,11 +28,13 @@ class HomeViewModel
         private val postRepository: PostRepository,
         private val trackRepository: TrackRepository,
         private val audioPlayer: AudioPlayer,
+        private val homeRefreshTrigger: HomeRefreshTrigger,
     ) : BaseViewModel<HomeContract.HomeState, HomeContract.HomeIntent, HomeContract.HomeSideEffect>(
             HomeContract.HomeState(),
         ) {
         init {
             observePlaybackState()
+            observeRefreshTrigger()
             getTodayPosts()
         }
 
@@ -48,6 +51,13 @@ class HomeViewModel
                                 },
                         )
                     }
+                }.launchIn(viewModelScope)
+        }
+
+        private fun observeRefreshTrigger() {
+            homeRefreshTrigger.refreshEvent
+                .onEach {
+                    getTodayPosts()
                 }.launchIn(viewModelScope)
         }
 
