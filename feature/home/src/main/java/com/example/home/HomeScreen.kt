@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -51,6 +52,7 @@ fun HomeRoute(
     val state by viewModel.uiState.collectAsStateWithLifecycle()
     val showSnackBar = LocalShowSnackBar.current
     val modalController = LocalModalController.current
+    val pagerState = rememberPagerState(pageCount = { state.feedItems.size })
 
     val lockedModalMainText = stringResource(R.string.recommend_prompt_modal_main_text)
     val lockedModalSubText = stringResource(R.string.recommend_prompt_modal_sub_text)
@@ -98,11 +100,16 @@ fun HomeRoute(
                         },
                     )
                 }
+
+                is HomeContract.HomeSideEffect.ScrollToFirstPage -> {
+                    pagerState.animateScrollToPage(0)
+                }
             }
         }
     }
     HomeScreen(
         uiState = state,
+        pagerState = pagerState,
         onRefresh = {
             viewModel.handleIntent(HomeContract.HomeIntent.OnRefreshClick)
         },
@@ -133,6 +140,7 @@ fun HomeRoute(
 @Composable
 private fun HomeScreen(
     uiState: HomeContract.HomeState = HomeContract.HomeState(),
+    pagerState: PagerState,
     onRefresh: () -> Unit,
     onPostClick: (postId: Long) -> Unit,
     onBookmarkClick: (postId: Long) -> Unit,
@@ -171,6 +179,7 @@ private fun HomeScreen(
         )
         Spacer(modifier = Modifier.height(32.dp))
         HomePager(
+            pagerState = pagerState,
             feedItems = uiState.feedItems,
             onPostClick = onPostClick,
             onBookmarkClick = onBookmarkClick,
@@ -185,6 +194,7 @@ private fun HomeScreen(
 
 @Composable
 private fun HomePager(
+    pagerState: PagerState,
     feedItems: List<FeedItem>,
     onPostClick: (postId: Long) -> Unit,
     onBookmarkClick: (postId: Long) -> Unit,
@@ -194,7 +204,6 @@ private fun HomePager(
     onLockedCoverClick: () -> Unit,
     uiState: HomeContract.HomeState,
 ) {
-    val pagerState = rememberPagerState(pageCount = { feedItems.size })
 
     val currentItem = feedItems.getOrNull(pagerState.currentPage)
     val isCurrentPageLocked = uiState.locked && pagerState.currentPage >= 3
@@ -275,6 +284,7 @@ private fun HomePager(
 private fun HomePreview() {
     DPlayTheme {
         HomeScreen(
+            pagerState = rememberPagerState(pageCount = { 0 }),
             onPostClick = {},
             onBookmarkClick = {},
             onStreamClick = {},

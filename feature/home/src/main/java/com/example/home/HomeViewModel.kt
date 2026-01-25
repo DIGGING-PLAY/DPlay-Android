@@ -173,6 +173,7 @@ class HomeViewModel
 
         private fun refreshTodayPosts() {
             getTodayPosts()
+            setSideEffect(HomeContract.HomeSideEffect.ScrollToFirstPage)
         }
 
         private fun toggleBookmark(postId: Long) {

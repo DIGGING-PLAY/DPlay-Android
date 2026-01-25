@@ -72,5 +72,7 @@ class HomeContract {
         ) : HomeSideEffect
 
         data object NavigateToMyPage : HomeSideEffect
+
+        data object ScrollToFirstPage : HomeSideEffect
     }
 }
