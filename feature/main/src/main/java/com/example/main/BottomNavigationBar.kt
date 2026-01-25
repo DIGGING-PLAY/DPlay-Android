@@ -60,7 +60,7 @@ fun BottomNavigationBar(
             ) {
                 topLevelRouteList.forEach { tab ->
                     BottomNavigationItem(
-                        isSelected = currentTab == tab,
+                        isSelected = currentTab?.let { it::class == tab::class } ?: false,
                         tab = tab,
                         onBottomNavigationItemClick = { onBottomNavigationItemClick(it) },
                     )
@@ -107,7 +107,7 @@ fun BottomNavigationBarPreview() {
     DPlayTheme {
         BottomNavigationBar(
             isVisible = true,
-            topLevelRouteList = persistentListOf(Home, MyPage),
+            topLevelRouteList = persistentListOf(Home, MyPage()),
             currentTab = currentTab,
             onBottomNavigationItemClick = {
                 currentTab = it

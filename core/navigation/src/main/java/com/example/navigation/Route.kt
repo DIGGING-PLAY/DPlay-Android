@@ -22,7 +22,15 @@ data object Home : TopLevelRoute, NavKey {
         get() = R.drawable.ic_home_disabled_32
 }
 
-data object MyPage : TopLevelRoute, NavKey {
+enum class MyPageTab {
+    REGISTERED,
+    BOOKMARKED,
+}
+
+data class MyPage(
+    val initialTab: MyPageTab = MyPageTab.REGISTERED,
+) : TopLevelRoute,
+    NavKey {
     override val selectedIconRes: Int
         get() = R.drawable.ic_bookmark_active_32
     override val unselectedIconRes: Int

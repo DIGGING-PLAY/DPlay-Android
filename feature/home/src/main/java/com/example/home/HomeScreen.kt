@@ -15,7 +15,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -35,13 +34,14 @@ import com.example.designsystem.component.snackbar.LocalShowSnackBar
 import com.example.designsystem.theme.DPlayTheme
 import com.example.domain.model.BADGE
 import com.example.domain.model.FeedItem
-import com.example.ui.controller.LocalModalController
 import com.example.navigation.Detail
+import com.example.navigation.MyPage
+import com.example.navigation.MyPageTab
 import com.example.navigation.Navigator
 import com.example.navigation.Record
 import com.example.navigation.Search
+import com.example.ui.controller.LocalModalController
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.filter
 
 @Composable
 fun HomeRoute(
@@ -81,7 +81,7 @@ fun HomeRoute(
                 }
 
                 is HomeContract.HomeSideEffect.NavigateToMyPage -> {
-                    // TODO
+                    navigator.navigateTo(destination = MyPage(initialTab = MyPageTab.BOOKMARKED))
                 }
 
                 is HomeContract.HomeSideEffect.ShowLockedModal -> {

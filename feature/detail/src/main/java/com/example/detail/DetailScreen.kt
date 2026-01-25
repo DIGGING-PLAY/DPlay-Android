@@ -43,11 +43,13 @@ import com.example.designsystem.component.chip.DPlayChip
 import com.example.designsystem.component.chip.type.DPlayChipType
 import com.example.designsystem.component.snackbar.LocalShowSnackBar
 import com.example.designsystem.theme.DPlayTheme
-import com.example.ui.controller.LocalModalController
 import com.example.designsystem.util.noRippleClickable
 import com.example.designsystem.util.roundedBackgroundWithPadding
 import com.example.domain.model.BADGE
+import com.example.navigation.MyPage
+import com.example.navigation.MyPageTab
 import com.example.navigation.Navigator
+import com.example.ui.controller.LocalModalController
 import kotlinx.coroutines.flow.collectLatest
 
 @Composable
@@ -81,7 +83,7 @@ fun DetailRoute(
                 }
 
                 is DetailContract.DetailSideEffect.NavigateToMyPage -> {
-                    // TODO
+                    navigator.navigateTo(destination = MyPage(initialTab = MyPageTab.BOOKMARKED))
                 }
 
                 is DetailContract.DetailSideEffect.ShowDeleteConfirmModal -> {

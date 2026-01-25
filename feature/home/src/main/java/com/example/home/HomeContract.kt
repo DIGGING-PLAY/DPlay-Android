@@ -54,6 +54,7 @@ class HomeContract {
 
     sealed interface HomeSideEffect : BaseContract.SideEffect {
         data object ShowLockedModal : HomeSideEffect
+
         data class NavigateToWriterProfile(
             val writerUserId: Long,
         ) : HomeSideEffect

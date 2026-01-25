@@ -58,6 +58,7 @@ import com.example.designsystem.theme.DPlayTheme
 import com.example.designsystem.util.noRippleClickable
 import com.example.navigation.Detail
 import com.example.navigation.EditProfile
+import com.example.navigation.MyPageTab
 import com.example.navigation.Navigator
 import com.example.navigation.Setting
 import com.example.ui.controller.LocalBottomNavigationController
@@ -70,10 +71,20 @@ import kotlinx.coroutines.flow.collectLatest
 @Composable
 fun MyPageRoute(
     navigator: Navigator,
+    initialTab: MyPageTab = MyPageTab.REGISTERED,
     modifier: Modifier = Modifier,
     viewModel: MyPageViewModel = hiltViewModel(),
 ) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
+
+    LaunchedEffect(initialTab) {
+        val tabIndex =
+            when (initialTab) {
+                MyPageTab.REGISTERED -> 0
+                MyPageTab.BOOKMARKED -> 1
+            }
+        viewModel.handleIntent(MyPageContract.MyPageIntent.OnTabClick(tabIndex))
+    }
 
     val registeredTracks = viewModel.registeredTracks.collectAsLazyPagingItems()
     val scrappedTracks = viewModel.scrappedTracks.collectAsLazyPagingItems()
