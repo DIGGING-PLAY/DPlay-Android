@@ -316,7 +316,7 @@ private fun DetailScreen(
             } else {
                 DPlayReportBottomSheet(
                     onCloseClick = { changeBottomSheetVisible(false) },
-                    onButtonClick = { changeBottomSheetVisible(false) },
+                    onButtonClick = { _ -> changeBottomSheetVisible(false) },
                     modifier = bottomSheetModifier,
                 )
             }

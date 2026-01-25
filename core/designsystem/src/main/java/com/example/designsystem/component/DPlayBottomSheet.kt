@@ -108,6 +108,7 @@ fun DPlayTitleButtonBottomSheet(
     onButtonClick: () -> Unit,
     onCloseClick: () -> Unit,
     modifier: Modifier = Modifier,
+    isButtonEnabled: Boolean = true,
     content: @Composable ColumnScope.() -> Unit,
 ) {
     val bottomSheetShape = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp)
@@ -164,39 +165,36 @@ fun DPlayTitleButtonBottomSheet(
                     .padding(horizontal = 8.5.dp),
             onClick = onButtonClick,
             label = buttonText,
+            enabled = isButtonEnabled,
         )
     }
 }
 
 @Composable
 fun DPlayReportBottomSheet(
-    onButtonClick: (selectedReasons: List<DPlayReportReason>) -> Unit,
+    onButtonClick: (selectedReason: DPlayReportReason) -> Unit,
     onCloseClick: () -> Unit,
     modifier: Modifier = Modifier,
     onCheckClick: ((DPlayReportReason) -> Unit)? = null,
     reasons: List<DPlayReportReason> = DPlayReportReason.entries,
 ) {
-    var selectedReasons by remember { mutableStateOf(setOf<DPlayReportReason>()) }
+    var selectedReason by remember { mutableStateOf<DPlayReportReason?>(null) }
 
     DPlayTitleButtonBottomSheet(
         titleText = stringResource(R.string.report_bottom_sheet_title),
         buttonText = "신고하기",
-        onButtonClick = { onButtonClick(selectedReasons.toList()) },
+        onButtonClick = { selectedReason?.let { onButtonClick(it) } },
         onCloseClick = onCloseClick,
         modifier = modifier,
+        isButtonEnabled = selectedReason != null,
     ) {
         reasons.forEach { reason ->
-            val isChecked = reason in selectedReasons
+            val isChecked = reason == selectedReason
             DPlayCheck(
                 text = stringResource(reason.stringResId),
                 isChecked = isChecked,
                 onClick = {
-                    selectedReasons =
-                        if (isChecked) {
-                            selectedReasons - reason
-                        } else {
-                            selectedReasons + reason
-                        }
+                    selectedReason = if (isChecked) null else reason
                     onCheckClick?.invoke(reason)
                 },
                 modifier = Modifier.fillMaxWidth(),
