@@ -71,7 +71,6 @@ fun RecordListScreen(
                     musicName = item.track.songTitle,
                     musicArtistName = item.track.artistName,
                     musicContent = item.content,
-                    onMoreClick = {},
                     isEditorPick = (item.badge == BADGE.EDITOR),
                     onClick = { onMusicClick(item.postId) },
                 )
