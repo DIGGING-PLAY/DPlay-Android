@@ -62,12 +62,16 @@ class DetailContract {
 
         data object OnDeleteClick : DetailIntent
 
+        data object OnDeleteConfirmClick : DetailIntent
+
         data class ChangeBottomSheetVisible(
             val visible: Boolean,
         ) : DetailIntent
     }
 
     sealed interface DetailSideEffect : BaseContract.SideEffect {
+        data object ShowDeleteConfirmModal : DetailSideEffect
+
         data object NavigateBackStack : DetailSideEffect
 
         data object NavigateToWriterProfile : DetailSideEffect

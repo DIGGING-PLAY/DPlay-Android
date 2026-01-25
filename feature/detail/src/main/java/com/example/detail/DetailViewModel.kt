@@ -55,7 +55,12 @@ class DetailViewModel
                 }
 
                 is DetailContract.DetailIntent.OnBookmarkClick -> toggleBookmark()
-                is DetailContract.DetailIntent.OnDeleteClick -> deletePost()
+                is DetailContract.DetailIntent.OnDeleteClick -> {
+                    changeBottomSheetVisible(visible = false)
+                    setSideEffect(DetailContract.DetailSideEffect.ShowDeleteConfirmModal)
+                }
+
+                is DetailContract.DetailIntent.OnDeleteConfirmClick -> deletePost()
                 is DetailContract.DetailIntent.OnLikeClick -> toggleLike()
                 is DetailContract.DetailIntent.OnMeatBallsClick -> {
                     changeBottomSheetVisible(visible = true)
@@ -163,10 +168,8 @@ class DetailViewModel
                 postRepository
                     .deletePost(postId = currentState.postId)
                     .onSuccess {
-                        changeBottomSheetVisible(visible = false)
                         setSideEffect(DetailContract.DetailSideEffect.NavigateBackStack)
                     }.onFailure { e ->
-                        changeBottomSheetVisible(visible = false)
                         Timber.e(e)
                     }
             }

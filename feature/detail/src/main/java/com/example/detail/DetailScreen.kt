@@ -43,6 +43,7 @@ import com.example.designsystem.component.chip.DPlayChip
 import com.example.designsystem.component.chip.type.DPlayChipType
 import com.example.designsystem.component.snackbar.LocalShowSnackBar
 import com.example.designsystem.theme.DPlayTheme
+import com.example.ui.controller.LocalModalController
 import com.example.designsystem.util.noRippleClickable
 import com.example.designsystem.util.roundedBackgroundWithPadding
 import com.example.domain.model.BADGE
@@ -58,6 +59,7 @@ fun DetailRoute(
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val showSnackBar = LocalShowSnackBar.current
+    val modalController = LocalModalController.current
 
     LaunchedEffect(Unit) {
         viewModel.handleIntent(DetailContract.DetailIntent.LoadData(postId = postId, badge = badge))
@@ -80,6 +82,25 @@ fun DetailRoute(
 
                 is DetailContract.DetailSideEffect.NavigateToMyPage -> {
                     // TODO
+                }
+
+                is DetailContract.DetailSideEffect.ShowDeleteConfirmModal -> {
+                    modalController.showWarningModal(
+                        mainText = "정말 삭제하시겠어요?",
+                        subText = "삭제된 글은 복구할 수 없어요",
+                        leftButtonLabel = "취소",
+                        rightButtonLabel = "삭제",
+                        onLeftButtonClick = {
+                            modalController.hideModal()
+                        },
+                        onRightButtonClick = {
+                            modalController.hideModal()
+                            viewModel.handleIntent(DetailContract.DetailIntent.OnDeleteConfirmClick)
+                        },
+                        onDismiss = {
+                            modalController.hideModal()
+                        },
+                    )
                 }
             }
         }
