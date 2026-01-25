@@ -37,7 +37,6 @@ import com.example.designsystem.util.roundedBackgroundWithPadding
 
 @Composable
 fun DPlayLargeCover(
-    isBookmarkChecked: Boolean,
     isLikeChecked: Boolean,
     likeCount: Int,
     writerProfileImageUrl: String?,
@@ -48,10 +47,8 @@ fun DPlayLargeCover(
     onWriterProfileClick: () -> Unit,
     onStreamClick: () -> Unit,
     onLikeClick: () -> Unit,
-    onBookmarkClick: () -> Unit,
     modifier: Modifier = Modifier,
     isLocked: Boolean = true,
-    bookmarkIconVisible: Boolean = true,
     isStreaming: Boolean = false,
 ) {
     val color = DPlayTheme.colors
@@ -90,25 +87,6 @@ fun DPlayLargeCover(
                         .onSizeChanged { discHeightPx = it.height }
                         .align(Alignment.TopCenter),
             )
-
-            if (bookmarkIconVisible && !isLocked) {
-                DplayClickableIcon(
-                    iconRes =
-                        if (isBookmarkChecked) {
-                            R.drawable.ic_bookmark_filled_24
-                        } else {
-                            R.drawable.ic_bookmark_unfilled_24
-                        },
-                    modifier =
-                        Modifier
-                            .roundedBackgroundWithPadding(
-                                backgroundColor = color.gray600,
-                                padding = PaddingValues(10.dp),
-                                cornerRadius = 12.dp,
-                            ).align(Alignment.TopEnd),
-                    onClick = onBookmarkClick,
-                )
-            }
 
             Column(
                 modifier =
@@ -229,7 +207,6 @@ fun DPlayLargeCover(
 private fun DPlayLargeCoverPreview() {
     DPlayTheme {
         DPlayLargeCover(
-            isBookmarkChecked = true,
             isLikeChecked = false,
             likeCount = 24,
             writerProfileImageUrl = "",
@@ -238,7 +215,6 @@ private fun DPlayLargeCoverPreview() {
             musicImageUrl = "",
             onStreamClick = {},
             onLikeClick = {},
-            onBookmarkClick = {},
             onCoverClick = {},
             onWriterProfileClick = {},
         )

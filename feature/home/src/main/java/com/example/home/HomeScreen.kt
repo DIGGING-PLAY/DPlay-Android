@@ -26,17 +26,17 @@ import com.example.designsystem.component.DPlayLargeCover
 import com.example.designsystem.component.DPlaySubjectItem
 import com.example.designsystem.component.DplayClickableIcon
 import com.example.designsystem.component.DplayLogoTopAppBar
+import com.example.designsystem.component.button.DPlayBookmarkButton
 import com.example.designsystem.component.chip.DPlayChip
 import com.example.designsystem.component.chip.type.DPlayChipType
 import com.example.designsystem.component.snackbar.LocalShowSnackBar
 import com.example.designsystem.theme.DPlayTheme
-import com.example.domain.model.Badge
+import com.example.domain.model.BADGE
 import com.example.domain.model.FeedItem
 import com.example.navigation.Detail
 import com.example.navigation.Navigator
 import com.example.navigation.Record
 import kotlinx.coroutines.flow.collectLatest
-import kotlin.math.absoluteValue
 
 @Composable
 fun HomeRoute(
@@ -61,7 +61,7 @@ fun HomeRoute(
                     navigator.navigateTo(
                         Detail(
                             postId = it.postId,
-                            date = state.todayQuestion.recordMMDD,
+                            badge = it.badge,
                         ),
                     )
                 }
@@ -174,9 +174,9 @@ private fun HomePager(
     val currentChipType: DPlayChipType? =
         currentItem?.badge?.let {
             when (it) {
-                Badge.BEST -> DPlayChipType.BEST
-                Badge.EDITOR -> DPlayChipType.EDITOR
-                Badge.NEW -> DPlayChipType.NEW
+                BADGE.BEST -> DPlayChipType.BEST
+                BADGE.EDITOR -> DPlayChipType.EDITOR
+                BADGE.NEW -> DPlayChipType.NEW
             }
         }
 
@@ -190,20 +190,11 @@ private fun HomePager(
                 pageSpacing = 24.dp,
             ) { page ->
                 val item = feedItems[page]
-
-                val pageOffset =
-                    (
-                        (pagerState.currentPage - page) +
-                            pagerState.currentPageOffsetFraction
-                    ).absoluteValue
-
-                val isCenter = pageOffset < 0.2f
                 val isLockedPage = uiState.locked && page >= 3
 
                 DPlayLargeCover(
                     modifier = Modifier.fillMaxWidth(),
                     isLocked = isLockedPage,
-                    isBookmarkChecked = item.isScrapped,
                     isLikeChecked = item.like.isLiked,
                     likeCount = item.like.count,
                     writerProfileImageUrl = item.writer.profileImg,
@@ -212,11 +203,9 @@ private fun HomePager(
                     musicImageUrl = item.track.coverImg,
                     onStreamClick = { onStreamClick(item.track.trackId) },
                     onLikeClick = { onLikeClick(item.postId) },
-                    onBookmarkClick = { onBookmarkClick(item.postId) },
                     onCoverClick = { if (!isLockedPage) onPostClick(item.postId) },
                     onWriterProfileClick = { onWriterProfileClick(item.writer.userId) },
                     isStreaming = uiState.streamingTrackId == item.track.trackId,
-                    bookmarkIconVisible = isCenter,
                 )
             }
         }
@@ -227,6 +216,19 @@ private fun HomePager(
                 DPlayChip(
                     type = it,
                     modifier = Modifier.align(Alignment.TopCenter),
+                )
+            }
+
+        currentItem
+            ?.takeIf { !isCurrentPageLocked }
+            ?.let {
+                DPlayBookmarkButton(
+                    isMarked = it.isScrapped,
+                    onClick = { onBookmarkClick(it.postId) },
+                    modifier =
+                        Modifier
+                            .align(Alignment.TopEnd)
+                            .padding(top = 52.dp, end = 40.dp),
                 )
             }
     }
