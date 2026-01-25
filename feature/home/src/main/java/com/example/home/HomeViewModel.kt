@@ -32,6 +32,7 @@ class HomeViewModel
         ) {
         init {
             observePlaybackState()
+            getTodayPosts()
         }
 
         private fun observePlaybackState() {
@@ -52,7 +53,6 @@ class HomeViewModel
 
         override fun handleIntent(intent: HomeContract.HomeIntent) {
             when (intent) {
-                is HomeContract.HomeIntent.LoadHomeData -> getTodayPosts()
                 is HomeContract.HomeIntent.OnBookmarkClick -> toggleBookmark(intent.postId)
                 is HomeContract.HomeIntent.OnLikeClick -> toggleLike(intent.postId)
                 is HomeContract.HomeIntent.OnRefreshClick -> refreshTodayPosts()

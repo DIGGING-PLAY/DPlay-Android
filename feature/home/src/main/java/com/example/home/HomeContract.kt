@@ -25,8 +25,6 @@ class HomeContract {
     ) : BaseContract.State
 
     sealed interface HomeIntent : BaseContract.Intent {
-        data object LoadHomeData : HomeIntent
-
         data object OnRefreshClick : HomeIntent
 
         data class OnBookmarkClick(

@@ -174,11 +174,12 @@ private fun DetailScreen(
                         modifier = Modifier.align(Alignment.TopEnd),
                     )
                     state.badge?.let { badge ->
-                        val chipType = when (badge) {
-                            BADGE.BEST -> DPlayChipType.BEST
-                            BADGE.EDITOR -> DPlayChipType.EDITOR
-                            BADGE.NEW -> DPlayChipType.NEW
-                        }
+                        val chipType =
+                            when (badge) {
+                                BADGE.BEST -> DPlayChipType.BEST
+                                BADGE.EDITOR -> DPlayChipType.EDITOR
+                                BADGE.NEW -> DPlayChipType.NEW
+                            }
                         DPlayChip(
                             type = chipType,
                             modifier = Modifier.align(Alignment.BottomCenter),

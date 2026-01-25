@@ -46,10 +46,6 @@ fun HomeRoute(
     val state by viewModel.uiState.collectAsStateWithLifecycle()
     val showSnackBar = LocalShowSnackBar.current
 
-    LaunchedEffect(Unit) {
-        viewModel.handleIntent(HomeContract.HomeIntent.LoadHomeData)
-    }
-
     LaunchedEffect(viewModel.sideEffect) {
         viewModel.sideEffect.collectLatest {
             when (it) {

@@ -4,7 +4,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -33,7 +32,6 @@ import coil3.compose.AsyncImage
 import com.dplay.designsystem.R
 import com.example.designsystem.theme.DPlayTheme
 import com.example.designsystem.util.noRippleClickable
-import com.example.designsystem.util.roundedBackgroundWithPadding
 
 @Composable
 fun DPlayLargeCover(
