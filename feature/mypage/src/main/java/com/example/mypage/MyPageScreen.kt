@@ -29,6 +29,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -76,14 +77,18 @@ fun MyPageRoute(
     viewModel: MyPageViewModel = hiltViewModel(),
 ) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
+    var hasAppliedInitialTab by rememberSaveable { mutableStateOf(false) }
 
-    LaunchedEffect(initialTab) {
-        val tabIndex =
-            when (initialTab) {
-                MyPageTab.REGISTERED -> 0
-                MyPageTab.BOOKMARKED -> 1
-            }
-        viewModel.handleIntent(MyPageContract.MyPageIntent.OnTabClick(tabIndex))
+    LaunchedEffect(Unit) {
+        if (!hasAppliedInitialTab) {
+            val tabIndex =
+                when (initialTab) {
+                    MyPageTab.REGISTERED -> 0
+                    MyPageTab.BOOKMARKED -> 1
+                }
+            viewModel.handleIntent(MyPageContract.MyPageIntent.OnTabClick(tabIndex))
+            hasAppliedInitialTab = true
+        }
     }
 
     val registeredTracks = viewModel.registeredTracks.collectAsLazyPagingItems()
