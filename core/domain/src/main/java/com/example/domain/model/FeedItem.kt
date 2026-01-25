@@ -4,14 +4,14 @@ data class FeedItem(
     val postId: Long,
     val isScrapped: Boolean,
     val content: String,
-    val badges: Badges,
+    val badge: BADGE?,
     val track: Track,
     val writer: Writer,
     val like: Like,
 )
 
-data class Badges(
-    val isEditorPick: Boolean,
-    val isPopular: Boolean,
-    val isNew: Boolean,
-)
+enum class BADGE {
+    EDITOR,
+    BEST,
+    NEW,
+}

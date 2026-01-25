@@ -1,6 +1,6 @@
 package com.example.data.model.response
 
-import com.example.domain.model.Badges
+import com.example.domain.model.Badge
 import com.example.domain.model.FeedItem
 import com.example.domain.model.Like
 import com.example.domain.model.Track
@@ -34,8 +34,8 @@ data class QuestionPostsResponse(
 data class QuestionPostItemResponse(
     @SerialName("postId")
     val postId: Long,
-    @SerialName("isEditorPick")
-    val isEditorPick: Boolean,
+    @SerialName("badge")
+    val badge: String?,
     @SerialName("isScrapped")
     val isScrapped: Boolean,
     @SerialName("content")
@@ -52,12 +52,7 @@ data class QuestionPostItemResponse(
             postId = postId,
             isScrapped = isScrapped,
             content = content,
-            badges =
-                Badges(
-                    isEditorPick = isEditorPick,
-                    isPopular = false,
-                    isNew = false,
-                ),
+            badge = badge?.let { Badge.valueOf(it) },
             track =
                 Track(
                     trackId = track.trackId,

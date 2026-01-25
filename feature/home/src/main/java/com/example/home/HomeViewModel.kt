@@ -3,7 +3,7 @@ package com.example.home
 import androidx.lifecycle.viewModelScope
 import com.example.common.audio.AudioPlayer
 import com.example.designsystem.component.snackbar.type.SnackBarType
-import com.example.domain.model.Badges
+import com.example.domain.model.Badge
 import com.example.domain.model.FeedItem
 import com.example.domain.model.Like
 import com.example.domain.model.Track
@@ -103,12 +103,7 @@ class HomeViewModel
                     postId = -1L,
                     isScrapped = false,
                     content = "",
-                    badges =
-                        Badges(
-                            isEditorPick = false,
-                            isPopular = false,
-                            isNew = false,
-                        ),
+                    badge = null,
                     track =
                         Track(
                             trackId = "",
@@ -252,12 +247,7 @@ val dummyFeedItems =
             postId = 111,
             isScrapped = true,
             content = "그냥 좋아요 이 노래",
-            badges =
-                Badges(
-                    isEditorPick = false,
-                    isPopular = true,
-                    isNew = true,
-                ),
+            badge = Badge.BEST,
             track =
                 Track(
                     trackId = "apple:203948",
@@ -282,12 +272,7 @@ val dummyFeedItems =
             postId = 112,
             isScrapped = false,
             content = "비 오는 날 꼭 듣는 노래에요",
-            badges =
-                Badges(
-                    isEditorPick = true,
-                    isPopular = false,
-                    isNew = false,
-                ),
+            badge = Badge.EDITOR,
             track =
                 Track(
                     trackId = "apple:204837",
@@ -312,12 +297,7 @@ val dummyFeedItems =
             postId = 113,
             isScrapped = false,
             content = "출근길에 항상 듣습니다!",
-            badges =
-                Badges(
-                    isEditorPick = false,
-                    isPopular = false,
-                    isNew = true,
-                ),
+            badge = Badge.NEW,
             track =
                 Track(
                     trackId = "apple:204111",
@@ -342,12 +322,7 @@ val dummyFeedItems =
             postId = 113,
             isScrapped = false,
             content = "출근길에 항상 듣습니다!",
-            badges =
-                Badges(
-                    isEditorPick = false,
-                    isPopular = false,
-                    isNew = true,
-                ),
+            badge = Badge.NEW,
             track =
                 Track(
                     trackId = "apple:204111",
@@ -372,12 +347,7 @@ val dummyFeedItems =
             postId = 113,
             isScrapped = false,
             content = "출근길에 항상 듣습니다!",
-            badges =
-                Badges(
-                    isEditorPick = false,
-                    isPopular = false,
-                    isNew = true,
-                ),
+            badge = Badge.NEW,
             track =
                 Track(
                     trackId = "apple:204111",
@@ -402,12 +372,7 @@ val dummyFeedItems =
             postId = 113,
             isScrapped = false,
             content = "출근길에 항상 듣습니다!",
-            badges =
-                Badges(
-                    isEditorPick = false,
-                    isPopular = false,
-                    isNew = true,
-                ),
+            badge = Badge.NEW,
             track =
                 Track(
                     trackId = "apple:204111",

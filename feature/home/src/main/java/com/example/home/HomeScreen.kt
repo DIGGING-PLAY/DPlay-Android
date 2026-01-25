@@ -30,6 +30,7 @@ import com.example.designsystem.component.chip.DPlayChip
 import com.example.designsystem.component.chip.type.DPlayChipType
 import com.example.designsystem.component.snackbar.LocalShowSnackBar
 import com.example.designsystem.theme.DPlayTheme
+import com.example.domain.model.Badge
 import com.example.domain.model.FeedItem
 import com.example.navigation.Detail
 import com.example.navigation.Navigator
@@ -171,12 +172,11 @@ private fun HomePager(
     val currentItem = feedItems.getOrNull(pagerState.currentPage)
     val isCurrentPageLocked = uiState.locked && pagerState.currentPage >= 3
     val currentChipType: DPlayChipType? =
-        currentItem?.let {
-            when {
-                it.badges.isPopular -> DPlayChipType.BEST
-                it.badges.isEditorPick -> DPlayChipType.EDITOR
-                it.badges.isNew -> DPlayChipType.NEW
-                else -> null
+        currentItem?.badge?.let {
+            when (it) {
+                Badge.BEST -> DPlayChipType.BEST
+                Badge.EDITOR -> DPlayChipType.EDITOR
+                Badge.NEW -> DPlayChipType.NEW
             }
         }
 
