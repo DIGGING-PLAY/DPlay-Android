@@ -45,6 +45,7 @@ import com.example.designsystem.component.snackbar.LocalShowSnackBar
 import com.example.designsystem.theme.DPlayTheme
 import com.example.designsystem.util.noRippleClickable
 import com.example.designsystem.util.roundedBackgroundWithPadding
+import com.example.domain.model.BADGE
 import com.example.navigation.Navigator
 import kotlinx.coroutines.flow.collectLatest
 
@@ -53,13 +54,13 @@ fun DetailRoute(
     postId: Long,
     navigator: Navigator,
     viewModel: DetailViewModel = hiltViewModel(),
-    date: String = "",
+    badge: BADGE? = null,
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val showSnackBar = LocalShowSnackBar.current
 
     LaunchedEffect(Unit) {
-        viewModel.handleIntent(DetailContract.DetailIntent.LoadData(postId = postId, date = date))
+        viewModel.handleIntent(DetailContract.DetailIntent.LoadData(postId = postId, badge = badge))
     }
 
     LaunchedEffect(viewModel.sideEffect) {
@@ -172,9 +173,14 @@ private fun DetailScreen(
                         onClick = onBookmarkClick,
                         modifier = Modifier.align(Alignment.TopEnd),
                     )
-                    if (state.isHost) {
+                    state.badge?.let { badge ->
+                        val chipType = when (badge) {
+                            BADGE.BEST -> DPlayChipType.BEST
+                            BADGE.EDITOR -> DPlayChipType.EDITOR
+                            BADGE.NEW -> DPlayChipType.NEW
+                        }
                         DPlayChip(
-                            type = DPlayChipType.EDITOR,
+                            type = chipType,
                             modifier = Modifier.align(Alignment.BottomCenter),
                         )
                     }
@@ -272,7 +278,7 @@ private fun DetailScreen(
                         .noRippleClickable { changeBottomSheetVisible(false) },
             )
 
-            if (state.isMyPost) {
+            if (state.isHost) {
                 DPlayButtonBottomSheet(
                     mainText = "삭제하기",
                     subText = "취소하기",

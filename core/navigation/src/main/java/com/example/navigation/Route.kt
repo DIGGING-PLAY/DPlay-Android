@@ -3,6 +3,7 @@ package com.example.navigation
 import androidx.annotation.DrawableRes
 import androidx.navigation3.runtime.NavKey
 import com.dplay.designsystem.R
+import com.example.domain.model.BADGE
 import com.example.ui.model.TrackState
 import kotlinx.serialization.Serializable
 
@@ -62,5 +63,5 @@ data object Record : NavKey
 @Serializable
 data class Detail(
     val postId: Long,
-    val date: String = "",
+    val badge: BADGE? = null,
 ) : NavKey

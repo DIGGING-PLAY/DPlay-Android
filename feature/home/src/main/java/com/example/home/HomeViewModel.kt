@@ -3,7 +3,7 @@ package com.example.home
 import androidx.lifecycle.viewModelScope
 import com.example.common.audio.AudioPlayer
 import com.example.designsystem.component.snackbar.type.SnackBarType
-import com.example.domain.model.Badge
+import com.example.domain.model.BADGE
 import com.example.domain.model.FeedItem
 import com.example.domain.model.Like
 import com.example.domain.model.Track
@@ -24,7 +24,7 @@ import javax.inject.Inject
 class HomeViewModel
     @Inject
     constructor(
-        val postRepository: PostRepository,
+        private val postRepository: PostRepository,
         private val trackRepository: TrackRepository,
         private val audioPlayer: AudioPlayer,
     ) : BaseViewModel<HomeContract.HomeState, HomeContract.HomeIntent, HomeContract.HomeSideEffect>(
@@ -66,7 +66,8 @@ class HomeViewModel
                 }
 
                 is HomeContract.HomeIntent.OnCoverClick -> {
-                    setSideEffect(HomeContract.HomeSideEffect.NavigateToPostDetail(postId = intent.postId))
+                    val badge = currentState.feedItems.find { it.postId == intent.postId }?.badge
+                    setSideEffect(HomeContract.HomeSideEffect.NavigateToPostDetail(postId = intent.postId, badge = badge))
                 }
             }
         }
@@ -247,7 +248,7 @@ val dummyFeedItems =
             postId = 111,
             isScrapped = true,
             content = "그냥 좋아요 이 노래",
-            badge = Badge.BEST,
+            badge = BADGE.BEST,
             track =
                 Track(
                     trackId = "apple:203948",
@@ -272,7 +273,7 @@ val dummyFeedItems =
             postId = 112,
             isScrapped = false,
             content = "비 오는 날 꼭 듣는 노래에요",
-            badge = Badge.EDITOR,
+            badge = BADGE.EDITOR,
             track =
                 Track(
                     trackId = "apple:204837",
@@ -297,7 +298,7 @@ val dummyFeedItems =
             postId = 113,
             isScrapped = false,
             content = "출근길에 항상 듣습니다!",
-            badge = Badge.NEW,
+            badge = BADGE.NEW,
             track =
                 Track(
                     trackId = "apple:204111",
@@ -322,7 +323,7 @@ val dummyFeedItems =
             postId = 113,
             isScrapped = false,
             content = "출근길에 항상 듣습니다!",
-            badge = Badge.NEW,
+            badge = BADGE.NEW,
             track =
                 Track(
                     trackId = "apple:204111",
@@ -347,7 +348,7 @@ val dummyFeedItems =
             postId = 113,
             isScrapped = false,
             content = "출근길에 항상 듣습니다!",
-            badge = Badge.NEW,
+            badge = BADGE.NEW,
             track =
                 Track(
                     trackId = "apple:204111",
@@ -372,7 +373,7 @@ val dummyFeedItems =
             postId = 113,
             isScrapped = false,
             content = "출근길에 항상 듣습니다!",
-            badge = Badge.NEW,
+            badge = BADGE.NEW,
             track =
                 Track(
                     trackId = "apple:204111",

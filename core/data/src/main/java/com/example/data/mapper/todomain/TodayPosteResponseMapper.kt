@@ -3,7 +3,7 @@ package com.example.data.mapper.todomain
 import com.example.data.model.response.TodayPostItemResponse
 import com.example.data.model.response.TodayPostTrackResponse
 import com.example.data.model.response.TodayPostsResponse
-import com.example.domain.model.Badge
+import com.example.domain.model.BADGE
 import com.example.domain.model.DailyQuestion
 import com.example.domain.model.FeedItem
 import com.example.domain.model.HomeScreenData
@@ -28,7 +28,7 @@ fun TodayPostItemResponse.toDomain(): FeedItem =
         postId = postId,
         isScrapped = isScrapped,
         content = content,
-        badge = badge?.let { Badge.valueOf(it) },
+        badge = badge?.let { BADGE.valueOf(it) },
         track = track.toDomain(),
         writer = user.toDomain(),
         like = like.toDomain(),

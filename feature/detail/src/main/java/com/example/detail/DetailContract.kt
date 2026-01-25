@@ -1,6 +1,7 @@
 package com.example.detail
 
 import com.example.designsystem.component.snackbar.type.SnackBarType
+import com.example.domain.model.BADGE
 import com.example.domain.model.Like
 import com.example.domain.model.Track
 import com.example.domain.model.Writer
@@ -12,6 +13,7 @@ class DetailContract {
         val isScrapped: Boolean = false,
         val content: String = "",
         val isHost: Boolean = false,
+        val date: String = "",
         val track: Track =
             Track(
                 trackId = "",
@@ -31,18 +33,15 @@ class DetailContract {
                 isLiked = false,
                 count = 0,
             ),
-        val date: String = "2025-10-19",
+        val badge: BADGE? = null,
         val bottomSheetVisible: Boolean = false,
         val streamingTrackId: String? = null,
-        val currentUserId: Long = 0L,
-    ) : BaseContract.State {
-        val isMyPost: Boolean get() = currentUserId != 0L && currentUserId == writer.userId
-    }
+    ) : BaseContract.State
 
     sealed interface DetailIntent : BaseContract.Intent {
         data class LoadData(
             val postId: Long,
-            val date: String = "",
+            val badge: BADGE? = null,
         ) : DetailIntent
 
         data object OnBookmarkClick : DetailIntent

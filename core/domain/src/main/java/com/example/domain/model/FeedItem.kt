@@ -1,5 +1,6 @@
 package com.example.domain.model
 
+
 data class FeedItem(
     val postId: Long,
     val isScrapped: Boolean,
