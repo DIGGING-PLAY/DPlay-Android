@@ -78,7 +78,7 @@ class HomeViewModel
                     .getTodayPosts()
                     .onSuccess { data ->
                         val feedItems =
-                            if (data.locked && data.totalCount >= 4) {
+                            if (data.locked) {
                                 data.todayPosts + lockedDummyFeedItem
                             } else {
                                 data.todayPosts
