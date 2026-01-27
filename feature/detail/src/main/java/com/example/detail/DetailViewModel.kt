@@ -8,8 +8,10 @@ import com.example.detail.DetailContract.DetailSideEffect.NavigateToMyPage
 import com.example.detail.DetailContract.DetailSideEffect.ShowSnackBar
 import com.example.domain.model.BADGE
 import com.example.domain.model.Like
+import com.example.domain.model.UserRelation
 import com.example.domain.repository.PostRepository
 import com.example.domain.repository.TrackRepository
+import com.example.domain.usecase.CheckUserRelationUseCase
 import com.example.ui.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
@@ -26,6 +28,7 @@ class DetailViewModel
         private val trackRepository: TrackRepository,
         private val audioPlayer: AudioPlayer,
         private val homeRefreshTrigger: HomeRefreshTrigger,
+        private val checkUserRelationUseCase: CheckUserRelationUseCase,
     ) : BaseViewModel<DetailContract.DetailState, DetailContract.DetailIntent, DetailContract.DetailSideEffect>(
             DetailContract.DetailState(),
         ) {
@@ -71,7 +74,7 @@ class DetailViewModel
                 is DetailContract.DetailIntent.OnReportClick -> reportPost()
                 is DetailContract.DetailIntent.OnStreamClick -> streamTrack()
                 is DetailContract.DetailIntent.OnWriterProfileClick -> {
-                    setSideEffect(DetailContract.DetailSideEffect.NavigateToWriterProfile)
+                    navigateToOthersProfile()
                 }
 
                 is DetailContract.DetailIntent.ChangeBottomSheetVisible -> {
@@ -213,6 +216,16 @@ class DetailViewModel
                             ),
                         )
                     }
+            }
+        }
+
+        private fun navigateToOthersProfile(){
+            viewModelScope.launch {
+                val userId = currentState.writer.userId
+                val userRelation = checkUserRelationUseCase(userId)
+                if(userRelation == UserRelation.OTHER){
+                    setSideEffect(DetailContract.DetailSideEffect.NavigateToWriterProfile(userId))
+                }
             }
         }
     }
