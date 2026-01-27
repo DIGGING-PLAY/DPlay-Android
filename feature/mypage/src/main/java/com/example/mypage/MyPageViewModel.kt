@@ -7,8 +7,8 @@ import androidx.paging.filter
 import androidx.paging.map
 import com.example.domain.repository.PostRepository
 import com.example.domain.repository.UserRepository
-import com.example.domain.usecase.GetMyRegisteredTracksUseCase
-import com.example.domain.usecase.GetMyScrappedTracksUseCase
+import com.example.domain.usecase.GetRegisteredTracksUseCase
+import com.example.domain.usecase.GetScrappedTracksUseCase
 import com.example.ui.base.BaseViewModel
 import com.example.ui.model.RegisteredTrackState
 import com.example.ui.model.ScrappedTrackState
@@ -29,8 +29,8 @@ class MyPageViewModel
     constructor(
         private val userRepository: UserRepository,
         private val postRepository: PostRepository,
-        private val getMyRegisteredTracksUseCase: GetMyRegisteredTracksUseCase,
-        private val getMyScrappedTracksUseCase: GetMyScrappedTracksUseCase,
+        private val getMyRegisteredTracksUseCase: GetRegisteredTracksUseCase,
+        private val getMyScrappedTracksUseCase: GetScrappedTracksUseCase,
     ) : BaseViewModel<MyPageContract.MyPageState, MyPageContract.MyPageIntent, MyPageContract.MyPageSideEffect>(
             MyPageContract.MyPageState(),
         ) {
