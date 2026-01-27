@@ -5,6 +5,7 @@ import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import androidx.paging.filter
 import androidx.paging.map
+import com.example.common.event.ScrappedTrackRefreshTrigger
 import com.example.domain.repository.PostRepository
 import com.example.domain.repository.UserRepository
 import com.example.domain.usecase.GetRegisteredTracksUseCase
@@ -16,9 +17,11 @@ import com.example.ui.model.toUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
@@ -31,6 +34,7 @@ class MyPageViewModel
         private val postRepository: PostRepository,
         private val getMyRegisteredTracksUseCase: GetRegisteredTracksUseCase,
         private val getMyScrappedTracksUseCase: GetScrappedTracksUseCase,
+        private val scrappedTrackRefreshTrigger: ScrappedTrackRefreshTrigger
     ) : BaseViewModel<MyPageContract.MyPageState, MyPageContract.MyPageIntent, MyPageContract.MyPageSideEffect>(
             MyPageContract.MyPageState(),
         ) {
@@ -55,12 +59,17 @@ class MyPageViewModel
                 }
 
         val scrappedTracks: Flow<PagingData<ScrappedTrackState>> =
-            getMyScrappedTracksUseCase()
+            scrappedTrackRefreshTrigger.refreshEvent
+                .onStart { emit(Unit) }
+                .flatMapLatest {
+                    getMyScrappedTracksUseCase()
+                }
                 .map { pagingData ->
                     pagingData.map { scrappedTrack ->
                         scrappedTrack.toUiState()
                     }
-                }.cachedIn(viewModelScope)
+                }
+                .cachedIn(viewModelScope)
 
         override fun handleIntent(intent: MyPageContract.MyPageIntent) {
             when (intent) {

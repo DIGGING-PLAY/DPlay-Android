@@ -3,6 +3,7 @@ package com.example.detail
 import androidx.lifecycle.viewModelScope
 import com.example.common.audio.AudioPlayer
 import com.example.common.event.HomeRefreshTrigger
+import com.example.common.event.ScrappedTrackRefreshTrigger
 import com.example.designsystem.component.snackbar.type.SnackBarType
 import com.example.detail.DetailContract.DetailSideEffect.NavigateToMyPage
 import com.example.detail.DetailContract.DetailSideEffect.ShowSnackBar
@@ -28,6 +29,7 @@ class DetailViewModel
         private val trackRepository: TrackRepository,
         private val audioPlayer: AudioPlayer,
         private val homeRefreshTrigger: HomeRefreshTrigger,
+        private val scrappedTrackRefreshTrigger: ScrappedTrackRefreshTrigger,
         private val checkUserRelationUseCase: CheckUserRelationUseCase,
     ) : BaseViewModel<DetailContract.DetailState, DetailContract.DetailIntent, DetailContract.DetailSideEffect>(
             DetailContract.DetailState(),
@@ -125,6 +127,7 @@ class DetailViewModel
                 result
                     .onSuccess {
                         updateState { copy(isScrapped = !isScrapped) }
+                        scrappedTrackRefreshTrigger.refresh()
                         if (!isScrapped) {
                             setSideEffect(
                                 ShowSnackBar(
