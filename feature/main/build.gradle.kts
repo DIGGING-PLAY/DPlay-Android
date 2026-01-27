@@ -21,4 +21,5 @@ dependencies {
     implementation(projects.feature.onboarding)
     implementation(projects.feature.setting)
     implementation(projects.feature.editprofile)
+    implementation(projects.feature.otherprofile)
 }
