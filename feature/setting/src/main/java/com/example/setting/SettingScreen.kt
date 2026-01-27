@@ -32,6 +32,15 @@ import com.example.designsystem.util.noRippleClickable
 import com.example.navigation.Login
 import com.example.navigation.Navigator
 import com.example.ui.controller.LocalModalController
+import android.content.Intent
+import android.provider.Settings
+import androidx.core.app.NotificationManagerCompat
+import androidx.compose.runtime.DisposableEffect
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
+import android.net.Uri
+import android.os.Build
+import androidx.lifecycle.compose.LocalLifecycleOwner
 import kotlinx.coroutines.flow.collectLatest
 
 @Composable
@@ -45,6 +54,20 @@ fun SettingRoute(
     val context = LocalContext.current
     val modalController = LocalModalController.current
     val uriHandler = LocalUriHandler.current
+    val lifecycleOwner = LocalLifecycleOwner.current
+
+    DisposableEffect(lifecycleOwner) {
+        val observer = LifecycleEventObserver { _, event ->
+            if (event == Lifecycle.Event.ON_RESUME) {
+                val isGranted = NotificationManagerCompat.from(context).areNotificationsEnabled()
+                viewModel.handleIntent(SettingContract.SettingIntent.UpdateNotificationPermission(isGranted))
+            }
+        }
+        lifecycleOwner.lifecycle.addObserver(observer)
+        onDispose {
+            lifecycleOwner.lifecycle.removeObserver(observer)
+        }
+    }
 
     LaunchedEffect(Unit) {
         viewModel.sideEffect.collectLatest { sideEffect ->
@@ -86,6 +109,18 @@ fun SettingRoute(
                 }
                 is SettingContract.SettingSideEffect.OpenWebView -> {
                     uriHandler.openUri(sideEffect.url)
+                }
+                SettingContract.SettingSideEffect.NavigateToNotificationSetting -> {
+                    val intent = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                        Intent(Settings.ACTION_APP_NOTIFICATION_SETTINGS).apply {
+                            putExtra(Settings.EXTRA_APP_PACKAGE, context.packageName)
+                        }
+                    } else {
+                        Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
+                            data = Uri.fromParts("package", context.packageName, null)
+                        }
+                    }
+                    context.startActivity(intent)
                 }
             }
         }
