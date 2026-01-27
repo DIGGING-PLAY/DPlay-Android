@@ -34,7 +34,7 @@ class MyPageViewModel
         private val postRepository: PostRepository,
         private val getMyRegisteredTracksUseCase: GetRegisteredTracksUseCase,
         private val getMyScrappedTracksUseCase: GetScrappedTracksUseCase,
-        private val scrappedTrackRefreshTrigger: ScrappedTrackRefreshTrigger
+        private val scrappedTrackRefreshTrigger: ScrappedTrackRefreshTrigger,
     ) : BaseViewModel<MyPageContract.MyPageState, MyPageContract.MyPageIntent, MyPageContract.MyPageSideEffect>(
             MyPageContract.MyPageState(),
         ) {
@@ -63,13 +63,11 @@ class MyPageViewModel
                 .onStart { emit(Unit) }
                 .flatMapLatest {
                     getMyScrappedTracksUseCase()
-                }
-                .map { pagingData ->
+                }.map { pagingData ->
                     pagingData.map { scrappedTrack ->
                         scrappedTrack.toUiState()
                     }
-                }
-                .cachedIn(viewModelScope)
+                }.cachedIn(viewModelScope)
 
         override fun handleIntent(intent: MyPageContract.MyPageIntent) {
             when (intent) {

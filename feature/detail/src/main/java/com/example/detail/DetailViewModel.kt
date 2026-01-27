@@ -222,11 +222,11 @@ class DetailViewModel
             }
         }
 
-        private fun navigateToOthersProfile(){
+        private fun navigateToOthersProfile() {
             viewModelScope.launch {
                 val userId = currentState.writer.userId
                 val userRelation = checkUserRelationUseCase(userId)
-                if(userRelation == UserRelation.OTHER){
+                if (userRelation == UserRelation.OTHER) {
                     setSideEffect(DetailContract.DetailSideEffect.NavigateToWriterProfile(userId))
                 }
             }

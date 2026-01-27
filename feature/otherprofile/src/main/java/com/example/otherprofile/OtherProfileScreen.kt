@@ -1,9 +1,6 @@
 package com.example.otherprofile
 
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.animateDpAsState
-import androidx.compose.animation.slideInVertically
-import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -29,11 +26,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
@@ -48,23 +43,14 @@ import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemKey
 import com.dplay.designsystem.R
-import com.example.designsystem.component.DPlayButtonBottomSheet
 import com.example.designsystem.component.DPlayMusicGridItem
 import com.example.designsystem.component.DPlayMusicListItem
 import com.example.designsystem.component.DPlayProfileImageArea
 import com.example.designsystem.component.DplayLeftIconTopAppBar
-import com.example.designsystem.component.DplayRightIconTitleTopAppBar
-import com.example.designsystem.component.button.DPlayCircleButton
-import com.example.designsystem.component.button.type.CircleButtonType
 import com.example.designsystem.theme.DPlayTheme
 import com.example.designsystem.util.noRippleClickable
 import com.example.navigation.Detail
-import com.example.navigation.EditProfile
-import com.example.navigation.MyPageTab
 import com.example.navigation.Navigator
-import com.example.navigation.Setting
-import com.example.ui.controller.LocalBottomNavigationController
-import com.example.ui.controller.LocalModalController
 import com.example.ui.emptyLazyPagingItems
 import com.example.ui.model.RegisteredTrackState
 import com.example.ui.model.ScrappedTrackState
@@ -75,12 +61,13 @@ fun OtherProfileRoute(
     navigator: Navigator,
     modifier: Modifier = Modifier,
     userId: Long,
-    viewModel: OtherProfileViewModel = hiltViewModel(
-        key = userId.toString(),
-        creationCallback = { factory: OtherProfileViewModel.Factory ->
-            factory.create(userId)
-        }
-    ),
+    viewModel: OtherProfileViewModel =
+        hiltViewModel(
+            key = userId.toString(),
+            creationCallback = { factory: OtherProfileViewModel.Factory ->
+                factory.create(userId)
+            },
+        ),
 ) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
 
@@ -287,8 +274,7 @@ private fun OtherProfileTabRow(
                                 .weight(1f)
                                 .noRippleClickable {
                                     onTabSelected(index)
-                                }
-                                .padding(vertical = 12.dp),
+                                }.padding(vertical = 12.dp),
                         contentAlignment = Alignment.Center,
                     ) {
                         Text(

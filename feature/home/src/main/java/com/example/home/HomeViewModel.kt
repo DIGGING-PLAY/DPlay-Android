@@ -259,10 +259,10 @@ class HomeViewModel
             }
         }
 
-        private fun navigateToOthersProfile(userId: Long){
+        private fun navigateToOthersProfile(userId: Long) {
             viewModelScope.launch {
                 val userRelation = checkUserRelationUseCase(userId)
-                if(userRelation == UserRelation.OTHER){
+                if (userRelation == UserRelation.OTHER) {
                     setSideEffect(HomeContract.HomeSideEffect.NavigateToWriterProfile(userId))
                 }
             }

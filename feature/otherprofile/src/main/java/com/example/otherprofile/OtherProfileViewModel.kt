@@ -30,7 +30,6 @@ class OtherProfileViewModel
     ) : BaseViewModel<OtherProfileContract.OtherProfileState, OtherProfileContract.OtherProfileIntent, OtherProfileContract.OtherProfileSideEffect>(
             OtherProfileContract.OtherProfileState(),
         ) {
-
         @AssistedFactory
         interface Factory {
             fun create(userId: Long): OtherProfileViewModel
@@ -90,14 +89,13 @@ class OtherProfileViewModel
                 userRepository
                     .getUser(userId)
                     .onSuccess { user ->
-                        updateState{
+                        updateState {
                             copy(
                                 userNickname = user.nickname,
                                 profileImagePath = user.profileImagePath,
                             )
                         }
                     }.onFailure {
-
                     }
             }
         }
