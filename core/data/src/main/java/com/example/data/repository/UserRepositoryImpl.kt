@@ -11,6 +11,7 @@ import com.example.data.datasource.local.UserLocalDataSource
 import com.example.data.datasource.remote.RegisteredTracksPagingSource
 import com.example.data.datasource.remote.ScrappedTracksPagingSource
 import com.example.data.datasource.remote.UserRemoteDataSource
+import com.example.data.mapper.todomain.toDomain
 import com.example.data.service.UserService
 import com.example.domain.model.NicknameValidationResult
 import com.example.domain.model.ProfileImageState
@@ -41,6 +42,18 @@ class UserRepositoryImpl
                         validUser
                     }
                 }
+            }
+
+        override suspend fun getUser(userId: Long): Result<User> =
+            runCatching {
+                val userData = userRemoteDataSource.getUser(userId = userId).user
+
+                // 추후 Writer와 통합
+                User(
+                    id = userData.userId,
+                    nickname = userData.nickname,
+                    profileImagePath = userData.profileImg,
+                )
             }
 
         override fun getAccessToken(): Flow<String?> = tokenLocalDataSource.accessToken
