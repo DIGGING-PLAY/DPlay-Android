@@ -29,7 +29,7 @@ fun DPlayGuidelineButton(
     DPlayButtonSlot(
         modifier = modifier,
         onClick = onClick,
-        paddingValues = PaddingValues(8.dp),
+        paddingValues = PaddingValues(top = 8.dp, bottom = 8.dp, start = 8.dp, end = 12.dp),
         containerColor = DPlayTheme.colors.dplayWhite,
         borderColor = DPlayTheme.colors.gray200,
         shape = RoundedCornerShape(20.dp),
