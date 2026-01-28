@@ -90,32 +90,33 @@ fun DPlayLargeCover(
             )
             if (textHeightDp > 0.dp) {
                 Box(
-                    modifier = Modifier
-                        .matchParentSize()
-                        .drawWithContent {
-                            val textHeightPx = textHeightDp.toPx()
-                            val clipTop = size.height - textHeightPx
+                    modifier =
+                        Modifier
+                            .matchParentSize()
+                            .drawWithContent {
+                                val textHeightPx = textHeightDp.toPx()
+                                val clipTop = size.height - textHeightPx
 
-                            clipRect(
-                                top = clipTop,
-                                bottom = size.height
-                            ) {
-                                this@drawWithContent.drawContent()
-                            }
-                        }
+                                clipRect(
+                                    top = clipTop,
+                                    bottom = size.height,
+                                ) {
+                                    this@drawWithContent.drawContent()
+                                }
+                            },
                 ) {
                     DPlayMusicDiscItem(
                         imageUrl = musicImageUrl,
                         isStreaming = isStreaming,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(bottom = 44.dp, start = 12.dp, end = 12.dp)
-                            .align(Alignment.TopCenter)
-                            .blur(
-                                radius = 60.dp,
-                                edgeTreatment = BlurredEdgeTreatment.Unbounded
-                            )
-                            .clip(CircleShape)
+                        modifier =
+                            Modifier
+                                .fillMaxWidth()
+                                .padding(bottom = 44.dp, start = 12.dp, end = 12.dp)
+                                .align(Alignment.TopCenter)
+                                .blur(
+                                    radius = 60.dp,
+                                    edgeTreatment = BlurredEdgeTreatment.Unbounded,
+                                ).clip(CircleShape),
                     )
                 }
             }
@@ -268,7 +269,7 @@ private fun DPlayLargeCoverPreview() {
             onLikeClick = {},
             onCoverClick = {},
             onWriterProfileClick = {},
-            isLocked = false
+            isLocked = false,
         )
     }
 }
