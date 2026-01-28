@@ -5,6 +5,7 @@ import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import androidx.paging.filter
 import androidx.paging.map
+import com.example.common.event.RegisteredTrackRefreshTrigger
 import com.example.common.event.ScrappedTrackRefreshTrigger
 import com.example.domain.repository.PostRepository
 import com.example.domain.repository.UserRepository
@@ -35,6 +36,7 @@ class MyPageViewModel
         private val getMyRegisteredTracksUseCase: GetRegisteredTracksUseCase,
         private val getMyScrappedTracksUseCase: GetScrappedTracksUseCase,
         private val scrappedTrackRefreshTrigger: ScrappedTrackRefreshTrigger,
+        private val registeredTrackRefreshTrigger: RegisteredTrackRefreshTrigger,
     ) : BaseViewModel<MyPageContract.MyPageState, MyPageContract.MyPageIntent, MyPageContract.MyPageSideEffect>(
             MyPageContract.MyPageState(),
         ) {
@@ -43,17 +45,21 @@ class MyPageViewModel
         }
 
         val registeredTracks: Flow<PagingData<RegisteredTrackState>> =
-            getMyRegisteredTracksUseCase(
-                onTotalCountFetched = {
-                    updateState {
-                        copy(registeredMusicCount = it)
+            registeredTrackRefreshTrigger.refreshEvent
+                .onStart { emit(Unit) }
+                .flatMapLatest {
+                    getMyRegisteredTracksUseCase(
+                        onTotalCountFetched = {
+                            updateState {
+                                copy(registeredMusicCount = it)
+                            }
+                        },
+                    )
+                }.map { pagingData ->
+                    pagingData.map { registeredTrack ->
+                        registeredTrack.toUiState()
                     }
-                },
-            ).map { pagingData ->
-                pagingData.map { registeredTrack ->
-                    registeredTrack.toUiState()
-                }
-            }.cachedIn(viewModelScope)
+                }.cachedIn(viewModelScope)
                 .combine(uiState) { pagingData, state ->
                     pagingData.filter { !state.deletedTrackIds.contains(it.postId) }
                 }
@@ -103,6 +109,7 @@ class MyPageViewModel
                                 updateState {
                                     copy(
                                         deletedTrackIds = deletedTrackIds.add(selectedPostId),
+                                        registeredMusicCount = currentState.registeredMusicCount - 1,
                                     )
                                 }
                             }.onFailure {
