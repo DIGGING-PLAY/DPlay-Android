@@ -21,8 +21,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.BlurredEdgeTreatment
 import androidx.compose.ui.draw.blur
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.drawWithContent
+import androidx.compose.ui.graphics.drawscope.clipRect
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.style.TextOverflow
@@ -85,6 +88,37 @@ fun DPlayLargeCover(
                         .onSizeChanged { discHeightPx = it.height }
                         .align(Alignment.TopCenter),
             )
+            if (textHeightDp > 0.dp) {
+                Box(
+                    modifier = Modifier
+                        .matchParentSize()
+                        .drawWithContent {
+                            val textHeightPx = textHeightDp.toPx()
+                            val clipTop = size.height - textHeightPx
+
+                            clipRect(
+                                top = clipTop,
+                                bottom = size.height
+                            ) {
+                                this@drawWithContent.drawContent()
+                            }
+                        }
+                ) {
+                    DPlayMusicDiscItem(
+                        imageUrl = musicImageUrl,
+                        isStreaming = isStreaming,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(bottom = 44.dp, start = 12.dp, end = 12.dp)
+                            .align(Alignment.TopCenter)
+                            .blur(
+                                radius = 60.dp,
+                                edgeTreatment = BlurredEdgeTreatment.Unbounded
+                            )
+                            .clip(CircleShape)
+                    )
+                }
+            }
 
             Column(
                 modifier =
@@ -202,6 +236,25 @@ fun DPlayLargeCover(
 
 @Preview
 @Composable
+private fun DPlayLockedLargeCoverPreview() {
+    DPlayTheme {
+        DPlayLargeCover(
+            isLikeChecked = false,
+            likeCount = 24,
+            writerProfileImageUrl = "",
+            writerNickname = "윤서얌",
+            content = "진짜 나오자마자 들었는데 이 노래가 최고! 출근곡, 퇴근곡, 노동곡 다 되는 짱제로! 일하는 매장에서도 수십 번씩 틀고 있어요. 모두가 알아야 돼..",
+            musicImageUrl = "",
+            onStreamClick = {},
+            onLikeClick = {},
+            onCoverClick = {},
+            onWriterProfileClick = {},
+        )
+    }
+}
+
+@Preview
+@Composable
 private fun DPlayLargeCoverPreview() {
     DPlayTheme {
         DPlayLargeCover(
@@ -215,6 +268,7 @@ private fun DPlayLargeCoverPreview() {
             onLikeClick = {},
             onCoverClick = {},
             onWriterProfileClick = {},
+            isLocked = false
         )
     }
 }
