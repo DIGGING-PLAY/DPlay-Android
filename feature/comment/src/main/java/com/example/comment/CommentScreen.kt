@@ -127,6 +127,10 @@ fun CommentScreen(
                 Modifier
                     .width(132.dp)
                     .align(Alignment.CenterHorizontally),
+            titleStyle = DPlayTheme.typography.titleBold18,
+            artistStyle = DPlayTheme.typography.bodySemi14,
+            spaceBetweenCover = 12.dp,
+            spaceBetweenText = 6.dp
         )
 
         Spacer(modifier = Modifier.height(16.dp))
