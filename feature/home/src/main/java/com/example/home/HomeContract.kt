@@ -4,6 +4,7 @@ import com.example.designsystem.component.snackbar.type.SnackBarType
 import com.example.domain.model.BADGE
 import com.example.domain.model.DailyQuestion
 import com.example.domain.model.FeedItem
+import com.example.navigation.MyPageTab
 import com.example.ui.base.BaseContract
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
@@ -71,7 +72,9 @@ class HomeContract {
             val action: (() -> Unit)? = null,
         ) : HomeSideEffect
 
-        data object NavigateToMyPage : HomeSideEffect
+        data class NavigateToMyPage(
+            val initialTab: MyPageTab = MyPageTab.REGISTERED,
+        ) : HomeSideEffect
 
         data object ScrollToFirstPage : HomeSideEffect
     }

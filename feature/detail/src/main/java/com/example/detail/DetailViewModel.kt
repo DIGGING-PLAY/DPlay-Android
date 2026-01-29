@@ -14,6 +14,7 @@ import com.example.domain.model.UserRelation
 import com.example.domain.repository.PostRepository
 import com.example.domain.repository.TrackRepository
 import com.example.domain.usecase.CheckUserRelationUseCase
+import com.example.navigation.MyPageTab
 import com.example.ui.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
@@ -134,7 +135,7 @@ class DetailViewModel
                             setSideEffect(
                                 ShowSnackBar(
                                     snackBarType = SnackBarType.ADD,
-                                    action = { setSideEffect(NavigateToMyPage) },
+                                    action = { setSideEffect(NavigateToMyPage(initialTab = MyPageTab.BOOKMARKED)) },
                                 ),
                             )
                         }
@@ -229,8 +230,11 @@ class DetailViewModel
             viewModelScope.launch {
                 val userId = currentState.writer.userId
                 val userRelation = checkUserRelationUseCase(userId)
-                if (userRelation == UserRelation.OTHER) {
-                    setSideEffect(DetailContract.DetailSideEffect.NavigateToWriterProfile(userId))
+
+                when(userRelation){
+                    UserRelation.ME -> setSideEffect(NavigateToMyPage())
+                    UserRelation.ADMIN -> {}
+                    UserRelation.OTHER -> setSideEffect(DetailContract.DetailSideEffect.NavigateToWriterProfile(userId))
                 }
             }
         }

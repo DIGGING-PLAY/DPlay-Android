@@ -85,7 +85,7 @@ fun HomeRoute(
                 }
 
                 is HomeContract.HomeSideEffect.NavigateToMyPage -> {
-                    navigator.navigateTo(destination = MyPage(initialTab = MyPageTab.BOOKMARKED))
+                    navigator.navigateTo(destination = MyPage(initialTab = it.initialTab))
                 }
 
                 is HomeContract.HomeSideEffect.ShowLockedModal -> {

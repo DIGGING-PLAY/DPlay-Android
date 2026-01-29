@@ -5,6 +5,7 @@ import com.example.domain.model.BADGE
 import com.example.domain.model.Like
 import com.example.domain.model.Track
 import com.example.domain.model.Writer
+import com.example.navigation.MyPageTab
 import com.example.ui.base.BaseContract
 
 class DetailContract {
@@ -83,6 +84,8 @@ class DetailContract {
             val action: (() -> Unit)? = null,
         ) : DetailSideEffect
 
-        data object NavigateToMyPage : DetailSideEffect
+        data class NavigateToMyPage(
+            val initialTab: MyPageTab = MyPageTab.REGISTERED,
+        ) : DetailSideEffect
     }
 }

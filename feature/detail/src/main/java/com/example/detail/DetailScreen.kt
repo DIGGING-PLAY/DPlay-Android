@@ -85,7 +85,7 @@ fun DetailRoute(
                 }
 
                 is DetailContract.DetailSideEffect.NavigateToMyPage -> {
-                    navigator.navigateTo(destination = MyPage(initialTab = MyPageTab.BOOKMARKED))
+                    navigator.navigateTo(destination = MyPage(initialTab = it.initialTab))
                 }
 
                 is DetailContract.DetailSideEffect.ShowDeleteConfirmModal -> {
