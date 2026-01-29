@@ -53,8 +53,6 @@ data class OnboardingGraph(
     data object Permission : NavKey
 }
 
-data object Recommend : NavKey
-
 data object Search : NavKey
 
 data class Comment(
