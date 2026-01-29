@@ -15,7 +15,7 @@ fun DPlayLoadingScreen(
 ) {
     Box(
         modifier = modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
+        contentAlignment = Alignment.Center,
     ) {
         CircularProgressIndicator()
     }
@@ -23,7 +23,7 @@ fun DPlayLoadingScreen(
 
 @Preview
 @Composable
-private fun DPlayLoadingScreenPreview(){
+private fun DPlayLoadingScreenPreview() {
     DPlayTheme {
         DPlayLoadingScreen()
     }

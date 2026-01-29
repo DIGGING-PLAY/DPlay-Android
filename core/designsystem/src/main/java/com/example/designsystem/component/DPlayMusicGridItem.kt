@@ -27,7 +27,7 @@ fun DPlayMusicGridItem(
     titleStyle: TextStyle = DPlayTheme.typography.bodySemi14,
     artistStyle: TextStyle = DPlayTheme.typography.capMed12,
     spaceBetweenCover: Dp = 5.dp,
-    spaceBetweenText : Dp = 1.dp
+    spaceBetweenText: Dp = 1.dp,
 ) {
     Column(modifier = modifier.noRippleClickable(onClick = onClick), horizontalAlignment = Alignment.CenterHorizontally) {
         DPlayMusicDiscItem(

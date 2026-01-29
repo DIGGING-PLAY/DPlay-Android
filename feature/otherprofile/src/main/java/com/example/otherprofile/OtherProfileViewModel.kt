@@ -98,7 +98,7 @@ class OtherProfileViewModel
                             )
                         }
                     }.onFailure {
-                        updateState{
+                        updateState {
                             copy(
                                 loadingState = LoadingState.FAILURE,
                             )

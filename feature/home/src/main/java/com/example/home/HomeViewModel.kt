@@ -264,7 +264,7 @@ class HomeViewModel
             viewModelScope.launch {
                 val userRelation = checkUserRelationUseCase(userId)
 
-                when(userRelation){
+                when (userRelation) {
                     UserRelation.ME -> setSideEffect(HomeContract.HomeSideEffect.NavigateToMyPage())
                     UserRelation.ADMIN -> {}
                     UserRelation.OTHER -> setSideEffect(HomeContract.HomeSideEffect.NavigateToWriterProfile(userId))

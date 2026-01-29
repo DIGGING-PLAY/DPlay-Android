@@ -112,7 +112,7 @@ fun DetailRoute(
         }
     }
 
-    when(uiState.loadingState){
+    when (uiState.loadingState) {
         LoadingState.LOADING ->
             DPlayLoadingScreen()
 
@@ -149,7 +149,7 @@ fun DetailRoute(
             DPlayErrorScreen(
                 onBackIconClick = {
                     viewModel.handleIntent(DetailContract.DetailIntent.OnBackButtonClick)
-                }
+                },
             )
     }
 }
@@ -223,9 +223,10 @@ private fun DetailScreen(
                         Image(
                             painter = painterResource(id = chipType.drawableRes),
                             contentDescription = null,
-                            modifier = Modifier
-                                .height(height = 32.dp)
-                                .align(Alignment.BottomCenter),
+                            modifier =
+                                Modifier
+                                    .height(height = 32.dp)
+                                    .align(Alignment.BottomCenter),
                         )
                     }
                 }

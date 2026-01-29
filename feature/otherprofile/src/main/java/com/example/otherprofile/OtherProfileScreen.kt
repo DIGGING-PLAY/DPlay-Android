@@ -90,7 +90,7 @@ fun OtherProfileRoute(
         }
     }
 
-    when(state.loadingState){
+    when (state.loadingState) {
         LoadingState.LOADING ->
             DPlayLoadingScreen()
         LoadingState.SUCCESS ->
@@ -116,10 +116,9 @@ fun OtherProfileRoute(
             DPlayErrorScreen(
                 onBackIconClick = {
                     viewModel.handleIntent(OtherProfileContract.OtherProfileIntent.OnBackIconClick)
-                }
+                },
             )
     }
-
 }
 
 @Composable

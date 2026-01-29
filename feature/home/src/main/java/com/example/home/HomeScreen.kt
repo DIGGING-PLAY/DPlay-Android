@@ -38,7 +38,6 @@ import com.example.domain.model.BADGE
 import com.example.domain.model.FeedItem
 import com.example.navigation.Detail
 import com.example.navigation.MyPage
-import com.example.navigation.MyPageTab
 import com.example.navigation.Navigator
 import com.example.navigation.OtherProfile
 import com.example.navigation.Record
@@ -259,9 +258,10 @@ private fun HomePager(
                 Image(
                     painter = painterResource(id = it.drawableRes),
                     contentDescription = null,
-                    modifier = Modifier
-                        .height(height = 32.dp)
-                        .align(Alignment.TopCenter),
+                    modifier =
+                        Modifier
+                            .height(height = 32.dp)
+                            .align(Alignment.TopCenter),
                 )
             }
 

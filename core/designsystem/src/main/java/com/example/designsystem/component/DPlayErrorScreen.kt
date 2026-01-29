@@ -24,8 +24,8 @@ fun DPlayErrorScreen(
 ) {
     Column(
         modifier = modifier.fillMaxSize(),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ){
+        horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
         DplayLeftIconTopAppBar {
             onBackIconClick()
         }
@@ -35,7 +35,7 @@ fun DPlayErrorScreen(
         Image(
             painter = painterResource(id = R.drawable.img_warning),
             contentDescription = null,
-            modifier = Modifier.size(size = 140.dp)
+            modifier = Modifier.size(size = 140.dp),
         )
 
         Spacer(modifier = Modifier.height(height = 12.dp))
@@ -43,7 +43,7 @@ fun DPlayErrorScreen(
         Text(
             text = stringResource(R.string.error_main_text),
             style = DPlayTheme.typography.bodyBold16,
-            color = DPlayTheme.colors.dplayBlack
+            color = DPlayTheme.colors.dplayBlack,
         )
 
         Spacer(modifier = Modifier.height(height = 8.dp))
@@ -51,7 +51,7 @@ fun DPlayErrorScreen(
         Text(
             text = stringResource(R.string.error_sub_text),
             style = DPlayTheme.typography.bodyMed14,
-            color = DPlayTheme.colors.gray400
+            color = DPlayTheme.colors.gray400,
         )
     }
 }

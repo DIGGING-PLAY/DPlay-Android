@@ -130,7 +130,7 @@ fun CommentScreen(
             titleStyle = DPlayTheme.typography.titleBold18,
             artistStyle = DPlayTheme.typography.bodySemi14,
             spaceBetweenCover = 12.dp,
-            spaceBetweenText = 6.dp
+            spaceBetweenText = 6.dp,
         )
 
         Spacer(modifier = Modifier.height(16.dp))

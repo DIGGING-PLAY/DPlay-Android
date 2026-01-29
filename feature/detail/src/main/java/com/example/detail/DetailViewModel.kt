@@ -234,7 +234,7 @@ class DetailViewModel
                 val userId = currentState.writer.userId
                 val userRelation = checkUserRelationUseCase(userId)
 
-                when(userRelation){
+                when (userRelation) {
                     UserRelation.ME -> setSideEffect(NavigateToMyPage())
                     UserRelation.ADMIN -> {}
                     UserRelation.OTHER -> setSideEffect(DetailContract.DetailSideEffect.NavigateToWriterProfile(userId))
