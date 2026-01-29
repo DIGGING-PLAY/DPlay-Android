@@ -184,6 +184,7 @@ class DetailViewModel
                     .onSuccess {
                         homeRefreshTrigger.refresh()
                         registeredTrackRefreshTrigger.refresh()
+                        scrappedTrackRefreshTrigger.refresh()
                         setSideEffect(DetailContract.DetailSideEffect.NavigateBackStack)
                     }.onFailure { e ->
                         Timber.e(e)
