@@ -24,6 +24,8 @@ class DailyQuestionWorker(
     private fun showNotification() {
         val notificationManager =
             context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        val title = context.getString(R.string.notification_title)
+        val content = context.getString(R.string.notification_content)
 
         // 명시적으로 버전 관리
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -55,8 +57,8 @@ class DailyQuestionWorker(
             NotificationCompat
                 .Builder(context, CHANNEL_ID)
                 .setSmallIcon(R.mipmap.ic_launcher)
-                .setContentTitle(NOTIFICATION_CONTENT_TITLE)
-                .setContentText(NOTIFICATION_CONTENT_TEXT)
+                .setContentTitle(title)
+                .setContentText(content)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 .setContentIntent(pendingIntent)
                 .setAutoCancel(true)
@@ -70,8 +72,6 @@ class DailyQuestionWorker(
         const val CHANNEL_NAME = "Daily Question"
         const val CHANNEL_DESCRIPTION = "Daily Question Notification"
         const val NOTIFICATION_ID = 1001
-        const val NOTIFICATION_CONTENT_TITLE = "오늘의 질문이 도착했습니다!"
-        const val NOTIFICATION_CONTENT_TEXT = "지금 바로 확인해보세요."
         const val WORK_NAME = "daily_question_work"
         const val TAG = "DailyQuestionWorker"
     }
