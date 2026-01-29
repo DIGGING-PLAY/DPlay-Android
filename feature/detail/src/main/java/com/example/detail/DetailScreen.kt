@@ -1,5 +1,6 @@
 package com.example.detail
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
@@ -26,6 +27,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.blur
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
@@ -39,7 +41,6 @@ import com.example.designsystem.component.DplayDualIconTitleTopAppBar
 import com.example.designsystem.component.button.DPlayBookmarkButton
 import com.example.designsystem.component.button.DPlayLikeButton
 import com.example.designsystem.component.button.DPlayStreamingButton
-import com.example.designsystem.component.chip.DPlayChip
 import com.example.designsystem.component.chip.type.DPlayChipType
 import com.example.designsystem.component.snackbar.LocalShowSnackBar
 import com.example.designsystem.theme.DPlayTheme
@@ -204,9 +205,12 @@ private fun DetailScreen(
                                 BADGE.EDITOR -> DPlayChipType.EDITOR
                                 BADGE.NEW -> DPlayChipType.NEW
                             }
-                        DPlayChip(
-                            type = chipType,
-                            modifier = Modifier.align(Alignment.BottomCenter),
+                        Image(
+                            painter = painterResource(id = chipType.drawableRes),
+                            contentDescription = null,
+                            modifier = Modifier
+                                .height(height = 32.dp)
+                                .align(Alignment.BottomCenter),
                         )
                     }
                 }
