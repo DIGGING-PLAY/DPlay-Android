@@ -27,7 +27,7 @@ fun DPlayErrorScreen(
         horizontalAlignment = Alignment.CenterHorizontally
     ){
         DplayLeftIconTopAppBar {
-
+            onBackIconClick()
         }
 
         Spacer(modifier = Modifier.height(height = 132.dp))
