@@ -11,6 +11,8 @@ import kotlinx.coroutines.flow.Flow
 interface UserRepository {
     fun getUser(): Flow<User?>
 
+    suspend fun getUser(userId: Long): Result<User>
+
     fun getAccessToken(): Flow<String?>
 
     fun getRefreshToken(): Flow<String?>

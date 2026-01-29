@@ -74,7 +74,9 @@ class DetailContract {
 
         data object NavigateBackStack : DetailSideEffect
 
-        data object NavigateToWriterProfile : DetailSideEffect
+        data class NavigateToWriterProfile(
+            val writerUserId: Long,
+        ) : DetailSideEffect
 
         data class ShowSnackBar(
             val snackBarType: SnackBarType,

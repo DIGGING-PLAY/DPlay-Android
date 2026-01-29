@@ -19,6 +19,10 @@ class SettingContract {
         data object OnWithdrawConfirm : SettingIntent
 
         data object OnBackIconClick : SettingIntent
+
+        data class UpdateNotificationPermission(
+            val isGranted: Boolean,
+        ) : SettingIntent
     }
 
     sealed interface SettingSideEffect : BaseContract.SideEffect {
@@ -37,5 +41,7 @@ class SettingContract {
         data class OpenWebView(
             val url: String,
         ) : SettingSideEffect
+
+        data object NavigateToNotificationSetting : SettingSideEffect
     }
 }

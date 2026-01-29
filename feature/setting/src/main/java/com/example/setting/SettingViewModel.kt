@@ -3,11 +3,8 @@ package com.example.setting
 import androidx.lifecycle.viewModelScope
 import com.example.common.constant.Url
 import com.example.domain.repository.AuthRepository
-import com.example.domain.repository.UserRepository
 import com.example.ui.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -16,16 +13,9 @@ class SettingViewModel
     @Inject
     constructor(
         private val authRepository: AuthRepository,
-        private val userRepository: UserRepository,
     ) : BaseViewModel<SettingContract.SettingState, SettingContract.SettingIntent, SettingContract.SettingSideEffect>(
             SettingContract.SettingState(),
         ) {
-        init {
-            initializeNotificationEnabled()
-        }
-
-        private var debounceJob: Job? = null
-
         override fun handleIntent(intent: SettingContract.SettingIntent) {
             when (intent) {
                 is SettingContract.SettingIntent.OnMenuClick -> {
@@ -39,6 +29,13 @@ class SettingViewModel
                 }
                 SettingContract.SettingIntent.OnWithdrawConfirm -> {
                     withdraw()
+                }
+                is SettingContract.SettingIntent.UpdateNotificationPermission -> {
+                    updateState {
+                        copy(
+                            isPushNotificationEnabled = intent.isGranted,
+                        )
+                    }
                 }
             }
         }
@@ -68,7 +65,7 @@ class SettingViewModel
         private fun handleMenuClick(type: SettingMenuType) {
             when (type) {
                 SettingMenuType.PUSH_NOTIFICATION -> {
-                    toggleNotification(!currentState.isPushNotificationEnabled)
+                    setSideEffect(SettingContract.SettingSideEffect.NavigateToNotificationSetting)
                 }
                 SettingMenuType.ANNOUNCEMENT -> {
                     setSideEffect(SettingContract.SettingSideEffect.OpenWebView(type.url ?: Url.ERROR))
@@ -90,45 +87,5 @@ class SettingViewModel
                 }
                 SettingMenuType.VERSION -> { /* 동작없음 */ }
             }
-        }
-
-        private fun initializeNotificationEnabled() {
-            viewModelScope.launch {
-                userRepository
-                    .getNotificationEnabled()
-                    .onSuccess {
-                        updateState {
-                            copy(
-                                isPushNotificationEnabled = it,
-                            )
-                        }
-                    }.onFailure {
-                    }
-            }
-        }
-
-        private fun toggleNotification(enabled: Boolean) {
-            updateState {
-                copy(
-                    isPushNotificationEnabled = enabled,
-                )
-            }
-            debounceJob?.cancel()
-
-            debounceJob =
-                viewModelScope.launch {
-                    delay(500L)
-
-                    userRepository
-                        .updateNotificationEnabled(enabled)
-                        .onSuccess {
-                        }.onFailure {
-                            updateState {
-                                copy(
-                                    isPushNotificationEnabled = !enabled,
-                                )
-                            }
-                        }
-                }
         }
     }

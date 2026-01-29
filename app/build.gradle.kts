@@ -42,4 +42,5 @@ dependencies {
     implementation(projects.core.data)
     testImplementation(kotlin("test"))
     implementation(libs.kakao.user)
+    implementation(libs.androidx.work.runtime.ktx)
 }

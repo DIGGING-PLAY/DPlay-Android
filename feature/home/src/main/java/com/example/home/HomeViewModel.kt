@@ -8,9 +8,11 @@ import com.example.domain.model.BADGE
 import com.example.domain.model.FeedItem
 import com.example.domain.model.Like
 import com.example.domain.model.Track
+import com.example.domain.model.UserRelation
 import com.example.domain.model.Writer
 import com.example.domain.repository.PostRepository
 import com.example.domain.repository.TrackRepository
+import com.example.domain.usecase.CheckUserRelationUseCase
 import com.example.ui.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.persistentListOf
@@ -29,6 +31,7 @@ class HomeViewModel
         private val trackRepository: TrackRepository,
         private val audioPlayer: AudioPlayer,
         private val homeRefreshTrigger: HomeRefreshTrigger,
+        private val checkUserRelationUseCase: CheckUserRelationUseCase,
     ) : BaseViewModel<HomeContract.HomeState, HomeContract.HomeIntent, HomeContract.HomeSideEffect>(
             HomeContract.HomeState(),
         ) {
@@ -72,7 +75,7 @@ class HomeViewModel
                 }
 
                 is HomeContract.HomeIntent.OnWriterProfileClick -> {
-                    setSideEffect(HomeContract.HomeSideEffect.NavigateToWriterProfile(writerUserId = intent.writerUserId))
+                    navigateToOthersProfile(intent.writerUserId)
                 }
 
                 is HomeContract.HomeIntent.OnCoverClick -> {
@@ -253,6 +256,15 @@ class HomeViewModel
                     }.onFailure { e ->
                         Timber.e(e)
                     }
+            }
+        }
+
+        private fun navigateToOthersProfile(userId: Long) {
+            viewModelScope.launch {
+                val userRelation = checkUserRelationUseCase(userId)
+                if (userRelation == UserRelation.OTHER) {
+                    setSideEffect(HomeContract.HomeSideEffect.NavigateToWriterProfile(userId))
+                }
             }
         }
     }

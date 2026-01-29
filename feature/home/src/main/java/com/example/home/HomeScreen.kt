@@ -39,6 +39,7 @@ import com.example.navigation.Detail
 import com.example.navigation.MyPage
 import com.example.navigation.MyPageTab
 import com.example.navigation.Navigator
+import com.example.navigation.OtherProfile
 import com.example.navigation.Record
 import com.example.navigation.Search
 import com.example.ui.controller.LocalModalController
@@ -75,7 +76,7 @@ fun HomeRoute(
                 }
 
                 is HomeContract.HomeSideEffect.NavigateToWriterProfile -> {
-                    // TODO
+                    navigator.navigateTo(OtherProfile(userId = it.writerUserId))
                 }
 
                 is HomeContract.HomeSideEffect.ShowSnackBar -> {

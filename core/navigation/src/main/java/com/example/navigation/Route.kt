@@ -73,3 +73,8 @@ data class Detail(
     val postId: Long,
     val badge: BADGE? = null,
 ) : NavKey
+
+@Serializable
+data class OtherProfile(
+    val userId: Long,
+) : NavKey

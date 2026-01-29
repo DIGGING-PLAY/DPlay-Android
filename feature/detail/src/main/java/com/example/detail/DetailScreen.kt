@@ -49,6 +49,7 @@ import com.example.domain.model.BADGE
 import com.example.navigation.MyPage
 import com.example.navigation.MyPageTab
 import com.example.navigation.Navigator
+import com.example.navigation.OtherProfile
 import com.example.ui.controller.LocalModalController
 import kotlinx.coroutines.flow.collectLatest
 
@@ -79,7 +80,7 @@ fun DetailRoute(
                 }
 
                 is DetailContract.DetailSideEffect.NavigateToWriterProfile -> {
-                    // TODO
+                    navigator.navigateTo(destination = OtherProfile(userId = it.writerUserId))
                 }
 
                 is DetailContract.DetailSideEffect.NavigateToMyPage -> {
