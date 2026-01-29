@@ -4,6 +4,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import androidx.paging.map
+import com.example.domain.model.LoadingState
 import com.example.domain.repository.UserRepository
 import com.example.domain.usecase.GetRegisteredTracksUseCase
 import com.example.domain.usecase.GetScrappedTracksUseCase
@@ -91,11 +92,17 @@ class OtherProfileViewModel
                     .onSuccess { user ->
                         updateState {
                             copy(
+                                loadingState = LoadingState.SUCCESS,
                                 userNickname = user.nickname,
                                 profileImagePath = user.profileImagePath,
                             )
                         }
                     }.onFailure {
+                        updateState{
+                            copy(
+                                loadingState = LoadingState.FAILURE,
+                            )
+                        }
                     }
             }
         }

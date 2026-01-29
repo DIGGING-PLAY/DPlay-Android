@@ -35,6 +35,8 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil3.compose.AsyncImage
 import com.dplay.designsystem.R
 import com.example.designsystem.component.DPlayButtonBottomSheet
+import com.example.designsystem.component.DPlayErrorScreen
+import com.example.designsystem.component.DPlayLoadingScreen
 import com.example.designsystem.component.DPlayMusicDiscItem
 import com.example.designsystem.component.DPlayReportBottomSheet
 import com.example.designsystem.component.DplayDualIconTitleTopAppBar
@@ -47,8 +49,8 @@ import com.example.designsystem.theme.DPlayTheme
 import com.example.designsystem.util.noRippleClickable
 import com.example.designsystem.util.roundedBackgroundWithPadding
 import com.example.domain.model.BADGE
+import com.example.domain.model.LoadingState
 import com.example.navigation.MyPage
-import com.example.navigation.MyPageTab
 import com.example.navigation.Navigator
 import com.example.navigation.OtherProfile
 import com.example.ui.controller.LocalModalController
@@ -110,33 +112,46 @@ fun DetailRoute(
         }
     }
 
-    DetailScreen(
-        state = uiState,
-        onTopAppBarLeftIconClick = {
-            viewModel.handleIntent(DetailContract.DetailIntent.OnBackButtonClick)
-        },
-        onTopAppBarRightIconClick = {
-            viewModel.handleIntent(DetailContract.DetailIntent.OnMeatBallsClick)
-        },
-        onBookmarkClick = {
-            viewModel.handleIntent(DetailContract.DetailIntent.OnBookmarkClick)
-        },
-        onStreamClick = {
-            viewModel.handleIntent(DetailContract.DetailIntent.OnStreamClick)
-        },
-        onLikeClick = {
-            viewModel.handleIntent(DetailContract.DetailIntent.OnLikeClick)
-        },
-        onWriterProfileClick = {
-            viewModel.handleIntent(DetailContract.DetailIntent.OnWriterProfileClick)
-        },
-        changeBottomSheetVisible = { visible ->
-            viewModel.handleIntent(DetailContract.DetailIntent.ChangeBottomSheetVisible(visible))
-        },
-        onDeleteClick = {
-            viewModel.handleIntent(DetailContract.DetailIntent.OnDeleteClick)
-        },
-    )
+    when(uiState.loadingState){
+        LoadingState.LOADING ->
+            DPlayLoadingScreen()
+
+        LoadingState.SUCCESS ->
+            DetailScreen(
+                state = uiState,
+                onTopAppBarLeftIconClick = {
+                    viewModel.handleIntent(DetailContract.DetailIntent.OnBackButtonClick)
+                },
+                onTopAppBarRightIconClick = {
+                    viewModel.handleIntent(DetailContract.DetailIntent.OnMeatBallsClick)
+                },
+                onBookmarkClick = {
+                    viewModel.handleIntent(DetailContract.DetailIntent.OnBookmarkClick)
+                },
+                onStreamClick = {
+                    viewModel.handleIntent(DetailContract.DetailIntent.OnStreamClick)
+                },
+                onLikeClick = {
+                    viewModel.handleIntent(DetailContract.DetailIntent.OnLikeClick)
+                },
+                onWriterProfileClick = {
+                    viewModel.handleIntent(DetailContract.DetailIntent.OnWriterProfileClick)
+                },
+                changeBottomSheetVisible = { visible ->
+                    viewModel.handleIntent(DetailContract.DetailIntent.ChangeBottomSheetVisible(visible))
+                },
+                onDeleteClick = {
+                    viewModel.handleIntent(DetailContract.DetailIntent.OnDeleteClick)
+                },
+            )
+
+        LoadingState.FAILURE ->
+            DPlayErrorScreen(
+                onBackIconClick = {
+                    viewModel.handleIntent(DetailContract.DetailIntent.OnBackButtonClick)
+                }
+            )
+    }
 }
 
 @Composable

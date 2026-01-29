@@ -10,6 +10,7 @@ import com.example.detail.DetailContract.DetailSideEffect.NavigateToMyPage
 import com.example.detail.DetailContract.DetailSideEffect.ShowSnackBar
 import com.example.domain.model.BADGE
 import com.example.domain.model.Like
+import com.example.domain.model.LoadingState
 import com.example.domain.model.UserRelation
 import com.example.domain.repository.PostRepository
 import com.example.domain.repository.TrackRepository
@@ -98,6 +99,7 @@ class DetailViewModel
                     .onSuccess { postDetail ->
                         updateState {
                             copy(
+                                loadingState = LoadingState.SUCCESS,
                                 postId = postDetail.postId,
                                 isScrapped = postDetail.isScrapped,
                                 content = postDetail.content,
@@ -111,6 +113,7 @@ class DetailViewModel
                         }
                     }.onFailure { e ->
                         Timber.e(e, "error")
+                        updateState { copy(loadingState = LoadingState.FAILURE) }
                     }
             }
         }
