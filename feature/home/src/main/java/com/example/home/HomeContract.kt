@@ -1,6 +1,7 @@
 package com.example.home
 
 import com.example.designsystem.component.snackbar.type.SnackBarType
+import com.example.domain.model.BADGE
 import com.example.domain.model.DailyQuestion
 import com.example.domain.model.FeedItem
 import com.example.ui.base.BaseContract
@@ -24,8 +25,6 @@ class HomeContract {
     ) : BaseContract.State
 
     sealed interface HomeIntent : BaseContract.Intent {
-        data object LoadHomeData : HomeIntent
-
         data object OnRefreshClick : HomeIntent
 
         data class OnBookmarkClick(
@@ -49,15 +48,20 @@ class HomeContract {
         data class OnCoverClick(
             val postId: Long,
         ) : HomeIntent
+
+        data object OnLockedCoverClick : HomeIntent
     }
 
     sealed interface HomeSideEffect : BaseContract.SideEffect {
+        data object ShowLockedModal : HomeSideEffect
+
         data class NavigateToWriterProfile(
             val writerUserId: Long,
         ) : HomeSideEffect
 
         data class NavigateToPostDetail(
             val postId: Long,
+            val badge: BADGE?,
         ) : HomeSideEffect
 
         data object NavigateToRecord : HomeSideEffect
@@ -68,5 +72,7 @@ class HomeContract {
         ) : HomeSideEffect
 
         data object NavigateToMyPage : HomeSideEffect
+
+        data object ScrollToFirstPage : HomeSideEffect
     }
 }

@@ -20,7 +20,7 @@ object DetailNavigationModule {
     ): EntryProviderScope<NavKey>.() -> Unit =
         {
             entry<Detail> { args ->
-                DetailRoute(postId = args.postId, navigator = navigator, date = args.date)
+                DetailRoute(postId = args.postId, navigator = navigator, badge = args.badge)
             }
         }
 }

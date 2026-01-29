@@ -20,7 +20,7 @@ class Navigator(
     val shouldShowBottomSheet: Boolean
         get() = backStack.lastOrNull() is TopLevelRoute
 
-    val topLevelRoutes: ImmutableList<TopLevelRoute> = persistentListOf(Home, MyPage)
+    val topLevelRoutes: ImmutableList<TopLevelRoute> = persistentListOf(Home, MyPage())
 
     fun navigateToTopLevelRoute(destination: TopLevelRoute) {
         clearAndNavigateTo(destination as NavKey)

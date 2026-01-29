@@ -19,8 +19,11 @@ object MyPageNavigationModule {
         navigator: Navigator,
     ): EntryProviderScope<NavKey>.() -> Unit =
         {
-            entry<MyPage> {
-                MyPageRoute(navigator = navigator)
+            entry<MyPage> { myPage ->
+                MyPageRoute(
+                    navigator = navigator,
+                    initialTab = myPage.initialTab,
+                )
             }
         }
 }

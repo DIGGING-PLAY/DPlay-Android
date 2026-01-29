@@ -45,7 +45,11 @@ import com.example.designsystem.component.snackbar.LocalShowSnackBar
 import com.example.designsystem.theme.DPlayTheme
 import com.example.designsystem.util.noRippleClickable
 import com.example.designsystem.util.roundedBackgroundWithPadding
+import com.example.domain.model.BADGE
+import com.example.navigation.MyPage
+import com.example.navigation.MyPageTab
 import com.example.navigation.Navigator
+import com.example.ui.controller.LocalModalController
 import kotlinx.coroutines.flow.collectLatest
 
 @Composable
@@ -53,13 +57,14 @@ fun DetailRoute(
     postId: Long,
     navigator: Navigator,
     viewModel: DetailViewModel = hiltViewModel(),
-    date: String = "",
+    badge: BADGE? = null,
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val showSnackBar = LocalShowSnackBar.current
+    val modalController = LocalModalController.current
 
     LaunchedEffect(Unit) {
-        viewModel.handleIntent(DetailContract.DetailIntent.LoadData(postId = postId, date = date))
+        viewModel.handleIntent(DetailContract.DetailIntent.LoadData(postId = postId, badge = badge))
     }
 
     LaunchedEffect(viewModel.sideEffect) {
@@ -78,7 +83,26 @@ fun DetailRoute(
                 }
 
                 is DetailContract.DetailSideEffect.NavigateToMyPage -> {
-                    // TODO
+                    navigator.navigateTo(destination = MyPage(initialTab = MyPageTab.BOOKMARKED))
+                }
+
+                is DetailContract.DetailSideEffect.ShowDeleteConfirmModal -> {
+                    modalController.showWarningModal(
+                        mainText = "정말 삭제하시겠어요?",
+                        subText = "삭제된 글은 복구할 수 없어요",
+                        leftButtonLabel = "취소",
+                        rightButtonLabel = "삭제",
+                        onLeftButtonClick = {
+                            modalController.hideModal()
+                        },
+                        onRightButtonClick = {
+                            modalController.hideModal()
+                            viewModel.handleIntent(DetailContract.DetailIntent.OnDeleteConfirmClick)
+                        },
+                        onDismiss = {
+                            modalController.hideModal()
+                        },
+                    )
                 }
             }
         }
@@ -172,9 +196,15 @@ private fun DetailScreen(
                         onClick = onBookmarkClick,
                         modifier = Modifier.align(Alignment.TopEnd),
                     )
-                    if (state.isHost) {
+                    state.badge?.let { badge ->
+                        val chipType =
+                            when (badge) {
+                                BADGE.BEST -> DPlayChipType.BEST
+                                BADGE.EDITOR -> DPlayChipType.EDITOR
+                                BADGE.NEW -> DPlayChipType.NEW
+                            }
                         DPlayChip(
-                            type = DPlayChipType.EDITOR,
+                            type = chipType,
                             modifier = Modifier.align(Alignment.BottomCenter),
                         )
                     }
@@ -272,7 +302,7 @@ private fun DetailScreen(
                         .noRippleClickable { changeBottomSheetVisible(false) },
             )
 
-            if (state.isMyPost) {
+            if (state.isHost) {
                 DPlayButtonBottomSheet(
                     mainText = "삭제하기",
                     subText = "취소하기",
@@ -286,7 +316,7 @@ private fun DetailScreen(
             } else {
                 DPlayReportBottomSheet(
                     onCloseClick = { changeBottomSheetVisible(false) },
-                    onButtonClick = { changeBottomSheetVisible(false) },
+                    onButtonClick = { _ -> changeBottomSheetVisible(false) },
                     modifier = bottomSheetModifier,
                 )
             }

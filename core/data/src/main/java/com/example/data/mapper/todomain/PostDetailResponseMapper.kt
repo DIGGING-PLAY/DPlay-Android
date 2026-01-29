@@ -9,6 +9,7 @@ fun PostDetailResponse.toDomain(): PostDetail =
         isHost = this.isHost,
         isScrapped = this.isScrapped,
         content = this.content,
+        date = this.displayDate,
         track = this.track.toDomain(),
         writer = this.user.toDomain(),
         like = this.like.toDomain(),

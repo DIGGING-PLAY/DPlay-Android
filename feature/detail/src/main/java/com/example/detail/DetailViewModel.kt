@@ -2,16 +2,16 @@ package com.example.detail
 
 import androidx.lifecycle.viewModelScope
 import com.example.common.audio.AudioPlayer
+import com.example.common.event.HomeRefreshTrigger
 import com.example.designsystem.component.snackbar.type.SnackBarType
 import com.example.detail.DetailContract.DetailSideEffect.NavigateToMyPage
 import com.example.detail.DetailContract.DetailSideEffect.ShowSnackBar
+import com.example.domain.model.BADGE
 import com.example.domain.model.Like
 import com.example.domain.repository.PostRepository
 import com.example.domain.repository.TrackRepository
-import com.example.domain.repository.UserRepository
 import com.example.ui.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -25,7 +25,7 @@ class DetailViewModel
         private val postRepository: PostRepository,
         private val trackRepository: TrackRepository,
         private val audioPlayer: AudioPlayer,
-        private val userRepository: UserRepository,
+        private val homeRefreshTrigger: HomeRefreshTrigger,
     ) : BaseViewModel<DetailContract.DetailState, DetailContract.DetailIntent, DetailContract.DetailSideEffect>(
             DetailContract.DetailState(),
         ) {
@@ -51,13 +51,18 @@ class DetailViewModel
 
         override fun handleIntent(intent: DetailContract.DetailIntent) {
             when (intent) {
-                is DetailContract.DetailIntent.LoadData -> loadData(intent.postId, intent.date)
+                is DetailContract.DetailIntent.LoadData -> loadData(intent.postId, intent.badge)
                 is DetailContract.DetailIntent.OnBackButtonClick -> {
                     setSideEffect(DetailContract.DetailSideEffect.NavigateBackStack)
                 }
 
                 is DetailContract.DetailIntent.OnBookmarkClick -> toggleBookmark()
-                is DetailContract.DetailIntent.OnDeleteClick -> deletePost()
+                is DetailContract.DetailIntent.OnDeleteClick -> {
+                    changeBottomSheetVisible(visible = false)
+                    setSideEffect(DetailContract.DetailSideEffect.ShowDeleteConfirmModal)
+                }
+
+                is DetailContract.DetailIntent.OnDeleteConfirmClick -> deletePost()
                 is DetailContract.DetailIntent.OnLikeClick -> toggleLike()
                 is DetailContract.DetailIntent.OnMeatBallsClick -> {
                     changeBottomSheetVisible(visible = true)
@@ -77,11 +82,9 @@ class DetailViewModel
 
         private fun loadData(
             postId: Long,
-            date: String,
+            badge: BADGE?,
         ) {
             viewModelScope.launch {
-                val currentUserId = userRepository.getUser().first()?.id ?: 0L
-
                 postRepository
                     .getPostDetail(postId = postId)
                     .onSuccess { postDetail ->
@@ -91,11 +94,11 @@ class DetailViewModel
                                 isScrapped = postDetail.isScrapped,
                                 content = postDetail.content,
                                 isHost = postDetail.isHost,
+                                date = postDetail.displayDate,
                                 track = postDetail.track,
                                 writer = postDetail.writer,
                                 like = postDetail.like,
-                                date = date,
-                                currentUserId = currentUserId,
+                                badge = badge,
                             )
                         }
                     }.onFailure { e ->
@@ -167,10 +170,9 @@ class DetailViewModel
                 postRepository
                     .deletePost(postId = currentState.postId)
                     .onSuccess {
-                        changeBottomSheetVisible(visible = false)
+                        homeRefreshTrigger.refresh()
                         setSideEffect(DetailContract.DetailSideEffect.NavigateBackStack)
                     }.onFailure { e ->
-                        changeBottomSheetVisible(visible = false)
                         Timber.e(e)
                     }
             }

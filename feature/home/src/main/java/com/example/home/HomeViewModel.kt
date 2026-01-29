@@ -2,8 +2,9 @@ package com.example.home
 
 import androidx.lifecycle.viewModelScope
 import com.example.common.audio.AudioPlayer
+import com.example.common.event.HomeRefreshTrigger
 import com.example.designsystem.component.snackbar.type.SnackBarType
-import com.example.domain.model.Badges
+import com.example.domain.model.BADGE
 import com.example.domain.model.FeedItem
 import com.example.domain.model.Like
 import com.example.domain.model.Track
@@ -24,14 +25,17 @@ import javax.inject.Inject
 class HomeViewModel
     @Inject
     constructor(
-        val postRepository: PostRepository,
+        private val postRepository: PostRepository,
         private val trackRepository: TrackRepository,
         private val audioPlayer: AudioPlayer,
+        private val homeRefreshTrigger: HomeRefreshTrigger,
     ) : BaseViewModel<HomeContract.HomeState, HomeContract.HomeIntent, HomeContract.HomeSideEffect>(
             HomeContract.HomeState(),
         ) {
         init {
             observePlaybackState()
+            observeRefreshTrigger()
+            getTodayPosts()
         }
 
         private fun observePlaybackState() {
@@ -50,9 +54,15 @@ class HomeViewModel
                 }.launchIn(viewModelScope)
         }
 
+        private fun observeRefreshTrigger() {
+            homeRefreshTrigger.refreshEvent
+                .onEach {
+                    getTodayPosts()
+                }.launchIn(viewModelScope)
+        }
+
         override fun handleIntent(intent: HomeContract.HomeIntent) {
             when (intent) {
-                is HomeContract.HomeIntent.LoadHomeData -> getTodayPosts()
                 is HomeContract.HomeIntent.OnBookmarkClick -> toggleBookmark(intent.postId)
                 is HomeContract.HomeIntent.OnLikeClick -> toggleLike(intent.postId)
                 is HomeContract.HomeIntent.OnRefreshClick -> refreshTodayPosts()
@@ -66,7 +76,12 @@ class HomeViewModel
                 }
 
                 is HomeContract.HomeIntent.OnCoverClick -> {
-                    setSideEffect(HomeContract.HomeSideEffect.NavigateToPostDetail(postId = intent.postId))
+                    val badge = currentState.feedItems.find { it.postId == intent.postId }?.badge
+                    setSideEffect(HomeContract.HomeSideEffect.NavigateToPostDetail(postId = intent.postId, badge = badge))
+                }
+
+                is HomeContract.HomeIntent.OnLockedCoverClick -> {
+                    setSideEffect(HomeContract.HomeSideEffect.ShowLockedModal)
                 }
             }
         }
@@ -77,7 +92,7 @@ class HomeViewModel
                     .getTodayPosts()
                     .onSuccess { data ->
                         val feedItems =
-                            if (data.locked && data.totalCount >= 4) {
+                            if (data.locked) {
                                 data.todayPosts + lockedDummyFeedItem
                             } else {
                                 data.todayPosts
@@ -103,12 +118,7 @@ class HomeViewModel
                     postId = -1L,
                     isScrapped = false,
                     content = "",
-                    badges =
-                        Badges(
-                            isEditorPick = false,
-                            isPopular = false,
-                            isNew = false,
-                        ),
+                    badge = null,
                     track =
                         Track(
                             trackId = "",
@@ -163,6 +173,7 @@ class HomeViewModel
 
         private fun refreshTodayPosts() {
             getTodayPosts()
+            setSideEffect(HomeContract.HomeSideEffect.ScrollToFirstPage)
         }
 
         private fun toggleBookmark(postId: Long) {
@@ -252,12 +263,7 @@ val dummyFeedItems =
             postId = 111,
             isScrapped = true,
             content = "그냥 좋아요 이 노래",
-            badges =
-                Badges(
-                    isEditorPick = false,
-                    isPopular = true,
-                    isNew = true,
-                ),
+            badge = BADGE.BEST,
             track =
                 Track(
                     trackId = "apple:203948",
@@ -282,12 +288,7 @@ val dummyFeedItems =
             postId = 112,
             isScrapped = false,
             content = "비 오는 날 꼭 듣는 노래에요",
-            badges =
-                Badges(
-                    isEditorPick = true,
-                    isPopular = false,
-                    isNew = false,
-                ),
+            badge = BADGE.EDITOR,
             track =
                 Track(
                     trackId = "apple:204837",
@@ -312,12 +313,7 @@ val dummyFeedItems =
             postId = 113,
             isScrapped = false,
             content = "출근길에 항상 듣습니다!",
-            badges =
-                Badges(
-                    isEditorPick = false,
-                    isPopular = false,
-                    isNew = true,
-                ),
+            badge = BADGE.NEW,
             track =
                 Track(
                     trackId = "apple:204111",
@@ -342,12 +338,7 @@ val dummyFeedItems =
             postId = 113,
             isScrapped = false,
             content = "출근길에 항상 듣습니다!",
-            badges =
-                Badges(
-                    isEditorPick = false,
-                    isPopular = false,
-                    isNew = true,
-                ),
+            badge = BADGE.NEW,
             track =
                 Track(
                     trackId = "apple:204111",
@@ -372,12 +363,7 @@ val dummyFeedItems =
             postId = 113,
             isScrapped = false,
             content = "출근길에 항상 듣습니다!",
-            badges =
-                Badges(
-                    isEditorPick = false,
-                    isPopular = false,
-                    isNew = true,
-                ),
+            badge = BADGE.NEW,
             track =
                 Track(
                     trackId = "apple:204111",
@@ -402,12 +388,7 @@ val dummyFeedItems =
             postId = 113,
             isScrapped = false,
             content = "출근길에 항상 듣습니다!",
-            badges =
-                Badges(
-                    isEditorPick = false,
-                    isPopular = false,
-                    isNew = true,
-                ),
+            badge = BADGE.NEW,
             track =
                 Track(
                     trackId = "apple:204111",

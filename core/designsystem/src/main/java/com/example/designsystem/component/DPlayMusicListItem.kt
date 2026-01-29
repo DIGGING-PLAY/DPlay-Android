@@ -36,8 +36,8 @@ fun DPlayMusicListItem(
     musicName: String,
     musicArtistName: String,
     musicContent: String,
-    onMoreClick: () -> Unit,
     modifier: Modifier = Modifier,
+    onMoreClick: (() -> Unit)? = null,
     isEditorPick: Boolean = false,
     onClick: () -> Unit = {},
 ) {
@@ -69,11 +69,13 @@ fun DPlayMusicListItem(
             )
             Spacer(modifier = Modifier.width(8.dp))
             Column(modifier = Modifier.weight(1f)) {
-                DplayClickableIcon(
-                    iconRes = R.drawable.ic_more_gray_20,
-                    onClick = onMoreClick,
-                    modifier = Modifier.align(Alignment.End),
-                )
+                onMoreClick?.let {
+                    DplayClickableIcon(
+                        iconRes = R.drawable.ic_more_gray_20,
+                        onClick = it,
+                        modifier = Modifier.align(Alignment.End),
+                    )
+                }
                 BoxWithConstraints {
                     val maxTitleWidth = maxWidth * 0.5f
 

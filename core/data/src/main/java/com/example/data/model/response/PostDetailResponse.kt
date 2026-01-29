@@ -13,6 +13,8 @@ data class PostDetailResponse(
     val isScrapped: Boolean,
     @SerialName("content")
     val content: String,
+    @SerialName("displayDate")
+    val displayDate: String,
     @SerialName("track")
     val track: TrackResponse,
     @SerialName("user")

@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -17,6 +18,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
@@ -26,16 +28,21 @@ import com.example.designsystem.component.DPlayLargeCover
 import com.example.designsystem.component.DPlaySubjectItem
 import com.example.designsystem.component.DplayClickableIcon
 import com.example.designsystem.component.DplayLogoTopAppBar
+import com.example.designsystem.component.button.DPlayBookmarkButton
 import com.example.designsystem.component.chip.DPlayChip
 import com.example.designsystem.component.chip.type.DPlayChipType
 import com.example.designsystem.component.snackbar.LocalShowSnackBar
 import com.example.designsystem.theme.DPlayTheme
+import com.example.domain.model.BADGE
 import com.example.domain.model.FeedItem
 import com.example.navigation.Detail
+import com.example.navigation.MyPage
+import com.example.navigation.MyPageTab
 import com.example.navigation.Navigator
 import com.example.navigation.Record
+import com.example.navigation.Search
+import com.example.ui.controller.LocalModalController
 import kotlinx.coroutines.flow.collectLatest
-import kotlin.math.absoluteValue
 
 @Composable
 fun HomeRoute(
@@ -44,10 +51,12 @@ fun HomeRoute(
 ) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
     val showSnackBar = LocalShowSnackBar.current
+    val modalController = LocalModalController.current
+    val pagerState = rememberPagerState(pageCount = { state.feedItems.size })
 
-    LaunchedEffect(Unit) {
-        viewModel.handleIntent(HomeContract.HomeIntent.LoadHomeData)
-    }
+    val lockedModalMainText = stringResource(R.string.recommend_prompt_modal_main_text)
+    val lockedModalSubText = stringResource(R.string.recommend_prompt_modal_sub_text)
+    val lockedModalButtonLabel = stringResource(R.string.recommend_prompt_modal_button_label)
 
     LaunchedEffect(viewModel.sideEffect) {
         viewModel.sideEffect.collectLatest {
@@ -60,7 +69,7 @@ fun HomeRoute(
                     navigator.navigateTo(
                         Detail(
                             postId = it.postId,
-                            date = state.todayQuestion.recordMMDD,
+                            badge = it.badge,
                         ),
                     )
                 }
@@ -74,13 +83,33 @@ fun HomeRoute(
                 }
 
                 is HomeContract.HomeSideEffect.NavigateToMyPage -> {
-                    // TODO
+                    navigator.navigateTo(destination = MyPage(initialTab = MyPageTab.BOOKMARKED))
+                }
+
+                is HomeContract.HomeSideEffect.ShowLockedModal -> {
+                    modalController.showGraphicModal(
+                        mainText = lockedModalMainText,
+                        subText = lockedModalSubText,
+                        buttonLabel = lockedModalButtonLabel,
+                        onButtonClick = {
+                            modalController.hideModal()
+                            navigator.navigateTo(destination = Search)
+                        },
+                        onDismiss = {
+                            modalController.hideModal()
+                        },
+                    )
+                }
+
+                is HomeContract.HomeSideEffect.ScrollToFirstPage -> {
+                    pagerState.animateScrollToPage(0)
                 }
             }
         }
     }
     HomeScreen(
         uiState = state,
+        pagerState = pagerState,
         onRefresh = {
             viewModel.handleIntent(HomeContract.HomeIntent.OnRefreshClick)
         },
@@ -102,12 +131,16 @@ fun HomeRoute(
         onListClick = {
             viewModel.handleIntent(HomeContract.HomeIntent.OnListClick)
         },
+        onLockedCoverClick = {
+            viewModel.handleIntent(HomeContract.HomeIntent.OnLockedCoverClick)
+        },
     )
 }
 
 @Composable
 private fun HomeScreen(
     uiState: HomeContract.HomeState = HomeContract.HomeState(),
+    pagerState: PagerState,
     onRefresh: () -> Unit,
     onPostClick: (postId: Long) -> Unit,
     onBookmarkClick: (postId: Long) -> Unit,
@@ -115,6 +148,7 @@ private fun HomeScreen(
     onLikeClick: (postId: Long) -> Unit,
     onWriterProfileClick: (Long) -> Unit,
     onListClick: () -> Unit,
+    onLockedCoverClick: () -> Unit,
 ) {
     Column(
         modifier = Modifier.fillMaxSize(),
@@ -145,12 +179,14 @@ private fun HomeScreen(
         )
         Spacer(modifier = Modifier.height(32.dp))
         HomePager(
+            pagerState = pagerState,
             feedItems = uiState.feedItems,
             onPostClick = onPostClick,
             onBookmarkClick = onBookmarkClick,
             onStreamClick = onStreamClick,
             onLikeClick = onLikeClick,
             onWriterProfileClick = onWriterProfileClick,
+            onLockedCoverClick = onLockedCoverClick,
             uiState = uiState,
         )
     }
@@ -158,25 +194,24 @@ private fun HomeScreen(
 
 @Composable
 private fun HomePager(
+    pagerState: PagerState,
     feedItems: List<FeedItem>,
     onPostClick: (postId: Long) -> Unit,
     onBookmarkClick: (postId: Long) -> Unit,
     onStreamClick: (trackId: String) -> Unit,
     onLikeClick: (postId: Long) -> Unit,
     onWriterProfileClick: (Long) -> Unit,
+    onLockedCoverClick: () -> Unit,
     uiState: HomeContract.HomeState,
 ) {
-    val pagerState = rememberPagerState(pageCount = { feedItems.size })
-
     val currentItem = feedItems.getOrNull(pagerState.currentPage)
     val isCurrentPageLocked = uiState.locked && pagerState.currentPage >= 3
     val currentChipType: DPlayChipType? =
-        currentItem?.let {
-            when {
-                it.badges.isPopular -> DPlayChipType.BEST
-                it.badges.isEditorPick -> DPlayChipType.EDITOR
-                it.badges.isNew -> DPlayChipType.NEW
-                else -> null
+        currentItem?.badge?.let {
+            when (it) {
+                BADGE.BEST -> DPlayChipType.BEST
+                BADGE.EDITOR -> DPlayChipType.EDITOR
+                BADGE.NEW -> DPlayChipType.NEW
             }
         }
 
@@ -190,20 +225,11 @@ private fun HomePager(
                 pageSpacing = 24.dp,
             ) { page ->
                 val item = feedItems[page]
-
-                val pageOffset =
-                    (
-                        (pagerState.currentPage - page) +
-                            pagerState.currentPageOffsetFraction
-                    ).absoluteValue
-
-                val isCenter = pageOffset < 0.2f
                 val isLockedPage = uiState.locked && page >= 3
 
                 DPlayLargeCover(
                     modifier = Modifier.fillMaxWidth(),
                     isLocked = isLockedPage,
-                    isBookmarkChecked = item.isScrapped,
                     isLikeChecked = item.like.isLiked,
                     likeCount = item.like.count,
                     writerProfileImageUrl = item.writer.profileImg,
@@ -212,11 +238,15 @@ private fun HomePager(
                     musicImageUrl = item.track.coverImg,
                     onStreamClick = { onStreamClick(item.track.trackId) },
                     onLikeClick = { onLikeClick(item.postId) },
-                    onBookmarkClick = { onBookmarkClick(item.postId) },
-                    onCoverClick = { if (!isLockedPage) onPostClick(item.postId) },
+                    onCoverClick = {
+                        if (isLockedPage) {
+                            onLockedCoverClick()
+                        } else {
+                            onPostClick(item.postId)
+                        }
+                    },
                     onWriterProfileClick = { onWriterProfileClick(item.writer.userId) },
                     isStreaming = uiState.streamingTrackId == item.track.trackId,
-                    bookmarkIconVisible = isCenter,
                 )
             }
         }
@@ -227,6 +257,19 @@ private fun HomePager(
                 DPlayChip(
                     type = it,
                     modifier = Modifier.align(Alignment.TopCenter),
+                )
+            }
+
+        currentItem
+            ?.takeIf { !isCurrentPageLocked }
+            ?.let {
+                DPlayBookmarkButton(
+                    isMarked = it.isScrapped,
+                    onClick = { onBookmarkClick(it.postId) },
+                    modifier =
+                        Modifier
+                            .align(Alignment.TopEnd)
+                            .padding(top = 52.dp, end = 40.dp),
                 )
             }
     }
@@ -240,6 +283,7 @@ private fun HomePager(
 private fun HomePreview() {
     DPlayTheme {
         HomeScreen(
+            pagerState = rememberPagerState(pageCount = { 0 }),
             onPostClick = {},
             onBookmarkClick = {},
             onStreamClick = {},
@@ -247,6 +291,7 @@ private fun HomePreview() {
             onWriterProfileClick = {},
             onRefresh = {},
             onListClick = {},
+            onLockedCoverClick = {},
         )
     }
 }

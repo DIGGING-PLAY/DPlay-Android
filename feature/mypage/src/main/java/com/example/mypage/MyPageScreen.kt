@@ -29,6 +29,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -58,6 +59,7 @@ import com.example.designsystem.theme.DPlayTheme
 import com.example.designsystem.util.noRippleClickable
 import com.example.navigation.Detail
 import com.example.navigation.EditProfile
+import com.example.navigation.MyPageTab
 import com.example.navigation.Navigator
 import com.example.navigation.Setting
 import com.example.ui.controller.LocalBottomNavigationController
@@ -71,9 +73,23 @@ import kotlinx.coroutines.flow.collectLatest
 fun MyPageRoute(
     navigator: Navigator,
     modifier: Modifier = Modifier,
+    initialTab: MyPageTab = MyPageTab.REGISTERED,
     viewModel: MyPageViewModel = hiltViewModel(),
 ) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
+    var hasAppliedInitialTab by rememberSaveable { mutableStateOf(false) }
+
+    LaunchedEffect(Unit) {
+        if (!hasAppliedInitialTab) {
+            val tabIndex =
+                when (initialTab) {
+                    MyPageTab.REGISTERED -> 0
+                    MyPageTab.BOOKMARKED -> 1
+                }
+            viewModel.handleIntent(MyPageContract.MyPageIntent.OnTabClick(tabIndex))
+            hasAppliedInitialTab = true
+        }
+    }
 
     val registeredTracks = viewModel.registeredTracks.collectAsLazyPagingItems()
     val scrappedTracks = viewModel.scrappedTracks.collectAsLazyPagingItems()
