@@ -39,13 +39,22 @@ class AndroidApplicationConventionPlugin: Plugin<Project> {
                     versionName = libs.getVersion("versionName").requiredVersion
                 }
 
-                if (isLocalPropertiesExists) {
-                    signingConfigs {
-                        create("release") {
-                            keyAlias = keystoreProperties["keyAlias"] as String?
-                            keyPassword = keystoreProperties["keyPassword"] as String?
-                            storeFile = (keystoreProperties["storeFile"] as String?)?.let { rootProject.file(it) }
-                            storePassword = keystoreProperties["storePassword"] as String?
+                signingConfigs {
+                    create("release") {
+                        keyAlias = (keystoreProperties["keyAlias"] as? String)
+                            ?: System.getenv("KEY_ALIAS")
+
+                        keyPassword = (keystoreProperties["keyPassword"] as? String)
+                            ?: System.getenv("KEY_PASSWORD")
+
+                        storePassword = (keystoreProperties["storePassword"] as? String)
+                            ?: System.getenv("STORE_PASSWORD")
+
+                        val keyStoreFile = (keystoreProperties["storeFile"] as? String)
+                            ?: System.getenv("STORE_FILE")
+
+                        if (keyStoreFile != null) {
+                            storeFile = rootProject.file(keyStoreFile)
                         }
                     }
                 }
@@ -58,10 +67,8 @@ class AndroidApplicationConventionPlugin: Plugin<Project> {
                             getDefaultProguardFile("proguard-android-optimize.txt"),
                             "proguard-rules.pro",
                         )
-                        if (isLocalPropertiesExists) {
+                        if (keystoreProperties.getProperty("storeFile") != null || System.getenv("STORE_FILE") != null) {
                             signingConfig = signingConfigs.getByName("release")
-                        } else {
-                            signingConfig = null
                         }
                     }
                 }
