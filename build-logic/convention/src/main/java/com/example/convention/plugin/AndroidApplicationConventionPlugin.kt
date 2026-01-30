@@ -24,7 +24,8 @@ class AndroidApplicationConventionPlugin: Plugin<Project> {
 
             val keystoreProperties = Properties()
             val keystorePropertiesFile = rootProject.file("local.properties")
-            if (keystorePropertiesFile.exists()) {
+            val isLocalPropertiesExists = keystorePropertiesFile.exists()
+            if (isLocalPropertiesExists) {
                 keystoreProperties.load(FileInputStream(keystorePropertiesFile))
             }
 
@@ -38,12 +39,14 @@ class AndroidApplicationConventionPlugin: Plugin<Project> {
                     versionName = libs.getVersion("versionName").requiredVersion
                 }
 
-                signingConfigs {
-                    create("release") {
-                        keyAlias = keystoreProperties["keyAlias"] as String?
-                        keyPassword = keystoreProperties["keyPassword"] as String?
-                        storeFile = (keystoreProperties["storeFile"] as String?)?.let { rootProject.file(it) }
-                        storePassword = keystoreProperties["storePassword"] as String?
+                if (isLocalPropertiesExists) {
+                    signingConfigs {
+                        create("release") {
+                            keyAlias = keystoreProperties["keyAlias"] as String?
+                            keyPassword = keystoreProperties["keyPassword"] as String?
+                            storeFile = (keystoreProperties["storeFile"] as String?)?.let { rootProject.file(it) }
+                            storePassword = keystoreProperties["storePassword"] as String?
+                        }
                     }
                 }
 
@@ -55,7 +58,11 @@ class AndroidApplicationConventionPlugin: Plugin<Project> {
                             getDefaultProguardFile("proguard-android-optimize.txt"),
                             "proguard-rules.pro",
                         )
-                        signingConfig = signingConfigs.getByName("release")
+                        if (isLocalPropertiesExists) {
+                            signingConfig = signingConfigs.getByName("release")
+                        } else {
+                            signingConfig = null
+                        }
                     }
                 }
 
