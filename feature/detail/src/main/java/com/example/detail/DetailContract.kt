@@ -11,6 +11,7 @@ class DetailContract {
     data class DetailState(
         val postId: Long = 0L,
         val isScrapped: Boolean = false,
+        val initialIsScrapped: Boolean = false,
         val content: String = "",
         val isHost: Boolean = false,
         val date: String = "",
@@ -33,10 +34,14 @@ class DetailContract {
                 isLiked = false,
                 count = 0,
             ),
+        val initialIsLiked: Boolean = false,
         val badge: BADGE? = null,
         val bottomSheetVisible: Boolean = false,
         val streamingTrackId: String? = null,
-    ) : BaseContract.State
+    ) : BaseContract.State {
+        val homeRefreshRequired: Boolean
+            get() = isScrapped != initialIsScrapped || like.isLiked != initialIsLiked
+    }
 
     sealed interface DetailIntent : BaseContract.Intent {
         data class LoadData(

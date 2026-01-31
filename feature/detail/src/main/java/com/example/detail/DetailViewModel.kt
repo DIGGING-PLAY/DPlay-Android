@@ -60,6 +60,8 @@ class DetailViewModel
             when (intent) {
                 is DetailContract.DetailIntent.LoadData -> loadData(intent.postId, intent.badge)
                 is DetailContract.DetailIntent.OnBackButtonClick -> {
+                    if (currentState.homeRefreshRequired)
+                        viewModelScope.launch {homeRefreshTrigger.refresh()}
                     setSideEffect(DetailContract.DetailSideEffect.NavigateBackStack)
                 }
 
@@ -99,12 +101,14 @@ class DetailViewModel
                             copy(
                                 postId = postDetail.postId,
                                 isScrapped = postDetail.isScrapped,
+                                initialIsScrapped = postDetail.isScrapped,
                                 content = postDetail.content,
                                 isHost = postDetail.isHost,
                                 date = postDetail.displayDate,
                                 track = postDetail.track,
                                 writer = postDetail.writer,
                                 like = postDetail.like,
+                                initialIsLiked = postDetail.like.isLiked,
                                 badge = badge,
                             )
                         }
