@@ -1,5 +1,6 @@
 package com.example.home
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -18,6 +19,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -29,7 +31,6 @@ import com.example.designsystem.component.DPlaySubjectItem
 import com.example.designsystem.component.DplayClickableIcon
 import com.example.designsystem.component.DplayLogoTopAppBar
 import com.example.designsystem.component.button.DPlayBookmarkButton
-import com.example.designsystem.component.chip.DPlayChip
 import com.example.designsystem.component.chip.type.DPlayChipType
 import com.example.designsystem.component.snackbar.LocalShowSnackBar
 import com.example.designsystem.theme.DPlayTheme
@@ -37,7 +38,6 @@ import com.example.domain.model.Badge
 import com.example.domain.model.FeedItem
 import com.example.navigation.Detail
 import com.example.navigation.MyPage
-import com.example.navigation.MyPageTab
 import com.example.navigation.Navigator
 import com.example.navigation.OtherProfile
 import com.example.navigation.Record
@@ -84,7 +84,7 @@ fun HomeRoute(
                 }
 
                 is HomeContract.HomeSideEffect.NavigateToMyPage -> {
-                    navigator.navigateTo(destination = MyPage(initialTab = MyPageTab.BOOKMARKED))
+                    navigator.navigateTo(destination = MyPage(initialTab = it.initialTab))
                 }
 
                 is HomeContract.HomeSideEffect.ShowLockedModal -> {
@@ -257,9 +257,13 @@ private fun HomePager(
         currentChipType
             ?.takeIf { !isCurrentPageLocked }
             ?.let {
-                DPlayChip(
-                    type = it,
-                    modifier = Modifier.align(Alignment.TopCenter),
+                Image(
+                    painter = painterResource(id = it.drawableRes),
+                    contentDescription = null,
+                    modifier =
+                        Modifier
+                            .height(height = 32.dp)
+                            .align(Alignment.TopCenter),
                 )
             }
 

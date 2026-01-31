@@ -1,6 +1,7 @@
 package com.example.detail
 
 import androidx.activity.compose.BackHandler
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
@@ -27,6 +28,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
@@ -34,21 +36,22 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil3.compose.AsyncImage
 import com.dplay.designsystem.R
 import com.example.designsystem.component.DPlayButtonBottomSheet
+import com.example.designsystem.component.DPlayErrorScreen
+import com.example.designsystem.component.DPlayLoadingScreen
 import com.example.designsystem.component.DPlayMusicDiscItem
 import com.example.designsystem.component.DPlayReportBottomSheet
 import com.example.designsystem.component.DplayDualIconTitleTopAppBar
 import com.example.designsystem.component.button.DPlayBookmarkButton
 import com.example.designsystem.component.button.DPlayLikeButton
 import com.example.designsystem.component.button.DPlayStreamingButton
-import com.example.designsystem.component.chip.DPlayChip
 import com.example.designsystem.component.chip.type.DPlayChipType
 import com.example.designsystem.component.snackbar.LocalShowSnackBar
 import com.example.designsystem.theme.DPlayTheme
 import com.example.designsystem.util.noRippleClickable
 import com.example.designsystem.util.roundedBackgroundWithPadding
 import com.example.domain.model.Badge
+import com.example.domain.model.LoadingState
 import com.example.navigation.MyPage
-import com.example.navigation.MyPageTab
 import com.example.navigation.Navigator
 import com.example.navigation.OtherProfile
 import com.example.ui.controller.LocalModalController
@@ -89,7 +92,7 @@ fun DetailRoute(
                 }
 
                 is DetailContract.DetailSideEffect.NavigateToMyPage -> {
-                    navigator.navigateTo(destination = MyPage(initialTab = MyPageTab.BOOKMARKED))
+                    navigator.navigateTo(destination = MyPage(initialTab = it.initialTab))
                 }
 
                 is DetailContract.DetailSideEffect.ShowDeleteConfirmModal -> {
@@ -114,33 +117,46 @@ fun DetailRoute(
         }
     }
 
-    DetailScreen(
-        state = uiState,
-        onTopAppBarLeftIconClick = {
-            viewModel.handleIntent(DetailContract.DetailIntent.OnBackButtonClick)
-        },
-        onTopAppBarRightIconClick = {
-            viewModel.handleIntent(DetailContract.DetailIntent.OnMeatBallsClick)
-        },
-        onBookmarkClick = {
-            viewModel.handleIntent(DetailContract.DetailIntent.OnBookmarkClick)
-        },
-        onStreamClick = {
-            viewModel.handleIntent(DetailContract.DetailIntent.OnStreamClick)
-        },
-        onLikeClick = {
-            viewModel.handleIntent(DetailContract.DetailIntent.OnLikeClick)
-        },
-        onWriterProfileClick = {
-            viewModel.handleIntent(DetailContract.DetailIntent.OnWriterProfileClick)
-        },
-        changeBottomSheetVisible = { visible ->
-            viewModel.handleIntent(DetailContract.DetailIntent.ChangeBottomSheetVisible(visible))
-        },
-        onDeleteClick = {
-            viewModel.handleIntent(DetailContract.DetailIntent.OnDeleteClick)
-        },
-    )
+    when (uiState.loadingState) {
+        LoadingState.LOADING ->
+            DPlayLoadingScreen()
+
+        LoadingState.SUCCESS ->
+            DetailScreen(
+                state = uiState,
+                onTopAppBarLeftIconClick = {
+                    viewModel.handleIntent(DetailContract.DetailIntent.OnBackButtonClick)
+                },
+                onTopAppBarRightIconClick = {
+                    viewModel.handleIntent(DetailContract.DetailIntent.OnMeatBallsClick)
+                },
+                onBookmarkClick = {
+                    viewModel.handleIntent(DetailContract.DetailIntent.OnBookmarkClick)
+                },
+                onStreamClick = {
+                    viewModel.handleIntent(DetailContract.DetailIntent.OnStreamClick)
+                },
+                onLikeClick = {
+                    viewModel.handleIntent(DetailContract.DetailIntent.OnLikeClick)
+                },
+                onWriterProfileClick = {
+                    viewModel.handleIntent(DetailContract.DetailIntent.OnWriterProfileClick)
+                },
+                changeBottomSheetVisible = { visible ->
+                    viewModel.handleIntent(DetailContract.DetailIntent.ChangeBottomSheetVisible(visible))
+                },
+                onDeleteClick = {
+                    viewModel.handleIntent(DetailContract.DetailIntent.OnDeleteClick)
+                },
+            )
+
+        LoadingState.FAILURE ->
+            DPlayErrorScreen(
+                onBackIconClick = {
+                    viewModel.handleIntent(DetailContract.DetailIntent.OnBackButtonClick)
+                },
+            )
+    }
 }
 
 @Composable
@@ -221,9 +237,13 @@ private fun DetailScreen(
                                 Badge.EDITOR -> DPlayChipType.EDITOR
                                 Badge.NEW -> DPlayChipType.NEW
                             }
-                        DPlayChip(
-                            type = chipType,
-                            modifier = Modifier.align(Alignment.BottomCenter),
+                        Image(
+                            painter = painterResource(id = chipType.drawableRes),
+                            contentDescription = null,
+                            modifier =
+                                Modifier
+                                    .height(height = 32.dp)
+                                    .align(Alignment.BottomCenter),
                         )
                     }
                 }

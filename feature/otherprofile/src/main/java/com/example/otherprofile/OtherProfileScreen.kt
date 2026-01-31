@@ -42,13 +42,15 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemKey
-import com.dplay.designsystem.R
+import com.example.designsystem.component.DPlayErrorScreen
+import com.example.designsystem.component.DPlayLoadingScreen
 import com.example.designsystem.component.DPlayMusicGridItem
 import com.example.designsystem.component.DPlayMusicListItem
 import com.example.designsystem.component.DPlayProfileImageArea
 import com.example.designsystem.component.DplayLeftIconTopAppBar
 import com.example.designsystem.theme.DPlayTheme
 import com.example.designsystem.util.noRippleClickable
+import com.example.domain.model.LoadingState
 import com.example.navigation.Detail
 import com.example.navigation.Navigator
 import com.example.ui.emptyLazyPagingItems
@@ -88,24 +90,35 @@ fun OtherProfileRoute(
         }
     }
 
-    OtherProfileScreen(
-        state = state,
-        registeredTrackList = registeredTracks,
-        scrappedTrackList = scrappedTracks,
-        modifier = modifier,
-        onBackIconClick = {
-            viewModel.handleIntent(OtherProfileContract.OtherProfileIntent.OnBackIconClick)
-        },
-        onTabSelected = {
-            viewModel.handleIntent(OtherProfileContract.OtherProfileIntent.OnTabClick(it))
-        },
-        onScrappedTrackClick = {
-            viewModel.handleIntent(OtherProfileContract.OtherProfileIntent.OnScrappedTrackClick(it))
-        },
-        onRegisteredTrackClick = {
-            viewModel.handleIntent(OtherProfileContract.OtherProfileIntent.OnRegisteredTrackClick(it))
-        },
-    )
+    when (state.loadingState) {
+        LoadingState.LOADING ->
+            DPlayLoadingScreen()
+        LoadingState.SUCCESS ->
+            OtherProfileScreen(
+                state = state,
+                registeredTrackList = registeredTracks,
+                scrappedTrackList = scrappedTracks,
+                modifier = modifier,
+                onBackIconClick = {
+                    viewModel.handleIntent(OtherProfileContract.OtherProfileIntent.OnBackIconClick)
+                },
+                onTabSelected = {
+                    viewModel.handleIntent(OtherProfileContract.OtherProfileIntent.OnTabClick(it))
+                },
+                onScrappedTrackClick = {
+                    viewModel.handleIntent(OtherProfileContract.OtherProfileIntent.OnScrappedTrackClick(it))
+                },
+                onRegisteredTrackClick = {
+                    viewModel.handleIntent(OtherProfileContract.OtherProfileIntent.OnRegisteredTrackClick(it))
+                },
+            )
+        LoadingState.FAILURE ->
+            DPlayErrorScreen(
+                onBackIconClick = {
+                    viewModel.handleIntent(OtherProfileContract.OtherProfileIntent.OnBackIconClick)
+                },
+            )
+    }
 }
 
 @Composable

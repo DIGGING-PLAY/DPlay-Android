@@ -42,7 +42,7 @@ fun GraphicModal(
         modifier =
             modifier
                 .clip(
-                    shape = RoundedCornerShape(16.dp),
+                    shape = RoundedCornerShape(12.dp),
                 ).background(
                     color = DPlayTheme.colors.dplayWhite,
                 ),

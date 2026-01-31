@@ -12,6 +12,7 @@ import com.example.domain.model.Writer
 import com.example.domain.repository.PostRepository
 import com.example.domain.repository.TrackRepository
 import com.example.domain.usecase.CheckUserRelationUseCase
+import com.example.navigation.MyPageTab
 import com.example.ui.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.toImmutableList
@@ -209,7 +210,7 @@ class HomeViewModel
                             setSideEffect(
                                 HomeContract.HomeSideEffect.ShowSnackBar(
                                     snackBarType = SnackBarType.ADD,
-                                    action = { setSideEffect(HomeContract.HomeSideEffect.NavigateToMyPage) },
+                                    action = { setSideEffect(HomeContract.HomeSideEffect.NavigateToMyPage(initialTab = MyPageTab.BOOKMARKED)) },
                                 ),
                             )
                         }
@@ -261,8 +262,11 @@ class HomeViewModel
         private fun navigateToOthersProfile(userId: Long) {
             viewModelScope.launch {
                 val userRelation = checkUserRelationUseCase(userId)
-                if (userRelation == UserRelation.OTHER) {
-                    setSideEffect(HomeContract.HomeSideEffect.NavigateToWriterProfile(userId))
+
+                when (userRelation) {
+                    UserRelation.ME -> setSideEffect(HomeContract.HomeSideEffect.NavigateToMyPage())
+                    UserRelation.ADMIN -> {}
+                    UserRelation.OTHER -> setSideEffect(HomeContract.HomeSideEffect.NavigateToWriterProfile(userId))
                 }
             }
         }

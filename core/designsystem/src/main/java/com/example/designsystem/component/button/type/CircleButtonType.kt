@@ -50,7 +50,7 @@ sealed class CircleButtonType {
         override val contentDescription: Int = R.string.circle_plus_button_icon_default_description,
     ) : CircleButtonType() {
         override val containerSize = 56.dp
-        override val backgroundColor = defaultDPlayColors.dplayBlack
+        override val backgroundColor = defaultDPlayColors.gray600
         override val iconRes = R.drawable.ic_plus_28
         override val iconSize = 28.dp
         override val iconTint = defaultDPlayColors.dplayWhite

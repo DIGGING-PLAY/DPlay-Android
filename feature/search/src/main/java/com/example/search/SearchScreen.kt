@@ -148,6 +148,8 @@ private fun SearchedMusicList(
 
             Text(
                 text = stringResource(com.dplay.search.R.string.search_empty_view_text),
+                style = DPlayTheme.typography.bodySemi14,
+                color = DPlayTheme.colors.gray400,
             )
 
             Spacer(modifier = Modifier.weight(1f))
