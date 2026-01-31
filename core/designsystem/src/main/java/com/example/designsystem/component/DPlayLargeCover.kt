@@ -206,7 +206,7 @@ fun DPlayLargeCover(
                                 .background(
                                     color = color.dplayWhite,
                                     shape = RoundedCornerShape(16.dp),
-                                ).padding(10.dp),
+                                ).padding(6.dp),
                         onClick = onStreamClick,
                     )
                 }
