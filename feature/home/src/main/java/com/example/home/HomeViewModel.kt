@@ -265,7 +265,6 @@ class HomeViewModel
 
                 when (userRelation) {
                     UserRelation.ME -> setSideEffect(HomeContract.HomeSideEffect.NavigateToMyPage())
-                    UserRelation.ADMIN -> {}
                     UserRelation.OTHER -> setSideEffect(HomeContract.HomeSideEffect.NavigateToWriterProfile(userId))
                 }
             }

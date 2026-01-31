@@ -241,7 +241,6 @@ class DetailViewModel
 
                 when (userRelation) {
                     UserRelation.ME -> setSideEffect(NavigateToMyPage())
-                    UserRelation.ADMIN -> {}
                     UserRelation.OTHER -> setSideEffect(DetailContract.DetailSideEffect.NavigateToWriterProfile(userId))
                 }
             }
