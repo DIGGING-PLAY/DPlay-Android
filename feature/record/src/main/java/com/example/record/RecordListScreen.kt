@@ -1,5 +1,6 @@
 package com.example.record
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -33,6 +34,9 @@ fun RecordListScreen(
     uiState: RecordContract.RecordState = RecordContract.RecordState(),
     questionPosts: LazyPagingItems<FeedItem> = emptyLazyPagingItems(),
 ) {
+    BackHandler {
+        onBackButtonClick()
+    }
     Column(modifier = modifier.fillMaxSize()) {
         DplayLeftIconTitleTopAppBar(
             modifier = Modifier.fillMaxWidth(),
