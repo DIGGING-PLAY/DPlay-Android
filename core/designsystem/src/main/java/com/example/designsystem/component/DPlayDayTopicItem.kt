@@ -24,9 +24,12 @@ fun DPlayDayTopicItem(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    Row(modifier = modifier
-        .fillMaxWidth()
-        .noRippleClickable(onClick = onClick)) {
+    Row(
+        modifier =
+            modifier
+                .fillMaxWidth()
+                .noRippleClickable(onClick = onClick),
+    ) {
         Box(
             modifier =
                 Modifier
@@ -34,7 +37,8 @@ fun DPlayDayTopicItem(
                     .roundedBackgroundWithPadding(
                         backgroundColor = DPlayTheme.colors.gray600,
                         cornerRadius = 8.dp,
-                    ), contentAlignment = Alignment.Center
+                    ),
+            contentAlignment = Alignment.Center,
         ) {
             Text(
                 text = dayText,
@@ -42,15 +46,18 @@ fun DPlayDayTopicItem(
                 style = DPlayTheme.typography.bodyBold14,
             )
         }
-        Box( modifier =
-            Modifier
-                .height(50.dp)
-                .weight(1f)
-                .roundedBackgroundWithPadding(
-                    backgroundColor = DPlayTheme.colors.gray100,
-                    cornerRadius = 8.dp,
-                    padding = PaddingValues(start = 10.dp)
-                ), contentAlignment = Alignment.CenterStart){
+        Box(
+            modifier =
+                Modifier
+                    .height(50.dp)
+                    .weight(1f)
+                    .roundedBackgroundWithPadding(
+                        backgroundColor = DPlayTheme.colors.gray100,
+                        cornerRadius = 8.dp,
+                        padding = PaddingValues(start = 10.dp),
+                    ),
+            contentAlignment = Alignment.CenterStart,
+        ) {
             Text(
                 text = topic,
                 style = DPlayTheme.typography.bodySemi14,
