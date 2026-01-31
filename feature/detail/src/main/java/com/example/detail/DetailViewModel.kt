@@ -60,8 +60,9 @@ class DetailViewModel
             when (intent) {
                 is DetailContract.DetailIntent.LoadData -> loadData(intent.postId, intent.badge)
                 is DetailContract.DetailIntent.OnBackButtonClick -> {
-                    if (currentState.homeRefreshRequired)
-                        viewModelScope.launch {homeRefreshTrigger.refresh()}
+                    if (currentState.homeRefreshRequired) {
+                        viewModelScope.launch { homeRefreshTrigger.refresh() }
+                    }
                     setSideEffect(DetailContract.DetailSideEffect.NavigateBackStack)
                 }
 
