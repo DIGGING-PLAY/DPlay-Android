@@ -28,6 +28,7 @@ class DetailContract {
                 userId = 0,
                 nickname = "",
                 profileImg = "",
+                isAdmin = false,
             ),
         val like: Like =
             Like(

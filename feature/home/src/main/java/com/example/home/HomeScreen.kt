@@ -246,7 +246,9 @@ private fun HomePager(
                             onPostClick(item.postId)
                         }
                     },
-                    onWriterProfileClick = { onWriterProfileClick(item.writer.userId) },
+                    onWriterProfileClick = {
+                        if (!item.writer.isAdmin) onWriterProfileClick(item.writer.userId)
+                    },
                     isStreaming = uiState.streamingTrackId == item.track.trackId,
                 )
             }

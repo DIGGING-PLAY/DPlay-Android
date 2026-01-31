@@ -66,6 +66,7 @@ data class QuestionPostItemResponse(
                     userId = user.userId,
                     nickname = user.nickname,
                     profileImg = user.profileImg.orEmpty(),
+                    isAdmin = user.isAdmin,
                 ),
             like =
                 Like(

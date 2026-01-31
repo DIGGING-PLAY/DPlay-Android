@@ -4,7 +4,6 @@ import androidx.lifecycle.viewModelScope
 import com.example.common.audio.AudioPlayer
 import com.example.common.event.HomeRefreshTrigger
 import com.example.designsystem.component.snackbar.type.SnackBarType
-import com.example.domain.model.BADGE
 import com.example.domain.model.FeedItem
 import com.example.domain.model.Like
 import com.example.domain.model.Track
@@ -15,7 +14,6 @@ import com.example.domain.repository.TrackRepository
 import com.example.domain.usecase.CheckUserRelationUseCase
 import com.example.ui.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -135,6 +133,7 @@ class HomeViewModel
                             userId = -1L,
                             nickname = "",
                             profileImg = "",
+                            isAdmin = false,
                         ),
                     like =
                         Like(
@@ -268,157 +267,3 @@ class HomeViewModel
             }
         }
     }
-
-val dummyFeedItems =
-    persistentListOf(
-        FeedItem(
-            postId = 111,
-            isScrapped = true,
-            content = "그냥 좋아요 이 노래",
-            badge = BADGE.BEST,
-            track =
-                Track(
-                    trackId = "apple:203948",
-                    songTitle = "Song Title 1",
-                    coverImg = "https://picsum.photos/300",
-                    artistName = "Artist1, Artist2",
-                    isrc = "USUC1234567890",
-                ),
-            writer =
-                Writer(
-                    userId = 222,
-                    nickname = "윤서암",
-                    profileImg = "https://picsum.photos/200",
-                ),
-            like =
-                Like(
-                    isLiked = false,
-                    count = 24,
-                ),
-        ),
-        FeedItem(
-            postId = 112,
-            isScrapped = false,
-            content = "비 오는 날 꼭 듣는 노래에요",
-            badge = BADGE.EDITOR,
-            track =
-                Track(
-                    trackId = "apple:204837",
-                    songTitle = "Song Title 2",
-                    coverImg = "https://picsum.photos/310",
-                    artistName = "Artist3",
-                    isrc = "USUC1234567891",
-                ),
-            writer =
-                Writer(
-                    userId = 333,
-                    nickname = "민석",
-                    profileImg = "https://picsum.photos/201",
-                ),
-            like =
-                Like(
-                    isLiked = true,
-                    count = 57,
-                ),
-        ),
-        FeedItem(
-            postId = 113,
-            isScrapped = false,
-            content = "출근길에 항상 듣습니다!",
-            badge = BADGE.NEW,
-            track =
-                Track(
-                    trackId = "apple:204111",
-                    songTitle = "Song Title 3",
-                    coverImg = "https://picsum.photos/320",
-                    artistName = "Artist4",
-                    isrc = "USUC1234567892",
-                ),
-            writer =
-                Writer(
-                    userId = 444,
-                    nickname = "서현",
-                    profileImg = "https://picsum.photos/202",
-                ),
-            like =
-                Like(
-                    isLiked = false,
-                    count = 13,
-                ),
-        ),
-        FeedItem(
-            postId = 113,
-            isScrapped = false,
-            content = "출근길에 항상 듣습니다!",
-            badge = BADGE.NEW,
-            track =
-                Track(
-                    trackId = "apple:204111",
-                    songTitle = "Song Title 3",
-                    coverImg = "https://picsum.photos/320",
-                    artistName = "Artist4",
-                    isrc = "USUC1234567893",
-                ),
-            writer =
-                Writer(
-                    userId = 444,
-                    nickname = "서현",
-                    profileImg = "https://picsum.photos/202",
-                ),
-            like =
-                Like(
-                    isLiked = false,
-                    count = 13,
-                ),
-        ),
-        FeedItem(
-            postId = 113,
-            isScrapped = false,
-            content = "출근길에 항상 듣습니다!",
-            badge = BADGE.NEW,
-            track =
-                Track(
-                    trackId = "apple:204111",
-                    songTitle = "Song Title 3",
-                    coverImg = "https://picsum.photos/320",
-                    artistName = "Artist4",
-                    isrc = "USUC1234567894",
-                ),
-            writer =
-                Writer(
-                    userId = 444,
-                    nickname = "서현",
-                    profileImg = "https://picsum.photos/202",
-                ),
-            like =
-                Like(
-                    isLiked = false,
-                    count = 13,
-                ),
-        ),
-        FeedItem(
-            postId = 113,
-            isScrapped = false,
-            content = "출근길에 항상 듣습니다!",
-            badge = BADGE.NEW,
-            track =
-                Track(
-                    trackId = "apple:204111",
-                    songTitle = "Song Title 3",
-                    coverImg = "https://picsum.photos/320",
-                    artistName = "Artist4",
-                    isrc = "USUC1234567895",
-                ),
-            writer =
-                Writer(
-                    userId = 444,
-                    nickname = "서현",
-                    profileImg = "https://picsum.photos/202",
-                ),
-            like =
-                Like(
-                    isLiked = false,
-                    count = 13,
-                ),
-        ),
-    )

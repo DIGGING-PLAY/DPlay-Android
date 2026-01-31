@@ -81,7 +81,7 @@ class DetailViewModel
                 is DetailContract.DetailIntent.OnReportClick -> reportPost()
                 is DetailContract.DetailIntent.OnStreamClick -> streamTrack()
                 is DetailContract.DetailIntent.OnWriterProfileClick -> {
-                    navigateToOthersProfile()
+                    if (!currentState.writer.isAdmin) navigateToOthersProfile()
                 }
 
                 is DetailContract.DetailIntent.ChangeBottomSheetVisible -> {
