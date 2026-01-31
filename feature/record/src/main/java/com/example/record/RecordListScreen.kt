@@ -22,7 +22,7 @@ import com.example.designsystem.component.DPlayMusicListItem
 import com.example.designsystem.component.DPlaySubjectItem
 import com.example.designsystem.component.DplayLeftIconTitleTopAppBar
 import com.example.designsystem.theme.DPlayTheme
-import com.example.domain.model.BADGE
+import com.example.domain.model.Badge
 import com.example.domain.model.FeedItem
 import com.example.ui.emptyLazyPagingItems
 
@@ -75,7 +75,7 @@ fun RecordListScreen(
                     musicName = item.track.songTitle,
                     musicArtistName = item.track.artistName,
                     musicContent = item.content,
-                    isEditorPick = (item.badge == BADGE.EDITOR),
+                    isEditorPick = (item.badge == Badge.EDITOR),
                     onClick = { onMusicClick(item.postId) },
                 )
             }

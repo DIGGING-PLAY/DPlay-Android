@@ -1,6 +1,6 @@
 package com.example.data.model.response
 
-import com.example.domain.model.BADGE
+import com.example.domain.model.Badge
 import com.example.domain.model.FeedItem
 import com.example.domain.model.Like
 import com.example.domain.model.Track
@@ -52,7 +52,7 @@ data class QuestionPostItemResponse(
             postId = postId,
             isScrapped = isScrapped,
             content = content,
-            badge = if (isEditorPick) BADGE.EDITOR else null,
+            badge = if (isEditorPick) Badge.EDITOR else null,
             track =
                 Track(
                     trackId = track.trackId,

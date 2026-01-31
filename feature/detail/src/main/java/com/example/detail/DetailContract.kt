@@ -1,7 +1,7 @@
 package com.example.detail
 
 import com.example.designsystem.component.snackbar.type.SnackBarType
-import com.example.domain.model.BADGE
+import com.example.domain.model.Badge
 import com.example.domain.model.Like
 import com.example.domain.model.Track
 import com.example.domain.model.Writer
@@ -36,7 +36,7 @@ class DetailContract {
                 count = 0,
             ),
         val initialIsLiked: Boolean = false,
-        val badge: BADGE? = null,
+        val badge: Badge? = null,
         val bottomSheetVisible: Boolean = false,
         val streamingTrackId: String? = null,
     ) : BaseContract.State {
@@ -47,7 +47,7 @@ class DetailContract {
     sealed interface DetailIntent : BaseContract.Intent {
         data class LoadData(
             val postId: Long,
-            val badge: BADGE? = null,
+            val badge: Badge? = null,
         ) : DetailIntent
 
         data object OnBookmarkClick : DetailIntent

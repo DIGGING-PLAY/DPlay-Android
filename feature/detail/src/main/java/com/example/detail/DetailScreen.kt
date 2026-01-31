@@ -46,7 +46,7 @@ import com.example.designsystem.component.snackbar.LocalShowSnackBar
 import com.example.designsystem.theme.DPlayTheme
 import com.example.designsystem.util.noRippleClickable
 import com.example.designsystem.util.roundedBackgroundWithPadding
-import com.example.domain.model.BADGE
+import com.example.domain.model.Badge
 import com.example.navigation.MyPage
 import com.example.navigation.MyPageTab
 import com.example.navigation.Navigator
@@ -59,7 +59,7 @@ fun DetailRoute(
     postId: Long,
     navigator: Navigator,
     viewModel: DetailViewModel = hiltViewModel(),
-    badge: BADGE? = null,
+    badge: Badge? = null,
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val showSnackBar = LocalShowSnackBar.current
@@ -217,9 +217,9 @@ private fun DetailScreen(
                     state.badge?.let { badge ->
                         val chipType =
                             when (badge) {
-                                BADGE.BEST -> DPlayChipType.BEST
-                                BADGE.EDITOR -> DPlayChipType.EDITOR
-                                BADGE.NEW -> DPlayChipType.NEW
+                                Badge.BEST -> DPlayChipType.BEST
+                                Badge.EDITOR -> DPlayChipType.EDITOR
+                                Badge.NEW -> DPlayChipType.NEW
                             }
                         DPlayChip(
                             type = chipType,

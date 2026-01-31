@@ -33,7 +33,7 @@ import com.example.designsystem.component.chip.DPlayChip
 import com.example.designsystem.component.chip.type.DPlayChipType
 import com.example.designsystem.component.snackbar.LocalShowSnackBar
 import com.example.designsystem.theme.DPlayTheme
-import com.example.domain.model.BADGE
+import com.example.domain.model.Badge
 import com.example.domain.model.FeedItem
 import com.example.navigation.Detail
 import com.example.navigation.MyPage
@@ -210,9 +210,9 @@ private fun HomePager(
     val currentChipType: DPlayChipType? =
         currentItem?.badge?.let {
             when (it) {
-                BADGE.BEST -> DPlayChipType.BEST
-                BADGE.EDITOR -> DPlayChipType.EDITOR
-                BADGE.NEW -> DPlayChipType.NEW
+                Badge.BEST -> DPlayChipType.BEST
+                Badge.EDITOR -> DPlayChipType.EDITOR
+                Badge.NEW -> DPlayChipType.NEW
             }
         }
 

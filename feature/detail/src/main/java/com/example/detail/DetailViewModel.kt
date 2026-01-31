@@ -8,7 +8,7 @@ import com.example.common.event.ScrappedTrackRefreshTrigger
 import com.example.designsystem.component.snackbar.type.SnackBarType
 import com.example.detail.DetailContract.DetailSideEffect.NavigateToMyPage
 import com.example.detail.DetailContract.DetailSideEffect.ShowSnackBar
-import com.example.domain.model.BADGE
+import com.example.domain.model.Badge
 import com.example.domain.model.Like
 import com.example.domain.model.UserRelation
 import com.example.domain.repository.PostRepository
@@ -92,7 +92,7 @@ class DetailViewModel
 
         private fun loadData(
             postId: Long,
-            badge: BADGE?,
+            badge: Badge?,
         ) {
             viewModelScope.launch {
                 postRepository
