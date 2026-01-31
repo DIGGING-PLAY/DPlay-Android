@@ -25,8 +25,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.blur
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -158,12 +161,8 @@ private fun DetailScreen(
             .padding(horizontal = 16.dp)
 
     Box {
-        Box(modifier = Modifier.fillMaxSize()) {
+        Box(modifier = Modifier.fillMaxSize().background(color = color.gray100)) {
             Box(
-                modifier =
-                    Modifier.blur(
-                        radius = 20.dp,
-                    ),
             ) {
                 AsyncImage(
                     model = state.track.coverImg,
@@ -174,6 +173,20 @@ private fun DetailScreen(
                             .aspectRatio(1f)
                             .offset(y = (-80).dp),
                     contentScale = ContentScale.Crop,
+                )
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .aspectRatio(1f)
+                        .offset(y = (-80).dp)
+                        .background(
+                            brush = Brush.verticalGradient(
+                                colors = listOf(
+                                    DPlayTheme.colors.gray100.copy(alpha = 0f),
+                                    DPlayTheme.colors.gray100.copy(alpha = 1f)
+                                )
+                            )
+                        )
                 )
             }
             Column {
@@ -214,14 +227,14 @@ private fun DetailScreen(
 
                 Text(
                     text = state.track.songTitle,
-                    modifier = Modifier.align(Alignment.CenterHorizontally),
+                    modifier = Modifier.padding(horizontal = 16.dp).align(Alignment.CenterHorizontally),
                     style = typography.bodyBold20,
                     color = color.dplayBlack,
                 )
                 Spacer(modifier = Modifier.height(4.dp))
                 Text(
                     text = state.track.artistName,
-                    modifier = Modifier.align(Alignment.CenterHorizontally),
+                    modifier = Modifier.padding(horizontal = 16.dp).align(Alignment.CenterHorizontally),
                     style = typography.bodySemi14,
                     color = color.gray400,
                 )
