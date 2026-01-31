@@ -3,12 +3,15 @@ package com.example.detail
 import com.example.designsystem.component.snackbar.type.SnackBarType
 import com.example.domain.model.BADGE
 import com.example.domain.model.Like
+import com.example.domain.model.LoadingState
 import com.example.domain.model.Track
 import com.example.domain.model.Writer
+import com.example.navigation.MyPageTab
 import com.example.ui.base.BaseContract
 
 class DetailContract {
     data class DetailState(
+        val loadingState: LoadingState = LoadingState.LOADING,
         val postId: Long = 0L,
         val isScrapped: Boolean = false,
         val content: String = "",
@@ -83,6 +86,8 @@ class DetailContract {
             val action: (() -> Unit)? = null,
         ) : DetailSideEffect
 
-        data object NavigateToMyPage : DetailSideEffect
+        data class NavigateToMyPage(
+            val initialTab: MyPageTab = MyPageTab.REGISTERED,
+        ) : DetailSideEffect
     }
 }

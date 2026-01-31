@@ -50,7 +50,7 @@ fun WarningModal(
     onLeftButtonClick: () -> Unit = {},
     onRightButtonClick: () -> Unit = {},
 ) {
-    val warningModalShape = RoundedCornerShape(16.dp)
+    val warningModalShape = RoundedCornerShape(12.dp)
 
     Box(
         modifier =

@@ -43,7 +43,7 @@ fun DPlayGuidelineButton(
             )
 
             Spacer(
-                modifier = Modifier.size(8.dp),
+                modifier = Modifier.size(4.dp),
             )
 
             Text(

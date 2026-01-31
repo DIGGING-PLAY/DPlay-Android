@@ -1,10 +1,11 @@
 package com.example.otherprofile
 
+import com.example.domain.model.LoadingState
 import com.example.ui.base.BaseContract
 
 class OtherProfileContract {
     data class OtherProfileState(
-        val isLoading: Boolean = false,
+        val loadingState: LoadingState = LoadingState.LOADING,
         val userNickname: String = "디플레이",
         val registeredMusicCount: Int = 0,
         val profileImagePath: String? = null,

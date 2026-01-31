@@ -5,19 +5,19 @@ import androidx.annotation.StringRes
 import com.dplay.designsystem.R
 
 enum class DPlayChipType(
-    @DrawableRes val iconRes: Int,
+    @DrawableRes val drawableRes: Int,
     @StringRes val stringRes: Int,
 ) {
     EDITOR(
-        iconRes = R.drawable.ic_editor_20,
+        drawableRes = R.drawable.editor_chip,
         stringRes = R.string.chip_editor,
     ),
     NEW(
-        iconRes = R.drawable.ic_new_20,
+        drawableRes = R.drawable.new_chip,
         stringRes = R.string.chip_new,
     ),
     BEST(
-        iconRes = R.drawable.ic_best_20,
+        drawableRes = R.drawable.best_chip,
         stringRes = R.string.chip_best,
     ),
 }

@@ -104,8 +104,8 @@
     <string name="snackbar_message_add_collection">보관함에 추가했어요</string>
     <string name="snackbar_message_streaming_not_support">미리듣기가 제공되지 않는 곡이에요</string>
     <string name="snackbar_action_message_navigate_collection">보러가기</string>
-
-
+    <string name="error_main_text">앗! 일시적인 오류가 발생했어요</string>
+    <string name="error_sub_text">잠시 후 다시 시도해주세요</string>
 
 
 </resources>
