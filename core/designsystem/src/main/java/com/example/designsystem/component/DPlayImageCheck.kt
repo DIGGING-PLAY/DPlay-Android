@@ -86,7 +86,6 @@ fun DPlayImageCheck(
             )
         }
 
-        Spacer(modifier = Modifier.weight(1f))
 
         if (isChecked) {
             DplayBaseIcon(
