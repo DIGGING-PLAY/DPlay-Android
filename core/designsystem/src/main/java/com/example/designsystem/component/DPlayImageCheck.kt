@@ -45,8 +45,7 @@ fun DPlayImageCheck(
                 .background(color = backgroundColor)
                 .noRippleClickable(
                     onClick = onClick,
-                )
-                .padding(
+                ).padding(
                     horizontal = 16.dp,
                     vertical = 12.dp,
                 ),
@@ -65,7 +64,7 @@ fun DPlayImageCheck(
         Spacer(modifier = Modifier.width(12.dp))
 
         Column(
-            modifier = Modifier.weight(1f)
+            modifier = Modifier.weight(1f),
         ) {
             Text(
                 text = musicName,
@@ -85,7 +84,6 @@ fun DPlayImageCheck(
                 overflow = TextOverflow.Ellipsis,
             )
         }
-
 
         if (isChecked) {
             DplayBaseIcon(
