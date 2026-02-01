@@ -21,6 +21,8 @@ import com.dplay.record.R
 import com.example.designsystem.component.DPlayMusicListItem
 import com.example.designsystem.component.DPlaySubjectItem
 import com.example.designsystem.component.DplayLeftIconTitleTopAppBar
+import com.example.designsystem.component.DplayTooltip
+import com.example.designsystem.component.button.DPlayGuidelineButton
 import com.example.designsystem.theme.DPlayTheme
 import com.example.domain.model.Badge
 import com.example.domain.model.FeedItem
@@ -30,6 +32,8 @@ import com.example.ui.emptyLazyPagingItems
 fun RecordListScreen(
     onBackButtonClick: () -> Unit,
     onMusicClick: (postId: Long) -> Unit,
+    onGuideButtonClick: () -> Unit,
+    onTooltipCloseClick: () -> Unit,
     modifier: Modifier = Modifier,
     uiState: RecordContract.RecordState = RecordContract.RecordState(),
     questionPosts: LazyPagingItems<FeedItem> = emptyLazyPagingItems(),
@@ -79,6 +83,23 @@ fun RecordListScreen(
                     onClick = { onMusicClick(item.postId) },
                 )
             }
+
+            if (uiState.locked) {
+                item {
+                    DPlayGuidelineButton(
+                        onClick = onGuideButtonClick,
+                        textStringRes = R.string.record_locked_guide_button_text,
+                    )
+                    if (uiState.tooltipVisible) {
+                        Spacer(modifier = Modifier.height(8.dp))
+                        DplayTooltip(
+                            onCloseButtonClicked = onTooltipCloseClick,
+                            textStringRes = R.string.record_locked_tooltip_description,
+                            onTextButtonClicked = null,
+                        )
+                    }
+                }
+            }
         }
     }
 }
@@ -90,6 +111,8 @@ private fun RecordListScreenPreview() {
         RecordListScreen(
             onBackButtonClick = {},
             onMusicClick = {},
+            onGuideButtonClick = {},
+            onTooltipCloseClick = {},
         )
     }
 }

@@ -43,6 +43,9 @@ class RecordViewModel
                             onTotalCountFetched = { totalCount ->
                                 updateState { copy(recordListTotalCount = totalCount) }
                             },
+                            onLockedFetched = { locked ->
+                                updateState { copy(locked = locked) }
+                            },
                         )
                     } else {
                         flowOf(PagingData.empty())
@@ -69,6 +72,10 @@ class RecordViewModel
 
                 is RecordContract.RecordIntent.ChangeBottomSheetVisible -> {
                     updateState { copy(datePickerBottomSheetVisible = intent.isVisible) }
+                }
+
+                is RecordContract.RecordIntent.ChangeTooltipVisible -> {
+                    updateState { copy(tooltipVisible = intent.isVisible) }
                 }
             }
         }

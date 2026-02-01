@@ -53,6 +53,12 @@ fun RecordRoute(
                 onMusicClick = { postId ->
                     viewModel.handleIntent(RecordContract.RecordIntent.OnMusicClick(postId = postId))
                 },
+                onGuideButtonClick = {
+                    viewModel.handleIntent(RecordContract.RecordIntent.ChangeTooltipVisible(isVisible = true))
+                },
+                onTooltipCloseClick = {
+                    viewModel.handleIntent(RecordContract.RecordIntent.ChangeTooltipVisible(isVisible = false))
+                },
             )
     }
 }

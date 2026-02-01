@@ -14,6 +14,8 @@ class RecordContract {
         val selectedQuestion: DailyQuestion? = null,
         val datePickerBottomSheetVisible: Boolean = false,
         val recordListTotalCount: Int = 0,
+        val tooltipVisible: Boolean = false,
+        val locked: Boolean = true,
     ) : BaseContract.State
 
     sealed interface RecordIntent : BaseContract.Intent {
@@ -36,6 +38,10 @@ class RecordContract {
         data class SelectDate(
             val year: Int,
             val month: Int,
+        ) : RecordIntent
+
+        data class ChangeTooltipVisible(
+            val isVisible: Boolean,
         ) : RecordIntent
     }
 

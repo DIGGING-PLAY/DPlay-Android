@@ -9,6 +9,7 @@ class QuestionPostsPagingSource(
     private val postService: PostService,
     private val questionId: Long,
     private val onTotalCountFetched: (Int) -> Unit,
+    private val onLockedFetched: (Boolean) -> Unit,
 ) : PagingSource<String, QuestionPostItemResponse>() {
     override fun getRefreshKey(state: PagingState<String, QuestionPostItemResponse>): String? = null
 
@@ -26,6 +27,7 @@ class QuestionPostsPagingSource(
             val data = response.data ?: throw Exception("data is null")
             if (params.key == null) {
                 onTotalCountFetched(data.totalCount)
+                onLockedFetched(data.locked)
             }
             val posts = data.items
             val nextCursor = data.nextCursor
