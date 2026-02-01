@@ -20,6 +20,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
@@ -44,7 +45,8 @@ fun DPlayImageCheck(
                 .background(color = backgroundColor)
                 .noRippleClickable(
                     onClick = onClick,
-                ).padding(
+                )
+                .padding(
                     horizontal = 16.dp,
                     vertical = 12.dp,
                 ),
@@ -62,11 +64,15 @@ fun DPlayImageCheck(
 
         Spacer(modifier = Modifier.width(12.dp))
 
-        Column {
+        Column(
+            modifier = Modifier.weight(1f)
+        ) {
             Text(
                 text = musicName,
                 style = DPlayTheme.typography.bodySemi16,
                 color = DPlayTheme.colors.dplayBlack,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
             )
 
             Spacer(modifier = Modifier.height(4.dp))
@@ -75,6 +81,8 @@ fun DPlayImageCheck(
                 text = artistName,
                 style = DPlayTheme.typography.bodyMed14,
                 color = DPlayTheme.colors.gray400,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
             )
         }
 
