@@ -230,6 +230,7 @@ private fun HomePager(
 
                 DPlayLargeCover(
                     modifier = Modifier.fillMaxWidth(),
+                    isAdmin = item.writer.isAdmin,
                     isLocked = isLockedPage,
                     isLikeChecked = item.like.isLiked,
                     likeCount = item.like.count,
