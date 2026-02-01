@@ -54,6 +54,7 @@ class RecordViewModel
 
         init {
             val now = YearMonth.now()
+            setDate(year = now.year, month = now.month.value)
             loadQuestions(year = now.year, month = now.month.value)
         }
 
