@@ -162,7 +162,7 @@ fun EditProfileScreen(
                 onFocusChange = {},
                 placeholder = stringResource(R.string.placeholder_nickname),
                 maxLength = TextFieldConstant.MAX_NICKNAME_LENGTH,
-                modifier = Modifier.padding(horizontal = 8.dp),
+                modifier = Modifier.padding(horizontal = 16.dp),
             )
 
             Spacer(modifier = Modifier.weight(1f))
