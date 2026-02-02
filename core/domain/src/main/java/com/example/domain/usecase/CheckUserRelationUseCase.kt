@@ -11,13 +11,8 @@ class CheckUserRelationUseCase @Inject constructor(
     suspend operator fun invoke(userId: Long): UserRelation {
         val myId = userRepository.getUser().first()?.id
         return when {
-            userId == ADMIN_ID -> UserRelation.ADMIN
             myId == userId -> UserRelation.ME
             else -> UserRelation.OTHER
         }
-    }
-
-    companion object{
-        const val ADMIN_ID = 1L
     }
 }

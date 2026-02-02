@@ -1,5 +1,6 @@
 package com.example.detail
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -24,8 +25,8 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.blur
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -48,7 +49,7 @@ import com.example.designsystem.component.snackbar.LocalShowSnackBar
 import com.example.designsystem.theme.DPlayTheme
 import com.example.designsystem.util.noRippleClickable
 import com.example.designsystem.util.roundedBackgroundWithPadding
-import com.example.domain.model.BADGE
+import com.example.domain.model.Badge
 import com.example.domain.model.LoadingState
 import com.example.navigation.MyPage
 import com.example.navigation.Navigator
@@ -61,11 +62,15 @@ fun DetailRoute(
     postId: Long,
     navigator: Navigator,
     viewModel: DetailViewModel = hiltViewModel(),
-    badge: BADGE? = null,
+    badge: Badge? = null,
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val showSnackBar = LocalShowSnackBar.current
     val modalController = LocalModalController.current
+
+    BackHandler {
+        viewModel.handleIntent(DetailContract.DetailIntent.OnBackButtonClick)
+    }
 
     LaunchedEffect(Unit) {
         viewModel.handleIntent(DetailContract.DetailIntent.LoadData(postId = postId, badge = badge))
@@ -174,13 +179,8 @@ private fun DetailScreen(
             .padding(horizontal = 16.dp)
 
     Box {
-        Box(modifier = Modifier.fillMaxSize()) {
-            Box(
-                modifier =
-                    Modifier.blur(
-                        radius = 20.dp,
-                    ),
-            ) {
+        Box(modifier = Modifier.fillMaxSize().background(color = color.gray100)) {
+            Box {
                 AsyncImage(
                     model = state.track.coverImg,
                     contentDescription = null,
@@ -190,6 +190,23 @@ private fun DetailScreen(
                             .aspectRatio(1f)
                             .offset(y = (-80).dp),
                     contentScale = ContentScale.Crop,
+                )
+                Box(
+                    modifier =
+                        Modifier
+                            .fillMaxWidth()
+                            .aspectRatio(1f)
+                            .offset(y = (-80).dp)
+                            .background(
+                                brush =
+                                    Brush.verticalGradient(
+                                        colors =
+                                            listOf(
+                                                DPlayTheme.colors.gray100.copy(alpha = 0f),
+                                                DPlayTheme.colors.gray100.copy(alpha = 1f),
+                                            ),
+                                    ),
+                            ),
                 )
             }
             Column {
@@ -216,9 +233,9 @@ private fun DetailScreen(
                     state.badge?.let { badge ->
                         val chipType =
                             when (badge) {
-                                BADGE.BEST -> DPlayChipType.BEST
-                                BADGE.EDITOR -> DPlayChipType.EDITOR
-                                BADGE.NEW -> DPlayChipType.NEW
+                                Badge.BEST -> DPlayChipType.BEST
+                                Badge.EDITOR -> DPlayChipType.EDITOR
+                                Badge.NEW -> DPlayChipType.NEW
                             }
                         Image(
                             painter = painterResource(id = chipType.drawableRes),
@@ -234,14 +251,14 @@ private fun DetailScreen(
 
                 Text(
                     text = state.track.songTitle,
-                    modifier = Modifier.align(Alignment.CenterHorizontally),
+                    modifier = Modifier.padding(horizontal = 16.dp).align(Alignment.CenterHorizontally),
                     style = typography.bodyBold20,
                     color = color.dplayBlack,
                 )
                 Spacer(modifier = Modifier.height(4.dp))
                 Text(
                     text = state.track.artistName,
-                    modifier = Modifier.align(Alignment.CenterHorizontally),
+                    modifier = Modifier.padding(horizontal = 16.dp).align(Alignment.CenterHorizontally),
                     style = typography.bodySemi14,
                     color = color.gray400,
                 )
@@ -290,7 +307,12 @@ private fun DetailScreen(
                         verticalAlignment = Alignment.CenterVertically,
                     ) {
                         AsyncImage(
-                            model = state.writer.profileImg ?: R.drawable.base_profile_image,
+                            model =
+                                if (state.writer.isAdmin) {
+                                    R.drawable.img_profile
+                                } else {
+                                    state.writer.profileImg ?: R.drawable.base_profile_image
+                                },
                             contentDescription = null,
                             modifier =
                                 Modifier

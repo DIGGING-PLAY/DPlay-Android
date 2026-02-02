@@ -39,6 +39,7 @@ import com.example.designsystem.util.noRippleClickable
 @Composable
 fun DPlayLargeCover(
     isLikeChecked: Boolean,
+    isAdmin: Boolean,
     likeCount: Int,
     writerProfileImageUrl: String?,
     writerNickname: String,
@@ -70,7 +71,12 @@ fun DPlayLargeCover(
             }
         }
 
-    Box(modifier = modifier.fillMaxWidth().clip(textCoverShape)) {
+    Box(
+        modifier =
+            modifier
+                .fillMaxWidth()
+                .clip(textCoverShape),
+    ) {
         Box(
             modifier =
                 Modifier
@@ -141,7 +147,12 @@ fun DPlayLargeCover(
                     modifier = Modifier.noRippleClickable(onClick = onWriterProfileClick),
                 ) {
                     AsyncImage(
-                        model = writerProfileImageUrl ?: R.drawable.base_profile_image,
+                        model =
+                            if (isAdmin) {
+                                R.drawable.img_profile
+                            } else {
+                                writerProfileImageUrl ?: R.drawable.base_profile_image
+                            },
                         contentDescription = null,
                         modifier =
                             Modifier
@@ -206,7 +217,7 @@ fun DPlayLargeCover(
                                 .background(
                                     color = color.dplayWhite,
                                     shape = RoundedCornerShape(16.dp),
-                                ).padding(10.dp),
+                                ).padding(6.dp),
                         onClick = onStreamClick,
                     )
                 }
@@ -250,6 +261,7 @@ private fun DPlayLockedLargeCoverPreview() {
             onLikeClick = {},
             onCoverClick = {},
             onWriterProfileClick = {},
+            isAdmin = false,
         )
     }
 }
@@ -270,6 +282,7 @@ private fun DPlayLargeCoverPreview() {
             onCoverClick = {},
             onWriterProfileClick = {},
             isLocked = false,
+            isAdmin = false,
         )
     }
 }

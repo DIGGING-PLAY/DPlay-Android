@@ -157,6 +157,7 @@ fun CommentScreen(
                         .onGloballyPositioned { coordinates ->
                             guideButtonHeightPx = coordinates.size.height
                         },
+                textStringRes = R.string.guideline_button_label,
             )
 
             if (state.isGuideVisible) {

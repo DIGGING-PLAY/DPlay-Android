@@ -41,5 +41,6 @@ interface PostRepository {
     fun getPostsByQuestionId(
         questionId: Long,
         onTotalCountFetched: (Int) -> Unit,
+        onLockedFetched: (Boolean) -> Unit,
     ): Flow<PagingData<FeedItem>>
 }

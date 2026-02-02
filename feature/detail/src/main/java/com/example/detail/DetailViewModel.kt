@@ -8,7 +8,7 @@ import com.example.common.event.ScrappedTrackRefreshTrigger
 import com.example.designsystem.component.snackbar.type.SnackBarType
 import com.example.detail.DetailContract.DetailSideEffect.NavigateToMyPage
 import com.example.detail.DetailContract.DetailSideEffect.ShowSnackBar
-import com.example.domain.model.BADGE
+import com.example.domain.model.Badge
 import com.example.domain.model.Like
 import com.example.domain.model.LoadingState
 import com.example.domain.model.UserRelation
@@ -62,6 +62,9 @@ class DetailViewModel
             when (intent) {
                 is DetailContract.DetailIntent.LoadData -> loadData(intent.postId, intent.badge)
                 is DetailContract.DetailIntent.OnBackButtonClick -> {
+                    if (currentState.homeRefreshRequired) {
+                        viewModelScope.launch { homeRefreshTrigger.refresh() }
+                    }
                     setSideEffect(DetailContract.DetailSideEffect.NavigateBackStack)
                 }
 
@@ -80,7 +83,7 @@ class DetailViewModel
                 is DetailContract.DetailIntent.OnReportClick -> reportPost()
                 is DetailContract.DetailIntent.OnStreamClick -> streamTrack()
                 is DetailContract.DetailIntent.OnWriterProfileClick -> {
-                    navigateToOthersProfile()
+                    if (!currentState.writer.isAdmin) navigateToOthersProfile()
                 }
 
                 is DetailContract.DetailIntent.ChangeBottomSheetVisible -> {
@@ -91,7 +94,7 @@ class DetailViewModel
 
         private fun loadData(
             postId: Long,
-            badge: BADGE?,
+            badge: Badge?,
         ) {
             viewModelScope.launch {
                 postRepository
@@ -102,12 +105,14 @@ class DetailViewModel
                                 loadingState = LoadingState.SUCCESS,
                                 postId = postDetail.postId,
                                 isScrapped = postDetail.isScrapped,
+                                initialIsScrapped = postDetail.isScrapped,
                                 content = postDetail.content,
                                 isHost = postDetail.isHost,
                                 date = postDetail.displayDate,
                                 track = postDetail.track,
                                 writer = postDetail.writer,
                                 like = postDetail.like,
+                                initialIsLiked = postDetail.like.isLiked,
                                 badge = badge,
                             )
                         }
@@ -236,7 +241,6 @@ class DetailViewModel
 
                 when (userRelation) {
                     UserRelation.ME -> setSideEffect(NavigateToMyPage())
-                    UserRelation.ADMIN -> {}
                     UserRelation.OTHER -> setSideEffect(DetailContract.DetailSideEffect.NavigateToWriterProfile(userId))
                 }
             }

@@ -8,4 +8,5 @@ fun UserResponse.toDomain(): Writer =
         userId = this.userId,
         nickname = this.nickname,
         profileImg = this.profileImg,
+        isAdmin = this.isAdmin,
     )

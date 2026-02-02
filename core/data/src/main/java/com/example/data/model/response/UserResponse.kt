@@ -23,4 +23,6 @@ data class UserResponse(
     val nickname: String,
     @SerialName("profileImg")
     val profileImg: String?,
+    @SerialName("isAdmin")
+    val isAdmin: Boolean,
 )

@@ -1,7 +1,7 @@
 package com.example.home
 
 import com.example.designsystem.component.snackbar.type.SnackBarType
-import com.example.domain.model.BADGE
+import com.example.domain.model.Badge
 import com.example.domain.model.DailyQuestion
 import com.example.domain.model.FeedItem
 import com.example.navigation.MyPageTab
@@ -62,7 +62,7 @@ class HomeContract {
 
         data class NavigateToPostDetail(
             val postId: Long,
-            val badge: BADGE?,
+            val badge: Badge?,
         ) : HomeSideEffect
 
         data object NavigateToRecord : HomeSideEffect

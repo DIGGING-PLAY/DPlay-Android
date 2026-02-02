@@ -126,7 +126,7 @@ class AuthRemoteDataSource
 
         suspend fun reissue(refreshToken: String): TokenResponse {
             try {
-                val response = authService.reissue(refreshToken = refreshToken)
+                val response = authService.reissue(refreshToken = "Bearer $refreshToken")
                 return response.data ?: throw Exception("Data is null")
             } catch (e: Exception) {
                 throw e

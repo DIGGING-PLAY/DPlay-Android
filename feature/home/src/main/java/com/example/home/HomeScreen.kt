@@ -34,7 +34,7 @@ import com.example.designsystem.component.button.DPlayBookmarkButton
 import com.example.designsystem.component.chip.type.DPlayChipType
 import com.example.designsystem.component.snackbar.LocalShowSnackBar
 import com.example.designsystem.theme.DPlayTheme
-import com.example.domain.model.BADGE
+import com.example.domain.model.Badge
 import com.example.domain.model.FeedItem
 import com.example.navigation.Detail
 import com.example.navigation.MyPage
@@ -210,9 +210,9 @@ private fun HomePager(
     val currentChipType: DPlayChipType? =
         currentItem?.badge?.let {
             when (it) {
-                BADGE.BEST -> DPlayChipType.BEST
-                BADGE.EDITOR -> DPlayChipType.EDITOR
-                BADGE.NEW -> DPlayChipType.NEW
+                Badge.BEST -> DPlayChipType.BEST
+                Badge.EDITOR -> DPlayChipType.EDITOR
+                Badge.NEW -> DPlayChipType.NEW
             }
         }
 
@@ -230,6 +230,7 @@ private fun HomePager(
 
                 DPlayLargeCover(
                     modifier = Modifier.fillMaxWidth(),
+                    isAdmin = item.writer.isAdmin,
                     isLocked = isLockedPage,
                     isLikeChecked = item.like.isLiked,
                     likeCount = item.like.count,
@@ -246,7 +247,9 @@ private fun HomePager(
                             onPostClick(item.postId)
                         }
                     },
-                    onWriterProfileClick = { onWriterProfileClick(item.writer.userId) },
+                    onWriterProfileClick = {
+                        if (!item.writer.isAdmin) onWriterProfileClick(item.writer.userId)
+                    },
                     isStreaming = uiState.streamingTrackId == item.track.trackId,
                 )
             }

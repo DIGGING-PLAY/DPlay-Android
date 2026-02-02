@@ -1,5 +1,6 @@
 package com.example.designsystem.component.button
 
+import androidx.annotation.StringRes
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -24,6 +25,7 @@ import com.example.designsystem.theme.DPlayTheme
 @Composable
 fun DPlayGuidelineButton(
     onClick: () -> Unit,
+    @StringRes textStringRes: Int,
     modifier: Modifier = Modifier,
 ) {
     DPlayButtonSlot(
@@ -47,7 +49,7 @@ fun DPlayGuidelineButton(
             )
 
             Text(
-                text = stringResource(R.string.guideline_button_label),
+                text = stringResource(textStringRes),
                 style = DPlayTheme.typography.capMed12,
                 color = DPlayTheme.colors.gray400,
             )
@@ -69,6 +71,7 @@ fun DPlayGuidelineButtonPreview() {
         ) {
             DPlayGuidelineButton(
                 onClick = {},
+                textStringRes = R.string.guideline_button_label,
             )
         }
     }

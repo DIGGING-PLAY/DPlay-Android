@@ -1,5 +1,6 @@
 package com.example.designsystem.component
 
+import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -25,8 +26,9 @@ import com.example.designsystem.util.roundedBackgroundWithPadding
 @Composable
 fun DplayTooltip(
     onCloseButtonClicked: () -> Unit,
-    onTextButtonClicked: () -> Unit,
+    onTextButtonClicked: (() -> Unit)?,
     modifier: Modifier = Modifier,
+    @StringRes textStringRes: Int = R.string.tooltip_default_description,
 ) {
     Column(modifier = modifier) {
         Box(
@@ -63,18 +65,20 @@ fun DplayTooltip(
                 Text(
                     style = DPlayTheme.typography.bodyMed14,
                     color = DPlayTheme.colors.dplayWhite,
-                    text = stringResource(R.string.tooltip_default_description),
+                    text = stringResource(textStringRes),
                 )
                 DplayClickableIcon(
                     iconRes = R.drawable.ic_close_24,
                     onClick = onCloseButtonClicked,
                 )
             }
-            Spacer(modifier = Modifier.height(16.dp))
-            DPlayUnderlineTextButton(
-                onClick = onTextButtonClicked,
-                text = stringResource(R.string.tooltip_learn_more),
-            )
+            if (onTextButtonClicked != null) {
+                Spacer(modifier = Modifier.height(16.dp))
+                DPlayUnderlineTextButton(
+                    onClick = onTextButtonClicked,
+                    text = stringResource(R.string.tooltip_learn_more),
+                )
+            }
         }
     }
 }

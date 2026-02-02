@@ -88,6 +88,7 @@ class PostRepositoryImpl
         override fun getPostsByQuestionId(
             questionId: Long,
             onTotalCountFetched: (Int) -> Unit,
+            onLockedFetched: (Boolean) -> Unit,
         ): Flow<PagingData<FeedItem>> =
             Pager(
                 config =
@@ -101,6 +102,7 @@ class PostRepositoryImpl
                         postService = postService,
                         questionId = questionId,
                         onTotalCountFetched = onTotalCountFetched,
+                        onLockedFetched = onLockedFetched,
                     )
                 },
             ).flow.map { pagingData ->
