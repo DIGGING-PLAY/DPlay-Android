@@ -1,4 +1,4 @@
-package com.dplay
+package com.diggingplay
 
 import junit.framework.TestCase.assertEquals
 import org.junit.Test
