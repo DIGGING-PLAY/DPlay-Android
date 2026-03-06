@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="music_list_count">총 %1$d개의 곡</string>
+    <string name="record_locked_tooltip_description">이 날의 추천은 여기까지에요.\n곡을 등록하지 않은 날에는 최대 3곡만 보여요.</string>
+    <string name="record_locked_guide_button_text">왜 일부 노래만 보이나요?</string>
+</resources>

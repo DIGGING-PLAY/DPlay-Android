@@ -1,56 +1,46 @@
+import java.io.StringReader
+import java.util.Properties
+
 plugins {
-    alias(libs.plugins.android.application)
-    alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.dplay.android.application)
+    alias(libs.plugins.dplay.hilt)
+    alias(libs.plugins.dplay.test)
 }
 
+val localProperties =
+    providers
+        .fileContents(isolated.rootProject.projectDirectory.file("local.properties"))
+        .asText
+        .map { text ->
+            val props = Properties()
+            props.load(StringReader(text))
+            props
+        }
+
+val kakaoNativeKey: String =
+    providers.gradleProperty("KAKAO_APP_KEY").orNull
+        ?: System.getenv("KAKAO_APP_KEY")
+        ?: localProperties.get().getProperty("kakao.app.key")
+        ?: throw GradleException("KAKAO_APP_KEY (or local kakao.app.key) is missing")
+
 android {
-    namespace = "com.dplay"
-    compileSdk = 36
+    namespace = "com.diggingplay"
 
     defaultConfig {
-        applicationId = "com.dplay"
-        minSdk = 33
-        targetSdk = 36
-        versionCode = 1
-        versionName = "1.0"
+        applicationId = "com.diggingplay"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-    }
 
-    buildTypes {
-        release {
-            isMinifyEnabled = false
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
-        }
-    }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
-    }
-    kotlinOptions {
-        jvmTarget = "11"
-    }
-    buildFeatures {
-        compose = true
+        buildConfigField("String", "KAKAO_APP_KEY", "\"$kakaoNativeKey\"")
+        manifestPlaceholders["kakaoScheme"] = "kakao$kakaoNativeKey"
     }
 }
 
 dependencies {
-
-    implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.lifecycle.runtime.ktx)
-    implementation(libs.androidx.activity.compose)
-    implementation(platform(libs.androidx.compose.bom))
-    implementation(libs.androidx.ui)
-    implementation(libs.androidx.ui.graphics)
-    implementation(libs.androidx.ui.tooling.preview)
-    implementation(libs.androidx.material3)
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
-    androidTestImplementation(platform(libs.androidx.compose.bom))
-    androidTestImplementation(libs.androidx.ui.test.junit4)
-    debugImplementation(libs.androidx.ui.tooling)
-    debugImplementation(libs.androidx.ui.test.manifest)
+    implementation(projects.feature.main)
+    implementation(projects.core.navigation)
+    implementation(projects.core.data)
+    testImplementation(kotlin("test"))
+    implementation(libs.kakao.user)
+    implementation(libs.androidx.work.runtime.ktx)
 }

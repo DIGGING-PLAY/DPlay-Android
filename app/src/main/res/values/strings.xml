@@ -1,3 +1,5 @@
 <resources>
-    <string name="app_name">DPlay</string>
+    <string name="app_name">디플레이</string>
+    <string name="notification_title">디플레이</string>
+    <string name="notification_content">오늘의 질문이 도착했어요</string>
 </resources>

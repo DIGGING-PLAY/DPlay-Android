@@ -1,0 +1,37 @@
+package com.example.domain.repository
+
+import androidx.paging.PagingData
+import com.example.domain.model.NicknameValidationResult
+import com.example.domain.model.ProfileImageState
+import com.example.domain.model.RegisteredTrack
+import com.example.domain.model.ScrappedTrack
+import com.example.domain.model.User
+import kotlinx.coroutines.flow.Flow
+
+interface UserRepository {
+    fun getUser(): Flow<User?>
+
+    suspend fun getUser(userId: Long): Result<User>
+
+    fun getAccessToken(): Flow<String?>
+
+    fun getRefreshToken(): Flow<String?>
+
+    suspend fun getNotificationEnabled(): Result<Boolean>
+
+    suspend fun updateNotificationEnabled(enabled: Boolean): Result<Unit>
+
+    suspend fun updateProfile(
+        nickname: String?,
+        profileImageState: ProfileImageState,
+    ): Result<NicknameValidationResult>
+
+    fun getRegisteredTracks(
+        userId: Long,
+        onTotalCountFetched: (Int) -> Unit
+    ): Flow<PagingData<RegisteredTrack>>
+
+    fun getScrappedTracks(
+        userId: Long,
+    ): Flow<PagingData<ScrappedTrack>>
+}

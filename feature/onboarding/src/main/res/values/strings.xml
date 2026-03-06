@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="permission_box_title">알림(선택)</string>
+    <string name="permission_box_sub_text">알림 메세지 제공</string>
+    <string name="permission_screen_title">앱 사용을 위해\n접근 권한을 허용해주세요</string>
+    <string name="first_onboarding_page_main_text">오늘의 질문이 도착했어요</string>
+    <string name="first_onboarding_page_sub_text">모두가 같은 질문을 받고,\n그 순간에 어울리는 노래를 추천해요</string>
+    <string name="second_onboarding_page_main_text">다른 사람들의 추천을 만나보세요</string>
+    <string name="second_onboarding_page_sub_text">최대 3곡까지 먼저 보고,\n노래를 추천하면 더 많은 추천을 볼 수 있어요</string>
+    <string name="third_onboarding_page_main_text">노래 추천 받으러 가볼까요?</string>
+    <string name="third_onboarding_page_sub_text">마음에 드는 곡에 반응을 남기고,\n보관함에 추가할 수 있어요</string>
+    <string name="profile_screen_title">디플레이에서 사용할\n프로필을 완성해주세요</string>
+    <string name="profile_screen_bottomsheet_album_select">앨범에서 선택하기</string>
+    <string name="profile_screen_bottomsheet_default_image">기본 이미지로 변경하기</string>
+    <string name="terms_screen_title">디플레이 이용을 위해\n약관에 동의해주세요</string>
+</resources>

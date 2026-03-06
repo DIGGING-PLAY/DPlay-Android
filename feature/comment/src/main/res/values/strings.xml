@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="comment_top_bar_title">노래 등록하기</string>
+    <string name="comment_title">노래에 대한\n이야기를 작성해보세요!</string>
+</resources>
