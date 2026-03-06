@@ -41,8 +41,17 @@ jobs:
           echo "base.url=$BASE_URL" >> local.properties
           echo "kakao.app.key=$KAKAO_APP_KEY" >> local.properties
 
+      - name: Decode Keystore
+        run : |
+          echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 --decode > ./keystore.jks
+
       - name: Run Ktlint Check
         run: ./gradlew ktlintCheck
 
       - name: Build with Gradle
         run: ./gradlew build
+        env:
+          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+          STORE_PASSWORD: ${{ secrets.STORE_PASSWORD }}
+          STORE_FILE: ./keystore.jks

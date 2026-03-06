@@ -10,6 +10,7 @@ import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.dependencies
+import java.io.FileInputStream
 import java.util.Properties
 
 class AndroidApplicationConventionPlugin: Plugin<Project> {
@@ -21,6 +22,13 @@ class AndroidApplicationConventionPlugin: Plugin<Project> {
                     apply("org.jlleitschuh.gradle.ktlint")
                 }
 
+            val keystoreProperties = Properties()
+            val keystorePropertiesFile = rootProject.file("local.properties")
+            val isLocalPropertiesExists = keystorePropertiesFile.exists()
+            if (isLocalPropertiesExists) {
+                keystoreProperties.load(FileInputStream(keystorePropertiesFile))
+            }
+
             extensions.configure<ApplicationExtension> {
                 configureKotlinAndroid(this)
                 configureComposeAndroid(this)
@@ -31,8 +39,42 @@ class AndroidApplicationConventionPlugin: Plugin<Project> {
                     versionName = libs.getVersion("versionName").requiredVersion
                 }
 
-                dependencies{
-                    add("implementation",libs.getLibrary("timber"))
+                signingConfigs {
+                    create("release") {
+                        keyAlias = (keystoreProperties["keyAlias"] as? String)
+                            ?: System.getenv("KEY_ALIAS")
+
+                        keyPassword = (keystoreProperties["keyPassword"] as? String)
+                            ?: System.getenv("KEY_PASSWORD")
+
+                        storePassword = (keystoreProperties["storePassword"] as? String)
+                            ?: System.getenv("STORE_PASSWORD")
+
+                        val keyStoreFile = (keystoreProperties["storeFile"] as? String)
+                            ?: System.getenv("STORE_FILE")
+
+                        if (keyStoreFile != null) {
+                            storeFile = rootProject.file(keyStoreFile)
+                        }
+                    }
+                }
+
+                buildTypes {
+                    release {
+                        isMinifyEnabled = true
+                        isShrinkResources = true
+                        proguardFiles(
+                            getDefaultProguardFile("proguard-android-optimize.txt"),
+                            "proguard-rules.pro",
+                        )
+                        if (keystoreProperties.getProperty("storeFile") != null || System.getenv("STORE_FILE") != null) {
+                            signingConfig = signingConfigs.getByName("release")
+                        }
+                    }
+                }
+
+                dependencies {
+                    add("implementation", libs.getLibrary("timber"))
                 }
             }
         }

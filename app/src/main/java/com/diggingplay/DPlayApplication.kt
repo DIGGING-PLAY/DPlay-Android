@@ -1,10 +1,10 @@
-package com.dplay
+package com.diggingplay
 
 import android.app.Application
 import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
-import com.dplay.worker.DailyQuestionWorker
+import com.diggingplay.worker.DailyQuestionWorker
 import com.kakao.sdk.common.KakaoSdk
 import dagger.hilt.android.HiltAndroidApp
 import timber.log.Timber

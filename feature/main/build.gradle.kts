@@ -14,7 +14,6 @@ dependencies {
     implementation(projects.feature.home)
     implementation(projects.feature.detail)
     implementation(projects.feature.mypage)
-    implementation(projects.feature.recommend)
     implementation(projects.feature.search)
     implementation(projects.feature.comment)
     implementation(projects.feature.record)

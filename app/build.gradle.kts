@@ -24,10 +24,10 @@ val kakaoNativeKey: String =
         ?: throw GradleException("KAKAO_APP_KEY (or local kakao.app.key) is missing")
 
 android {
-    namespace = "com.dplay"
+    namespace = "com.diggingplay"
 
     defaultConfig {
-        applicationId = "com.dplay"
+        applicationId = "com.diggingplay"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 

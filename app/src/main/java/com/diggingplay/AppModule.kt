@@ -1,4 +1,4 @@
-package com.dplay
+package com.diggingplay
 
 import com.example.navigation.Navigator
 import com.example.navigation.Splash

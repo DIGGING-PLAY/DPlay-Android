@@ -1,4 +1,4 @@
-package com.dplay.worker
+package com.diggingplay.worker
 
 import android.app.NotificationChannel
 import android.app.NotificationManager
@@ -9,7 +9,7 @@ import android.os.Build
 import androidx.core.app.NotificationCompat
 import androidx.work.Worker
 import androidx.work.WorkerParameters
-import com.dplay.R
+import com.diggingplay.R
 import com.example.main.MainActivity
 
 class DailyQuestionWorker(
